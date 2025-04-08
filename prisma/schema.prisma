@@ -1,0 +1,268 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/client"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    String  @id @default(uuid())
+  email String  @unique
+  name  String?
+
+  accounts       Account[]
+  sessions       Session[]
+  consolidations Consolidation[]
+  mySessions     MySession[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+model Setting {
+  id             String  @id
+  currentSession String? @default("FIRST_SESSION")
+  mainStoreData Json?
+}
+
+model PreOrder {
+  id                   String          @id
+  orderNumber          String
+  fullName             String
+  email                String
+  phoneNumber          String?
+  items                OrderItem[]
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+  isCollected          Boolean         @default(false)
+  isPartiallyCollected Boolean         @default(false)
+  purchasedAt          DateTime?
+  shippingZone         String?
+  orderStatus          String          @default("COMPLETED")
+  total                Float           @default(0)
+  consolidations       Consolidation[]
+
+  @@map("pre_orders")
+}
+
+model OrderItem {
+  id              String         @id
+  orderId         String
+  quantity        Int
+  price           Float
+  order           PreOrder       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  isCollected     Boolean        @default(false)
+  productName     String
+  consolidation   Consolidation? @relation(fields: [consolidationId], references: [id])
+  consolidationId Int?
+
+  @@map("order_items")
+}
+
+model Consolidation {
+  id        Int         @id @default(autoincrement())
+  date      DateTime
+  session   String
+  userId    String
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  orderId   String?
+  order     PreOrder?   @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  items     OrderItem[]
+
+  @@map("consolidations")
+}
+
+model PreorderSession {
+  id String @id @default(uuid())
+  session String
+  userId String
+  data Json
+  isActive Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  mySessions MySession[]
+
+  @@map("preorder_sessions")
+}
+
+model TableSaleSession {
+  id String @id @default(uuid())
+  name String
+  tableId String
+  session String
+  managerId String?
+  salesPersonId String?
+  data Json?
+  soldData Json?
+  isActive Boolean @default(true)
+  bookSales BookSale[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  mySessions MySession[]
+
+  @@map("table_sale_sessions")
+}
+
+model MySession {
+  id String @id @default(uuid())
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  session String
+  workspace String
+  data Json?
+  isActive Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tableSaleSession TableSaleSession? @relation(fields: [tableSaleSessionId], references: [id])
+  tableSaleSessionId String?
+
+  miniStoreSession MiniStoreSession? @relation(fields: [miniStoreSessionId], references: [id])
+  miniStoreSessionId String?
+
+  mainStoreSession MainStoreSession? @relation(fields: [mainStoreSessionId], references: [id])
+  mainStoreSessionId String?
+
+  preorderSession PreorderSession? @relation(fields: [preorderSessionId], references: [id])
+  preorderSessionId String?
+
+  @@map("my_sessions")
+}
+
+model MiniStoreSession {
+  id String @id @default(uuid())
+  session String
+  managerId String?
+  collectedData Json?
+  distributedData Json?
+  data Json?
+  isActive Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  mySessions MySession[]
+
+  @@map("mini_store_sessions")
+}
+
+model MainStoreSession {
+  id String @id @default(uuid())
+  name String
+  session String
+  managerId String?
+  collectedData Json?
+  distributedData Json?
+  data Json?
+  isActive Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  mySessions MySession[]
+
+  @@map("main_store_sessions")
+}
+
+
+model Book {
+  id String @id @default(uuid())
+  title String
+  total Int
+  available Int
+  preorderTotal Int
+  preorderAvailable Int
+  salesTotal Int
+  salesAvailable Int
+  price Float
+  isActive Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  sales BookSaleItem[]
+
+  @@map("books")
+}
+
+model BookSale {
+  id String @id @default(uuid())
+  orderNumber          String
+  fullName             String
+  email                String
+  phoneNumber          String?
+  items                BookSaleItem[]
+  isPaid               Boolean         @default(true)
+  purchasedAt          DateTime?
+  orderStatus          String          @default("COMPLETED")
+  total                Float           @default(0)
+  sessionId String
+  session TableSaleSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("book_sales")
+}
+
+model BookSaleItem {
+  id String @id @default(uuid())
+  bookSaleId String
+  bookSale BookSale @relation(fields: [bookSaleId], references: [id], onDelete: Cascade)
+  bookId String
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  quantity Int
+  price Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("book_sale_items")
+}
