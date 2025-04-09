@@ -219,6 +219,34 @@ model MainStoreSession {
   @@map("main_store_sessions")
 }
 
+model MainStoreRequest {
+  id String @id @default(uuid())
+  mainStoreSessionId String
+  miniStoreSessionId String
+  request Json
+  granted Json
+  wasDenied Boolean @default(false)
+  wasApproved Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("main_store_requests")
+}
+model MiniStoreRequest {
+  id String @id @default(uuid())
+  miniStoreSessionId String
+  tableSaleSessionId String?
+  preorderSessionId String?
+  request Json
+  granted Json
+  wasDenied Boolean @default(false)
+  wasApproved Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("mini_store_requests")
+}
+
 
 model Book {
   id String @id @default(uuid())

@@ -265,6 +265,31 @@ exports.Prisma.MainStoreSessionScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.MainStoreRequestScalarFieldEnum = {
+  id: 'id',
+  mainStoreSessionId: 'mainStoreSessionId',
+  miniStoreSessionId: 'miniStoreSessionId',
+  request: 'request',
+  granted: 'granted',
+  wasDenied: 'wasDenied',
+  wasApproved: 'wasApproved',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.MiniStoreRequestScalarFieldEnum = {
+  id: 'id',
+  miniStoreSessionId: 'miniStoreSessionId',
+  tableSaleSessionId: 'tableSaleSessionId',
+  preorderSessionId: 'preorderSessionId',
+  request: 'request',
+  granted: 'granted',
+  wasDenied: 'wasDenied',
+  wasApproved: 'wasApproved',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.BookScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -350,6 +375,8 @@ exports.Prisma.ModelName = {
   MySession: 'MySession',
   MiniStoreSession: 'MiniStoreSession',
   MainStoreSession: 'MainStoreSession',
+  MainStoreRequest: 'MainStoreRequest',
+  MiniStoreRequest: 'MiniStoreRequest',
   Book: 'Book',
   BookSale: 'BookSale',
   BookSaleItem: 'BookSaleItem'

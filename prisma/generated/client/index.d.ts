@@ -79,6 +79,16 @@ export type MiniStoreSession = $Result.DefaultSelection<Prisma.$MiniStoreSession
  */
 export type MainStoreSession = $Result.DefaultSelection<Prisma.$MainStoreSessionPayload>
 /**
+ * Model MainStoreRequest
+ * 
+ */
+export type MainStoreRequest = $Result.DefaultSelection<Prisma.$MainStoreRequestPayload>
+/**
+ * Model MiniStoreRequest
+ * 
+ */
+export type MiniStoreRequest = $Result.DefaultSelection<Prisma.$MiniStoreRequestPayload>
+/**
  * Model Book
  * 
  */
@@ -348,6 +358,26 @@ export class PrismaClient<
     * ```
     */
   get mainStoreSession(): Prisma.MainStoreSessionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.mainStoreRequest`: Exposes CRUD operations for the **MainStoreRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MainStoreRequests
+    * const mainStoreRequests = await prisma.mainStoreRequest.findMany()
+    * ```
+    */
+  get mainStoreRequest(): Prisma.MainStoreRequestDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.miniStoreRequest`: Exposes CRUD operations for the **MiniStoreRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MiniStoreRequests
+    * const miniStoreRequests = await prisma.miniStoreRequest.findMany()
+    * ```
+    */
+  get miniStoreRequest(): Prisma.MiniStoreRequestDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.book`: Exposes CRUD operations for the **Book** model.
@@ -831,6 +861,8 @@ export namespace Prisma {
     MySession: 'MySession',
     MiniStoreSession: 'MiniStoreSession',
     MainStoreSession: 'MainStoreSession',
+    MainStoreRequest: 'MainStoreRequest',
+    MiniStoreRequest: 'MiniStoreRequest',
     Book: 'Book',
     BookSale: 'BookSale',
     BookSaleItem: 'BookSaleItem'
@@ -852,7 +884,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "verificationToken" | "setting" | "preOrder" | "orderItem" | "consolidation" | "preorderSession" | "tableSaleSession" | "mySession" | "miniStoreSession" | "mainStoreSession" | "book" | "bookSale" | "bookSaleItem"
+      modelProps: "user" | "account" | "session" | "verificationToken" | "setting" | "preOrder" | "orderItem" | "consolidation" | "preorderSession" | "tableSaleSession" | "mySession" | "miniStoreSession" | "mainStoreSession" | "mainStoreRequest" | "miniStoreRequest" | "book" | "bookSale" | "bookSaleItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1818,6 +1850,154 @@ export namespace Prisma {
           }
         }
       }
+      MainStoreRequest: {
+        payload: Prisma.$MainStoreRequestPayload<ExtArgs>
+        fields: Prisma.MainStoreRequestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MainStoreRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MainStoreRequestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MainStoreRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MainStoreRequestPayload>
+          }
+          findFirst: {
+            args: Prisma.MainStoreRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MainStoreRequestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MainStoreRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MainStoreRequestPayload>
+          }
+          findMany: {
+            args: Prisma.MainStoreRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MainStoreRequestPayload>[]
+          }
+          create: {
+            args: Prisma.MainStoreRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MainStoreRequestPayload>
+          }
+          createMany: {
+            args: Prisma.MainStoreRequestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MainStoreRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MainStoreRequestPayload>[]
+          }
+          delete: {
+            args: Prisma.MainStoreRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MainStoreRequestPayload>
+          }
+          update: {
+            args: Prisma.MainStoreRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MainStoreRequestPayload>
+          }
+          deleteMany: {
+            args: Prisma.MainStoreRequestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MainStoreRequestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MainStoreRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MainStoreRequestPayload>[]
+          }
+          upsert: {
+            args: Prisma.MainStoreRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MainStoreRequestPayload>
+          }
+          aggregate: {
+            args: Prisma.MainStoreRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMainStoreRequest>
+          }
+          groupBy: {
+            args: Prisma.MainStoreRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MainStoreRequestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MainStoreRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<MainStoreRequestCountAggregateOutputType> | number
+          }
+        }
+      }
+      MiniStoreRequest: {
+        payload: Prisma.$MiniStoreRequestPayload<ExtArgs>
+        fields: Prisma.MiniStoreRequestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MiniStoreRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MiniStoreRequestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MiniStoreRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MiniStoreRequestPayload>
+          }
+          findFirst: {
+            args: Prisma.MiniStoreRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MiniStoreRequestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MiniStoreRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MiniStoreRequestPayload>
+          }
+          findMany: {
+            args: Prisma.MiniStoreRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MiniStoreRequestPayload>[]
+          }
+          create: {
+            args: Prisma.MiniStoreRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MiniStoreRequestPayload>
+          }
+          createMany: {
+            args: Prisma.MiniStoreRequestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.MiniStoreRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MiniStoreRequestPayload>[]
+          }
+          delete: {
+            args: Prisma.MiniStoreRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MiniStoreRequestPayload>
+          }
+          update: {
+            args: Prisma.MiniStoreRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MiniStoreRequestPayload>
+          }
+          deleteMany: {
+            args: Prisma.MiniStoreRequestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MiniStoreRequestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.MiniStoreRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MiniStoreRequestPayload>[]
+          }
+          upsert: {
+            args: Prisma.MiniStoreRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MiniStoreRequestPayload>
+          }
+          aggregate: {
+            args: Prisma.MiniStoreRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMiniStoreRequest>
+          }
+          groupBy: {
+            args: Prisma.MiniStoreRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MiniStoreRequestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MiniStoreRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<MiniStoreRequestCountAggregateOutputType> | number
+          }
+        }
+      }
       Book: {
         payload: Prisma.$BookPayload<ExtArgs>
         fields: Prisma.BookFieldRefs
@@ -2137,6 +2317,8 @@ export namespace Prisma {
     mySession?: MySessionOmit
     miniStoreSession?: MiniStoreSessionOmit
     mainStoreSession?: MainStoreSessionOmit
+    mainStoreRequest?: MainStoreRequestOmit
+    miniStoreRequest?: MiniStoreRequestOmit
     book?: BookOmit
     bookSale?: BookSaleOmit
     bookSaleItem?: BookSaleItemOmit
@@ -17311,6 +17493,2093 @@ export namespace Prisma {
 
 
   /**
+   * Model MainStoreRequest
+   */
+
+  export type AggregateMainStoreRequest = {
+    _count: MainStoreRequestCountAggregateOutputType | null
+    _min: MainStoreRequestMinAggregateOutputType | null
+    _max: MainStoreRequestMaxAggregateOutputType | null
+  }
+
+  export type MainStoreRequestMinAggregateOutputType = {
+    id: string | null
+    mainStoreSessionId: string | null
+    miniStoreSessionId: string | null
+    wasDenied: boolean | null
+    wasApproved: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MainStoreRequestMaxAggregateOutputType = {
+    id: string | null
+    mainStoreSessionId: string | null
+    miniStoreSessionId: string | null
+    wasDenied: boolean | null
+    wasApproved: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MainStoreRequestCountAggregateOutputType = {
+    id: number
+    mainStoreSessionId: number
+    miniStoreSessionId: number
+    request: number
+    granted: number
+    wasDenied: number
+    wasApproved: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type MainStoreRequestMinAggregateInputType = {
+    id?: true
+    mainStoreSessionId?: true
+    miniStoreSessionId?: true
+    wasDenied?: true
+    wasApproved?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MainStoreRequestMaxAggregateInputType = {
+    id?: true
+    mainStoreSessionId?: true
+    miniStoreSessionId?: true
+    wasDenied?: true
+    wasApproved?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MainStoreRequestCountAggregateInputType = {
+    id?: true
+    mainStoreSessionId?: true
+    miniStoreSessionId?: true
+    request?: true
+    granted?: true
+    wasDenied?: true
+    wasApproved?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type MainStoreRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MainStoreRequest to aggregate.
+     */
+    where?: MainStoreRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MainStoreRequests to fetch.
+     */
+    orderBy?: MainStoreRequestOrderByWithRelationInput | MainStoreRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MainStoreRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MainStoreRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MainStoreRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MainStoreRequests
+    **/
+    _count?: true | MainStoreRequestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MainStoreRequestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MainStoreRequestMaxAggregateInputType
+  }
+
+  export type GetMainStoreRequestAggregateType<T extends MainStoreRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregateMainStoreRequest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMainStoreRequest[P]>
+      : GetScalarType<T[P], AggregateMainStoreRequest[P]>
+  }
+
+
+
+
+  export type MainStoreRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MainStoreRequestWhereInput
+    orderBy?: MainStoreRequestOrderByWithAggregationInput | MainStoreRequestOrderByWithAggregationInput[]
+    by: MainStoreRequestScalarFieldEnum[] | MainStoreRequestScalarFieldEnum
+    having?: MainStoreRequestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MainStoreRequestCountAggregateInputType | true
+    _min?: MainStoreRequestMinAggregateInputType
+    _max?: MainStoreRequestMaxAggregateInputType
+  }
+
+  export type MainStoreRequestGroupByOutputType = {
+    id: string
+    mainStoreSessionId: string
+    miniStoreSessionId: string
+    request: JsonValue
+    granted: JsonValue
+    wasDenied: boolean
+    wasApproved: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: MainStoreRequestCountAggregateOutputType | null
+    _min: MainStoreRequestMinAggregateOutputType | null
+    _max: MainStoreRequestMaxAggregateOutputType | null
+  }
+
+  type GetMainStoreRequestGroupByPayload<T extends MainStoreRequestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MainStoreRequestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MainStoreRequestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MainStoreRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], MainStoreRequestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MainStoreRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    mainStoreSessionId?: boolean
+    miniStoreSessionId?: boolean
+    request?: boolean
+    granted?: boolean
+    wasDenied?: boolean
+    wasApproved?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["mainStoreRequest"]>
+
+  export type MainStoreRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    mainStoreSessionId?: boolean
+    miniStoreSessionId?: boolean
+    request?: boolean
+    granted?: boolean
+    wasDenied?: boolean
+    wasApproved?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["mainStoreRequest"]>
+
+  export type MainStoreRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    mainStoreSessionId?: boolean
+    miniStoreSessionId?: boolean
+    request?: boolean
+    granted?: boolean
+    wasDenied?: boolean
+    wasApproved?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["mainStoreRequest"]>
+
+  export type MainStoreRequestSelectScalar = {
+    id?: boolean
+    mainStoreSessionId?: boolean
+    miniStoreSessionId?: boolean
+    request?: boolean
+    granted?: boolean
+    wasDenied?: boolean
+    wasApproved?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type MainStoreRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "mainStoreSessionId" | "miniStoreSessionId" | "request" | "granted" | "wasDenied" | "wasApproved" | "createdAt" | "updatedAt", ExtArgs["result"]["mainStoreRequest"]>
+
+  export type $MainStoreRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MainStoreRequest"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      mainStoreSessionId: string
+      miniStoreSessionId: string
+      request: Prisma.JsonValue
+      granted: Prisma.JsonValue
+      wasDenied: boolean
+      wasApproved: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["mainStoreRequest"]>
+    composites: {}
+  }
+
+  type MainStoreRequestGetPayload<S extends boolean | null | undefined | MainStoreRequestDefaultArgs> = $Result.GetResult<Prisma.$MainStoreRequestPayload, S>
+
+  type MainStoreRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MainStoreRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MainStoreRequestCountAggregateInputType | true
+    }
+
+  export interface MainStoreRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MainStoreRequest'], meta: { name: 'MainStoreRequest' } }
+    /**
+     * Find zero or one MainStoreRequest that matches the filter.
+     * @param {MainStoreRequestFindUniqueArgs} args - Arguments to find a MainStoreRequest
+     * @example
+     * // Get one MainStoreRequest
+     * const mainStoreRequest = await prisma.mainStoreRequest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MainStoreRequestFindUniqueArgs>(args: SelectSubset<T, MainStoreRequestFindUniqueArgs<ExtArgs>>): Prisma__MainStoreRequestClient<$Result.GetResult<Prisma.$MainStoreRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MainStoreRequest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MainStoreRequestFindUniqueOrThrowArgs} args - Arguments to find a MainStoreRequest
+     * @example
+     * // Get one MainStoreRequest
+     * const mainStoreRequest = await prisma.mainStoreRequest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MainStoreRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, MainStoreRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MainStoreRequestClient<$Result.GetResult<Prisma.$MainStoreRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MainStoreRequest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MainStoreRequestFindFirstArgs} args - Arguments to find a MainStoreRequest
+     * @example
+     * // Get one MainStoreRequest
+     * const mainStoreRequest = await prisma.mainStoreRequest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MainStoreRequestFindFirstArgs>(args?: SelectSubset<T, MainStoreRequestFindFirstArgs<ExtArgs>>): Prisma__MainStoreRequestClient<$Result.GetResult<Prisma.$MainStoreRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MainStoreRequest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MainStoreRequestFindFirstOrThrowArgs} args - Arguments to find a MainStoreRequest
+     * @example
+     * // Get one MainStoreRequest
+     * const mainStoreRequest = await prisma.mainStoreRequest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MainStoreRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, MainStoreRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__MainStoreRequestClient<$Result.GetResult<Prisma.$MainStoreRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MainStoreRequests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MainStoreRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MainStoreRequests
+     * const mainStoreRequests = await prisma.mainStoreRequest.findMany()
+     * 
+     * // Get first 10 MainStoreRequests
+     * const mainStoreRequests = await prisma.mainStoreRequest.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const mainStoreRequestWithIdOnly = await prisma.mainStoreRequest.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MainStoreRequestFindManyArgs>(args?: SelectSubset<T, MainStoreRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MainStoreRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MainStoreRequest.
+     * @param {MainStoreRequestCreateArgs} args - Arguments to create a MainStoreRequest.
+     * @example
+     * // Create one MainStoreRequest
+     * const MainStoreRequest = await prisma.mainStoreRequest.create({
+     *   data: {
+     *     // ... data to create a MainStoreRequest
+     *   }
+     * })
+     * 
+     */
+    create<T extends MainStoreRequestCreateArgs>(args: SelectSubset<T, MainStoreRequestCreateArgs<ExtArgs>>): Prisma__MainStoreRequestClient<$Result.GetResult<Prisma.$MainStoreRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MainStoreRequests.
+     * @param {MainStoreRequestCreateManyArgs} args - Arguments to create many MainStoreRequests.
+     * @example
+     * // Create many MainStoreRequests
+     * const mainStoreRequest = await prisma.mainStoreRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MainStoreRequestCreateManyArgs>(args?: SelectSubset<T, MainStoreRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MainStoreRequests and returns the data saved in the database.
+     * @param {MainStoreRequestCreateManyAndReturnArgs} args - Arguments to create many MainStoreRequests.
+     * @example
+     * // Create many MainStoreRequests
+     * const mainStoreRequest = await prisma.mainStoreRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MainStoreRequests and only return the `id`
+     * const mainStoreRequestWithIdOnly = await prisma.mainStoreRequest.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MainStoreRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, MainStoreRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MainStoreRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MainStoreRequest.
+     * @param {MainStoreRequestDeleteArgs} args - Arguments to delete one MainStoreRequest.
+     * @example
+     * // Delete one MainStoreRequest
+     * const MainStoreRequest = await prisma.mainStoreRequest.delete({
+     *   where: {
+     *     // ... filter to delete one MainStoreRequest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MainStoreRequestDeleteArgs>(args: SelectSubset<T, MainStoreRequestDeleteArgs<ExtArgs>>): Prisma__MainStoreRequestClient<$Result.GetResult<Prisma.$MainStoreRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MainStoreRequest.
+     * @param {MainStoreRequestUpdateArgs} args - Arguments to update one MainStoreRequest.
+     * @example
+     * // Update one MainStoreRequest
+     * const mainStoreRequest = await prisma.mainStoreRequest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MainStoreRequestUpdateArgs>(args: SelectSubset<T, MainStoreRequestUpdateArgs<ExtArgs>>): Prisma__MainStoreRequestClient<$Result.GetResult<Prisma.$MainStoreRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MainStoreRequests.
+     * @param {MainStoreRequestDeleteManyArgs} args - Arguments to filter MainStoreRequests to delete.
+     * @example
+     * // Delete a few MainStoreRequests
+     * const { count } = await prisma.mainStoreRequest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MainStoreRequestDeleteManyArgs>(args?: SelectSubset<T, MainStoreRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MainStoreRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MainStoreRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MainStoreRequests
+     * const mainStoreRequest = await prisma.mainStoreRequest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MainStoreRequestUpdateManyArgs>(args: SelectSubset<T, MainStoreRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MainStoreRequests and returns the data updated in the database.
+     * @param {MainStoreRequestUpdateManyAndReturnArgs} args - Arguments to update many MainStoreRequests.
+     * @example
+     * // Update many MainStoreRequests
+     * const mainStoreRequest = await prisma.mainStoreRequest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MainStoreRequests and only return the `id`
+     * const mainStoreRequestWithIdOnly = await prisma.mainStoreRequest.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MainStoreRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, MainStoreRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MainStoreRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MainStoreRequest.
+     * @param {MainStoreRequestUpsertArgs} args - Arguments to update or create a MainStoreRequest.
+     * @example
+     * // Update or create a MainStoreRequest
+     * const mainStoreRequest = await prisma.mainStoreRequest.upsert({
+     *   create: {
+     *     // ... data to create a MainStoreRequest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MainStoreRequest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MainStoreRequestUpsertArgs>(args: SelectSubset<T, MainStoreRequestUpsertArgs<ExtArgs>>): Prisma__MainStoreRequestClient<$Result.GetResult<Prisma.$MainStoreRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MainStoreRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MainStoreRequestCountArgs} args - Arguments to filter MainStoreRequests to count.
+     * @example
+     * // Count the number of MainStoreRequests
+     * const count = await prisma.mainStoreRequest.count({
+     *   where: {
+     *     // ... the filter for the MainStoreRequests we want to count
+     *   }
+     * })
+    **/
+    count<T extends MainStoreRequestCountArgs>(
+      args?: Subset<T, MainStoreRequestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MainStoreRequestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MainStoreRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MainStoreRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MainStoreRequestAggregateArgs>(args: Subset<T, MainStoreRequestAggregateArgs>): Prisma.PrismaPromise<GetMainStoreRequestAggregateType<T>>
+
+    /**
+     * Group by MainStoreRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MainStoreRequestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MainStoreRequestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MainStoreRequestGroupByArgs['orderBy'] }
+        : { orderBy?: MainStoreRequestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MainStoreRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMainStoreRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MainStoreRequest model
+   */
+  readonly fields: MainStoreRequestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MainStoreRequest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MainStoreRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MainStoreRequest model
+   */ 
+  interface MainStoreRequestFieldRefs {
+    readonly id: FieldRef<"MainStoreRequest", 'String'>
+    readonly mainStoreSessionId: FieldRef<"MainStoreRequest", 'String'>
+    readonly miniStoreSessionId: FieldRef<"MainStoreRequest", 'String'>
+    readonly request: FieldRef<"MainStoreRequest", 'Json'>
+    readonly granted: FieldRef<"MainStoreRequest", 'Json'>
+    readonly wasDenied: FieldRef<"MainStoreRequest", 'Boolean'>
+    readonly wasApproved: FieldRef<"MainStoreRequest", 'Boolean'>
+    readonly createdAt: FieldRef<"MainStoreRequest", 'DateTime'>
+    readonly updatedAt: FieldRef<"MainStoreRequest", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MainStoreRequest findUnique
+   */
+  export type MainStoreRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MainStoreRequest
+     */
+    select?: MainStoreRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MainStoreRequest
+     */
+    omit?: MainStoreRequestOmit<ExtArgs> | null
+    /**
+     * Filter, which MainStoreRequest to fetch.
+     */
+    where: MainStoreRequestWhereUniqueInput
+  }
+
+  /**
+   * MainStoreRequest findUniqueOrThrow
+   */
+  export type MainStoreRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MainStoreRequest
+     */
+    select?: MainStoreRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MainStoreRequest
+     */
+    omit?: MainStoreRequestOmit<ExtArgs> | null
+    /**
+     * Filter, which MainStoreRequest to fetch.
+     */
+    where: MainStoreRequestWhereUniqueInput
+  }
+
+  /**
+   * MainStoreRequest findFirst
+   */
+  export type MainStoreRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MainStoreRequest
+     */
+    select?: MainStoreRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MainStoreRequest
+     */
+    omit?: MainStoreRequestOmit<ExtArgs> | null
+    /**
+     * Filter, which MainStoreRequest to fetch.
+     */
+    where?: MainStoreRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MainStoreRequests to fetch.
+     */
+    orderBy?: MainStoreRequestOrderByWithRelationInput | MainStoreRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MainStoreRequests.
+     */
+    cursor?: MainStoreRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MainStoreRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MainStoreRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MainStoreRequests.
+     */
+    distinct?: MainStoreRequestScalarFieldEnum | MainStoreRequestScalarFieldEnum[]
+  }
+
+  /**
+   * MainStoreRequest findFirstOrThrow
+   */
+  export type MainStoreRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MainStoreRequest
+     */
+    select?: MainStoreRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MainStoreRequest
+     */
+    omit?: MainStoreRequestOmit<ExtArgs> | null
+    /**
+     * Filter, which MainStoreRequest to fetch.
+     */
+    where?: MainStoreRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MainStoreRequests to fetch.
+     */
+    orderBy?: MainStoreRequestOrderByWithRelationInput | MainStoreRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MainStoreRequests.
+     */
+    cursor?: MainStoreRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MainStoreRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MainStoreRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MainStoreRequests.
+     */
+    distinct?: MainStoreRequestScalarFieldEnum | MainStoreRequestScalarFieldEnum[]
+  }
+
+  /**
+   * MainStoreRequest findMany
+   */
+  export type MainStoreRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MainStoreRequest
+     */
+    select?: MainStoreRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MainStoreRequest
+     */
+    omit?: MainStoreRequestOmit<ExtArgs> | null
+    /**
+     * Filter, which MainStoreRequests to fetch.
+     */
+    where?: MainStoreRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MainStoreRequests to fetch.
+     */
+    orderBy?: MainStoreRequestOrderByWithRelationInput | MainStoreRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MainStoreRequests.
+     */
+    cursor?: MainStoreRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MainStoreRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MainStoreRequests.
+     */
+    skip?: number
+    distinct?: MainStoreRequestScalarFieldEnum | MainStoreRequestScalarFieldEnum[]
+  }
+
+  /**
+   * MainStoreRequest create
+   */
+  export type MainStoreRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MainStoreRequest
+     */
+    select?: MainStoreRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MainStoreRequest
+     */
+    omit?: MainStoreRequestOmit<ExtArgs> | null
+    /**
+     * The data needed to create a MainStoreRequest.
+     */
+    data: XOR<MainStoreRequestCreateInput, MainStoreRequestUncheckedCreateInput>
+  }
+
+  /**
+   * MainStoreRequest createMany
+   */
+  export type MainStoreRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MainStoreRequests.
+     */
+    data: MainStoreRequestCreateManyInput | MainStoreRequestCreateManyInput[]
+  }
+
+  /**
+   * MainStoreRequest createManyAndReturn
+   */
+  export type MainStoreRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MainStoreRequest
+     */
+    select?: MainStoreRequestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MainStoreRequest
+     */
+    omit?: MainStoreRequestOmit<ExtArgs> | null
+    /**
+     * The data used to create many MainStoreRequests.
+     */
+    data: MainStoreRequestCreateManyInput | MainStoreRequestCreateManyInput[]
+  }
+
+  /**
+   * MainStoreRequest update
+   */
+  export type MainStoreRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MainStoreRequest
+     */
+    select?: MainStoreRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MainStoreRequest
+     */
+    omit?: MainStoreRequestOmit<ExtArgs> | null
+    /**
+     * The data needed to update a MainStoreRequest.
+     */
+    data: XOR<MainStoreRequestUpdateInput, MainStoreRequestUncheckedUpdateInput>
+    /**
+     * Choose, which MainStoreRequest to update.
+     */
+    where: MainStoreRequestWhereUniqueInput
+  }
+
+  /**
+   * MainStoreRequest updateMany
+   */
+  export type MainStoreRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MainStoreRequests.
+     */
+    data: XOR<MainStoreRequestUpdateManyMutationInput, MainStoreRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which MainStoreRequests to update
+     */
+    where?: MainStoreRequestWhereInput
+    /**
+     * Limit how many MainStoreRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MainStoreRequest updateManyAndReturn
+   */
+  export type MainStoreRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MainStoreRequest
+     */
+    select?: MainStoreRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MainStoreRequest
+     */
+    omit?: MainStoreRequestOmit<ExtArgs> | null
+    /**
+     * The data used to update MainStoreRequests.
+     */
+    data: XOR<MainStoreRequestUpdateManyMutationInput, MainStoreRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which MainStoreRequests to update
+     */
+    where?: MainStoreRequestWhereInput
+    /**
+     * Limit how many MainStoreRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MainStoreRequest upsert
+   */
+  export type MainStoreRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MainStoreRequest
+     */
+    select?: MainStoreRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MainStoreRequest
+     */
+    omit?: MainStoreRequestOmit<ExtArgs> | null
+    /**
+     * The filter to search for the MainStoreRequest to update in case it exists.
+     */
+    where: MainStoreRequestWhereUniqueInput
+    /**
+     * In case the MainStoreRequest found by the `where` argument doesn't exist, create a new MainStoreRequest with this data.
+     */
+    create: XOR<MainStoreRequestCreateInput, MainStoreRequestUncheckedCreateInput>
+    /**
+     * In case the MainStoreRequest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MainStoreRequestUpdateInput, MainStoreRequestUncheckedUpdateInput>
+  }
+
+  /**
+   * MainStoreRequest delete
+   */
+  export type MainStoreRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MainStoreRequest
+     */
+    select?: MainStoreRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MainStoreRequest
+     */
+    omit?: MainStoreRequestOmit<ExtArgs> | null
+    /**
+     * Filter which MainStoreRequest to delete.
+     */
+    where: MainStoreRequestWhereUniqueInput
+  }
+
+  /**
+   * MainStoreRequest deleteMany
+   */
+  export type MainStoreRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MainStoreRequests to delete
+     */
+    where?: MainStoreRequestWhereInput
+    /**
+     * Limit how many MainStoreRequests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MainStoreRequest without action
+   */
+  export type MainStoreRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MainStoreRequest
+     */
+    select?: MainStoreRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MainStoreRequest
+     */
+    omit?: MainStoreRequestOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model MiniStoreRequest
+   */
+
+  export type AggregateMiniStoreRequest = {
+    _count: MiniStoreRequestCountAggregateOutputType | null
+    _min: MiniStoreRequestMinAggregateOutputType | null
+    _max: MiniStoreRequestMaxAggregateOutputType | null
+  }
+
+  export type MiniStoreRequestMinAggregateOutputType = {
+    id: string | null
+    miniStoreSessionId: string | null
+    tableSaleSessionId: string | null
+    preorderSessionId: string | null
+    wasDenied: boolean | null
+    wasApproved: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MiniStoreRequestMaxAggregateOutputType = {
+    id: string | null
+    miniStoreSessionId: string | null
+    tableSaleSessionId: string | null
+    preorderSessionId: string | null
+    wasDenied: boolean | null
+    wasApproved: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type MiniStoreRequestCountAggregateOutputType = {
+    id: number
+    miniStoreSessionId: number
+    tableSaleSessionId: number
+    preorderSessionId: number
+    request: number
+    granted: number
+    wasDenied: number
+    wasApproved: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type MiniStoreRequestMinAggregateInputType = {
+    id?: true
+    miniStoreSessionId?: true
+    tableSaleSessionId?: true
+    preorderSessionId?: true
+    wasDenied?: true
+    wasApproved?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MiniStoreRequestMaxAggregateInputType = {
+    id?: true
+    miniStoreSessionId?: true
+    tableSaleSessionId?: true
+    preorderSessionId?: true
+    wasDenied?: true
+    wasApproved?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type MiniStoreRequestCountAggregateInputType = {
+    id?: true
+    miniStoreSessionId?: true
+    tableSaleSessionId?: true
+    preorderSessionId?: true
+    request?: true
+    granted?: true
+    wasDenied?: true
+    wasApproved?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type MiniStoreRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MiniStoreRequest to aggregate.
+     */
+    where?: MiniStoreRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MiniStoreRequests to fetch.
+     */
+    orderBy?: MiniStoreRequestOrderByWithRelationInput | MiniStoreRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MiniStoreRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MiniStoreRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MiniStoreRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MiniStoreRequests
+    **/
+    _count?: true | MiniStoreRequestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MiniStoreRequestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MiniStoreRequestMaxAggregateInputType
+  }
+
+  export type GetMiniStoreRequestAggregateType<T extends MiniStoreRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregateMiniStoreRequest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMiniStoreRequest[P]>
+      : GetScalarType<T[P], AggregateMiniStoreRequest[P]>
+  }
+
+
+
+
+  export type MiniStoreRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MiniStoreRequestWhereInput
+    orderBy?: MiniStoreRequestOrderByWithAggregationInput | MiniStoreRequestOrderByWithAggregationInput[]
+    by: MiniStoreRequestScalarFieldEnum[] | MiniStoreRequestScalarFieldEnum
+    having?: MiniStoreRequestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MiniStoreRequestCountAggregateInputType | true
+    _min?: MiniStoreRequestMinAggregateInputType
+    _max?: MiniStoreRequestMaxAggregateInputType
+  }
+
+  export type MiniStoreRequestGroupByOutputType = {
+    id: string
+    miniStoreSessionId: string
+    tableSaleSessionId: string | null
+    preorderSessionId: string | null
+    request: JsonValue
+    granted: JsonValue
+    wasDenied: boolean
+    wasApproved: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: MiniStoreRequestCountAggregateOutputType | null
+    _min: MiniStoreRequestMinAggregateOutputType | null
+    _max: MiniStoreRequestMaxAggregateOutputType | null
+  }
+
+  type GetMiniStoreRequestGroupByPayload<T extends MiniStoreRequestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MiniStoreRequestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MiniStoreRequestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MiniStoreRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], MiniStoreRequestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MiniStoreRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    miniStoreSessionId?: boolean
+    tableSaleSessionId?: boolean
+    preorderSessionId?: boolean
+    request?: boolean
+    granted?: boolean
+    wasDenied?: boolean
+    wasApproved?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["miniStoreRequest"]>
+
+  export type MiniStoreRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    miniStoreSessionId?: boolean
+    tableSaleSessionId?: boolean
+    preorderSessionId?: boolean
+    request?: boolean
+    granted?: boolean
+    wasDenied?: boolean
+    wasApproved?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["miniStoreRequest"]>
+
+  export type MiniStoreRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    miniStoreSessionId?: boolean
+    tableSaleSessionId?: boolean
+    preorderSessionId?: boolean
+    request?: boolean
+    granted?: boolean
+    wasDenied?: boolean
+    wasApproved?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["miniStoreRequest"]>
+
+  export type MiniStoreRequestSelectScalar = {
+    id?: boolean
+    miniStoreSessionId?: boolean
+    tableSaleSessionId?: boolean
+    preorderSessionId?: boolean
+    request?: boolean
+    granted?: boolean
+    wasDenied?: boolean
+    wasApproved?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type MiniStoreRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "miniStoreSessionId" | "tableSaleSessionId" | "preorderSessionId" | "request" | "granted" | "wasDenied" | "wasApproved" | "createdAt" | "updatedAt", ExtArgs["result"]["miniStoreRequest"]>
+
+  export type $MiniStoreRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MiniStoreRequest"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      miniStoreSessionId: string
+      tableSaleSessionId: string | null
+      preorderSessionId: string | null
+      request: Prisma.JsonValue
+      granted: Prisma.JsonValue
+      wasDenied: boolean
+      wasApproved: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["miniStoreRequest"]>
+    composites: {}
+  }
+
+  type MiniStoreRequestGetPayload<S extends boolean | null | undefined | MiniStoreRequestDefaultArgs> = $Result.GetResult<Prisma.$MiniStoreRequestPayload, S>
+
+  type MiniStoreRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MiniStoreRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MiniStoreRequestCountAggregateInputType | true
+    }
+
+  export interface MiniStoreRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MiniStoreRequest'], meta: { name: 'MiniStoreRequest' } }
+    /**
+     * Find zero or one MiniStoreRequest that matches the filter.
+     * @param {MiniStoreRequestFindUniqueArgs} args - Arguments to find a MiniStoreRequest
+     * @example
+     * // Get one MiniStoreRequest
+     * const miniStoreRequest = await prisma.miniStoreRequest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MiniStoreRequestFindUniqueArgs>(args: SelectSubset<T, MiniStoreRequestFindUniqueArgs<ExtArgs>>): Prisma__MiniStoreRequestClient<$Result.GetResult<Prisma.$MiniStoreRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one MiniStoreRequest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MiniStoreRequestFindUniqueOrThrowArgs} args - Arguments to find a MiniStoreRequest
+     * @example
+     * // Get one MiniStoreRequest
+     * const miniStoreRequest = await prisma.miniStoreRequest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MiniStoreRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, MiniStoreRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MiniStoreRequestClient<$Result.GetResult<Prisma.$MiniStoreRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MiniStoreRequest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MiniStoreRequestFindFirstArgs} args - Arguments to find a MiniStoreRequest
+     * @example
+     * // Get one MiniStoreRequest
+     * const miniStoreRequest = await prisma.miniStoreRequest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MiniStoreRequestFindFirstArgs>(args?: SelectSubset<T, MiniStoreRequestFindFirstArgs<ExtArgs>>): Prisma__MiniStoreRequestClient<$Result.GetResult<Prisma.$MiniStoreRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first MiniStoreRequest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MiniStoreRequestFindFirstOrThrowArgs} args - Arguments to find a MiniStoreRequest
+     * @example
+     * // Get one MiniStoreRequest
+     * const miniStoreRequest = await prisma.miniStoreRequest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MiniStoreRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, MiniStoreRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__MiniStoreRequestClient<$Result.GetResult<Prisma.$MiniStoreRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more MiniStoreRequests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MiniStoreRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MiniStoreRequests
+     * const miniStoreRequests = await prisma.miniStoreRequest.findMany()
+     * 
+     * // Get first 10 MiniStoreRequests
+     * const miniStoreRequests = await prisma.miniStoreRequest.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const miniStoreRequestWithIdOnly = await prisma.miniStoreRequest.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MiniStoreRequestFindManyArgs>(args?: SelectSubset<T, MiniStoreRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MiniStoreRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a MiniStoreRequest.
+     * @param {MiniStoreRequestCreateArgs} args - Arguments to create a MiniStoreRequest.
+     * @example
+     * // Create one MiniStoreRequest
+     * const MiniStoreRequest = await prisma.miniStoreRequest.create({
+     *   data: {
+     *     // ... data to create a MiniStoreRequest
+     *   }
+     * })
+     * 
+     */
+    create<T extends MiniStoreRequestCreateArgs>(args: SelectSubset<T, MiniStoreRequestCreateArgs<ExtArgs>>): Prisma__MiniStoreRequestClient<$Result.GetResult<Prisma.$MiniStoreRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many MiniStoreRequests.
+     * @param {MiniStoreRequestCreateManyArgs} args - Arguments to create many MiniStoreRequests.
+     * @example
+     * // Create many MiniStoreRequests
+     * const miniStoreRequest = await prisma.miniStoreRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MiniStoreRequestCreateManyArgs>(args?: SelectSubset<T, MiniStoreRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many MiniStoreRequests and returns the data saved in the database.
+     * @param {MiniStoreRequestCreateManyAndReturnArgs} args - Arguments to create many MiniStoreRequests.
+     * @example
+     * // Create many MiniStoreRequests
+     * const miniStoreRequest = await prisma.miniStoreRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many MiniStoreRequests and only return the `id`
+     * const miniStoreRequestWithIdOnly = await prisma.miniStoreRequest.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends MiniStoreRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, MiniStoreRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MiniStoreRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a MiniStoreRequest.
+     * @param {MiniStoreRequestDeleteArgs} args - Arguments to delete one MiniStoreRequest.
+     * @example
+     * // Delete one MiniStoreRequest
+     * const MiniStoreRequest = await prisma.miniStoreRequest.delete({
+     *   where: {
+     *     // ... filter to delete one MiniStoreRequest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MiniStoreRequestDeleteArgs>(args: SelectSubset<T, MiniStoreRequestDeleteArgs<ExtArgs>>): Prisma__MiniStoreRequestClient<$Result.GetResult<Prisma.$MiniStoreRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one MiniStoreRequest.
+     * @param {MiniStoreRequestUpdateArgs} args - Arguments to update one MiniStoreRequest.
+     * @example
+     * // Update one MiniStoreRequest
+     * const miniStoreRequest = await prisma.miniStoreRequest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MiniStoreRequestUpdateArgs>(args: SelectSubset<T, MiniStoreRequestUpdateArgs<ExtArgs>>): Prisma__MiniStoreRequestClient<$Result.GetResult<Prisma.$MiniStoreRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more MiniStoreRequests.
+     * @param {MiniStoreRequestDeleteManyArgs} args - Arguments to filter MiniStoreRequests to delete.
+     * @example
+     * // Delete a few MiniStoreRequests
+     * const { count } = await prisma.miniStoreRequest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MiniStoreRequestDeleteManyArgs>(args?: SelectSubset<T, MiniStoreRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MiniStoreRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MiniStoreRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MiniStoreRequests
+     * const miniStoreRequest = await prisma.miniStoreRequest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MiniStoreRequestUpdateManyArgs>(args: SelectSubset<T, MiniStoreRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MiniStoreRequests and returns the data updated in the database.
+     * @param {MiniStoreRequestUpdateManyAndReturnArgs} args - Arguments to update many MiniStoreRequests.
+     * @example
+     * // Update many MiniStoreRequests
+     * const miniStoreRequest = await prisma.miniStoreRequest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more MiniStoreRequests and only return the `id`
+     * const miniStoreRequestWithIdOnly = await prisma.miniStoreRequest.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends MiniStoreRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, MiniStoreRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MiniStoreRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one MiniStoreRequest.
+     * @param {MiniStoreRequestUpsertArgs} args - Arguments to update or create a MiniStoreRequest.
+     * @example
+     * // Update or create a MiniStoreRequest
+     * const miniStoreRequest = await prisma.miniStoreRequest.upsert({
+     *   create: {
+     *     // ... data to create a MiniStoreRequest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MiniStoreRequest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MiniStoreRequestUpsertArgs>(args: SelectSubset<T, MiniStoreRequestUpsertArgs<ExtArgs>>): Prisma__MiniStoreRequestClient<$Result.GetResult<Prisma.$MiniStoreRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of MiniStoreRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MiniStoreRequestCountArgs} args - Arguments to filter MiniStoreRequests to count.
+     * @example
+     * // Count the number of MiniStoreRequests
+     * const count = await prisma.miniStoreRequest.count({
+     *   where: {
+     *     // ... the filter for the MiniStoreRequests we want to count
+     *   }
+     * })
+    **/
+    count<T extends MiniStoreRequestCountArgs>(
+      args?: Subset<T, MiniStoreRequestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MiniStoreRequestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MiniStoreRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MiniStoreRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MiniStoreRequestAggregateArgs>(args: Subset<T, MiniStoreRequestAggregateArgs>): Prisma.PrismaPromise<GetMiniStoreRequestAggregateType<T>>
+
+    /**
+     * Group by MiniStoreRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MiniStoreRequestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MiniStoreRequestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MiniStoreRequestGroupByArgs['orderBy'] }
+        : { orderBy?: MiniStoreRequestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MiniStoreRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMiniStoreRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MiniStoreRequest model
+   */
+  readonly fields: MiniStoreRequestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MiniStoreRequest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MiniStoreRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the MiniStoreRequest model
+   */ 
+  interface MiniStoreRequestFieldRefs {
+    readonly id: FieldRef<"MiniStoreRequest", 'String'>
+    readonly miniStoreSessionId: FieldRef<"MiniStoreRequest", 'String'>
+    readonly tableSaleSessionId: FieldRef<"MiniStoreRequest", 'String'>
+    readonly preorderSessionId: FieldRef<"MiniStoreRequest", 'String'>
+    readonly request: FieldRef<"MiniStoreRequest", 'Json'>
+    readonly granted: FieldRef<"MiniStoreRequest", 'Json'>
+    readonly wasDenied: FieldRef<"MiniStoreRequest", 'Boolean'>
+    readonly wasApproved: FieldRef<"MiniStoreRequest", 'Boolean'>
+    readonly createdAt: FieldRef<"MiniStoreRequest", 'DateTime'>
+    readonly updatedAt: FieldRef<"MiniStoreRequest", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * MiniStoreRequest findUnique
+   */
+  export type MiniStoreRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MiniStoreRequest
+     */
+    select?: MiniStoreRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MiniStoreRequest
+     */
+    omit?: MiniStoreRequestOmit<ExtArgs> | null
+    /**
+     * Filter, which MiniStoreRequest to fetch.
+     */
+    where: MiniStoreRequestWhereUniqueInput
+  }
+
+  /**
+   * MiniStoreRequest findUniqueOrThrow
+   */
+  export type MiniStoreRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MiniStoreRequest
+     */
+    select?: MiniStoreRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MiniStoreRequest
+     */
+    omit?: MiniStoreRequestOmit<ExtArgs> | null
+    /**
+     * Filter, which MiniStoreRequest to fetch.
+     */
+    where: MiniStoreRequestWhereUniqueInput
+  }
+
+  /**
+   * MiniStoreRequest findFirst
+   */
+  export type MiniStoreRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MiniStoreRequest
+     */
+    select?: MiniStoreRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MiniStoreRequest
+     */
+    omit?: MiniStoreRequestOmit<ExtArgs> | null
+    /**
+     * Filter, which MiniStoreRequest to fetch.
+     */
+    where?: MiniStoreRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MiniStoreRequests to fetch.
+     */
+    orderBy?: MiniStoreRequestOrderByWithRelationInput | MiniStoreRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MiniStoreRequests.
+     */
+    cursor?: MiniStoreRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MiniStoreRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MiniStoreRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MiniStoreRequests.
+     */
+    distinct?: MiniStoreRequestScalarFieldEnum | MiniStoreRequestScalarFieldEnum[]
+  }
+
+  /**
+   * MiniStoreRequest findFirstOrThrow
+   */
+  export type MiniStoreRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MiniStoreRequest
+     */
+    select?: MiniStoreRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MiniStoreRequest
+     */
+    omit?: MiniStoreRequestOmit<ExtArgs> | null
+    /**
+     * Filter, which MiniStoreRequest to fetch.
+     */
+    where?: MiniStoreRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MiniStoreRequests to fetch.
+     */
+    orderBy?: MiniStoreRequestOrderByWithRelationInput | MiniStoreRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MiniStoreRequests.
+     */
+    cursor?: MiniStoreRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MiniStoreRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MiniStoreRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MiniStoreRequests.
+     */
+    distinct?: MiniStoreRequestScalarFieldEnum | MiniStoreRequestScalarFieldEnum[]
+  }
+
+  /**
+   * MiniStoreRequest findMany
+   */
+  export type MiniStoreRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MiniStoreRequest
+     */
+    select?: MiniStoreRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MiniStoreRequest
+     */
+    omit?: MiniStoreRequestOmit<ExtArgs> | null
+    /**
+     * Filter, which MiniStoreRequests to fetch.
+     */
+    where?: MiniStoreRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MiniStoreRequests to fetch.
+     */
+    orderBy?: MiniStoreRequestOrderByWithRelationInput | MiniStoreRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MiniStoreRequests.
+     */
+    cursor?: MiniStoreRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MiniStoreRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MiniStoreRequests.
+     */
+    skip?: number
+    distinct?: MiniStoreRequestScalarFieldEnum | MiniStoreRequestScalarFieldEnum[]
+  }
+
+  /**
+   * MiniStoreRequest create
+   */
+  export type MiniStoreRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MiniStoreRequest
+     */
+    select?: MiniStoreRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MiniStoreRequest
+     */
+    omit?: MiniStoreRequestOmit<ExtArgs> | null
+    /**
+     * The data needed to create a MiniStoreRequest.
+     */
+    data: XOR<MiniStoreRequestCreateInput, MiniStoreRequestUncheckedCreateInput>
+  }
+
+  /**
+   * MiniStoreRequest createMany
+   */
+  export type MiniStoreRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MiniStoreRequests.
+     */
+    data: MiniStoreRequestCreateManyInput | MiniStoreRequestCreateManyInput[]
+  }
+
+  /**
+   * MiniStoreRequest createManyAndReturn
+   */
+  export type MiniStoreRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MiniStoreRequest
+     */
+    select?: MiniStoreRequestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MiniStoreRequest
+     */
+    omit?: MiniStoreRequestOmit<ExtArgs> | null
+    /**
+     * The data used to create many MiniStoreRequests.
+     */
+    data: MiniStoreRequestCreateManyInput | MiniStoreRequestCreateManyInput[]
+  }
+
+  /**
+   * MiniStoreRequest update
+   */
+  export type MiniStoreRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MiniStoreRequest
+     */
+    select?: MiniStoreRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MiniStoreRequest
+     */
+    omit?: MiniStoreRequestOmit<ExtArgs> | null
+    /**
+     * The data needed to update a MiniStoreRequest.
+     */
+    data: XOR<MiniStoreRequestUpdateInput, MiniStoreRequestUncheckedUpdateInput>
+    /**
+     * Choose, which MiniStoreRequest to update.
+     */
+    where: MiniStoreRequestWhereUniqueInput
+  }
+
+  /**
+   * MiniStoreRequest updateMany
+   */
+  export type MiniStoreRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MiniStoreRequests.
+     */
+    data: XOR<MiniStoreRequestUpdateManyMutationInput, MiniStoreRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which MiniStoreRequests to update
+     */
+    where?: MiniStoreRequestWhereInput
+    /**
+     * Limit how many MiniStoreRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MiniStoreRequest updateManyAndReturn
+   */
+  export type MiniStoreRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MiniStoreRequest
+     */
+    select?: MiniStoreRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the MiniStoreRequest
+     */
+    omit?: MiniStoreRequestOmit<ExtArgs> | null
+    /**
+     * The data used to update MiniStoreRequests.
+     */
+    data: XOR<MiniStoreRequestUpdateManyMutationInput, MiniStoreRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which MiniStoreRequests to update
+     */
+    where?: MiniStoreRequestWhereInput
+    /**
+     * Limit how many MiniStoreRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * MiniStoreRequest upsert
+   */
+  export type MiniStoreRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MiniStoreRequest
+     */
+    select?: MiniStoreRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MiniStoreRequest
+     */
+    omit?: MiniStoreRequestOmit<ExtArgs> | null
+    /**
+     * The filter to search for the MiniStoreRequest to update in case it exists.
+     */
+    where: MiniStoreRequestWhereUniqueInput
+    /**
+     * In case the MiniStoreRequest found by the `where` argument doesn't exist, create a new MiniStoreRequest with this data.
+     */
+    create: XOR<MiniStoreRequestCreateInput, MiniStoreRequestUncheckedCreateInput>
+    /**
+     * In case the MiniStoreRequest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MiniStoreRequestUpdateInput, MiniStoreRequestUncheckedUpdateInput>
+  }
+
+  /**
+   * MiniStoreRequest delete
+   */
+  export type MiniStoreRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MiniStoreRequest
+     */
+    select?: MiniStoreRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MiniStoreRequest
+     */
+    omit?: MiniStoreRequestOmit<ExtArgs> | null
+    /**
+     * Filter which MiniStoreRequest to delete.
+     */
+    where: MiniStoreRequestWhereUniqueInput
+  }
+
+  /**
+   * MiniStoreRequest deleteMany
+   */
+  export type MiniStoreRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MiniStoreRequests to delete
+     */
+    where?: MiniStoreRequestWhereInput
+    /**
+     * Limit how many MiniStoreRequests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * MiniStoreRequest without action
+   */
+  export type MiniStoreRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MiniStoreRequest
+     */
+    select?: MiniStoreRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MiniStoreRequest
+     */
+    omit?: MiniStoreRequestOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Model Book
    */
 
@@ -21095,6 +23364,37 @@ export namespace Prisma {
   export type MainStoreSessionScalarFieldEnum = (typeof MainStoreSessionScalarFieldEnum)[keyof typeof MainStoreSessionScalarFieldEnum]
 
 
+  export const MainStoreRequestScalarFieldEnum: {
+    id: 'id',
+    mainStoreSessionId: 'mainStoreSessionId',
+    miniStoreSessionId: 'miniStoreSessionId',
+    request: 'request',
+    granted: 'granted',
+    wasDenied: 'wasDenied',
+    wasApproved: 'wasApproved',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type MainStoreRequestScalarFieldEnum = (typeof MainStoreRequestScalarFieldEnum)[keyof typeof MainStoreRequestScalarFieldEnum]
+
+
+  export const MiniStoreRequestScalarFieldEnum: {
+    id: 'id',
+    miniStoreSessionId: 'miniStoreSessionId',
+    tableSaleSessionId: 'tableSaleSessionId',
+    preorderSessionId: 'preorderSessionId',
+    request: 'request',
+    granted: 'granted',
+    wasDenied: 'wasDenied',
+    wasApproved: 'wasApproved',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type MiniStoreRequestScalarFieldEnum = (typeof MiniStoreRequestScalarFieldEnum)[keyof typeof MiniStoreRequestScalarFieldEnum]
+
+
   export const BookScalarFieldEnum: {
     id: 'id',
     title: 'title',
@@ -22240,6 +24540,155 @@ export namespace Prisma {
     isActive?: BoolWithAggregatesFilter<"MainStoreSession"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"MainStoreSession"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"MainStoreSession"> | Date | string
+  }
+
+  export type MainStoreRequestWhereInput = {
+    AND?: MainStoreRequestWhereInput | MainStoreRequestWhereInput[]
+    OR?: MainStoreRequestWhereInput[]
+    NOT?: MainStoreRequestWhereInput | MainStoreRequestWhereInput[]
+    id?: StringFilter<"MainStoreRequest"> | string
+    mainStoreSessionId?: StringFilter<"MainStoreRequest"> | string
+    miniStoreSessionId?: StringFilter<"MainStoreRequest"> | string
+    request?: JsonFilter<"MainStoreRequest">
+    granted?: JsonFilter<"MainStoreRequest">
+    wasDenied?: BoolFilter<"MainStoreRequest"> | boolean
+    wasApproved?: BoolFilter<"MainStoreRequest"> | boolean
+    createdAt?: DateTimeFilter<"MainStoreRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"MainStoreRequest"> | Date | string
+  }
+
+  export type MainStoreRequestOrderByWithRelationInput = {
+    id?: SortOrder
+    mainStoreSessionId?: SortOrder
+    miniStoreSessionId?: SortOrder
+    request?: SortOrder
+    granted?: SortOrder
+    wasDenied?: SortOrder
+    wasApproved?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MainStoreRequestWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: MainStoreRequestWhereInput | MainStoreRequestWhereInput[]
+    OR?: MainStoreRequestWhereInput[]
+    NOT?: MainStoreRequestWhereInput | MainStoreRequestWhereInput[]
+    mainStoreSessionId?: StringFilter<"MainStoreRequest"> | string
+    miniStoreSessionId?: StringFilter<"MainStoreRequest"> | string
+    request?: JsonFilter<"MainStoreRequest">
+    granted?: JsonFilter<"MainStoreRequest">
+    wasDenied?: BoolFilter<"MainStoreRequest"> | boolean
+    wasApproved?: BoolFilter<"MainStoreRequest"> | boolean
+    createdAt?: DateTimeFilter<"MainStoreRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"MainStoreRequest"> | Date | string
+  }, "id">
+
+  export type MainStoreRequestOrderByWithAggregationInput = {
+    id?: SortOrder
+    mainStoreSessionId?: SortOrder
+    miniStoreSessionId?: SortOrder
+    request?: SortOrder
+    granted?: SortOrder
+    wasDenied?: SortOrder
+    wasApproved?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: MainStoreRequestCountOrderByAggregateInput
+    _max?: MainStoreRequestMaxOrderByAggregateInput
+    _min?: MainStoreRequestMinOrderByAggregateInput
+  }
+
+  export type MainStoreRequestScalarWhereWithAggregatesInput = {
+    AND?: MainStoreRequestScalarWhereWithAggregatesInput | MainStoreRequestScalarWhereWithAggregatesInput[]
+    OR?: MainStoreRequestScalarWhereWithAggregatesInput[]
+    NOT?: MainStoreRequestScalarWhereWithAggregatesInput | MainStoreRequestScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MainStoreRequest"> | string
+    mainStoreSessionId?: StringWithAggregatesFilter<"MainStoreRequest"> | string
+    miniStoreSessionId?: StringWithAggregatesFilter<"MainStoreRequest"> | string
+    request?: JsonWithAggregatesFilter<"MainStoreRequest">
+    granted?: JsonWithAggregatesFilter<"MainStoreRequest">
+    wasDenied?: BoolWithAggregatesFilter<"MainStoreRequest"> | boolean
+    wasApproved?: BoolWithAggregatesFilter<"MainStoreRequest"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"MainStoreRequest"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"MainStoreRequest"> | Date | string
+  }
+
+  export type MiniStoreRequestWhereInput = {
+    AND?: MiniStoreRequestWhereInput | MiniStoreRequestWhereInput[]
+    OR?: MiniStoreRequestWhereInput[]
+    NOT?: MiniStoreRequestWhereInput | MiniStoreRequestWhereInput[]
+    id?: StringFilter<"MiniStoreRequest"> | string
+    miniStoreSessionId?: StringFilter<"MiniStoreRequest"> | string
+    tableSaleSessionId?: StringNullableFilter<"MiniStoreRequest"> | string | null
+    preorderSessionId?: StringNullableFilter<"MiniStoreRequest"> | string | null
+    request?: JsonFilter<"MiniStoreRequest">
+    granted?: JsonFilter<"MiniStoreRequest">
+    wasDenied?: BoolFilter<"MiniStoreRequest"> | boolean
+    wasApproved?: BoolFilter<"MiniStoreRequest"> | boolean
+    createdAt?: DateTimeFilter<"MiniStoreRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"MiniStoreRequest"> | Date | string
+  }
+
+  export type MiniStoreRequestOrderByWithRelationInput = {
+    id?: SortOrder
+    miniStoreSessionId?: SortOrder
+    tableSaleSessionId?: SortOrderInput | SortOrder
+    preorderSessionId?: SortOrderInput | SortOrder
+    request?: SortOrder
+    granted?: SortOrder
+    wasDenied?: SortOrder
+    wasApproved?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MiniStoreRequestWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: MiniStoreRequestWhereInput | MiniStoreRequestWhereInput[]
+    OR?: MiniStoreRequestWhereInput[]
+    NOT?: MiniStoreRequestWhereInput | MiniStoreRequestWhereInput[]
+    miniStoreSessionId?: StringFilter<"MiniStoreRequest"> | string
+    tableSaleSessionId?: StringNullableFilter<"MiniStoreRequest"> | string | null
+    preorderSessionId?: StringNullableFilter<"MiniStoreRequest"> | string | null
+    request?: JsonFilter<"MiniStoreRequest">
+    granted?: JsonFilter<"MiniStoreRequest">
+    wasDenied?: BoolFilter<"MiniStoreRequest"> | boolean
+    wasApproved?: BoolFilter<"MiniStoreRequest"> | boolean
+    createdAt?: DateTimeFilter<"MiniStoreRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"MiniStoreRequest"> | Date | string
+  }, "id">
+
+  export type MiniStoreRequestOrderByWithAggregationInput = {
+    id?: SortOrder
+    miniStoreSessionId?: SortOrder
+    tableSaleSessionId?: SortOrderInput | SortOrder
+    preorderSessionId?: SortOrderInput | SortOrder
+    request?: SortOrder
+    granted?: SortOrder
+    wasDenied?: SortOrder
+    wasApproved?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: MiniStoreRequestCountOrderByAggregateInput
+    _max?: MiniStoreRequestMaxOrderByAggregateInput
+    _min?: MiniStoreRequestMinOrderByAggregateInput
+  }
+
+  export type MiniStoreRequestScalarWhereWithAggregatesInput = {
+    AND?: MiniStoreRequestScalarWhereWithAggregatesInput | MiniStoreRequestScalarWhereWithAggregatesInput[]
+    OR?: MiniStoreRequestScalarWhereWithAggregatesInput[]
+    NOT?: MiniStoreRequestScalarWhereWithAggregatesInput | MiniStoreRequestScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"MiniStoreRequest"> | string
+    miniStoreSessionId?: StringWithAggregatesFilter<"MiniStoreRequest"> | string
+    tableSaleSessionId?: StringNullableWithAggregatesFilter<"MiniStoreRequest"> | string | null
+    preorderSessionId?: StringNullableWithAggregatesFilter<"MiniStoreRequest"> | string | null
+    request?: JsonWithAggregatesFilter<"MiniStoreRequest">
+    granted?: JsonWithAggregatesFilter<"MiniStoreRequest">
+    wasDenied?: BoolWithAggregatesFilter<"MiniStoreRequest"> | boolean
+    wasApproved?: BoolWithAggregatesFilter<"MiniStoreRequest"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"MiniStoreRequest"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"MiniStoreRequest"> | Date | string
   }
 
   export type BookWhereInput = {
@@ -23592,6 +26041,181 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MainStoreRequestCreateInput = {
+    id?: string
+    mainStoreSessionId: string
+    miniStoreSessionId: string
+    request: JsonNullValueInput | InputJsonValue
+    granted: JsonNullValueInput | InputJsonValue
+    wasDenied?: boolean
+    wasApproved?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MainStoreRequestUncheckedCreateInput = {
+    id?: string
+    mainStoreSessionId: string
+    miniStoreSessionId: string
+    request: JsonNullValueInput | InputJsonValue
+    granted: JsonNullValueInput | InputJsonValue
+    wasDenied?: boolean
+    wasApproved?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MainStoreRequestUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mainStoreSessionId?: StringFieldUpdateOperationsInput | string
+    miniStoreSessionId?: StringFieldUpdateOperationsInput | string
+    request?: JsonNullValueInput | InputJsonValue
+    granted?: JsonNullValueInput | InputJsonValue
+    wasDenied?: BoolFieldUpdateOperationsInput | boolean
+    wasApproved?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MainStoreRequestUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mainStoreSessionId?: StringFieldUpdateOperationsInput | string
+    miniStoreSessionId?: StringFieldUpdateOperationsInput | string
+    request?: JsonNullValueInput | InputJsonValue
+    granted?: JsonNullValueInput | InputJsonValue
+    wasDenied?: BoolFieldUpdateOperationsInput | boolean
+    wasApproved?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MainStoreRequestCreateManyInput = {
+    id?: string
+    mainStoreSessionId: string
+    miniStoreSessionId: string
+    request: JsonNullValueInput | InputJsonValue
+    granted: JsonNullValueInput | InputJsonValue
+    wasDenied?: boolean
+    wasApproved?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MainStoreRequestUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mainStoreSessionId?: StringFieldUpdateOperationsInput | string
+    miniStoreSessionId?: StringFieldUpdateOperationsInput | string
+    request?: JsonNullValueInput | InputJsonValue
+    granted?: JsonNullValueInput | InputJsonValue
+    wasDenied?: BoolFieldUpdateOperationsInput | boolean
+    wasApproved?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MainStoreRequestUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    mainStoreSessionId?: StringFieldUpdateOperationsInput | string
+    miniStoreSessionId?: StringFieldUpdateOperationsInput | string
+    request?: JsonNullValueInput | InputJsonValue
+    granted?: JsonNullValueInput | InputJsonValue
+    wasDenied?: BoolFieldUpdateOperationsInput | boolean
+    wasApproved?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MiniStoreRequestCreateInput = {
+    id?: string
+    miniStoreSessionId: string
+    tableSaleSessionId?: string | null
+    preorderSessionId?: string | null
+    request: JsonNullValueInput | InputJsonValue
+    granted: JsonNullValueInput | InputJsonValue
+    wasDenied?: boolean
+    wasApproved?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MiniStoreRequestUncheckedCreateInput = {
+    id?: string
+    miniStoreSessionId: string
+    tableSaleSessionId?: string | null
+    preorderSessionId?: string | null
+    request: JsonNullValueInput | InputJsonValue
+    granted: JsonNullValueInput | InputJsonValue
+    wasDenied?: boolean
+    wasApproved?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MiniStoreRequestUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    miniStoreSessionId?: StringFieldUpdateOperationsInput | string
+    tableSaleSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    preorderSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    request?: JsonNullValueInput | InputJsonValue
+    granted?: JsonNullValueInput | InputJsonValue
+    wasDenied?: BoolFieldUpdateOperationsInput | boolean
+    wasApproved?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MiniStoreRequestUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    miniStoreSessionId?: StringFieldUpdateOperationsInput | string
+    tableSaleSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    preorderSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    request?: JsonNullValueInput | InputJsonValue
+    granted?: JsonNullValueInput | InputJsonValue
+    wasDenied?: BoolFieldUpdateOperationsInput | boolean
+    wasApproved?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MiniStoreRequestCreateManyInput = {
+    id?: string
+    miniStoreSessionId: string
+    tableSaleSessionId?: string | null
+    preorderSessionId?: string | null
+    request: JsonNullValueInput | InputJsonValue
+    granted: JsonNullValueInput | InputJsonValue
+    wasDenied?: boolean
+    wasApproved?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type MiniStoreRequestUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    miniStoreSessionId?: StringFieldUpdateOperationsInput | string
+    tableSaleSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    preorderSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    request?: JsonNullValueInput | InputJsonValue
+    granted?: JsonNullValueInput | InputJsonValue
+    wasDenied?: BoolFieldUpdateOperationsInput | boolean
+    wasApproved?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MiniStoreRequestUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    miniStoreSessionId?: StringFieldUpdateOperationsInput | string
+    tableSaleSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    preorderSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    request?: JsonNullValueInput | InputJsonValue
+    granted?: JsonNullValueInput | InputJsonValue
+    wasDenied?: BoolFieldUpdateOperationsInput | boolean
+    wasApproved?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type BookCreateInput = {
     id?: string
     title: string
@@ -24748,6 +27372,73 @@ export namespace Prisma {
     session?: SortOrder
     managerId?: SortOrder
     isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MainStoreRequestCountOrderByAggregateInput = {
+    id?: SortOrder
+    mainStoreSessionId?: SortOrder
+    miniStoreSessionId?: SortOrder
+    request?: SortOrder
+    granted?: SortOrder
+    wasDenied?: SortOrder
+    wasApproved?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MainStoreRequestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    mainStoreSessionId?: SortOrder
+    miniStoreSessionId?: SortOrder
+    wasDenied?: SortOrder
+    wasApproved?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MainStoreRequestMinOrderByAggregateInput = {
+    id?: SortOrder
+    mainStoreSessionId?: SortOrder
+    miniStoreSessionId?: SortOrder
+    wasDenied?: SortOrder
+    wasApproved?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MiniStoreRequestCountOrderByAggregateInput = {
+    id?: SortOrder
+    miniStoreSessionId?: SortOrder
+    tableSaleSessionId?: SortOrder
+    preorderSessionId?: SortOrder
+    request?: SortOrder
+    granted?: SortOrder
+    wasDenied?: SortOrder
+    wasApproved?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MiniStoreRequestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    miniStoreSessionId?: SortOrder
+    tableSaleSessionId?: SortOrder
+    preorderSessionId?: SortOrder
+    wasDenied?: SortOrder
+    wasApproved?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type MiniStoreRequestMinOrderByAggregateInput = {
+    id?: SortOrder
+    miniStoreSessionId?: SortOrder
+    tableSaleSessionId?: SortOrder
+    preorderSessionId?: SortOrder
+    wasDenied?: SortOrder
+    wasApproved?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
