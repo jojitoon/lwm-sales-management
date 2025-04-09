@@ -37,7 +37,7 @@ export default async function BookReport({
   const session = querySession || settings?.currentSession || '';
 
   return (
-    <main>
+    <main className='px-4 lg:px-6'>
       <div className='flex justify-between items-center mb-8'>
         <h1 className='text-2xl font-bold my-2'>
           Book Reports -{' '}

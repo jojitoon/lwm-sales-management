@@ -139,7 +139,6 @@ export const findOrCreateUser = async (
   if (workspace === 'mini-store') {
     let miniStoreSession = await prisma.miniStoreSession.findFirst({
       where: {
-        managerId: user.id,
         isActive: true,
         session: currentSession,
       },
@@ -148,7 +147,6 @@ export const findOrCreateUser = async (
     if (!miniStoreSession) {
       miniStoreSession = await prisma.miniStoreSession.create({
         data: {
-          managerId: user.id,
           session: currentSession,
           data: {},
         },
@@ -161,20 +159,26 @@ export const findOrCreateUser = async (
   if (workspace === 'main-store') {
     let mainStoreSession = await prisma.mainStoreSession.findFirst({
       where: {
-        managerId: user.id,
         isActive: true,
         session: currentSession,
       },
     });
 
-    console.log('mainStoreSession', mainStoreSession);
+    const books = await prisma.book.findMany();
+
+    const data = books.map((book) => ({
+      title: book.title,
+      price: book.price,
+      total: book.available,
+      available: book.available,
+      distributed: 0,
+    }));
 
     if (!mainStoreSession) {
       mainStoreSession = await prisma.mainStoreSession.create({
         data: {
-          managerId: user.id,
           session: currentSession,
-          data: {},
+          data: { list: data },
           name: `Main Store`,
         },
       });

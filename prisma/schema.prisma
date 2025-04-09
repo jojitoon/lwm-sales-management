@@ -20,7 +20,8 @@ model User {
   sessions       Session[]
   consolidations Consolidation[]
   mySessions     MySession[]
-
+  isAdmin        Boolean @default(false)
+  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -73,6 +74,7 @@ model VerificationToken {
 model Setting {
   id             String  @id
   currentSession String? @default("FIRST_SESSION")
+  adminPassword String?
   mainStoreData Json?
 }
 
@@ -106,6 +108,8 @@ model OrderItem {
   updatedAt       DateTime       @updatedAt
   isCollected     Boolean        @default(false)
   productName     String
+  bookId          String?
+  book            Book?          @relation(fields: [bookId], references: [id])
   consolidation   Consolidation? @relation(fields: [consolidationId], references: [id])
   consolidationId Int?
 
@@ -230,7 +234,7 @@ model Book {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   sales BookSaleItem[]
-
+  preorders OrderItem[]
   @@map("books")
 }
 

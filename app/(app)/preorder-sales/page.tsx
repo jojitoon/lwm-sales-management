@@ -88,7 +88,7 @@ export default function Home() {
 
   return (
     <main className='px-4 lg:px-6'>
-      <h1 className='text-2xl font-bold my-2'>Process Preorder</h1>
+      <h1 className='text-2xl font-bold my-2'>Process Pre-order</h1>
       <div className='flex gap-4 my-4'>
         <Input
           placeholder='Enter email address or order ID'

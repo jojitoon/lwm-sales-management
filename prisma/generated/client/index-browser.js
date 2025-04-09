@@ -118,6 +118,7 @@ exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   email: 'email',
   name: 'name',
+  isAdmin: 'isAdmin',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -157,6 +158,7 @@ exports.Prisma.VerificationTokenScalarFieldEnum = {
 exports.Prisma.SettingScalarFieldEnum = {
   id: 'id',
   currentSession: 'currentSession',
+  adminPassword: 'adminPassword',
   mainStoreData: 'mainStoreData'
 };
 
@@ -185,6 +187,7 @@ exports.Prisma.OrderItemScalarFieldEnum = {
   updatedAt: 'updatedAt',
   isCollected: 'isCollected',
   productName: 'productName',
+  bookId: 'bookId',
   consolidationId: 'consolidationId'
 };
 

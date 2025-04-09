@@ -2,11 +2,16 @@
 
 import * as React from 'react';
 import {
+  IconBook,
+  IconBook2,
   IconDashboard,
   IconFileDescription,
+  IconFileImport,
   IconHelp,
   IconInnerShadowTop,
+  IconMapPin,
   IconPackage,
+  IconReport,
   IconSearch,
   IconSettings,
   IconTable,
@@ -26,16 +31,22 @@ import {
 } from '@/components/ui/sidebar';
 import { useSession } from 'next-auth/react';
 import { useMySession } from '@/hooks/data/useMySession';
+import { NavDocuments } from './nav-documents';
 
-const buildData = (workspace: string) => {
+const buildData = (workspace: string, isAdmin: boolean) => {
   const mainSwitch = () => {
     switch (workspace) {
       case 'main-store':
         return [
           {
             title: 'Stock',
-            url: '#',
+            url: '/books-stock-main',
             icon: IconPackage,
+          },
+          {
+            title: 'Books',
+            url: '/books',
+            icon: IconBook,
           },
           {
             title: 'Requests',
@@ -100,6 +111,14 @@ const buildData = (workspace: string) => {
     }
   };
 
+  const adminMain = [
+    {
+      title: 'All Books',
+      url: '/books',
+      icon: IconBook,
+    },
+  ];
+
   const data = {
     common: [
       {
@@ -108,7 +127,7 @@ const buildData = (workspace: string) => {
         icon: IconDashboard,
       },
     ],
-    navMain: mainSwitch(),
+    navMain: isAdmin ? adminMain : mainSwitch(),
     // navClouds: [
     //   {
     //     title: 'Capture',
@@ -160,7 +179,7 @@ const buildData = (workspace: string) => {
     navSecondary: [
       {
         title: 'Settings',
-        url: '#',
+        url: '/settings',
         icon: IconSettings,
       },
       {
@@ -191,6 +210,51 @@ const buildData = (workspace: string) => {
     //     icon: IconFileWord,
     //   },
     // ],
+
+    adminPreorderReports: [
+      {
+        title: 'Books',
+        url: '/books-report',
+        icon: IconBook,
+      },
+      {
+        title: 'Books Left',
+        url: '/books-left',
+        icon: IconBook2,
+      },
+      {
+        title: 'Orders',
+        url: '/orders-report',
+        icon: IconReport,
+      },
+      {
+        title: 'Orders by Location',
+        url: '/orders-location',
+        icon: IconMapPin,
+      },
+      {
+        title: 'Orders by Status',
+        url: '/orders-status',
+        icon: IconReport,
+      },
+      {
+        title: 'Orders by Session',
+        url: '/orders-session',
+        icon: IconReport,
+      },
+    ],
+    adminPreorderActions: [
+      {
+        title: 'Import Pre-orders',
+        url: '/import',
+        icon: IconFileImport,
+      },
+      {
+        title: 'Process Pre-orders',
+        url: '/preorder-sales',
+        icon: IconFileDescription,
+      },
+    ],
   };
 
   return data;
@@ -199,14 +263,14 @@ const buildData = (workspace: string) => {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: session } = useSession();
   const userId = session?.user?.id as string;
-
-  console.log({ userId });
+  const isAdmin = (session?.user as any)?.isAdmin as boolean;
 
   const { data: mySession } = useMySession(userId);
 
-  console.log({ mySession });
-
-  const data = buildData(mySession?.workspace as string);
+  const data = React.useMemo(
+    () => buildData(mySession?.workspace as string, isAdmin),
+    [mySession?.workspace, isAdmin]
+  );
 
   return (
     <Sidebar collapsible='offcanvas' {...props}>
@@ -227,7 +291,18 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={[...data.common, ...data.navMain]} />
-        {/* <NavDocuments items={data.documents} /> */}
+        {isAdmin && (
+          <>
+            <NavDocuments
+              title='Pre-order Actions'
+              items={data.adminPreorderActions}
+            />
+            <NavDocuments
+              title='Pre-order Reports'
+              items={data.adminPreorderReports}
+            />
+          </>
+        )}
         {['table-manager', 'book-sales'].includes(
           mySession?.workspace as string
         ) && (

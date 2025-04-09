@@ -2497,10 +2497,12 @@ export namespace Prisma {
 
   export type BookCountOutputType = {
     sales: number
+    preorders: number
   }
 
   export type BookCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sales?: boolean | BookCountOutputTypeCountSalesArgs
+    preorders?: boolean | BookCountOutputTypeCountPreordersArgs
   }
 
   // Custom InputTypes
@@ -2519,6 +2521,13 @@ export namespace Prisma {
    */
   export type BookCountOutputTypeCountSalesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BookSaleItemWhereInput
+  }
+
+  /**
+   * BookCountOutputType without action
+   */
+  export type BookCountOutputTypeCountPreordersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OrderItemWhereInput
   }
 
 
@@ -2571,6 +2580,7 @@ export namespace Prisma {
     id: string | null
     email: string | null
     name: string | null
+    isAdmin: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2579,6 +2589,7 @@ export namespace Prisma {
     id: string | null
     email: string | null
     name: string | null
+    isAdmin: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2587,6 +2598,7 @@ export namespace Prisma {
     id: number
     email: number
     name: number
+    isAdmin: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -2597,6 +2609,7 @@ export namespace Prisma {
     id?: true
     email?: true
     name?: true
+    isAdmin?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2605,6 +2618,7 @@ export namespace Prisma {
     id?: true
     email?: true
     name?: true
+    isAdmin?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2613,6 +2627,7 @@ export namespace Prisma {
     id?: true
     email?: true
     name?: true
+    isAdmin?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -2694,6 +2709,7 @@ export namespace Prisma {
     id: string
     email: string
     name: string | null
+    isAdmin: boolean
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -2719,6 +2735,7 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     name?: boolean
+    isAdmin?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     accounts?: boolean | User$accountsArgs<ExtArgs>
@@ -2732,6 +2749,7 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     name?: boolean
+    isAdmin?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -2740,6 +2758,7 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     name?: boolean
+    isAdmin?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -2748,11 +2767,12 @@ export namespace Prisma {
     id?: boolean
     email?: boolean
     name?: boolean
+    isAdmin?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "name" | "isAdmin" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
@@ -2775,6 +2795,7 @@ export namespace Prisma {
       id: string
       email: string
       name: string | null
+      isAdmin: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["user"]>
@@ -3207,6 +3228,7 @@ export namespace Prisma {
     readonly id: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
+    readonly isAdmin: FieldRef<"User", 'Boolean'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
@@ -6965,16 +6987,19 @@ export namespace Prisma {
   export type SettingMinAggregateOutputType = {
     id: string | null
     currentSession: string | null
+    adminPassword: string | null
   }
 
   export type SettingMaxAggregateOutputType = {
     id: string | null
     currentSession: string | null
+    adminPassword: string | null
   }
 
   export type SettingCountAggregateOutputType = {
     id: number
     currentSession: number
+    adminPassword: number
     mainStoreData: number
     _all: number
   }
@@ -6983,16 +7008,19 @@ export namespace Prisma {
   export type SettingMinAggregateInputType = {
     id?: true
     currentSession?: true
+    adminPassword?: true
   }
 
   export type SettingMaxAggregateInputType = {
     id?: true
     currentSession?: true
+    adminPassword?: true
   }
 
   export type SettingCountAggregateInputType = {
     id?: true
     currentSession?: true
+    adminPassword?: true
     mainStoreData?: true
     _all?: true
   }
@@ -7072,6 +7100,7 @@ export namespace Prisma {
   export type SettingGroupByOutputType = {
     id: string
     currentSession: string | null
+    adminPassword: string | null
     mainStoreData: JsonValue | null
     _count: SettingCountAggregateOutputType | null
     _min: SettingMinAggregateOutputType | null
@@ -7095,28 +7124,32 @@ export namespace Prisma {
   export type SettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     currentSession?: boolean
+    adminPassword?: boolean
     mainStoreData?: boolean
   }, ExtArgs["result"]["setting"]>
 
   export type SettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     currentSession?: boolean
+    adminPassword?: boolean
     mainStoreData?: boolean
   }, ExtArgs["result"]["setting"]>
 
   export type SettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     currentSession?: boolean
+    adminPassword?: boolean
     mainStoreData?: boolean
   }, ExtArgs["result"]["setting"]>
 
   export type SettingSelectScalar = {
     id?: boolean
     currentSession?: boolean
+    adminPassword?: boolean
     mainStoreData?: boolean
   }
 
-  export type SettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "currentSession" | "mainStoreData", ExtArgs["result"]["setting"]>
+  export type SettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "currentSession" | "adminPassword" | "mainStoreData", ExtArgs["result"]["setting"]>
 
   export type $SettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Setting"
@@ -7124,6 +7157,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       currentSession: string | null
+      adminPassword: string | null
       mainStoreData: Prisma.JsonValue | null
     }, ExtArgs["result"]["setting"]>
     composites: {}
@@ -7550,6 +7584,7 @@ export namespace Prisma {
   interface SettingFieldRefs {
     readonly id: FieldRef<"Setting", 'String'>
     readonly currentSession: FieldRef<"Setting", 'String'>
+    readonly adminPassword: FieldRef<"Setting", 'String'>
     readonly mainStoreData: FieldRef<"Setting", 'Json'>
   }
     
@@ -9182,6 +9217,7 @@ export namespace Prisma {
     updatedAt: Date | null
     isCollected: boolean | null
     productName: string | null
+    bookId: string | null
     consolidationId: number | null
   }
 
@@ -9194,6 +9230,7 @@ export namespace Prisma {
     updatedAt: Date | null
     isCollected: boolean | null
     productName: string | null
+    bookId: string | null
     consolidationId: number | null
   }
 
@@ -9206,6 +9243,7 @@ export namespace Prisma {
     updatedAt: number
     isCollected: number
     productName: number
+    bookId: number
     consolidationId: number
     _all: number
   }
@@ -9232,6 +9270,7 @@ export namespace Prisma {
     updatedAt?: true
     isCollected?: true
     productName?: true
+    bookId?: true
     consolidationId?: true
   }
 
@@ -9244,6 +9283,7 @@ export namespace Prisma {
     updatedAt?: true
     isCollected?: true
     productName?: true
+    bookId?: true
     consolidationId?: true
   }
 
@@ -9256,6 +9296,7 @@ export namespace Prisma {
     updatedAt?: true
     isCollected?: true
     productName?: true
+    bookId?: true
     consolidationId?: true
     _all?: true
   }
@@ -9355,6 +9396,7 @@ export namespace Prisma {
     updatedAt: Date
     isCollected: boolean
     productName: string
+    bookId: string | null
     consolidationId: number | null
     _count: OrderItemCountAggregateOutputType | null
     _avg: OrderItemAvgAggregateOutputType | null
@@ -9386,8 +9428,10 @@ export namespace Prisma {
     updatedAt?: boolean
     isCollected?: boolean
     productName?: boolean
+    bookId?: boolean
     consolidationId?: boolean
     order?: boolean | PreOrderDefaultArgs<ExtArgs>
+    book?: boolean | OrderItem$bookArgs<ExtArgs>
     consolidation?: boolean | OrderItem$consolidationArgs<ExtArgs>
   }, ExtArgs["result"]["orderItem"]>
 
@@ -9400,8 +9444,10 @@ export namespace Prisma {
     updatedAt?: boolean
     isCollected?: boolean
     productName?: boolean
+    bookId?: boolean
     consolidationId?: boolean
     order?: boolean | PreOrderDefaultArgs<ExtArgs>
+    book?: boolean | OrderItem$bookArgs<ExtArgs>
     consolidation?: boolean | OrderItem$consolidationArgs<ExtArgs>
   }, ExtArgs["result"]["orderItem"]>
 
@@ -9414,8 +9460,10 @@ export namespace Prisma {
     updatedAt?: boolean
     isCollected?: boolean
     productName?: boolean
+    bookId?: boolean
     consolidationId?: boolean
     order?: boolean | PreOrderDefaultArgs<ExtArgs>
+    book?: boolean | OrderItem$bookArgs<ExtArgs>
     consolidation?: boolean | OrderItem$consolidationArgs<ExtArgs>
   }, ExtArgs["result"]["orderItem"]>
 
@@ -9428,20 +9476,24 @@ export namespace Prisma {
     updatedAt?: boolean
     isCollected?: boolean
     productName?: boolean
+    bookId?: boolean
     consolidationId?: boolean
   }
 
-  export type OrderItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderId" | "quantity" | "price" | "createdAt" | "updatedAt" | "isCollected" | "productName" | "consolidationId", ExtArgs["result"]["orderItem"]>
+  export type OrderItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderId" | "quantity" | "price" | "createdAt" | "updatedAt" | "isCollected" | "productName" | "bookId" | "consolidationId", ExtArgs["result"]["orderItem"]>
   export type OrderItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     order?: boolean | PreOrderDefaultArgs<ExtArgs>
+    book?: boolean | OrderItem$bookArgs<ExtArgs>
     consolidation?: boolean | OrderItem$consolidationArgs<ExtArgs>
   }
   export type OrderItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     order?: boolean | PreOrderDefaultArgs<ExtArgs>
+    book?: boolean | OrderItem$bookArgs<ExtArgs>
     consolidation?: boolean | OrderItem$consolidationArgs<ExtArgs>
   }
   export type OrderItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     order?: boolean | PreOrderDefaultArgs<ExtArgs>
+    book?: boolean | OrderItem$bookArgs<ExtArgs>
     consolidation?: boolean | OrderItem$consolidationArgs<ExtArgs>
   }
 
@@ -9449,6 +9501,7 @@ export namespace Prisma {
     name: "OrderItem"
     objects: {
       order: Prisma.$PreOrderPayload<ExtArgs>
+      book: Prisma.$BookPayload<ExtArgs> | null
       consolidation: Prisma.$ConsolidationPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -9460,6 +9513,7 @@ export namespace Prisma {
       updatedAt: Date
       isCollected: boolean
       productName: string
+      bookId: string | null
       consolidationId: number | null
     }, ExtArgs["result"]["orderItem"]>
     composites: {}
@@ -9856,6 +9910,7 @@ export namespace Prisma {
   export interface Prisma__OrderItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     order<T extends PreOrderDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PreOrderDefaultArgs<ExtArgs>>): Prisma__PreOrderClient<$Result.GetResult<Prisma.$PreOrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    book<T extends OrderItem$bookArgs<ExtArgs> = {}>(args?: Subset<T, OrderItem$bookArgs<ExtArgs>>): Prisma__BookClient<$Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     consolidation<T extends OrderItem$consolidationArgs<ExtArgs> = {}>(args?: Subset<T, OrderItem$consolidationArgs<ExtArgs>>): Prisma__ConsolidationClient<$Result.GetResult<Prisma.$ConsolidationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -9894,6 +9949,7 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"OrderItem", 'DateTime'>
     readonly isCollected: FieldRef<"OrderItem", 'Boolean'>
     readonly productName: FieldRef<"OrderItem", 'String'>
+    readonly bookId: FieldRef<"OrderItem", 'String'>
     readonly consolidationId: FieldRef<"OrderItem", 'Int'>
   }
     
@@ -10286,6 +10342,25 @@ export namespace Prisma {
      * Limit how many OrderItems to delete.
      */
     limit?: number
+  }
+
+  /**
+   * OrderItem.book
+   */
+  export type OrderItem$bookArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Book
+     */
+    select?: BookSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Book
+     */
+    omit?: BookOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookInclude<ExtArgs> | null
+    where?: BookWhereInput
   }
 
   /**
@@ -17514,6 +17589,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     sales?: boolean | Book$salesArgs<ExtArgs>
+    preorders?: boolean | Book$preordersArgs<ExtArgs>
     _count?: boolean | BookCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["book"]>
 
@@ -17565,6 +17641,7 @@ export namespace Prisma {
   export type BookOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "total" | "available" | "preorderTotal" | "preorderAvailable" | "salesTotal" | "salesAvailable" | "price" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["book"]>
   export type BookInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sales?: boolean | Book$salesArgs<ExtArgs>
+    preorders?: boolean | Book$preordersArgs<ExtArgs>
     _count?: boolean | BookCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BookIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -17574,6 +17651,7 @@ export namespace Prisma {
     name: "Book"
     objects: {
       sales: Prisma.$BookSaleItemPayload<ExtArgs>[]
+      preorders: Prisma.$OrderItemPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -17983,6 +18061,7 @@ export namespace Prisma {
   export interface Prisma__BookClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     sales<T extends Book$salesArgs<ExtArgs> = {}>(args?: Subset<T, Book$salesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookSaleItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    preorders<T extends Book$preordersArgs<ExtArgs> = {}>(args?: Subset<T, Book$preordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -18431,6 +18510,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BookSaleItemScalarFieldEnum | BookSaleItemScalarFieldEnum[]
+  }
+
+  /**
+   * Book.preorders
+   */
+  export type Book$preordersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the OrderItem
+     */
+    select?: OrderItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the OrderItem
+     */
+    omit?: OrderItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OrderItemInclude<ExtArgs> | null
+    where?: OrderItemWhereInput
+    orderBy?: OrderItemOrderByWithRelationInput | OrderItemOrderByWithRelationInput[]
+    cursor?: OrderItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OrderItemScalarFieldEnum | OrderItemScalarFieldEnum[]
   }
 
   /**
@@ -20806,6 +20909,7 @@ export namespace Prisma {
     id: 'id',
     email: 'email',
     name: 'name',
+    isAdmin: 'isAdmin',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -20857,6 +20961,7 @@ export namespace Prisma {
   export const SettingScalarFieldEnum: {
     id: 'id',
     currentSession: 'currentSession',
+    adminPassword: 'adminPassword',
     mainStoreData: 'mainStoreData'
   };
 
@@ -20891,6 +20996,7 @@ export namespace Prisma {
     updatedAt: 'updatedAt',
     isCollected: 'isCollected',
     productName: 'productName',
+    bookId: 'bookId',
     consolidationId: 'consolidationId'
   };
 
@@ -21099,6 +21205,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -21127,13 +21240,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -21150,6 +21256,7 @@ export namespace Prisma {
     id?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
     name?: StringNullableFilter<"User"> | string | null
+    isAdmin?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     accounts?: AccountListRelationFilter
@@ -21162,6 +21269,7 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrderInput | SortOrder
+    isAdmin?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     accounts?: AccountOrderByRelationAggregateInput
@@ -21177,6 +21285,7 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringNullableFilter<"User"> | string | null
+    isAdmin?: BoolFilter<"User"> | boolean
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     accounts?: AccountListRelationFilter
@@ -21189,6 +21298,7 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrderInput | SortOrder
+    isAdmin?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -21203,6 +21313,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
     name?: StringNullableWithAggregatesFilter<"User"> | string | null
+    isAdmin?: BoolWithAggregatesFilter<"User"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
@@ -21419,12 +21530,14 @@ export namespace Prisma {
     NOT?: SettingWhereInput | SettingWhereInput[]
     id?: StringFilter<"Setting"> | string
     currentSession?: StringNullableFilter<"Setting"> | string | null
+    adminPassword?: StringNullableFilter<"Setting"> | string | null
     mainStoreData?: JsonNullableFilter<"Setting">
   }
 
   export type SettingOrderByWithRelationInput = {
     id?: SortOrder
     currentSession?: SortOrderInput | SortOrder
+    adminPassword?: SortOrderInput | SortOrder
     mainStoreData?: SortOrderInput | SortOrder
   }
 
@@ -21434,12 +21547,14 @@ export namespace Prisma {
     OR?: SettingWhereInput[]
     NOT?: SettingWhereInput | SettingWhereInput[]
     currentSession?: StringNullableFilter<"Setting"> | string | null
+    adminPassword?: StringNullableFilter<"Setting"> | string | null
     mainStoreData?: JsonNullableFilter<"Setting">
   }, "id">
 
   export type SettingOrderByWithAggregationInput = {
     id?: SortOrder
     currentSession?: SortOrderInput | SortOrder
+    adminPassword?: SortOrderInput | SortOrder
     mainStoreData?: SortOrderInput | SortOrder
     _count?: SettingCountOrderByAggregateInput
     _max?: SettingMaxOrderByAggregateInput
@@ -21452,6 +21567,7 @@ export namespace Prisma {
     NOT?: SettingScalarWhereWithAggregatesInput | SettingScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Setting"> | string
     currentSession?: StringNullableWithAggregatesFilter<"Setting"> | string | null
+    adminPassword?: StringNullableWithAggregatesFilter<"Setting"> | string | null
     mainStoreData?: JsonNullableWithAggregatesFilter<"Setting">
   }
 
@@ -21567,8 +21683,10 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"OrderItem"> | Date | string
     isCollected?: BoolFilter<"OrderItem"> | boolean
     productName?: StringFilter<"OrderItem"> | string
+    bookId?: StringNullableFilter<"OrderItem"> | string | null
     consolidationId?: IntNullableFilter<"OrderItem"> | number | null
     order?: XOR<PreOrderScalarRelationFilter, PreOrderWhereInput>
+    book?: XOR<BookNullableScalarRelationFilter, BookWhereInput> | null
     consolidation?: XOR<ConsolidationNullableScalarRelationFilter, ConsolidationWhereInput> | null
   }
 
@@ -21581,8 +21699,10 @@ export namespace Prisma {
     updatedAt?: SortOrder
     isCollected?: SortOrder
     productName?: SortOrder
+    bookId?: SortOrderInput | SortOrder
     consolidationId?: SortOrderInput | SortOrder
     order?: PreOrderOrderByWithRelationInput
+    book?: BookOrderByWithRelationInput
     consolidation?: ConsolidationOrderByWithRelationInput
   }
 
@@ -21598,8 +21718,10 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"OrderItem"> | Date | string
     isCollected?: BoolFilter<"OrderItem"> | boolean
     productName?: StringFilter<"OrderItem"> | string
+    bookId?: StringNullableFilter<"OrderItem"> | string | null
     consolidationId?: IntNullableFilter<"OrderItem"> | number | null
     order?: XOR<PreOrderScalarRelationFilter, PreOrderWhereInput>
+    book?: XOR<BookNullableScalarRelationFilter, BookWhereInput> | null
     consolidation?: XOR<ConsolidationNullableScalarRelationFilter, ConsolidationWhereInput> | null
   }, "id">
 
@@ -21612,6 +21734,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     isCollected?: SortOrder
     productName?: SortOrder
+    bookId?: SortOrderInput | SortOrder
     consolidationId?: SortOrderInput | SortOrder
     _count?: OrderItemCountOrderByAggregateInput
     _avg?: OrderItemAvgOrderByAggregateInput
@@ -21632,6 +21755,7 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"OrderItem"> | Date | string
     isCollected?: BoolWithAggregatesFilter<"OrderItem"> | boolean
     productName?: StringWithAggregatesFilter<"OrderItem"> | string
+    bookId?: StringNullableWithAggregatesFilter<"OrderItem"> | string | null
     consolidationId?: IntNullableWithAggregatesFilter<"OrderItem"> | number | null
   }
 
@@ -22135,6 +22259,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Book"> | Date | string
     updatedAt?: DateTimeFilter<"Book"> | Date | string
     sales?: BookSaleItemListRelationFilter
+    preorders?: OrderItemListRelationFilter
   }
 
   export type BookOrderByWithRelationInput = {
@@ -22151,6 +22276,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     sales?: BookSaleItemOrderByRelationAggregateInput
+    preorders?: OrderItemOrderByRelationAggregateInput
   }
 
   export type BookWhereUniqueInput = Prisma.AtLeast<{
@@ -22170,6 +22296,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Book"> | Date | string
     updatedAt?: DateTimeFilter<"Book"> | Date | string
     sales?: BookSaleItemListRelationFilter
+    preorders?: OrderItemListRelationFilter
   }, "id">
 
   export type BookOrderByWithAggregationInput = {
@@ -22379,6 +22506,7 @@ export namespace Prisma {
     id?: string
     email: string
     name?: string | null
+    isAdmin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -22391,6 +22519,7 @@ export namespace Prisma {
     id?: string
     email: string
     name?: string | null
+    isAdmin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -22403,6 +22532,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -22415,6 +22545,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -22427,6 +22558,7 @@ export namespace Prisma {
     id?: string
     email: string
     name?: string | null
+    isAdmin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -22435,6 +22567,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22443,6 +22576,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22672,42 +22806,49 @@ export namespace Prisma {
   export type SettingCreateInput = {
     id: string
     currentSession?: string | null
+    adminPassword?: string | null
     mainStoreData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type SettingUncheckedCreateInput = {
     id: string
     currentSession?: string | null
+    adminPassword?: string | null
     mainStoreData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type SettingUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     currentSession?: NullableStringFieldUpdateOperationsInput | string | null
+    adminPassword?: NullableStringFieldUpdateOperationsInput | string | null
     mainStoreData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type SettingUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     currentSession?: NullableStringFieldUpdateOperationsInput | string | null
+    adminPassword?: NullableStringFieldUpdateOperationsInput | string | null
     mainStoreData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type SettingCreateManyInput = {
     id: string
     currentSession?: string | null
+    adminPassword?: string | null
     mainStoreData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type SettingUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     currentSession?: NullableStringFieldUpdateOperationsInput | string | null
+    adminPassword?: NullableStringFieldUpdateOperationsInput | string | null
     mainStoreData?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type SettingUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     currentSession?: NullableStringFieldUpdateOperationsInput | string | null
+    adminPassword?: NullableStringFieldUpdateOperationsInput | string | null
     mainStoreData?: NullableJsonNullValueInput | InputJsonValue
   }
 
@@ -22840,6 +22981,7 @@ export namespace Prisma {
     isCollected?: boolean
     productName: string
     order: PreOrderCreateNestedOneWithoutItemsInput
+    book?: BookCreateNestedOneWithoutPreordersInput
     consolidation?: ConsolidationCreateNestedOneWithoutItemsInput
   }
 
@@ -22852,6 +22994,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     isCollected?: boolean
     productName: string
+    bookId?: string | null
     consolidationId?: number | null
   }
 
@@ -22864,6 +23007,7 @@ export namespace Prisma {
     isCollected?: BoolFieldUpdateOperationsInput | boolean
     productName?: StringFieldUpdateOperationsInput | string
     order?: PreOrderUpdateOneRequiredWithoutItemsNestedInput
+    book?: BookUpdateOneWithoutPreordersNestedInput
     consolidation?: ConsolidationUpdateOneWithoutItemsNestedInput
   }
 
@@ -22876,6 +23020,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isCollected?: BoolFieldUpdateOperationsInput | boolean
     productName?: StringFieldUpdateOperationsInput | string
+    bookId?: NullableStringFieldUpdateOperationsInput | string | null
     consolidationId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
@@ -22888,6 +23033,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     isCollected?: boolean
     productName: string
+    bookId?: string | null
     consolidationId?: number | null
   }
 
@@ -22910,6 +23056,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isCollected?: BoolFieldUpdateOperationsInput | boolean
     productName?: StringFieldUpdateOperationsInput | string
+    bookId?: NullableStringFieldUpdateOperationsInput | string | null
     consolidationId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
@@ -23459,6 +23606,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sales?: BookSaleItemCreateNestedManyWithoutBookInput
+    preorders?: OrderItemCreateNestedManyWithoutBookInput
   }
 
   export type BookUncheckedCreateInput = {
@@ -23475,6 +23623,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sales?: BookSaleItemUncheckedCreateNestedManyWithoutBookInput
+    preorders?: OrderItemUncheckedCreateNestedManyWithoutBookInput
   }
 
   export type BookUpdateInput = {
@@ -23491,6 +23640,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sales?: BookSaleItemUpdateManyWithoutBookNestedInput
+    preorders?: OrderItemUpdateManyWithoutBookNestedInput
   }
 
   export type BookUncheckedUpdateInput = {
@@ -23507,6 +23657,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sales?: BookSaleItemUncheckedUpdateManyWithoutBookNestedInput
+    preorders?: OrderItemUncheckedUpdateManyWithoutBookNestedInput
   }
 
   export type BookCreateManyInput = {
@@ -23758,6 +23909,11 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[]
@@ -23818,6 +23974,7 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrder
+    isAdmin?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -23826,6 +23983,7 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrder
+    isAdmin?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -23834,6 +23992,7 @@ export namespace Prisma {
     id?: SortOrder
     email?: SortOrder
     name?: SortOrder
+    isAdmin?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -23870,6 +24029,14 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -24053,17 +24220,20 @@ export namespace Prisma {
   export type SettingCountOrderByAggregateInput = {
     id?: SortOrder
     currentSession?: SortOrder
+    adminPassword?: SortOrder
     mainStoreData?: SortOrder
   }
 
   export type SettingMaxOrderByAggregateInput = {
     id?: SortOrder
     currentSession?: SortOrder
+    adminPassword?: SortOrder
   }
 
   export type SettingMinOrderByAggregateInput = {
     id?: SortOrder
     currentSession?: SortOrder
+    adminPassword?: SortOrder
   }
   export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
     | PatchUndefined<
@@ -24085,11 +24255,6 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedJsonNullableFilter<$PrismaModel>
     _max?: NestedJsonNullableFilter<$PrismaModel>
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type DateTimeNullableFilter<$PrismaModel = never> = {
@@ -24180,14 +24345,6 @@ export namespace Prisma {
     total?: SortOrder
   }
 
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | null
@@ -24234,6 +24391,11 @@ export namespace Prisma {
     isNot?: PreOrderWhereInput
   }
 
+  export type BookNullableScalarRelationFilter = {
+    is?: BookWhereInput | null
+    isNot?: BookWhereInput | null
+  }
+
   export type ConsolidationNullableScalarRelationFilter = {
     is?: ConsolidationWhereInput | null
     isNot?: ConsolidationWhereInput | null
@@ -24248,6 +24410,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     isCollected?: SortOrder
     productName?: SortOrder
+    bookId?: SortOrder
     consolidationId?: SortOrder
   }
 
@@ -24266,6 +24429,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     isCollected?: SortOrder
     productName?: SortOrder
+    bookId?: SortOrder
     consolidationId?: SortOrder
   }
 
@@ -24278,6 +24442,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     isCollected?: SortOrder
     productName?: SortOrder
+    bookId?: SortOrder
     consolidationId?: SortOrder
   }
 
@@ -24834,6 +24999,10 @@ export namespace Prisma {
     set?: string | null
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
   }
@@ -25014,10 +25183,6 @@ export namespace Prisma {
     connect?: ConsolidationWhereUniqueInput | ConsolidationWhereUniqueInput[]
   }
 
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
   }
@@ -25092,6 +25257,12 @@ export namespace Prisma {
     connect?: PreOrderWhereUniqueInput
   }
 
+  export type BookCreateNestedOneWithoutPreordersInput = {
+    create?: XOR<BookCreateWithoutPreordersInput, BookUncheckedCreateWithoutPreordersInput>
+    connectOrCreate?: BookCreateOrConnectWithoutPreordersInput
+    connect?: BookWhereUniqueInput
+  }
+
   export type ConsolidationCreateNestedOneWithoutItemsInput = {
     create?: XOR<ConsolidationCreateWithoutItemsInput, ConsolidationUncheckedCreateWithoutItemsInput>
     connectOrCreate?: ConsolidationCreateOrConnectWithoutItemsInput
@@ -25112,6 +25283,16 @@ export namespace Prisma {
     upsert?: PreOrderUpsertWithoutItemsInput
     connect?: PreOrderWhereUniqueInput
     update?: XOR<XOR<PreOrderUpdateToOneWithWhereWithoutItemsInput, PreOrderUpdateWithoutItemsInput>, PreOrderUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type BookUpdateOneWithoutPreordersNestedInput = {
+    create?: XOR<BookCreateWithoutPreordersInput, BookUncheckedCreateWithoutPreordersInput>
+    connectOrCreate?: BookCreateOrConnectWithoutPreordersInput
+    upsert?: BookUpsertWithoutPreordersInput
+    disconnect?: BookWhereInput | boolean
+    delete?: BookWhereInput | boolean
+    connect?: BookWhereUniqueInput
+    update?: XOR<XOR<BookUpdateToOneWithWhereWithoutPreordersInput, BookUpdateWithoutPreordersInput>, BookUncheckedUpdateWithoutPreordersInput>
   }
 
   export type ConsolidationUpdateOneWithoutItemsNestedInput = {
@@ -25491,11 +25672,25 @@ export namespace Prisma {
     connect?: BookSaleItemWhereUniqueInput | BookSaleItemWhereUniqueInput[]
   }
 
+  export type OrderItemCreateNestedManyWithoutBookInput = {
+    create?: XOR<OrderItemCreateWithoutBookInput, OrderItemUncheckedCreateWithoutBookInput> | OrderItemCreateWithoutBookInput[] | OrderItemUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: OrderItemCreateOrConnectWithoutBookInput | OrderItemCreateOrConnectWithoutBookInput[]
+    createMany?: OrderItemCreateManyBookInputEnvelope
+    connect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
+  }
+
   export type BookSaleItemUncheckedCreateNestedManyWithoutBookInput = {
     create?: XOR<BookSaleItemCreateWithoutBookInput, BookSaleItemUncheckedCreateWithoutBookInput> | BookSaleItemCreateWithoutBookInput[] | BookSaleItemUncheckedCreateWithoutBookInput[]
     connectOrCreate?: BookSaleItemCreateOrConnectWithoutBookInput | BookSaleItemCreateOrConnectWithoutBookInput[]
     createMany?: BookSaleItemCreateManyBookInputEnvelope
     connect?: BookSaleItemWhereUniqueInput | BookSaleItemWhereUniqueInput[]
+  }
+
+  export type OrderItemUncheckedCreateNestedManyWithoutBookInput = {
+    create?: XOR<OrderItemCreateWithoutBookInput, OrderItemUncheckedCreateWithoutBookInput> | OrderItemCreateWithoutBookInput[] | OrderItemUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: OrderItemCreateOrConnectWithoutBookInput | OrderItemCreateOrConnectWithoutBookInput[]
+    createMany?: OrderItemCreateManyBookInputEnvelope
+    connect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
   }
 
   export type BookSaleItemUpdateManyWithoutBookNestedInput = {
@@ -25512,6 +25707,20 @@ export namespace Prisma {
     deleteMany?: BookSaleItemScalarWhereInput | BookSaleItemScalarWhereInput[]
   }
 
+  export type OrderItemUpdateManyWithoutBookNestedInput = {
+    create?: XOR<OrderItemCreateWithoutBookInput, OrderItemUncheckedCreateWithoutBookInput> | OrderItemCreateWithoutBookInput[] | OrderItemUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: OrderItemCreateOrConnectWithoutBookInput | OrderItemCreateOrConnectWithoutBookInput[]
+    upsert?: OrderItemUpsertWithWhereUniqueWithoutBookInput | OrderItemUpsertWithWhereUniqueWithoutBookInput[]
+    createMany?: OrderItemCreateManyBookInputEnvelope
+    set?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
+    disconnect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
+    delete?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
+    connect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
+    update?: OrderItemUpdateWithWhereUniqueWithoutBookInput | OrderItemUpdateWithWhereUniqueWithoutBookInput[]
+    updateMany?: OrderItemUpdateManyWithWhereWithoutBookInput | OrderItemUpdateManyWithWhereWithoutBookInput[]
+    deleteMany?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
+  }
+
   export type BookSaleItemUncheckedUpdateManyWithoutBookNestedInput = {
     create?: XOR<BookSaleItemCreateWithoutBookInput, BookSaleItemUncheckedCreateWithoutBookInput> | BookSaleItemCreateWithoutBookInput[] | BookSaleItemUncheckedCreateWithoutBookInput[]
     connectOrCreate?: BookSaleItemCreateOrConnectWithoutBookInput | BookSaleItemCreateOrConnectWithoutBookInput[]
@@ -25524,6 +25733,20 @@ export namespace Prisma {
     update?: BookSaleItemUpdateWithWhereUniqueWithoutBookInput | BookSaleItemUpdateWithWhereUniqueWithoutBookInput[]
     updateMany?: BookSaleItemUpdateManyWithWhereWithoutBookInput | BookSaleItemUpdateManyWithWhereWithoutBookInput[]
     deleteMany?: BookSaleItemScalarWhereInput | BookSaleItemScalarWhereInput[]
+  }
+
+  export type OrderItemUncheckedUpdateManyWithoutBookNestedInput = {
+    create?: XOR<OrderItemCreateWithoutBookInput, OrderItemUncheckedCreateWithoutBookInput> | OrderItemCreateWithoutBookInput[] | OrderItemUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: OrderItemCreateOrConnectWithoutBookInput | OrderItemCreateOrConnectWithoutBookInput[]
+    upsert?: OrderItemUpsertWithWhereUniqueWithoutBookInput | OrderItemUpsertWithWhereUniqueWithoutBookInput[]
+    createMany?: OrderItemCreateManyBookInputEnvelope
+    set?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
+    disconnect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
+    delete?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
+    connect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
+    update?: OrderItemUpdateWithWhereUniqueWithoutBookInput | OrderItemUpdateWithWhereUniqueWithoutBookInput[]
+    updateMany?: OrderItemUpdateManyWithWhereWithoutBookInput | OrderItemUpdateManyWithWhereWithoutBookInput[]
+    deleteMany?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
   }
 
   export type BookSaleItemCreateNestedManyWithoutBookSaleInput = {
@@ -25638,6 +25861,11 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[]
@@ -25705,6 +25933,14 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[]
@@ -25764,11 +26000,6 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | null
@@ -25789,14 +26020,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -26125,6 +26348,7 @@ export namespace Prisma {
     id?: string
     email: string
     name?: string | null
+    isAdmin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -26136,6 +26360,7 @@ export namespace Prisma {
     id?: string
     email: string
     name?: string | null
+    isAdmin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -26163,6 +26388,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -26174,6 +26400,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -26185,6 +26412,7 @@ export namespace Prisma {
     id?: string
     email: string
     name?: string | null
+    isAdmin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -26196,6 +26424,7 @@ export namespace Prisma {
     id?: string
     email: string
     name?: string | null
+    isAdmin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -26223,6 +26452,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -26234,6 +26464,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -26249,6 +26480,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     isCollected?: boolean
     productName: string
+    book?: BookCreateNestedOneWithoutPreordersInput
     consolidation?: ConsolidationCreateNestedOneWithoutItemsInput
   }
 
@@ -26260,6 +26492,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     isCollected?: boolean
     productName: string
+    bookId?: string | null
     consolidationId?: number | null
   }
 
@@ -26328,6 +26561,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"OrderItem"> | Date | string
     isCollected?: BoolFilter<"OrderItem"> | boolean
     productName?: StringFilter<"OrderItem"> | string
+    bookId?: StringNullableFilter<"OrderItem"> | string | null
     consolidationId?: IntNullableFilter<"OrderItem"> | number | null
   }
 
@@ -26384,6 +26618,43 @@ export namespace Prisma {
   export type PreOrderCreateOrConnectWithoutItemsInput = {
     where: PreOrderWhereUniqueInput
     create: XOR<PreOrderCreateWithoutItemsInput, PreOrderUncheckedCreateWithoutItemsInput>
+  }
+
+  export type BookCreateWithoutPreordersInput = {
+    id?: string
+    title: string
+    total: number
+    available: number
+    preorderTotal: number
+    preorderAvailable: number
+    salesTotal: number
+    salesAvailable: number
+    price: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sales?: BookSaleItemCreateNestedManyWithoutBookInput
+  }
+
+  export type BookUncheckedCreateWithoutPreordersInput = {
+    id?: string
+    title: string
+    total: number
+    available: number
+    preorderTotal: number
+    preorderAvailable: number
+    salesTotal: number
+    salesAvailable: number
+    price: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sales?: BookSaleItemUncheckedCreateNestedManyWithoutBookInput
+  }
+
+  export type BookCreateOrConnectWithoutPreordersInput = {
+    where: BookWhereUniqueInput
+    create: XOR<BookCreateWithoutPreordersInput, BookUncheckedCreateWithoutPreordersInput>
   }
 
   export type ConsolidationCreateWithoutItemsInput = {
@@ -26455,6 +26726,49 @@ export namespace Prisma {
     consolidations?: ConsolidationUncheckedUpdateManyWithoutOrderNestedInput
   }
 
+  export type BookUpsertWithoutPreordersInput = {
+    update: XOR<BookUpdateWithoutPreordersInput, BookUncheckedUpdateWithoutPreordersInput>
+    create: XOR<BookCreateWithoutPreordersInput, BookUncheckedCreateWithoutPreordersInput>
+    where?: BookWhereInput
+  }
+
+  export type BookUpdateToOneWithWhereWithoutPreordersInput = {
+    where?: BookWhereInput
+    data: XOR<BookUpdateWithoutPreordersInput, BookUncheckedUpdateWithoutPreordersInput>
+  }
+
+  export type BookUpdateWithoutPreordersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    total?: IntFieldUpdateOperationsInput | number
+    available?: IntFieldUpdateOperationsInput | number
+    preorderTotal?: IntFieldUpdateOperationsInput | number
+    preorderAvailable?: IntFieldUpdateOperationsInput | number
+    salesTotal?: IntFieldUpdateOperationsInput | number
+    salesAvailable?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sales?: BookSaleItemUpdateManyWithoutBookNestedInput
+  }
+
+  export type BookUncheckedUpdateWithoutPreordersInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    total?: IntFieldUpdateOperationsInput | number
+    available?: IntFieldUpdateOperationsInput | number
+    preorderTotal?: IntFieldUpdateOperationsInput | number
+    preorderAvailable?: IntFieldUpdateOperationsInput | number
+    salesTotal?: IntFieldUpdateOperationsInput | number
+    salesAvailable?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sales?: BookSaleItemUncheckedUpdateManyWithoutBookNestedInput
+  }
+
   export type ConsolidationUpsertWithoutItemsInput = {
     update: XOR<ConsolidationUpdateWithoutItemsInput, ConsolidationUncheckedUpdateWithoutItemsInput>
     create: XOR<ConsolidationCreateWithoutItemsInput, ConsolidationUncheckedCreateWithoutItemsInput>
@@ -26489,6 +26803,7 @@ export namespace Prisma {
     id?: string
     email: string
     name?: string | null
+    isAdmin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -26500,6 +26815,7 @@ export namespace Prisma {
     id?: string
     email: string
     name?: string | null
+    isAdmin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -26560,6 +26876,7 @@ export namespace Prisma {
     isCollected?: boolean
     productName: string
     order: PreOrderCreateNestedOneWithoutItemsInput
+    book?: BookCreateNestedOneWithoutPreordersInput
   }
 
   export type OrderItemUncheckedCreateWithoutConsolidationInput = {
@@ -26571,6 +26888,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     isCollected?: boolean
     productName: string
+    bookId?: string | null
   }
 
   export type OrderItemCreateOrConnectWithoutConsolidationInput = {
@@ -26597,6 +26915,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -26608,6 +26927,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -26859,6 +27179,7 @@ export namespace Prisma {
     id?: string
     email: string
     name?: string | null
+    isAdmin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -26870,6 +27191,7 @@ export namespace Prisma {
     id?: string
     email: string
     name?: string | null
+    isAdmin?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -27017,6 +27339,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -27028,6 +27351,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -27312,6 +27636,39 @@ export namespace Prisma {
     data: BookSaleItemCreateManyBookInput | BookSaleItemCreateManyBookInput[]
   }
 
+  export type OrderItemCreateWithoutBookInput = {
+    id: string
+    quantity: number
+    price: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isCollected?: boolean
+    productName: string
+    order: PreOrderCreateNestedOneWithoutItemsInput
+    consolidation?: ConsolidationCreateNestedOneWithoutItemsInput
+  }
+
+  export type OrderItemUncheckedCreateWithoutBookInput = {
+    id: string
+    orderId: string
+    quantity: number
+    price: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isCollected?: boolean
+    productName: string
+    consolidationId?: number | null
+  }
+
+  export type OrderItemCreateOrConnectWithoutBookInput = {
+    where: OrderItemWhereUniqueInput
+    create: XOR<OrderItemCreateWithoutBookInput, OrderItemUncheckedCreateWithoutBookInput>
+  }
+
+  export type OrderItemCreateManyBookInputEnvelope = {
+    data: OrderItemCreateManyBookInput | OrderItemCreateManyBookInput[]
+  }
+
   export type BookSaleItemUpsertWithWhereUniqueWithoutBookInput = {
     where: BookSaleItemWhereUniqueInput
     update: XOR<BookSaleItemUpdateWithoutBookInput, BookSaleItemUncheckedUpdateWithoutBookInput>
@@ -27339,6 +27696,22 @@ export namespace Prisma {
     price?: FloatFilter<"BookSaleItem"> | number
     createdAt?: DateTimeFilter<"BookSaleItem"> | Date | string
     updatedAt?: DateTimeFilter<"BookSaleItem"> | Date | string
+  }
+
+  export type OrderItemUpsertWithWhereUniqueWithoutBookInput = {
+    where: OrderItemWhereUniqueInput
+    update: XOR<OrderItemUpdateWithoutBookInput, OrderItemUncheckedUpdateWithoutBookInput>
+    create: XOR<OrderItemCreateWithoutBookInput, OrderItemUncheckedCreateWithoutBookInput>
+  }
+
+  export type OrderItemUpdateWithWhereUniqueWithoutBookInput = {
+    where: OrderItemWhereUniqueInput
+    data: XOR<OrderItemUpdateWithoutBookInput, OrderItemUncheckedUpdateWithoutBookInput>
+  }
+
+  export type OrderItemUpdateManyWithWhereWithoutBookInput = {
+    where: OrderItemScalarWhereInput
+    data: XOR<OrderItemUpdateManyMutationInput, OrderItemUncheckedUpdateManyWithoutBookInput>
   }
 
   export type BookSaleItemCreateWithoutBookSaleInput = {
@@ -27508,6 +27881,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    preorders?: OrderItemCreateNestedManyWithoutBookInput
   }
 
   export type BookUncheckedCreateWithoutSalesInput = {
@@ -27523,6 +27897,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    preorders?: OrderItemUncheckedCreateNestedManyWithoutBookInput
   }
 
   export type BookCreateOrConnectWithoutSalesInput = {
@@ -27595,6 +27970,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preorders?: OrderItemUpdateManyWithoutBookNestedInput
   }
 
   export type BookUncheckedUpdateWithoutSalesInput = {
@@ -27610,6 +27986,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preorders?: OrderItemUncheckedUpdateManyWithoutBookNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -27809,6 +28186,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     isCollected?: boolean
     productName: string
+    bookId?: string | null
     consolidationId?: number | null
   }
 
@@ -27829,6 +28207,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isCollected?: BoolFieldUpdateOperationsInput | boolean
     productName?: StringFieldUpdateOperationsInput | string
+    book?: BookUpdateOneWithoutPreordersNestedInput
     consolidation?: ConsolidationUpdateOneWithoutItemsNestedInput
   }
 
@@ -27840,6 +28219,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isCollected?: BoolFieldUpdateOperationsInput | boolean
     productName?: StringFieldUpdateOperationsInput | string
+    bookId?: NullableStringFieldUpdateOperationsInput | string | null
     consolidationId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
@@ -27851,6 +28231,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isCollected?: BoolFieldUpdateOperationsInput | boolean
     productName?: StringFieldUpdateOperationsInput | string
+    bookId?: NullableStringFieldUpdateOperationsInput | string | null
     consolidationId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
@@ -27891,6 +28272,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     isCollected?: boolean
     productName: string
+    bookId?: string | null
   }
 
   export type OrderItemUpdateWithoutConsolidationInput = {
@@ -27902,6 +28284,7 @@ export namespace Prisma {
     isCollected?: BoolFieldUpdateOperationsInput | boolean
     productName?: StringFieldUpdateOperationsInput | string
     order?: PreOrderUpdateOneRequiredWithoutItemsNestedInput
+    book?: BookUpdateOneWithoutPreordersNestedInput
   }
 
   export type OrderItemUncheckedUpdateWithoutConsolidationInput = {
@@ -27913,6 +28296,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isCollected?: BoolFieldUpdateOperationsInput | boolean
     productName?: StringFieldUpdateOperationsInput | string
+    bookId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type OrderItemUncheckedUpdateManyWithoutConsolidationInput = {
@@ -27924,6 +28308,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isCollected?: BoolFieldUpdateOperationsInput | boolean
     productName?: StringFieldUpdateOperationsInput | string
+    bookId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MySessionCreateManyPreorderSessionInput = {
@@ -28217,6 +28602,18 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type OrderItemCreateManyBookInput = {
+    id: string
+    orderId: string
+    quantity: number
+    price: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    isCollected?: boolean
+    productName: string
+    consolidationId?: number | null
+  }
+
   export type BookSaleItemUpdateWithoutBookInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
@@ -28242,6 +28639,42 @@ export namespace Prisma {
     price?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type OrderItemUpdateWithoutBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isCollected?: BoolFieldUpdateOperationsInput | boolean
+    productName?: StringFieldUpdateOperationsInput | string
+    order?: PreOrderUpdateOneRequiredWithoutItemsNestedInput
+    consolidation?: ConsolidationUpdateOneWithoutItemsNestedInput
+  }
+
+  export type OrderItemUncheckedUpdateWithoutBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isCollected?: BoolFieldUpdateOperationsInput | boolean
+    productName?: StringFieldUpdateOperationsInput | string
+    consolidationId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type OrderItemUncheckedUpdateManyWithoutBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    orderId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    isCollected?: BoolFieldUpdateOperationsInput | boolean
+    productName?: StringFieldUpdateOperationsInput | string
+    consolidationId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type BookSaleItemCreateManyBookSaleInput = {

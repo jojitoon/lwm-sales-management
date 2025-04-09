@@ -1,18 +1,25 @@
+'use client';
 import { GalleryVerticalEnd } from 'lucide-react';
-
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Link from 'next/link';
+import { useState } from 'react';
+import { signIn } from 'next-auth/react';
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
+  const [password, setPassword] = useState('');
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    signIn('admin', { password, redirectTo: '/' });
+  };
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className='flex flex-col gap-6'>
           <div className='flex flex-col items-center gap-2'>
             <a
@@ -43,6 +50,8 @@ export function LoginForm({
                 type='password'
                 placeholder='********'
                 required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
             <Button type='submit' className='w-full'>

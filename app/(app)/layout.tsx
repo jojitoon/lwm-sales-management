@@ -3,6 +3,7 @@ import { AppSidebar } from '@/components/app-sidebar';
 import { SiteHeader } from '@/components/site-header';
 import { SidebarInset } from '@/components/ui/sidebar';
 import { SessionProvider } from 'next-auth/react';
+import { Toaster } from '@/components/ui/sonner';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -22,6 +23,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div className='@container/main flex flex-1 flex-col gap-2'>
               {children}
             </div>
+            <Toaster position='top-right' />
           </div>
         </SidebarInset>
       </SidebarProvider>
