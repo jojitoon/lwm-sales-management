@@ -11,7 +11,8 @@ const generateTableId = () => {
 export const findOrCreateUser = async (
   email: string,
   workspace: string,
-  tableId: string
+  tableId: string,
+  tableType: string
 ) => {
   let currentSessionDB = await prisma.setting.findFirst();
 
@@ -91,7 +92,9 @@ export const findOrCreateUser = async (
           session: currentSession,
           tableId: newTableId,
           name: `Table Manager ${newTableId}`,
-          data: {},
+          data: {
+            tableType,
+          },
         },
       });
     }

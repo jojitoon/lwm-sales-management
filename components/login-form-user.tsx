@@ -29,6 +29,7 @@ export function UserLoginForm({
   const [workspace, setWorkspace] = useState('');
   const [email, setEmail] = useState('');
   const [tableId, setTableId] = useState('');
+  const [tableType, setTableType] = useState('');
 
   return (
     <div className={cn('flex flex-col gap-6', className)} {...props}>
@@ -93,6 +94,26 @@ export function UserLoginForm({
                   />
                 </div>
               )}
+              {workspace === 'table-manager' && (
+                <div className='grid gap-3'>
+                  <Label htmlFor='table-id'>Table Type</Label>
+                  <Select
+                    required
+                    value={tableType}
+                    onValueChange={setTableType}
+                  >
+                    <SelectTrigger className='w-full'>
+                      <SelectValue placeholder='Select a workspace' />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value='pos'>POS</SelectItem>
+                      <SelectItem value='cash'>Cash</SelectItem>
+                      <SelectItem value='transfer'>Transfer</SelectItem>
+                      <SelectItem value='qr'>QR</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
 
               <div className='flex flex-col gap-3'>
                 <Button
@@ -103,7 +124,8 @@ export function UserLoginForm({
                       tableId,
                       email,
                       workspace,
-                      redirectTo: '/',
+                      tableType,
+                      redirectTo: location.origin,
                     });
                   }}
                 >

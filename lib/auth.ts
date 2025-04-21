@@ -17,6 +17,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         email: { label: 'Email', type: 'email' },
         workspace: { label: 'Workspace', type: 'text' },
         tableId: { label: 'Table Id', type: 'text' },
+        tableType: { label: 'Table Type', type: 'text' },
       },
       async authorize(credentials) {
         if (!credentials.email || !credentials.workspace) return null;
@@ -24,7 +25,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         const session = await findOrCreateUser(
           credentials.email as string,
           credentials.workspace as string,
-          credentials.tableId as string
+          credentials.tableId as string,
+          credentials.tableType as string
         );
 
         if (!session) return null;
@@ -96,10 +98,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       const { data: mySession } = await axios.get(
         `${request.nextUrl.origin}/api/session/${auth.user.id}`
       );
+      console.log(mySession?.session, settings?.currentSession);
 
-      console.log(mySession.session, settings.currentSession);
-
-      return mySession.session === settings.currentSession;
+      return mySession?.session === settings?.currentSession;
     },
   },
 });

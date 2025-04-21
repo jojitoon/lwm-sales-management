@@ -177,6 +177,15 @@ const buildData = (workspace: string, isAdmin: boolean) => {
     //   },
     // ],
     navSecondary: [
+      ...(isAdmin
+        ? [
+            {
+              title: 'App Settings',
+              url: '/admin/settings',
+              icon: IconSettings,
+            },
+          ]
+        : []),
       {
         title: 'Settings',
         url: '/settings',

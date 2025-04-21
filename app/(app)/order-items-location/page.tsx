@@ -1,5 +1,5 @@
 import { LocationServerFilter } from '@/components/LocationServerFilter';
-import { OrdersReportTable } from '@/components/OrdersReportTable';
+import { OrderItemTable } from '@/components/OrderItemTable';
 import { ServerDownload } from '@/components/ServerDownload';
 import { prisma } from '@/lib/prisma';
 
@@ -17,41 +17,46 @@ export default async function BookReport({
   const location = (await searchParams)?.location;
   const isCollected = (await searchParams)?.isCollected;
 
-  const orders = await prisma.preOrder.findMany({
+  const orders = await prisma.orderItem.findMany({
     where: {
       ...(location && {
-        shippingZone: location,
+        order: {
+          shippingZone: location,
+        },
       }),
       ...(isCollected && {
         isCollected: isCollected === 'Collected',
       }),
     },
     include: {
-      items: true,
+      order: true,
     },
   });
 
   const allData = await Promise.all(
     shippingZones.map(async (locate) => {
-      const locationData = await prisma.preOrder.findMany({
+      const locationData = await prisma.orderItem.findMany({
         where: {
-          shippingZone: locate,
+          order: {
+            shippingZone: locate,
+          },
           ...(isCollected && {
             isCollected: isCollected === 'Collected',
           }),
         },
         include: {
-          items: true,
+          order: true,
         },
       });
       return {
         name: locate,
         data: locationData.map((item) => ({
-          orderId: item.orderNumber,
-          email: item.email,
-          phone: item.phoneNumber,
-          name: item.fullName,
-          items: item.items?.length,
+          orderId: item.order.orderNumber,
+          email: item.order.email,
+          phone: item.order.phoneNumber,
+          name: item.order.fullName,
+          Book: item.productName,
+          quantity: item.quantity,
         })),
       };
     })
@@ -80,11 +85,12 @@ export default async function BookReport({
           />
           <ServerDownload
             data={orders.map((item) => ({
-              orderId: item.orderNumber,
-              email: item.email,
-              phone: item.phoneNumber,
-              name: item.fullName,
-              items: item?.items?.length,
+              orderId: item.order.orderNumber,
+              email: item.order.email,
+              phone: item.order.phoneNumber,
+              name: item.order.fullName,
+              Book: item.productName,
+              quantity: item.quantity,
             }))}
             name={`order_by_location_${location}_${isCollected}.xlsx`}
           />
@@ -96,7 +102,7 @@ export default async function BookReport({
           />
         </div>
       </div>
-      <OrdersReportTable data={orders} />
+      <OrderItemTable data={orders} />
     </main>
   );
 }
