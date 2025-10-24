@@ -26,11 +26,11 @@ export default async function BookLeftReport({
             },
           }
         : {
-            order: {
-              shippingZone: {
-                notIn: ['SCC Ogudu', 'SCC Surulere', 'SCC Yaba'],
-              },
-            },
+            // order: {
+            //   shippingZone: {
+            //     // notIn: ['SCC Ogudu', 'SCC Surulere', 'SCC Yaba'],
+            //   },
+            // },
           }),
     },
     by: ['productName'],
