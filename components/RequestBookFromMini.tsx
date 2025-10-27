@@ -25,23 +25,37 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { toast } from 'sonner';
 
-interface RequestBookFromMainProps {
+interface RequestBookFromMiniProps {
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
-export function RequestBookFromMain({
+export function RequestBookFromMini({
   open,
   setOpen,
-}: RequestBookFromMainProps) {
+}: RequestBookFromMiniProps) {
   const [selectedBook, setSelectedBook] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [availableBooks, setAvailableBooks] = useState<any[]>([]);
 
+  useEffect(() => {
+    if (open) {
+      // Fetch available books from mini store
+      axios
+        .get('/api/books/mini-store-stock')
+        .then((response) => {
+          setAvailableBooks(response.data);
+        })
+        .catch((error) => {
+          console.error('Failed to fetch mini store stock:', error);
+        });
+    }
+  }, [open]);
+
   const mutation = useMutation({
     mutationFn: async (requestData: any) => {
       const response = await axios.post(
-        '/api/requests/main-store',
+        '/api/requests/mini-store',
         requestData
       );
       return response.data;
@@ -57,20 +71,6 @@ export function RequestBookFromMain({
       toast.error(error.response?.data?.message || 'Failed to send request');
     },
   });
-
-  useEffect(() => {
-    if (open) {
-      // Fetch available books from main store
-      axios
-        .get('/api/books/main-store-stock')
-        .then((response) => {
-          setAvailableBooks(response.data);
-        })
-        .catch((error) => {
-          console.error('Failed to fetch main store stock:', error);
-        });
-    }
-  }, [open]);
 
   const handleSave = () => {
     if (!selectedBook || quantity <= 0) {
@@ -88,9 +88,9 @@ export function RequestBookFromMain({
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Request Books from Main Store</DialogTitle>
+          <DialogTitle>Request Books from Mini Store</DialogTitle>
           <DialogDescription>
-            Request books from the main store for your mini store.
+            Request books from the mini store for your table.
           </DialogDescription>
         </DialogHeader>
         <div className='flex flex-col gap-4'>

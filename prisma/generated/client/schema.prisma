@@ -132,32 +132,34 @@ model Consolidation {
 }
 
 model PreorderSession {
-  id         String      @id @default(uuid())
-  session    String
-  userId     String
-  data       Json
-  isActive   Boolean     @default(true)
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  mySessions MySession[]
+  id                String             @id @default(uuid())
+  session           String
+  userId            String
+  data              Json
+  isActive          Boolean            @default(true)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  mySessions        MySession[]
+  miniStoreRequests MiniStoreRequest[]
 
   @@map("preorder_sessions")
 }
 
 model TableSaleSession {
-  id            String      @id @default(uuid())
-  name          String
-  tableId       String
-  session       String
-  managerId     String?
-  salesPersonId String?
-  data          Json?
-  soldData      Json?
-  isActive      Boolean     @default(true)
-  bookSales     BookSale[]
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-  mySessions    MySession[]
+  id                String             @id @default(uuid())
+  name              String
+  tableId           String
+  session           String
+  managerId         String?
+  salesPersonId     String?
+  data              Json?
+  soldData          Json?
+  isActive          Boolean            @default(true)
+  bookSales         BookSale[]
+  miniStoreRequests MiniStoreRequest[]
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  mySessions        MySession[]
 
   @@map("table_sale_sessions")
 }
@@ -189,32 +191,35 @@ model MySession {
 }
 
 model MiniStoreSession {
-  id              String      @id @default(uuid())
-  session         String
-  managerId       String?
-  collectedData   Json?
-  distributedData Json?
-  data            Json?
-  isActive        Boolean     @default(true)
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  mySessions      MySession[]
+  id                String             @id @default(uuid())
+  session           String
+  managerId         String?
+  collectedData     Json?
+  distributedData   Json?
+  data              Json?
+  isActive          Boolean            @default(true)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  mySessions        MySession[]
+  mainStoreRequests MainStoreRequest[]
+  miniStoreRequests MiniStoreRequest[]
 
   @@map("mini_store_sessions")
 }
 
 model MainStoreSession {
-  id              String      @id @default(uuid())
-  name            String
-  session         String
-  managerId       String?
-  collectedData   Json?
-  distributedData Json?
-  data            Json?
-  isActive        Boolean     @default(true)
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  mySessions      MySession[]
+  id                String             @id @default(uuid())
+  name              String
+  session           String
+  managerId         String?
+  collectedData     Json?
+  distributedData   Json?
+  data              Json?
+  isActive          Boolean            @default(true)
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  mySessions        MySession[]
+  mainStoreRequests MainStoreRequest[]
 
   @@map("main_store_sessions")
 }
@@ -230,6 +235,9 @@ model MainStoreRequest {
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
 
+  mainStoreSession MainStoreSession @relation(fields: [mainStoreSessionId], references: [id], onDelete: Cascade)
+  miniStoreSession MiniStoreSession @relation(fields: [miniStoreSessionId], references: [id], onDelete: Cascade)
+
   @@map("main_store_requests")
 }
 
@@ -244,6 +252,10 @@ model MiniStoreRequest {
   wasApproved        Boolean  @default(false)
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
+
+  miniStoreSession MiniStoreSession  @relation(fields: [miniStoreSessionId], references: [id], onDelete: Cascade)
+  tableSaleSession TableSaleSession? @relation(fields: [tableSaleSessionId], references: [id], onDelete: Cascade)
+  preorderSession  PreorderSession?  @relation(fields: [preorderSessionId], references: [id], onDelete: Cascade)
 
   @@map("mini_store_requests")
 }

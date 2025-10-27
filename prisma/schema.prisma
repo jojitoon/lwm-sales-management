@@ -140,6 +140,7 @@ model PreorderSession {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   mySessions MySession[]
+  miniStoreRequests MiniStoreRequest[]
 
   @@map("preorder_sessions")
 }
@@ -155,6 +156,7 @@ model TableSaleSession {
   soldData Json?
   isActive Boolean @default(true)
   bookSales BookSale[]
+  miniStoreRequests MiniStoreRequest[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   mySessions MySession[]
@@ -199,6 +201,8 @@ model MiniStoreSession {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   mySessions MySession[]
+  mainStoreRequests MainStoreRequest[]
+  miniStoreRequests MiniStoreRequest[]
 
   @@map("mini_store_sessions")
 }
@@ -215,6 +219,7 @@ model MainStoreSession {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   mySessions MySession[]
+  mainStoreRequests MainStoreRequest[]
 
   @@map("main_store_sessions")
 }
@@ -230,6 +235,9 @@ model MainStoreRequest {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  mainStoreSession MainStoreSession @relation(fields: [mainStoreSessionId], references: [id], onDelete: Cascade)
+  miniStoreSession MiniStoreSession @relation(fields: [miniStoreSessionId], references: [id], onDelete: Cascade)
+
   @@map("main_store_requests")
 }
 model MiniStoreRequest {
@@ -243,6 +251,10 @@ model MiniStoreRequest {
   wasApproved Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  miniStoreSession MiniStoreSession @relation(fields: [miniStoreSessionId], references: [id], onDelete: Cascade)
+  tableSaleSession TableSaleSession? @relation(fields: [tableSaleSessionId], references: [id], onDelete: Cascade)
+  preorderSession PreorderSession? @relation(fields: [preorderSessionId], references: [id], onDelete: Cascade)
 
   @@map("mini_store_requests")
 }

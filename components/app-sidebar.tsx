@@ -50,7 +50,7 @@ const buildData = (workspace: string, isAdmin: boolean) => {
           },
           {
             title: 'Requests',
-            url: '#',
+            url: '/requests-main-store',
             icon: IconFileDescription,
           },
         ];
@@ -58,12 +58,12 @@ const buildData = (workspace: string, isAdmin: boolean) => {
         return [
           {
             title: 'Stock',
-            url: '#',
+            url: '/books-stock-mini',
             icon: IconPackage,
           },
           {
             title: 'Requests',
-            url: '#',
+            url: '/requests-mini-store',
             icon: IconFileDescription,
           },
         ];
@@ -71,12 +71,12 @@ const buildData = (workspace: string, isAdmin: boolean) => {
         return [
           {
             title: 'Stock',
-            url: '#',
+            url: '/books-stock-table',
             icon: IconPackage,
           },
           {
             title: 'Sales',
-            url: '#',
+            url: '/book-sales',
             icon: IconFileDescription,
           },
         ];
@@ -101,9 +101,9 @@ const buildData = (workspace: string, isAdmin: boolean) => {
             icon: IconFileDescription,
           },
           {
-            title: 'Reports',
-            url: '/report-book-sales',
-            icon: IconFileDescription,
+            title: 'Stock',
+            url: '/books-stock-table',
+            icon: IconPackage,
           },
         ];
       default:

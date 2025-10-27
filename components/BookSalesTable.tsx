@@ -1,0 +1,166 @@
+'use client';
+
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+
+interface BookSalesTableProps {
+  sales: any[];
+}
+
+export function BookSalesTable({ sales }: BookSalesTableProps) {
+  const columns: ColumnDef<any>[] = [
+    {
+      accessorKey: 'orderNumber',
+      header: 'Order Number',
+      cell: ({ row }) => (
+        <div className='font-medium'>{row.original.orderNumber}</div>
+      ),
+    },
+    {
+      accessorKey: 'customer',
+      header: 'Customer',
+      cell: ({ row }) => (
+        <div>
+          <div className='font-medium'>{row.original.fullName}</div>
+          <div className='text-sm text-gray-500'>{row.original.email}</div>
+          {row.original.phoneNumber && (
+            <div className='text-sm text-gray-500'>
+              {row.original.phoneNumber}
+            </div>
+          )}
+        </div>
+      ),
+    },
+    {
+      accessorKey: 'items',
+      header: 'Items',
+      cell: ({ row }) => (
+        <div className='space-y-1'>
+          {row.original.items.map((item: any, index: number) => (
+            <div key={index} className='text-sm'>
+              <span className='font-medium'>{item.book.title}</span>
+              <span className='text-gray-500 ml-2'>
+                (Qty: {item.quantity} × ₦{item.price.toLocaleString()})
+              </span>
+            </div>
+          ))}
+        </div>
+      ),
+    },
+    {
+      accessorKey: 'total',
+      header: 'Total',
+      cell: ({ row }) => (
+        <div className='font-semibold'>
+          ₦{Number(row.original.total).toLocaleString()}
+        </div>
+      ),
+    },
+    {
+      accessorKey: 'createdAt',
+      header: 'Date',
+      cell: ({ row }) => (
+        <div className='text-sm'>
+          {new Date(row.original.createdAt).toLocaleDateString()}
+        </div>
+      ),
+    },
+    {
+      accessorKey: 'status',
+      header: 'Status',
+      cell: ({ row }) => (
+        <div className='flex items-center gap-2'>
+          <span
+            className={`px-2 py-1 rounded-full text-xs font-medium ${
+              row.original.isPaid
+                ? 'bg-green-100 text-green-800'
+                : 'bg-red-100 text-red-800'
+            }`}
+          >
+            {row.original.isPaid ? 'Paid' : 'Unpaid'}
+          </span>
+          <span
+            className={`px-2 py-1 rounded-full text-xs font-medium ${
+              row.original.orderStatus === 'COMPLETED'
+                ? 'bg-blue-100 text-blue-800'
+                : 'bg-yellow-100 text-yellow-800'
+            }`}
+          >
+            {row.original.orderStatus}
+          </span>
+        </div>
+      ),
+    },
+  ];
+
+  const table = useReactTable({
+    data: sales || [],
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+  });
+
+  return (
+    <div className='rounded-md border'>
+      <Table>
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                );
+              })}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && 'selected'}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={columns.length} className='h-24 text-center'>
+                No sales found.
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </div>
+  );
+}

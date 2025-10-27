@@ -94,6 +94,7 @@ export const findOrCreateUser = async (
           name: `Table Manager ${newTableId}`,
           data: {
             tableType,
+            list: [], // Initialize with empty stock list
           },
         },
       });
@@ -103,40 +104,30 @@ export const findOrCreateUser = async (
   }
 
   if (workspace === 'book-sales') {
+    // Find the existing table manager session for this table
     const tableSaleSession = await prisma.tableSaleSession.findFirst({
       where: {
         isActive: true,
         session: currentSession,
         tableId,
+        managerId: { not: null }, // This should be the original table manager
       },
     });
+
+    console.log(
+      'tableSaleSession',
+      JSON.stringify(tableSaleSession, null, 2),
+      currentSession,
+      tableId
+    );
 
     if (!tableSaleSession) {
       return null;
     }
 
-    let bookSaleSession = await prisma.tableSaleSession.findFirst({
-      where: {
-        salesPersonId: user.id,
-        isActive: true,
-        session: currentSession,
-        tableId,
-      },
-    });
-
-    if (!bookSaleSession) {
-      bookSaleSession = await prisma.tableSaleSession.create({
-        data: {
-          salesPersonId: user.id,
-          session: currentSession,
-          tableId,
-          name: `Book Sales ${tableSaleSession.name}`,
-          data: {},
-        },
-      });
-    }
-
-    workspaceModelId = bookSaleSession.id;
+    // Instead of creating a new session, we'll link the user to the existing table manager's session
+    // This way both the table manager and sales person share the same stock
+    workspaceModelId = tableSaleSession.id;
   }
 
   if (workspace === 'mini-store') {
@@ -151,7 +142,9 @@ export const findOrCreateUser = async (
       miniStoreSession = await prisma.miniStoreSession.create({
         data: {
           session: currentSession,
-          data: {},
+          data: {
+            list: [], // Initialize with empty stock list
+          },
         },
       });
     }
