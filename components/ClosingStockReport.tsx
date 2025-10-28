@@ -81,7 +81,7 @@ export function ClosingStockReport({ sessionType }: ClosingStockReportProps) {
         <div className='bg-green-50 p-4 rounded-lg text-center'>
           <div className='text-2xl font-bold text-green-600'>
             {sessions.reduce(
-              (sum, s) => sum + s.closingStockSummary.totalBooks,
+              (sum: number, s: any) => sum + s.closingStockSummary.totalBooks,
               0
             )}
           </div>
@@ -91,7 +91,10 @@ export function ClosingStockReport({ sessionType }: ClosingStockReportProps) {
           <div className='text-2xl font-bold text-purple-600'>
             ₦
             {sessions
-              .reduce((sum, s) => sum + s.closingStockSummary.totalValue, 0)
+              .reduce(
+                (sum: number, s: any) => sum + s.closingStockSummary.totalValue,
+                0
+              )
               .toLocaleString()}
           </div>
           <div className='text-gray-600'>Total Value</div>

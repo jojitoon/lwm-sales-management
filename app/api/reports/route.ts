@@ -17,10 +17,10 @@ export async function GET(request: NextRequest) {
       const session = searchParams.get('session');
       const dateFrom = searchParams.get('dateFrom');
       const dateTo = searchParams.get('dateTo');
-      const workspace = searchParams.get('workspace');
+      const workspace = searchParams.get('workspace') || 'unknown';
 
       const isAdmin = (req.auth.user as any)?.isAdmin;
-      const userId = req.auth.user.id;
+      const userId = req.auth.user.id || '';
 
       // Get current session if not specified
       const settings = await prisma.setting.findFirst({
@@ -533,7 +533,11 @@ async function getSessionClosingData(
 
   const allSessions = [
     ...mainStoreSessions.map((s) => ({ ...s, type: 'main-store' })),
-    ...miniStoreSessions.map((s) => ({ ...s, type: 'mini-store' })),
+    ...miniStoreSessions.map((s) => ({
+      ...s,
+      type: 'mini-store',
+      name: 'Mini Store',
+    })),
   ];
 
   return {

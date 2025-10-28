@@ -15,10 +15,23 @@ export default async function ReportsPage() {
   }
 
   const isAdmin = (session.user as any)?.isAdmin || false;
-  const userId = session.user.id;
+  const userId = session.user.id || '';
 
   // Get user's workspace from session
   const workspace = (session.user as any)?.workspace || 'unknown';
+
+  // If userId is empty, show error message
+  if (!userId) {
+    return (
+      <main className='px-4 lg:px-6'>
+        <div className='flex justify-center items-center h-64'>
+          <div className='text-gray-500'>
+            Unable to load reports - user ID not found
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className='px-4 lg:px-6'>
