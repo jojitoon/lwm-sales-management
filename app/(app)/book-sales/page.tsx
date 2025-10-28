@@ -43,15 +43,6 @@ export default async function BookSales() {
   // Get stock from the shared table sale session
   const stock = (mySession.tableSaleSession.data as any)?.list || [];
 
-  console.log('Book sales page - session details:', {
-    workspace: mySession.workspace,
-    tableId: mySession.tableSaleSession.tableId,
-    sessionId: mySession.tableSaleSession.id,
-    managerId: mySession.tableSaleSession.managerId,
-    salesPersonId: mySession.tableSaleSession.salesPersonId,
-    stockCount: stock.length,
-  });
-
   const tableSale = await prisma.tableSaleSession.findFirst({
     where: {
       id: mySession.tableSaleSession.id,
@@ -74,11 +65,13 @@ export default async function BookSales() {
 
   return (
     <main className='px-4 lg:px-6'>
-      <div className='flex justify-between items-center mb-8'>
-        <h1 className='text-2xl font-bold my-2'>Book Sales</h1>
-        <div className='flex items-center gap-2'>
-          <BookSalesForm availableStock={stock} />
-        </div>
+      <div className='flex justify-between items-center my-4'>
+        <h1 className='text-2xl font-bold '>Book Sales</h1>
+        {mySession?.workspace === 'book-sales' && (
+          <div className='flex items-center gap-2'>
+            <BookSalesForm availableStock={stock} />
+          </div>
+        )}
       </div>
 
       <BookSalesTable sales={tableSale?.bookSales || []} />

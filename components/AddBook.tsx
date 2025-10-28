@@ -67,6 +67,8 @@ export default function AddBook({
       setCustomTitle('');
       await revalidateBooks();
       setOpen(false);
+      // Reload the page to ensure fresh data
+      window.location.reload();
     },
     onError: (error: any) => {
       console.log(error);

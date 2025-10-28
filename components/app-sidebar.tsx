@@ -126,6 +126,11 @@ const buildData = (workspace: string, isAdmin: boolean) => {
         url: '/',
         icon: IconDashboard,
       },
+      {
+        title: 'Reports',
+        url: '/reports',
+        icon: IconReport,
+      },
     ],
     navMain: isAdmin ? adminMain : mainSwitch(),
     // navClouds: [

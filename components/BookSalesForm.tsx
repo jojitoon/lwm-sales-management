@@ -81,6 +81,8 @@ export function BookSalesForm({
       setSaleItems([]);
       setCurrentItem({ bookTitle: '', quantity: 1, price: 0 });
       queryClient.invalidateQueries({ queryKey: ['book-sales'] });
+      // Reload the page to ensure fresh data
+      window.location.reload();
     },
     onError: (error: any) => {
       toast.error(error.response?.data?.message || 'Failed to complete sale');
@@ -240,11 +242,15 @@ export function BookSalesForm({
         </Button>
       )}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className='max-w-6xl max-h-[90vh] overflow-y-auto'>
+        <DialogContent className='w-[95vw] max-w-6xl max-h-[95vh] overflow-y-auto sm:w-full'>
           <DialogHeader>
-            <DialogTitle className='text-2xl font-bold'>Book Sales</DialogTitle>
+            <DialogTitle className='text-2xl font-bold'>
+              {showConfirmation ? 'Confirm Sale' : 'Book Sales'}
+            </DialogTitle>
             <DialogDescription className='text-base'>
-              Record a new book sale and update stock inventory.
+              {showConfirmation
+                ? 'Please review the details below before completing the sale'
+                : 'Record a new book sale and update stock inventory.'}
             </DialogDescription>
           </DialogHeader>
 
@@ -255,7 +261,7 @@ export function BookSalesForm({
                 <h3 className='text-xl font-semibold text-muted-foreground'>
                   Customer Information
                 </h3>
-                <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
                   <div>
                     <Label className='text-sm font-medium'>Full Name *</Label>
                     <Input
@@ -309,7 +315,7 @@ export function BookSalesForm({
                 <h3 className='text-xl font-semibold text-muted-foreground'>
                   Add Items
                 </h3>
-                <div className='flex gap-4'>
+                <div className='space-y-4 sm:space-y-0 sm:flex sm:gap-4'>
                   <div className='flex-1'>
                     <Label className='text-sm font-medium'>Book</Label>
                     <div className='mt-1'>
@@ -334,9 +340,9 @@ export function BookSalesForm({
                             <SelectLabel>Available Books</SelectLabel>
                             {availableBooks.map((book) => (
                               <SelectItem key={book.title} value={book.title}>
-                                <div className='flex justify-between w-full'>
-                                  <span>{book.title}</span>
-                                  <span className='text-sm text-gray-500 ml-2'>
+                                <div className='flex flex-col sm:flex-row sm:justify-between w-full'>
+                                  <span className='truncate'>{book.title}</span>
+                                  <span className='text-sm text-gray-500 sm:ml-2'>
                                     Stock: {book.available} | ₦
                                     {book.price?.toLocaleString()}
                                   </span>
@@ -348,11 +354,11 @@ export function BookSalesForm({
                       </Select>
                     </div>
                   </div>
-                  <div>
+                  <div className='sm:w-24'>
                     <Label className='text-sm font-medium'>Quantity</Label>
                     <Input
                       type='number'
-                      // min='1'
+                      min='1'
                       value={currentItem.quantity}
                       onChange={(e) =>
                         setCurrentItem({
@@ -363,10 +369,14 @@ export function BookSalesForm({
                       className='mt-1'
                     />
                   </div>
-                  <div className='flex items-end'>
-                    <Button onClick={addItem} className='w-full gap-2'>
+                  <div className='sm:w-auto'>
+                    <Button
+                      onClick={addItem}
+                      className='w-full gap-2 mt-6 sm:mt-0'
+                    >
                       <IconPlus className='h-4 w-4' />
-                      Add Item
+                      <span className='hidden sm:inline'>Add Item</span>
+                      <span className='sm:hidden'>Add</span>
                     </Button>
                   </div>
                 </div>
@@ -390,70 +400,72 @@ export function BookSalesForm({
                     return (
                       <div
                         key={index}
-                        className={`flex items-center justify-between p-4 border rounded-lg bg-white shadow-sm ${
+                        className={`p-4 border rounded-lg bg-white shadow-sm ${
                           hasInsufficientStock ? 'border-red-300 bg-red-50' : ''
                         }`}
                       >
-                        <div className='flex-1'>
-                          <h4 className='font-semibold text-gray-800'>
-                            {item.bookTitle}
-                          </h4>
-                          <p className='text-sm text-gray-600'>
-                            ₦{item.price.toLocaleString()} per unit
-                          </p>
-                          <p className='text-sm text-blue-600 font-medium'>
-                            Quantity: {item.quantity} units
-                          </p>
-                          <p className='text-sm text-green-600 font-semibold'>
-                            Total: ₦
-                            {(item.price * item.quantity).toLocaleString()}
-                          </p>
-                          {hasInsufficientStock && (
-                            <p className='text-sm text-red-600 font-medium mt-1'>
-                              ⚠️ Insufficient stock! Available:{' '}
-                              {book?.available || 0}
+                        <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4'>
+                          <div className='flex-1'>
+                            <h4 className='font-semibold text-gray-800'>
+                              {item.bookTitle}
+                            </h4>
+                            <p className='text-sm text-gray-600'>
+                              ₦{item.price.toLocaleString()} per unit
                             </p>
-                          )}
-                        </div>
-                        <div className='flex items-center gap-3'>
-                          <div className='flex items-center gap-2'>
+                            <p className='text-sm text-blue-600 font-medium'>
+                              Quantity: {item.quantity} units
+                            </p>
+                            <p className='text-sm text-green-600 font-semibold'>
+                              Total: ₦
+                              {(item.price * item.quantity).toLocaleString()}
+                            </p>
+                            {hasInsufficientStock && (
+                              <p className='text-sm text-red-600 font-medium mt-1'>
+                                ⚠️ Insufficient stock! Available:{' '}
+                                {book?.available || 0}
+                              </p>
+                            )}
+                          </div>
+                          <div className='flex items-center justify-between sm:justify-end gap-3'>
+                            <div className='flex items-center gap-2'>
+                              <Button
+                                size='sm'
+                                variant='outline'
+                                onClick={() =>
+                                  updateItemQuantity(index, item.quantity - 1)
+                                }
+                                className='h-8 w-8 p-0'
+                              >
+                                <IconMinus className='h-3 w-3' />
+                              </Button>
+                              <span className='font-medium min-w-[2rem] text-center'>
+                                {item.quantity}
+                              </span>
+                              <Button
+                                size='sm'
+                                variant='outline'
+                                onClick={() =>
+                                  updateItemQuantity(index, item.quantity + 1)
+                                }
+                                className='h-8 w-8 p-0'
+                              >
+                                <IconPlus className='h-3 w-3' />
+                              </Button>
+                            </div>
+                            <div className='text-right'>
+                              <span className='font-bold text-lg'>
+                                ₦{(item.price * item.quantity).toLocaleString()}
+                              </span>
+                            </div>
                             <Button
                               size='sm'
-                              variant='outline'
-                              onClick={() =>
-                                updateItemQuantity(index, item.quantity - 1)
-                              }
+                              variant='destructive'
+                              onClick={() => removeItem(index)}
                               className='h-8 w-8 p-0'
                             >
-                              <IconMinus className='h-3 w-3' />
-                            </Button>
-                            <span className='font-medium min-w-[2rem] text-center'>
-                              {item.quantity}
-                            </span>
-                            <Button
-                              size='sm'
-                              variant='outline'
-                              onClick={() =>
-                                updateItemQuantity(index, item.quantity + 1)
-                              }
-                              className='h-8 w-8 p-0'
-                            >
-                              <IconPlus className='h-3 w-3' />
+                              <IconTrash className='h-3 w-3' />
                             </Button>
                           </div>
-                          <div className='text-right min-w-[120px]'>
-                            <span className='font-bold text-lg'>
-                              ₦{(item.price * item.quantity).toLocaleString()}
-                            </span>
-                          </div>
-                          <Button
-                            size='sm'
-                            variant='destructive'
-                            onClick={() => removeItem(index)}
-                            className='h-8 w-8 p-0'
-                          >
-                            <IconTrash className='h-3 w-3' />
-                          </Button>
                         </div>
                       </div>
                     );
@@ -478,22 +490,13 @@ export function BookSalesForm({
 
             {/* Confirmation Section */}
             {showConfirmation && (
-              <div className='space-y-4 p-6'>
-                <div className='text-center'>
-                  <h3 className='text-xl font-bold text-blue-800 mb-2'>
-                    Confirm Sale
-                  </h3>
-                  <p className='text-gray-600'>
-                    Please review the details below before completing the sale
-                  </p>
-                </div>
-
+              <div className='space-y-4 py-6'>
                 {/* Customer Info Summary */}
-                <div className='bg-white p-4 rounded-lg border'>
+                <div className='bg-white p-2 rounded-lg border'>
                   <h4 className='font-semibold text-gray-800 mb-2'>
                     Customer Details
                   </h4>
-                  <div className='grid grid-cols-1 md:grid-cols-2 gap-2 text-sm'>
+                  <div className='grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm'>
                     <div>
                       <span className='font-medium'>Name:</span>{' '}
                       {customerInfo.fullName}
@@ -520,15 +523,18 @@ export function BookSalesForm({
                     {saleItems.map((item, index) => (
                       <div
                         key={index}
-                        className='flex justify-between items-center py-2 border-b last:border-b-0'
+                        className='flex justify-between py-2 border-b last:border-b-0'
                       >
                         <div>
-                          <span className='font-medium'>{item.bookTitle}</span>
-                          <span className='text-sm text-gray-500 ml-2'>
+                          <span className='font-medium'>
+                            {item.bookTitle} {item.bookTitle}
+                            {item.bookTitle}
+                          </span>
+                          <span className='text-md text-teal-800 ml-2'>
                             × {item.quantity}
                           </span>
                         </div>
-                        <span className='font-semibold'>
+                        <span className='font-semibold ml-4'>
                           ₦{(item.price * item.quantity).toLocaleString()}
                         </span>
                       </div>
@@ -551,18 +557,19 @@ export function BookSalesForm({
                 </div>
 
                 {/* Action Buttons */}
-                <div className='flex gap-3 justify-center'>
+                <div className='flex flex-col sm:flex-row gap-3 justify-center'>
                   <Button
                     variant='outline'
                     onClick={() => setShowConfirmation(false)}
                     disabled={mutation.isPending}
+                    className='w-full sm:w-auto'
                   >
                     Back to Edit
                   </Button>
                   <Button
                     onClick={confirmSale}
                     disabled={mutation.isPending}
-                    className='min-w-[140px] gap-2 bg-green-600 hover:bg-green-700'
+                    className='w-full sm:w-auto min-w-[140px] gap-2 bg-green-600 hover:bg-green-700'
                   >
                     {mutation.isPending ? (
                       <>
@@ -582,11 +589,12 @@ export function BookSalesForm({
           </div>
 
           {!showConfirmation && (
-            <DialogFooter className='gap-3'>
+            <DialogFooter className='flex flex-col sm:flex-row gap-3'>
               <Button
                 variant='outline'
                 onClick={() => setOpen(false)}
                 disabled={mutation.isPending}
+                className='w-full sm:w-auto'
               >
                 Cancel
               </Button>
@@ -597,7 +605,7 @@ export function BookSalesForm({
                   saleItems.length === 0 ||
                   hasInsufficientStock
                 }
-                className='min-w-[140px] gap-2'
+                className='w-full sm:w-auto min-w-[140px] gap-2'
               >
                 {mutation.isPending ? (
                   <>

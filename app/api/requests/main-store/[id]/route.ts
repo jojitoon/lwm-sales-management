@@ -78,31 +78,50 @@ export async function PATCH(request: NextRequest) {
       }
 
       const requestData = mainStoreRequest.request as any;
-      const bookTitle = requestData.bookTitle;
-      const requestedQuantity = requestData.quantity;
+      let items: any[] = [];
+
+      // Handle new format with multiple items
+      if (requestData.items && Array.isArray(requestData.items)) {
+        items = requestData.items;
+      } else {
+        // Fallback for old format (single item)
+        items = [
+          { bookTitle: requestData.bookTitle, quantity: requestData.quantity },
+        ];
+      }
 
       if (approved) {
-        // Check if main store has enough stock
+        // Check if main store has enough stock for all items
         const mainStoreStock =
           (mainStoreRequest.mainStoreSession.data as any)?.list || [];
-        const bookStock = mainStoreStock.find(
-          (book: any) => book.title === bookTitle
-        );
 
-        if (!bookStock || bookStock.available < requestedQuantity) {
-          return NextResponse.json(
-            { message: 'Insufficient stock in main store' },
-            { status: 400 }
+        for (const item of items) {
+          const bookStock = mainStoreStock.find(
+            (book: any) => book.title === item.bookTitle
           );
+
+          if (!bookStock || bookStock.available < item.quantity) {
+            return NextResponse.json(
+              {
+                message: `Insufficient stock for "${
+                  item.bookTitle
+                }". Available: ${bookStock?.available || 0}, Requested: ${
+                  item.quantity
+                }`,
+              },
+              { status: 400 }
+            );
+          }
         }
 
-        // Update main store stock
+        // Update main store stock for all items
         const updatedMainStoreStock = mainStoreStock.map((book: any) => {
-          if (book.title === bookTitle) {
+          const item = items.find((i: any) => i.bookTitle === book.title);
+          if (item) {
             return {
               ...book,
-              available: book.available - requestedQuantity,
-              distributed: book.distributed + requestedQuantity,
+              available: book.available - item.quantity,
+              distributed: book.distributed + item.quantity,
             };
           }
           return book;
@@ -115,28 +134,34 @@ export async function PATCH(request: NextRequest) {
           },
         });
 
-        // Update mini store stock
+        // Update mini store stock for all items
         const miniStoreStock =
           (mainStoreRequest.miniStoreSession.data as any)?.list || [];
-        const existingBookIndex = miniStoreStock.findIndex(
-          (book: any) => book.title === bookTitle
-        );
 
-        if (existingBookIndex >= 0) {
-          miniStoreStock[existingBookIndex] = {
-            ...miniStoreStock[existingBookIndex],
-            available:
-              miniStoreStock[existingBookIndex].available + requestedQuantity,
-            total: miniStoreStock[existingBookIndex].total + requestedQuantity,
-          };
-        } else {
-          miniStoreStock.push({
-            title: bookTitle,
-            price: bookStock.price,
-            total: requestedQuantity,
-            available: requestedQuantity,
-            distributed: 0,
-          });
+        for (const item of items) {
+          const existingBookIndex = miniStoreStock.findIndex(
+            (book: any) => book.title === item.bookTitle
+          );
+
+          if (existingBookIndex >= 0) {
+            miniStoreStock[existingBookIndex] = {
+              ...miniStoreStock[existingBookIndex],
+              available:
+                miniStoreStock[existingBookIndex].available + item.quantity,
+              total: miniStoreStock[existingBookIndex].total + item.quantity,
+            };
+          } else {
+            const bookStock = mainStoreStock.find(
+              (book: any) => book.title === item.bookTitle
+            );
+            miniStoreStock.push({
+              title: item.bookTitle,
+              price: bookStock.price,
+              total: item.quantity,
+              available: item.quantity,
+              distributed: 0,
+            });
+          }
         }
 
         await prisma.miniStoreSession.update({
@@ -153,12 +178,26 @@ export async function PATCH(request: NextRequest) {
         data: {
           wasApproved: approved,
           wasDenied: !approved,
-          granted: approved ? { quantity: requestedQuantity } : {},
+          granted: approved
+            ? {
+                items: items,
+                totalItems: items.length,
+                totalQuantity: items.reduce(
+                  (sum: number, item: any) => sum + item.quantity,
+                  0
+                ),
+                grantedAt: new Date().toISOString(),
+              }
+            : {},
         },
       });
 
       return NextResponse.json({
-        message: approved ? 'Request approved' : 'Request denied',
+        message: approved
+          ? `Request approved for ${items.length} item${
+              items.length > 1 ? 's' : ''
+            }`
+          : 'Request denied',
         request: updatedRequest,
       });
     } catch (error) {

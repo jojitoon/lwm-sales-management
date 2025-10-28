@@ -250,6 +250,8 @@ exports.Prisma.MiniStoreSessionScalarFieldEnum = {
   collectedData: 'collectedData',
   distributedData: 'distributedData',
   data: 'data',
+  closingStock: 'closingStock',
+  closedAt: 'closedAt',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -263,6 +265,8 @@ exports.Prisma.MainStoreSessionScalarFieldEnum = {
   collectedData: 'collectedData',
   distributedData: 'distributedData',
   data: 'data',
+  closingStock: 'closingStock',
+  closedAt: 'closedAt',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

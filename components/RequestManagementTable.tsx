@@ -45,6 +45,8 @@ export function RequestManagementTable({
     onSuccess: () => {
       toast.success('Request approved');
       queryClient.invalidateQueries({ queryKey: ['requests'] });
+      // Reload the page to ensure fresh data
+      window.location.reload();
     },
     onError: (error: any) => {
       toast.error(error.response?.data?.message || 'Failed to approve request');
@@ -62,6 +64,8 @@ export function RequestManagementTable({
     onSuccess: () => {
       toast.success('Request denied');
       queryClient.invalidateQueries({ queryKey: ['requests'] });
+      // Reload the page to ensure fresh data
+      window.location.reload();
     },
     onError: (error: any) => {
       toast.error(error.response?.data?.message || 'Failed to deny request');
@@ -74,6 +78,36 @@ export function RequestManagementTable({
       header: 'Request Details',
       cell: ({ row }) => {
         const request = row.original.request as any;
+
+        // Handle new format with multiple items
+        if (request.items && Array.isArray(request.items)) {
+          return (
+            <div className='space-y-2'>
+              <div className='text-sm text-gray-500'>
+                Requested by: {request.requestedBy}
+              </div>
+              <div className='text-sm font-medium'>
+                {request.totalItems} item{request.totalItems > 1 ? 's' : ''} •
+                Total: {request.totalQuantity} units
+              </div>
+              <div className='space-y-1'>
+                {request.items.map((item: any, index: number) => (
+                  <div
+                    key={index}
+                    className='text-sm border-l-2 border-gray-200 pl-2'
+                  >
+                    <span className='font-medium'>{item.bookTitle}</span>
+                    <span className='text-gray-500 ml-2'>
+                      × {item.quantity}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          );
+        }
+
+        // Fallback for old format (single item)
         return (
           <div>
             <div className='font-medium'>{request.bookTitle}</div>

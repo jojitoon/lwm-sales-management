@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  IconCirclePlusFilled,
-  IconDownload,
-  type Icon,
-} from '@tabler/icons-react';
-import { Button } from '@/components/ui/button';
+import { type Icon } from '@tabler/icons-react';
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -19,6 +14,8 @@ import { useSession } from 'next-auth/react';
 import { useCallback, useMemo, useState } from 'react';
 import AddBook from './AddBook';
 import { SellBooksButton } from './SellBooksButton';
+import { RequestBookFromMainButton } from './RequestBookFromMainButton';
+import { RequestBookFromMiniButton } from './RequestBookFromMiniButton';
 
 export function NavMain({
   items,
@@ -36,6 +33,8 @@ export function NavMain({
   const workspace = mySession?.workspace as string;
 
   const [openAddBook, setOpenAddBook] = useState(false);
+  const [openRequestFromMain, setOpenRequestFromMain] = useState(false);
+  const [openRequestFromMini, setOpenRequestFromMini] = useState(false);
 
   const buildActions = useCallback((isAdmin: boolean, workspace: string) => {
     if (isAdmin) {
@@ -51,7 +50,17 @@ export function NavMain({
       case 'table-manager':
         return {
           title: 'Request Books',
-          action: () => {},
+          action: () => {
+            setOpenRequestFromMain(true);
+          },
+          component: (
+            <RequestBookFromMainButton
+              open={openRequestFromMain}
+              setOpen={setOpenRequestFromMain}
+              variant='outline'
+              size='sm'
+            />
+          ),
         };
       case 'book-sales':
         return {
@@ -74,7 +83,17 @@ export function NavMain({
       case 'mini-store':
         return {
           title: 'Request Books',
-          action: () => {},
+          action: () => {
+            setOpenRequestFromMini(true);
+          },
+          component: (
+            <RequestBookFromMiniButton
+              open={openRequestFromMini}
+              setOpen={setOpenRequestFromMini}
+              variant='outline'
+              size='sm'
+            />
+          ),
         };
       default:
         return {};
@@ -90,7 +109,7 @@ export function NavMain({
       <SidebarGroup>
         <SidebarGroupContent className='flex flex-col gap-2'>
           <SidebarMenu>
-            <SidebarMenuItem className='flex items-center gap-2 '>
+            {/* <SidebarMenuItem className='flex items-center gap-2 '>
               {actions?.component ? (
                 actions.component
               ) : (
@@ -113,7 +132,7 @@ export function NavMain({
                   <span className='sr-only'>Import</span>
                 </Button>
               )}
-            </SidebarMenuItem>
+            </SidebarMenuItem> */}
           </SidebarMenu>
           <SidebarMenu>
             {items.map((item) => (

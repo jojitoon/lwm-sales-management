@@ -15400,6 +15400,7 @@ export namespace Prisma {
     id: string | null
     session: string | null
     managerId: string | null
+    closedAt: Date | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -15409,6 +15410,7 @@ export namespace Prisma {
     id: string | null
     session: string | null
     managerId: string | null
+    closedAt: Date | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -15421,6 +15423,8 @@ export namespace Prisma {
     collectedData: number
     distributedData: number
     data: number
+    closingStock: number
+    closedAt: number
     isActive: number
     createdAt: number
     updatedAt: number
@@ -15432,6 +15436,7 @@ export namespace Prisma {
     id?: true
     session?: true
     managerId?: true
+    closedAt?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -15441,6 +15446,7 @@ export namespace Prisma {
     id?: true
     session?: true
     managerId?: true
+    closedAt?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -15453,6 +15459,8 @@ export namespace Prisma {
     collectedData?: true
     distributedData?: true
     data?: true
+    closingStock?: true
+    closedAt?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -15538,6 +15546,8 @@ export namespace Prisma {
     collectedData: JsonValue | null
     distributedData: JsonValue | null
     data: JsonValue | null
+    closingStock: JsonValue | null
+    closedAt: Date | null
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -15567,6 +15577,8 @@ export namespace Prisma {
     collectedData?: boolean
     distributedData?: boolean
     data?: boolean
+    closingStock?: boolean
+    closedAt?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -15583,6 +15595,8 @@ export namespace Prisma {
     collectedData?: boolean
     distributedData?: boolean
     data?: boolean
+    closingStock?: boolean
+    closedAt?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -15595,6 +15609,8 @@ export namespace Prisma {
     collectedData?: boolean
     distributedData?: boolean
     data?: boolean
+    closingStock?: boolean
+    closedAt?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -15607,12 +15623,14 @@ export namespace Prisma {
     collectedData?: boolean
     distributedData?: boolean
     data?: boolean
+    closingStock?: boolean
+    closedAt?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type MiniStoreSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "session" | "managerId" | "collectedData" | "distributedData" | "data" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["miniStoreSession"]>
+  export type MiniStoreSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "session" | "managerId" | "collectedData" | "distributedData" | "data" | "closingStock" | "closedAt" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["miniStoreSession"]>
   export type MiniStoreSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     mySessions?: boolean | MiniStoreSession$mySessionsArgs<ExtArgs>
     mainStoreRequests?: boolean | MiniStoreSession$mainStoreRequestsArgs<ExtArgs>
@@ -15636,6 +15654,8 @@ export namespace Prisma {
       collectedData: Prisma.JsonValue | null
       distributedData: Prisma.JsonValue | null
       data: Prisma.JsonValue | null
+      closingStock: Prisma.JsonValue | null
+      closedAt: Date | null
       isActive: boolean
       createdAt: Date
       updatedAt: Date
@@ -16071,6 +16091,8 @@ export namespace Prisma {
     readonly collectedData: FieldRef<"MiniStoreSession", 'Json'>
     readonly distributedData: FieldRef<"MiniStoreSession", 'Json'>
     readonly data: FieldRef<"MiniStoreSession", 'Json'>
+    readonly closingStock: FieldRef<"MiniStoreSession", 'Json'>
+    readonly closedAt: FieldRef<"MiniStoreSession", 'DateTime'>
     readonly isActive: FieldRef<"MiniStoreSession", 'Boolean'>
     readonly createdAt: FieldRef<"MiniStoreSession", 'DateTime'>
     readonly updatedAt: FieldRef<"MiniStoreSession", 'DateTime'>
@@ -16567,6 +16589,7 @@ export namespace Prisma {
     name: string | null
     session: string | null
     managerId: string | null
+    closedAt: Date | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -16577,6 +16600,7 @@ export namespace Prisma {
     name: string | null
     session: string | null
     managerId: string | null
+    closedAt: Date | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -16590,6 +16614,8 @@ export namespace Prisma {
     collectedData: number
     distributedData: number
     data: number
+    closingStock: number
+    closedAt: number
     isActive: number
     createdAt: number
     updatedAt: number
@@ -16602,6 +16628,7 @@ export namespace Prisma {
     name?: true
     session?: true
     managerId?: true
+    closedAt?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -16612,6 +16639,7 @@ export namespace Prisma {
     name?: true
     session?: true
     managerId?: true
+    closedAt?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -16625,6 +16653,8 @@ export namespace Prisma {
     collectedData?: true
     distributedData?: true
     data?: true
+    closingStock?: true
+    closedAt?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -16711,6 +16741,8 @@ export namespace Prisma {
     collectedData: JsonValue | null
     distributedData: JsonValue | null
     data: JsonValue | null
+    closingStock: JsonValue | null
+    closedAt: Date | null
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -16741,6 +16773,8 @@ export namespace Prisma {
     collectedData?: boolean
     distributedData?: boolean
     data?: boolean
+    closingStock?: boolean
+    closedAt?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -16757,6 +16791,8 @@ export namespace Prisma {
     collectedData?: boolean
     distributedData?: boolean
     data?: boolean
+    closingStock?: boolean
+    closedAt?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -16770,6 +16806,8 @@ export namespace Prisma {
     collectedData?: boolean
     distributedData?: boolean
     data?: boolean
+    closingStock?: boolean
+    closedAt?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -16783,12 +16821,14 @@ export namespace Prisma {
     collectedData?: boolean
     distributedData?: boolean
     data?: boolean
+    closingStock?: boolean
+    closedAt?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type MainStoreSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "session" | "managerId" | "collectedData" | "distributedData" | "data" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["mainStoreSession"]>
+  export type MainStoreSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "session" | "managerId" | "collectedData" | "distributedData" | "data" | "closingStock" | "closedAt" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["mainStoreSession"]>
   export type MainStoreSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     mySessions?: boolean | MainStoreSession$mySessionsArgs<ExtArgs>
     mainStoreRequests?: boolean | MainStoreSession$mainStoreRequestsArgs<ExtArgs>
@@ -16811,6 +16851,8 @@ export namespace Prisma {
       collectedData: Prisma.JsonValue | null
       distributedData: Prisma.JsonValue | null
       data: Prisma.JsonValue | null
+      closingStock: Prisma.JsonValue | null
+      closedAt: Date | null
       isActive: boolean
       createdAt: Date
       updatedAt: Date
@@ -17246,6 +17288,8 @@ export namespace Prisma {
     readonly collectedData: FieldRef<"MainStoreSession", 'Json'>
     readonly distributedData: FieldRef<"MainStoreSession", 'Json'>
     readonly data: FieldRef<"MainStoreSession", 'Json'>
+    readonly closingStock: FieldRef<"MainStoreSession", 'Json'>
+    readonly closedAt: FieldRef<"MainStoreSession", 'DateTime'>
     readonly isActive: FieldRef<"MainStoreSession", 'Boolean'>
     readonly createdAt: FieldRef<"MainStoreSession", 'DateTime'>
     readonly updatedAt: FieldRef<"MainStoreSession", 'DateTime'>
@@ -23752,6 +23796,8 @@ export namespace Prisma {
     collectedData: 'collectedData',
     distributedData: 'distributedData',
     data: 'data',
+    closingStock: 'closingStock',
+    closedAt: 'closedAt',
     isActive: 'isActive',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -23768,6 +23814,8 @@ export namespace Prisma {
     collectedData: 'collectedData',
     distributedData: 'distributedData',
     data: 'data',
+    closingStock: 'closingStock',
+    closedAt: 'closedAt',
     isActive: 'isActive',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -24843,6 +24891,8 @@ export namespace Prisma {
     collectedData?: JsonNullableFilter<"MiniStoreSession">
     distributedData?: JsonNullableFilter<"MiniStoreSession">
     data?: JsonNullableFilter<"MiniStoreSession">
+    closingStock?: JsonNullableFilter<"MiniStoreSession">
+    closedAt?: DateTimeNullableFilter<"MiniStoreSession"> | Date | string | null
     isActive?: BoolFilter<"MiniStoreSession"> | boolean
     createdAt?: DateTimeFilter<"MiniStoreSession"> | Date | string
     updatedAt?: DateTimeFilter<"MiniStoreSession"> | Date | string
@@ -24858,6 +24908,8 @@ export namespace Prisma {
     collectedData?: SortOrderInput | SortOrder
     distributedData?: SortOrderInput | SortOrder
     data?: SortOrderInput | SortOrder
+    closingStock?: SortOrderInput | SortOrder
+    closedAt?: SortOrderInput | SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -24876,6 +24928,8 @@ export namespace Prisma {
     collectedData?: JsonNullableFilter<"MiniStoreSession">
     distributedData?: JsonNullableFilter<"MiniStoreSession">
     data?: JsonNullableFilter<"MiniStoreSession">
+    closingStock?: JsonNullableFilter<"MiniStoreSession">
+    closedAt?: DateTimeNullableFilter<"MiniStoreSession"> | Date | string | null
     isActive?: BoolFilter<"MiniStoreSession"> | boolean
     createdAt?: DateTimeFilter<"MiniStoreSession"> | Date | string
     updatedAt?: DateTimeFilter<"MiniStoreSession"> | Date | string
@@ -24891,6 +24945,8 @@ export namespace Prisma {
     collectedData?: SortOrderInput | SortOrder
     distributedData?: SortOrderInput | SortOrder
     data?: SortOrderInput | SortOrder
+    closingStock?: SortOrderInput | SortOrder
+    closedAt?: SortOrderInput | SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -24909,6 +24965,8 @@ export namespace Prisma {
     collectedData?: JsonNullableWithAggregatesFilter<"MiniStoreSession">
     distributedData?: JsonNullableWithAggregatesFilter<"MiniStoreSession">
     data?: JsonNullableWithAggregatesFilter<"MiniStoreSession">
+    closingStock?: JsonNullableWithAggregatesFilter<"MiniStoreSession">
+    closedAt?: DateTimeNullableWithAggregatesFilter<"MiniStoreSession"> | Date | string | null
     isActive?: BoolWithAggregatesFilter<"MiniStoreSession"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"MiniStoreSession"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"MiniStoreSession"> | Date | string
@@ -24925,6 +24983,8 @@ export namespace Prisma {
     collectedData?: JsonNullableFilter<"MainStoreSession">
     distributedData?: JsonNullableFilter<"MainStoreSession">
     data?: JsonNullableFilter<"MainStoreSession">
+    closingStock?: JsonNullableFilter<"MainStoreSession">
+    closedAt?: DateTimeNullableFilter<"MainStoreSession"> | Date | string | null
     isActive?: BoolFilter<"MainStoreSession"> | boolean
     createdAt?: DateTimeFilter<"MainStoreSession"> | Date | string
     updatedAt?: DateTimeFilter<"MainStoreSession"> | Date | string
@@ -24940,6 +25000,8 @@ export namespace Prisma {
     collectedData?: SortOrderInput | SortOrder
     distributedData?: SortOrderInput | SortOrder
     data?: SortOrderInput | SortOrder
+    closingStock?: SortOrderInput | SortOrder
+    closedAt?: SortOrderInput | SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -24958,6 +25020,8 @@ export namespace Prisma {
     collectedData?: JsonNullableFilter<"MainStoreSession">
     distributedData?: JsonNullableFilter<"MainStoreSession">
     data?: JsonNullableFilter<"MainStoreSession">
+    closingStock?: JsonNullableFilter<"MainStoreSession">
+    closedAt?: DateTimeNullableFilter<"MainStoreSession"> | Date | string | null
     isActive?: BoolFilter<"MainStoreSession"> | boolean
     createdAt?: DateTimeFilter<"MainStoreSession"> | Date | string
     updatedAt?: DateTimeFilter<"MainStoreSession"> | Date | string
@@ -24973,6 +25037,8 @@ export namespace Prisma {
     collectedData?: SortOrderInput | SortOrder
     distributedData?: SortOrderInput | SortOrder
     data?: SortOrderInput | SortOrder
+    closingStock?: SortOrderInput | SortOrder
+    closedAt?: SortOrderInput | SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -24992,6 +25058,8 @@ export namespace Prisma {
     collectedData?: JsonNullableWithAggregatesFilter<"MainStoreSession">
     distributedData?: JsonNullableWithAggregatesFilter<"MainStoreSession">
     data?: JsonNullableWithAggregatesFilter<"MainStoreSession">
+    closingStock?: JsonNullableWithAggregatesFilter<"MainStoreSession">
+    closedAt?: DateTimeNullableWithAggregatesFilter<"MainStoreSession"> | Date | string | null
     isActive?: BoolWithAggregatesFilter<"MainStoreSession"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"MainStoreSession"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"MainStoreSession"> | Date | string
@@ -26343,6 +26411,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26358,6 +26428,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26373,6 +26445,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26388,6 +26462,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26403,6 +26479,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26415,6 +26493,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26427,6 +26507,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26440,6 +26522,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26455,6 +26539,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26470,6 +26556,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26485,6 +26573,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26500,6 +26590,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -26513,6 +26605,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26526,6 +26620,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27849,6 +27945,8 @@ export namespace Prisma {
     collectedData?: SortOrder
     distributedData?: SortOrder
     data?: SortOrder
+    closingStock?: SortOrder
+    closedAt?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -27858,6 +27956,7 @@ export namespace Prisma {
     id?: SortOrder
     session?: SortOrder
     managerId?: SortOrder
+    closedAt?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -27867,6 +27966,7 @@ export namespace Prisma {
     id?: SortOrder
     session?: SortOrder
     managerId?: SortOrder
+    closedAt?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -27880,6 +27980,8 @@ export namespace Prisma {
     collectedData?: SortOrder
     distributedData?: SortOrder
     data?: SortOrder
+    closingStock?: SortOrder
+    closedAt?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -27890,6 +27992,7 @@ export namespace Prisma {
     name?: SortOrder
     session?: SortOrder
     managerId?: SortOrder
+    closedAt?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -27900,6 +28003,7 @@ export namespace Prisma {
     name?: SortOrder
     session?: SortOrder
     managerId?: SortOrder
+    closedAt?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -30898,6 +31002,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -30912,6 +31018,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -30932,6 +31040,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -30946,6 +31056,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31080,6 +31192,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31094,6 +31208,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31120,6 +31236,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31134,6 +31252,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31450,6 +31570,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31464,6 +31586,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31482,6 +31606,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31496,6 +31622,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31527,6 +31655,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31541,6 +31671,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31565,6 +31697,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31579,6 +31713,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31593,6 +31729,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31607,6 +31745,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: Date | string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -31701,6 +31841,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31715,6 +31857,8 @@ export namespace Prisma {
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
