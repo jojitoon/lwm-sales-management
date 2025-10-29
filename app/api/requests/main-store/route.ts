@@ -1,6 +1,7 @@
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
+import { wsEmitter, WebSocketEvents } from '@/lib/websocket';
 
 export async function GET(request: NextRequest) {
   return auth(async (req) => {
@@ -151,6 +152,20 @@ export async function POST(request: NextRequest) {
           request: requestData,
           granted: {},
         },
+      });
+
+      // Emit WebSocket event
+      wsEmitter.emit(WebSocketEvents.REQUEST_CREATED, {
+        requestId: newRequest.id,
+        type: 'main-store',
+        mainStoreSessionId: mainStore.id,
+        miniStoreSessionId: mySession.miniStoreSession.id,
+        items: items.map((item: any) => ({
+          bookTitle: item.bookTitle,
+          quantity: item.quantity,
+        })),
+        totalItems: items.length,
+        totalQuantity: requestData.totalQuantity,
       });
 
       return NextResponse.json({

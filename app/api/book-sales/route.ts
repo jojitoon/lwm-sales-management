@@ -1,6 +1,73 @@
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
+import { wsEmitter, WebSocketEvents } from '@/lib/websocket';
+
+export async function GET(request: NextRequest) {
+  return auth(async (req) => {
+    if (!req.auth || !req.auth.user) {
+      return NextResponse.json(
+        { message: 'Not authenticated' },
+        { status: 401 }
+      );
+    }
+
+    try {
+      const settings = await prisma.setting.findFirst({
+        where: { id: 'settings' },
+      });
+
+      // Get current user's table sale session
+      const mySession = await prisma.mySession.findFirst({
+        where: {
+          userId: req.auth.user.id,
+          session: settings?.currentSession as string,
+          workspace: { in: ['table-manager', 'book-sales'] },
+          isActive: true,
+        },
+        include: {
+          tableSaleSession: true,
+        },
+      });
+
+      if (!mySession?.tableSaleSession) {
+        return NextResponse.json(
+          { message: 'Table sale session not found' },
+          { status: 404 }
+        );
+      }
+
+      // Fetch book sales for this table sale session
+      const tableSale = await prisma.tableSaleSession.findFirst({
+        where: {
+          id: mySession.tableSaleSession.id,
+        },
+        include: {
+          bookSales: {
+            include: {
+              items: {
+                include: {
+                  book: true,
+                },
+              },
+            },
+            orderBy: {
+              createdAt: 'desc',
+            },
+          },
+        },
+      });
+
+      return NextResponse.json(tableSale?.bookSales || []);
+    } catch (error) {
+      console.error('Error fetching book sales:', error);
+      return NextResponse.json(
+        { message: 'Failed to fetch book sales' },
+        { status: 500 }
+      );
+    }
+  })(request, {});
+}
 
 export async function POST(request: NextRequest) {
   return auth(async (req) => {
@@ -130,6 +197,26 @@ export async function POST(request: NextRequest) {
         data: {
           data: { list: updatedStock },
         },
+      });
+
+      // Emit WebSocket events
+      wsEmitter.emit(WebSocketEvents.BOOK_SALE_CREATED, {
+        saleId: bookSale.id,
+        orderNumber: bookSale.orderNumber,
+        total: bookSale.total,
+        items: items.map((item: any) => ({
+          bookTitle: item.bookTitle,
+          quantity: item.quantity,
+          price: item.price,
+        })),
+        sessionId: stockUpdateSession.id,
+        workspace: mySession.workspace,
+      });
+
+      wsEmitter.emit(WebSocketEvents.STOCK_UPDATED, {
+        sessionId: stockUpdateSession.id,
+        workspace: mySession.workspace,
+        updatedStock,
       });
 
       return NextResponse.json({

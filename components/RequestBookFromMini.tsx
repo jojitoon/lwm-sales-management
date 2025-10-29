@@ -24,6 +24,8 @@ import { Input } from './ui/input';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { toast } from 'sonner';
+import { useRealtimeUpdates } from '@/hooks/useRealtimeUpdates';
+import { WebSocketEvents } from '@/lib/websocket';
 import { IconPlus, IconMinus, IconTrash } from '@tabler/icons-react';
 
 interface RequestBookFromMiniProps {
@@ -44,6 +46,16 @@ export function RequestBookFromMini({
   const [quantity, setQuantity] = useState(1);
   const [requestItems, setRequestItems] = useState<RequestItem[]>([]);
   const [availableBooks, setAvailableBooks] = useState<any[]>([]);
+
+  // Subscribe to real-time updates for requests and stock
+  useRealtimeUpdates({
+    events: [
+      WebSocketEvents.REQUEST_CREATED,
+      WebSocketEvents.REQUEST_APPROVED,
+      WebSocketEvents.STOCK_UPDATED,
+    ],
+    queryKeys: ['mini-store-requests', 'mini-store-stock'],
+  });
 
   useEffect(() => {
     if (open) {
@@ -73,8 +85,6 @@ export function RequestBookFromMini({
       setSelectedBook('');
       setQuantity(1);
       setRequestItems([]);
-      // Reload the page to ensure fresh data
-      window.location.reload();
     },
     onError: (error: any) => {
       console.log(error);

@@ -24,6 +24,8 @@ import {
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { toast } from 'sonner';
+import { useRealtimeUpdates } from '@/hooks/useRealtimeUpdates';
+import { WebSocketEvents } from '@/lib/websocket';
 import {
   IconPlus,
   IconMinus,
@@ -68,6 +70,12 @@ export function BookSalesForm({
 
   const queryClient = useQueryClient();
 
+  // Subscribe to real-time updates for book sales and stock
+  useRealtimeUpdates({
+    events: [WebSocketEvents.BOOK_SALE_CREATED, WebSocketEvents.STOCK_UPDATED],
+    queryKeys: ['book-sales', 'available-stock'],
+  });
+
   const mutation = useMutation({
     mutationFn: async (saleData: any) => {
       const response = await axios.post('/api/book-sales', saleData);
@@ -81,8 +89,7 @@ export function BookSalesForm({
       setSaleItems([]);
       setCurrentItem({ bookTitle: '', quantity: 1, price: 0 });
       queryClient.invalidateQueries({ queryKey: ['book-sales'] });
-      // Reload the page to ensure fresh data
-      window.location.reload();
+      queryClient.invalidateQueries({ queryKey: ['available-stock'] });
     },
     onError: (error: any) => {
       toast.error(error.response?.data?.message || 'Failed to complete sale');
@@ -315,7 +322,7 @@ export function BookSalesForm({
                 <h3 className='text-xl font-semibold text-muted-foreground'>
                   Add Items
                 </h3>
-                <div className='space-y-4 sm:space-y-0 sm:flex sm:gap-4'>
+                <div className='space-y-4 sm:space-y-0 sm:flex sm:gap-4 items-end'>
                   <div className='flex-1'>
                     <Label className='text-sm font-medium'>Book</Label>
                     <div className='mt-1'>

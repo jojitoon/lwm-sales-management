@@ -19,20 +19,44 @@ import {
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { toast } from 'sonner';
+import { useRealtimeUpdates } from '@/hooks/useRealtimeUpdates';
+import { WebSocketEvents } from '@/lib/websocket';
 
 interface RequestManagementTableProps {
-  requests: any[];
+  requests?: any[]; // Make optional since we'll fetch client-side
   type: 'main-store' | 'mini-store';
 }
 
 export function RequestManagementTable({
-  requests,
+  requests: initialRequests,
   type,
 }: RequestManagementTableProps) {
   const queryClient = useQueryClient();
+
+  // Fetch requests using React Query so we can invalidate on WebSocket events
+  const { data: requests = initialRequests || [], isLoading } = useQuery({
+    queryKey: [`${type}-requests`],
+    queryFn: async () => {
+      const response = await axios.get(`/api/requests/${type}`);
+      return response.data;
+    },
+    initialData: initialRequests, // Use server-side data as initial data
+    staleTime: 0, // Always consider stale to allow refetching
+  });
+
+  // Subscribe to real-time updates for requests
+  useRealtimeUpdates({
+    events: [
+      WebSocketEvents.REQUEST_CREATED,
+      WebSocketEvents.REQUEST_APPROVED,
+      WebSocketEvents.REQUEST_DENIED,
+      WebSocketEvents.STOCK_UPDATED,
+    ],
+    queryKeys: [`${type}-requests`], // Match the query key
+  });
 
   const approveMutation = useMutation({
     mutationFn: async (requestId: string) => {
@@ -44,9 +68,7 @@ export function RequestManagementTable({
     },
     onSuccess: () => {
       toast.success('Request approved');
-      queryClient.invalidateQueries({ queryKey: ['requests'] });
-      // Reload the page to ensure fresh data
-      window.location.reload();
+      queryClient.invalidateQueries({ queryKey: [`${type}-requests`] });
     },
     onError: (error: any) => {
       toast.error(error.response?.data?.message || 'Failed to approve request');
@@ -63,9 +85,7 @@ export function RequestManagementTable({
     },
     onSuccess: () => {
       toast.success('Request denied');
-      queryClient.invalidateQueries({ queryKey: ['requests'] });
-      // Reload the page to ensure fresh data
-      window.location.reload();
+      queryClient.invalidateQueries({ queryKey: [`${type}-requests`] });
     },
     onError: (error: any) => {
       toast.error(error.response?.data?.message || 'Failed to deny request');
@@ -185,6 +205,14 @@ export function RequestManagementTable({
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
   });
+
+  if (isLoading) {
+    return (
+      <div className='rounded-md border p-8 text-center'>
+        <div className='text-gray-500'>Loading requests...</div>
+      </div>
+    );
+  }
 
   return (
     <div className='rounded-md border'>

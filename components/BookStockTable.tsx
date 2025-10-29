@@ -17,18 +17,61 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { useRealtimeUpdates } from '@/hooks/useRealtimeUpdates';
+import { WebSocketEvents } from '@/lib/websocket';
 
-export const BookStockTable = ({
-  data,
-}: {
-  data: {
+interface BookStockTableProps {
+  data?: {
     title: string;
     price: number;
     total: number;
     available: number;
     distributed: number;
   }[];
-}) => {
+  stockType?: 'main-store-stock' | 'mini-store-stock' | 'table-stock';
+}
+
+export const BookStockTable = ({
+  data: initialData,
+  stockType,
+}: BookStockTableProps) => {
+  // If stockType is provided, fetch data client-side for real-time updates
+  const { data: fetchedData = [], isLoading } = useQuery({
+    queryKey: stockType ? [stockType] : [],
+    queryFn: async () => {
+      if (stockType === 'main-store-stock') {
+        const response = await axios.get('/api/books/main-store-stock');
+        return response.data;
+      } else if (stockType === 'mini-store-stock') {
+        const response = await axios.get('/api/books/mini-store-stock');
+        return response.data;
+      } else if (stockType === 'table-stock') {
+        // Fetch table sale session stock
+        const response = await axios.get('/api/books/table-stock');
+        return response.data;
+      }
+      return [];
+    },
+    enabled: !!stockType,
+    initialData: initialData,
+    staleTime: 0, // Always consider stale to allow refetching
+  });
+
+  // Subscribe to real-time stock updates
+  useRealtimeUpdates({
+    events: [WebSocketEvents.STOCK_UPDATED, WebSocketEvents.BOOK_SALE_CREATED],
+    queryKeys: stockType ? [stockType] : [],
+    onEvent: (event, data) => {
+      // Additional logic can be added here if needed
+      console.log('Stock update received:', event, data);
+    },
+  });
+
+  // Use fetched data if available, otherwise use initial data
+  const data = stockType ? fetchedData : initialData || [];
+
   const columns: ColumnDef<{
     title: string;
     price: number;
@@ -86,6 +129,14 @@ export const BookStockTable = ({
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
   });
+
+  if (isLoading && stockType) {
+    return (
+      <div className='rounded-md border p-8 text-center'>
+        <div className='text-gray-500'>Loading stock...</div>
+      </div>
+    );
+  }
 
   return (
     <main className=''>

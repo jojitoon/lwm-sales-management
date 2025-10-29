@@ -17,12 +17,35 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { useRealtimeUpdates } from '@/hooks/useRealtimeUpdates';
+import { WebSocketEvents } from '@/lib/websocket';
 
 interface BookSalesTableProps {
-  sales: any[];
+  sales?: any[];
 }
 
-export function BookSalesTable({ sales }: BookSalesTableProps) {
+export function BookSalesTable({ sales: initialSales }: BookSalesTableProps) {
+  // Fetch book sales client-side for real-time updates
+  const { data: fetchedSales = [], isLoading } = useQuery({
+    queryKey: ['book-sales'],
+    queryFn: async () => {
+      const response = await axios.get('/api/book-sales');
+      return response.data;
+    },
+    initialData: initialSales,
+    staleTime: 0, // Always consider stale to allow refetching
+  });
+
+  // Subscribe to real-time updates for book sales
+  useRealtimeUpdates({
+    events: [WebSocketEvents.BOOK_SALE_CREATED],
+    queryKeys: ['book-sales'],
+  });
+
+  // Use fetched data (React Query will use initialData as fallback)
+  const sales = fetchedSales || [];
   const columns: ColumnDef<any>[] = [
     {
       accessorKey: 'orderNumber',
@@ -116,6 +139,14 @@ export function BookSalesTable({ sales }: BookSalesTableProps) {
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
   });
+
+  if (isLoading && !initialSales) {
+    return (
+      <div className='rounded-md border p-8 text-center'>
+        <div className='text-gray-500'>Loading sales...</div>
+      </div>
+    );
+  }
 
   return (
     <div className='rounded-md border'>

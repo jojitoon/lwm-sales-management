@@ -8,6 +8,8 @@ import { useSession } from 'next-auth/react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { SidebarMenuButton } from './ui/sidebar';
+import { useRealtimeUpdates } from '@/hooks/useRealtimeUpdates';
+import { WebSocketEvents } from '@/lib/websocket';
 
 interface SellBooksButtonProps {
   variant?:
@@ -43,6 +45,12 @@ export function SellBooksButton({
       return response.data;
     },
     enabled: !!mySession?.tableSaleSession?.id,
+  });
+
+  // Subscribe to real-time stock updates
+  useRealtimeUpdates({
+    events: [WebSocketEvents.STOCK_UPDATED, WebSocketEvents.BOOK_SALE_CREATED],
+    queryKeys: ['available-stock'], // This will invalidate all available-stock queries
   });
 
   // Only show the button if user has book-sales workspace

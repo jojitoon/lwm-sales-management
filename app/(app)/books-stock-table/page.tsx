@@ -24,6 +24,7 @@ export default async function TableManagerBookStock() {
     },
   });
 
+  // Get user's table sale session for the current session
   const tableSale = await prisma.tableSaleSession.findFirst({
     where: {
       session: settings?.currentSession as string,
@@ -42,14 +43,14 @@ export default async function TableManagerBookStock() {
           <div className='flex items-center gap-2'>
             <PendingRequestsButton
               type='mini-store'
-              workspace='table-manager'
+              workspace={mySession.workspace}
             />
             <RequestBookFromMiniButton />
           </div>
         )}
       </div>
 
-      <BookStockTable data={stock} />
+      <BookStockTable data={stock} stockType='table-stock' />
     </main>
   );
 }

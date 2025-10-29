@@ -13,6 +13,9 @@ import { Badge } from '@/components/ui/badge';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { IconBell, IconClock } from '@tabler/icons-react';
+import { useRealtimeUpdates } from '@/hooks/useRealtimeUpdates';
+import { WebSocketEvents } from '@/lib/websocket';
+import { useSession } from 'next-auth/react';
 
 interface PendingRequestsButtonProps {
   type: 'main-store' | 'mini-store';
@@ -45,6 +48,18 @@ export function PendingRequestsButton({
   workspace,
 }: PendingRequestsButtonProps) {
   const [open, setOpen] = useState(false);
+  const { data: session } = useSession();
+  const currentUserEmail = session?.user?.email;
+
+  // Subscribe to real-time updates for requests
+  useRealtimeUpdates({
+    events: [
+      WebSocketEvents.REQUEST_CREATED,
+      WebSocketEvents.REQUEST_APPROVED,
+      WebSocketEvents.REQUEST_DENIED,
+    ],
+    queryKeys: [`${type}-requests`],
+  });
 
   const { data: requests = [], isLoading } = useQuery({
     queryKey: [`${type}-requests`],
@@ -52,18 +67,40 @@ export function PendingRequestsButton({
       const response = await axios.get(`/api/requests/${type}`);
       return response.data;
     },
-    refetchInterval: 30000, // Refetch every 30 seconds
+    refetchInterval: false, // Disable polling, rely on WebSocket updates
   });
 
   // Filter for pending requests
-  const pendingRequests = requests.filter(
-    (request: Request) => !request.wasApproved && !request.wasDenied
-  );
+  // Only show requests WHERE the current user is the requestor
+  // For mini-store requests: Show to table-manager users (they requested from mini-store)
+  // For main-store requests: Show to mini-store users (they requested from main-store)
+  const pendingRequests = requests.filter((request: Request) => {
+    // Only show pending requests
+    if (request.wasApproved || request.wasDenied) return false;
+
+    // Only show requests made by the current user (requestor)
+    if (request.request.requestedBy !== currentUserEmail) return false;
+
+    return true;
+  });
 
   const pendingCount = pendingRequests.length;
 
-  if (pendingCount === 0) {
-    return null; // Don't show button if no pending requests
+  // Don't show button if no pending requests or if user email is not available
+  if (pendingCount === 0 || !currentUserEmail) {
+    return null;
+  }
+
+  // Only show button to requestors based on workspace
+  // type='mini-store' requests are made by table-manager users
+  // type='main-store' requests are made by mini-store users
+  const isRequestor =
+    (type === 'mini-store' &&
+      (workspace === 'table-manager' || workspace === 'book-sales')) ||
+    (type === 'main-store' && workspace === 'mini-store');
+
+  if (!isRequestor) {
+    return null;
   }
 
   return (
@@ -89,17 +126,14 @@ export function PendingRequestsButton({
               Requests
             </DialogTitle>
             <DialogDescription>
-              {pendingCount} request{pendingCount > 1 ? 's' : ''} waiting for
+              {pendingCount} request{pendingCount > 1 ? 's' : ''} pending
               approval
             </DialogDescription>
           </DialogHeader>
 
           <div className='space-y-4'>
             {pendingRequests.map((request: Request) => (
-              <div
-                key={request.id}
-                className='border rounded-lg p-4 bg-gray-50'
-              >
+              <div key={request.id} className='border rounded-lg p-4 bg-card'>
                 <div className='flex justify-between items-start mb-3'>
                   <div>
                     <div className='text-sm text-gray-500'>
@@ -164,15 +198,6 @@ export function PendingRequestsButton({
           <div className='flex justify-end gap-2 pt-4 border-t'>
             <Button variant='outline' onClick={() => setOpen(false)}>
               Close
-            </Button>
-            <Button
-              onClick={() => {
-                setOpen(false);
-                // Navigate to the requests management page
-                window.location.href = `/requests-${type}`;
-              }}
-            >
-              Manage Requests
             </Button>
           </div>
         </DialogContent>

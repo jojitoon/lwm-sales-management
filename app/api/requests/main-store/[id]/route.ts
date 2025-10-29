@@ -1,6 +1,7 @@
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
+import { wsEmitter, WebSocketEvents } from '@/lib/websocket';
 
 export async function GET(request: NextRequest) {
   return auth(async (req) => {
@@ -191,6 +192,38 @@ export async function PATCH(request: NextRequest) {
             : {},
         },
       });
+
+      // Emit WebSocket event
+      if (approved) {
+        wsEmitter.emit(WebSocketEvents.REQUEST_APPROVED, {
+          requestId: updatedRequest.id,
+          type: 'main-store',
+          mainStoreSessionId: updatedRequest.mainStoreSessionId,
+          miniStoreSessionId: updatedRequest.miniStoreSessionId,
+          items: items.map((item: any) => ({
+            bookTitle: item.bookTitle,
+            quantity: item.quantity,
+          })),
+          totalItems: items.length,
+          totalQuantity: items.reduce(
+            (sum: number, item: any) => sum + item.quantity,
+            0
+          ),
+        });
+
+        wsEmitter.emit(WebSocketEvents.STOCK_UPDATED, {
+          mainStoreSessionId: updatedRequest.mainStoreSessionId,
+          miniStoreSessionId: updatedRequest.miniStoreSessionId,
+          workspace: 'main-store',
+        });
+      } else {
+        wsEmitter.emit(WebSocketEvents.REQUEST_DENIED, {
+          requestId: updatedRequest.id,
+          type: 'main-store',
+          mainStoreSessionId: updatedRequest.mainStoreSessionId,
+          miniStoreSessionId: updatedRequest.miniStoreSessionId,
+        });
+      }
 
       return NextResponse.json({
         message: approved
