@@ -66,6 +66,16 @@ export function BookSalesTable({ sales: initialSales }: BookSalesTableProps) {
               {row.original.phoneNumber}
             </div>
           )}
+          {row.original.customerLocation && (
+            <div className='text-sm text-gray-500'>
+              Location: {row.original.customerLocation}
+            </div>
+          )}
+          {row.original.slipNumber && (
+            <div className='text-sm text-gray-500'>
+              Slip: {row.original.slipNumber}
+            </div>
+          )}
         </div>
       ),
     },

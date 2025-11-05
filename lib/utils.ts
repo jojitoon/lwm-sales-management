@@ -124,3 +124,22 @@ export const generateId = (length: number) => {
     .toString(20)
     .slice(2, 2 + length);
 };
+
+/**
+ * Get the book ID for a given product name from the mapping table
+ * This function can be used throughout the codebase to look up book mappings
+ */
+export async function getBookIdFromMapping(
+  productName: string,
+  prisma: any
+): Promise<string | null> {
+  try {
+    const mapping = await prisma.bookMapping.findUnique({
+      where: { productName },
+      select: { bookId: true },
+    });
+    return mapping?.bookId || null;
+  } catch {
+    return null;
+  }
+}

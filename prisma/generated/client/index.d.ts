@@ -103,6 +103,11 @@ export type BookSale = $Result.DefaultSelection<Prisma.$BookSalePayload>
  * 
  */
 export type BookSaleItem = $Result.DefaultSelection<Prisma.$BookSaleItemPayload>
+/**
+ * Model BookMapping
+ * 
+ */
+export type BookMapping = $Result.DefaultSelection<Prisma.$BookMappingPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -408,6 +413,16 @@ export class PrismaClient<
     * ```
     */
   get bookSaleItem(): Prisma.BookSaleItemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.bookMapping`: Exposes CRUD operations for the **BookMapping** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BookMappings
+    * const bookMappings = await prisma.bookMapping.findMany()
+    * ```
+    */
+  get bookMapping(): Prisma.BookMappingDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -865,7 +880,8 @@ export namespace Prisma {
     MiniStoreRequest: 'MiniStoreRequest',
     Book: 'Book',
     BookSale: 'BookSale',
-    BookSaleItem: 'BookSaleItem'
+    BookSaleItem: 'BookSaleItem',
+    BookMapping: 'BookMapping'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -884,7 +900,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "verificationToken" | "setting" | "preOrder" | "orderItem" | "consolidation" | "preorderSession" | "tableSaleSession" | "mySession" | "miniStoreSession" | "mainStoreSession" | "mainStoreRequest" | "miniStoreRequest" | "book" | "bookSale" | "bookSaleItem"
+      modelProps: "user" | "account" | "session" | "verificationToken" | "setting" | "preOrder" | "orderItem" | "consolidation" | "preorderSession" | "tableSaleSession" | "mySession" | "miniStoreSession" | "mainStoreSession" | "mainStoreRequest" | "miniStoreRequest" | "book" | "bookSale" | "bookSaleItem" | "bookMapping"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2220,6 +2236,80 @@ export namespace Prisma {
           }
         }
       }
+      BookMapping: {
+        payload: Prisma.$BookMappingPayload<ExtArgs>
+        fields: Prisma.BookMappingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BookMappingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookMappingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BookMappingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookMappingPayload>
+          }
+          findFirst: {
+            args: Prisma.BookMappingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookMappingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BookMappingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookMappingPayload>
+          }
+          findMany: {
+            args: Prisma.BookMappingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookMappingPayload>[]
+          }
+          create: {
+            args: Prisma.BookMappingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookMappingPayload>
+          }
+          createMany: {
+            args: Prisma.BookMappingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BookMappingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookMappingPayload>[]
+          }
+          delete: {
+            args: Prisma.BookMappingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookMappingPayload>
+          }
+          update: {
+            args: Prisma.BookMappingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookMappingPayload>
+          }
+          deleteMany: {
+            args: Prisma.BookMappingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BookMappingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BookMappingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookMappingPayload>[]
+          }
+          upsert: {
+            args: Prisma.BookMappingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookMappingPayload>
+          }
+          aggregate: {
+            args: Prisma.BookMappingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBookMapping>
+          }
+          groupBy: {
+            args: Prisma.BookMappingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BookMappingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BookMappingCountArgs<ExtArgs>
+            result: $Utils.Optional<BookMappingCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2322,6 +2412,7 @@ export namespace Prisma {
     book?: BookOmit
     bookSale?: BookSaleOmit
     bookSaleItem?: BookSaleItemOmit
+    bookMapping?: BookMappingOmit
   }
 
   /* Types for Logging */
@@ -2725,11 +2816,13 @@ export namespace Prisma {
   export type BookCountOutputType = {
     sales: number
     preorders: number
+    mappings: number
   }
 
   export type BookCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sales?: boolean | BookCountOutputTypeCountSalesArgs
     preorders?: boolean | BookCountOutputTypeCountPreordersArgs
+    mappings?: boolean | BookCountOutputTypeCountMappingsArgs
   }
 
   // Custom InputTypes
@@ -2755,6 +2848,13 @@ export namespace Prisma {
    */
   export type BookCountOutputTypeCountPreordersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: OrderItemWhereInput
+  }
+
+  /**
+   * BookCountOutputType without action
+   */
+  export type BookCountOutputTypeCountMappingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BookMappingWhereInput
   }
 
 
@@ -20306,6 +20406,7 @@ export namespace Prisma {
     updatedAt?: boolean
     sales?: boolean | Book$salesArgs<ExtArgs>
     preorders?: boolean | Book$preordersArgs<ExtArgs>
+    mappings?: boolean | Book$mappingsArgs<ExtArgs>
     _count?: boolean | BookCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["book"]>
 
@@ -20358,6 +20459,7 @@ export namespace Prisma {
   export type BookInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sales?: boolean | Book$salesArgs<ExtArgs>
     preorders?: boolean | Book$preordersArgs<ExtArgs>
+    mappings?: boolean | Book$mappingsArgs<ExtArgs>
     _count?: boolean | BookCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BookIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -20368,6 +20470,7 @@ export namespace Prisma {
     objects: {
       sales: Prisma.$BookSaleItemPayload<ExtArgs>[]
       preorders: Prisma.$OrderItemPayload<ExtArgs>[]
+      mappings: Prisma.$BookMappingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -20778,6 +20881,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     sales<T extends Book$salesArgs<ExtArgs> = {}>(args?: Subset<T, Book$salesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookSaleItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     preorders<T extends Book$preordersArgs<ExtArgs> = {}>(args?: Subset<T, Book$preordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    mappings<T extends Book$mappingsArgs<ExtArgs> = {}>(args?: Subset<T, Book$mappingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookMappingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -21255,6 +21359,30 @@ export namespace Prisma {
   }
 
   /**
+   * Book.mappings
+   */
+  export type Book$mappingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookMapping
+     */
+    select?: BookMappingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookMapping
+     */
+    omit?: BookMappingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookMappingInclude<ExtArgs> | null
+    where?: BookMappingWhereInput
+    orderBy?: BookMappingOrderByWithRelationInput | BookMappingOrderByWithRelationInput[]
+    cursor?: BookMappingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BookMappingScalarFieldEnum | BookMappingScalarFieldEnum[]
+  }
+
+  /**
    * Book without action
    */
   export type BookDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -21299,6 +21427,8 @@ export namespace Prisma {
     fullName: string | null
     email: string | null
     phoneNumber: string | null
+    customerLocation: string | null
+    slipNumber: string | null
     isPaid: boolean | null
     purchasedAt: Date | null
     orderStatus: string | null
@@ -21314,6 +21444,8 @@ export namespace Prisma {
     fullName: string | null
     email: string | null
     phoneNumber: string | null
+    customerLocation: string | null
+    slipNumber: string | null
     isPaid: boolean | null
     purchasedAt: Date | null
     orderStatus: string | null
@@ -21329,6 +21461,8 @@ export namespace Prisma {
     fullName: number
     email: number
     phoneNumber: number
+    customerLocation: number
+    slipNumber: number
     isPaid: number
     purchasedAt: number
     orderStatus: number
@@ -21354,6 +21488,8 @@ export namespace Prisma {
     fullName?: true
     email?: true
     phoneNumber?: true
+    customerLocation?: true
+    slipNumber?: true
     isPaid?: true
     purchasedAt?: true
     orderStatus?: true
@@ -21369,6 +21505,8 @@ export namespace Prisma {
     fullName?: true
     email?: true
     phoneNumber?: true
+    customerLocation?: true
+    slipNumber?: true
     isPaid?: true
     purchasedAt?: true
     orderStatus?: true
@@ -21384,6 +21522,8 @@ export namespace Prisma {
     fullName?: true
     email?: true
     phoneNumber?: true
+    customerLocation?: true
+    slipNumber?: true
     isPaid?: true
     purchasedAt?: true
     orderStatus?: true
@@ -21486,6 +21626,8 @@ export namespace Prisma {
     fullName: string
     email: string
     phoneNumber: string | null
+    customerLocation: string | null
+    slipNumber: string | null
     isPaid: boolean
     purchasedAt: Date | null
     orderStatus: string
@@ -21520,6 +21662,8 @@ export namespace Prisma {
     fullName?: boolean
     email?: boolean
     phoneNumber?: boolean
+    customerLocation?: boolean
+    slipNumber?: boolean
     isPaid?: boolean
     purchasedAt?: boolean
     orderStatus?: boolean
@@ -21538,6 +21682,8 @@ export namespace Prisma {
     fullName?: boolean
     email?: boolean
     phoneNumber?: boolean
+    customerLocation?: boolean
+    slipNumber?: boolean
     isPaid?: boolean
     purchasedAt?: boolean
     orderStatus?: boolean
@@ -21554,6 +21700,8 @@ export namespace Prisma {
     fullName?: boolean
     email?: boolean
     phoneNumber?: boolean
+    customerLocation?: boolean
+    slipNumber?: boolean
     isPaid?: boolean
     purchasedAt?: boolean
     orderStatus?: boolean
@@ -21570,6 +21718,8 @@ export namespace Prisma {
     fullName?: boolean
     email?: boolean
     phoneNumber?: boolean
+    customerLocation?: boolean
+    slipNumber?: boolean
     isPaid?: boolean
     purchasedAt?: boolean
     orderStatus?: boolean
@@ -21579,7 +21729,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type BookSaleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderNumber" | "fullName" | "email" | "phoneNumber" | "isPaid" | "purchasedAt" | "orderStatus" | "total" | "sessionId" | "createdAt" | "updatedAt", ExtArgs["result"]["bookSale"]>
+  export type BookSaleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderNumber" | "fullName" | "email" | "phoneNumber" | "customerLocation" | "slipNumber" | "isPaid" | "purchasedAt" | "orderStatus" | "total" | "sessionId" | "createdAt" | "updatedAt", ExtArgs["result"]["bookSale"]>
   export type BookSaleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | BookSale$itemsArgs<ExtArgs>
     session?: boolean | TableSaleSessionDefaultArgs<ExtArgs>
@@ -21604,6 +21754,8 @@ export namespace Prisma {
       fullName: string
       email: string
       phoneNumber: string | null
+      customerLocation: string | null
+      slipNumber: string | null
       isPaid: boolean
       purchasedAt: Date | null
       orderStatus: string
@@ -22041,6 +22193,8 @@ export namespace Prisma {
     readonly fullName: FieldRef<"BookSale", 'String'>
     readonly email: FieldRef<"BookSale", 'String'>
     readonly phoneNumber: FieldRef<"BookSale", 'String'>
+    readonly customerLocation: FieldRef<"BookSale", 'String'>
+    readonly slipNumber: FieldRef<"BookSale", 'String'>
     readonly isPaid: FieldRef<"BookSale", 'Boolean'>
     readonly purchasedAt: FieldRef<"BookSale", 'DateTime'>
     readonly orderStatus: FieldRef<"BookSale", 'String'>
@@ -23617,6 +23771,1064 @@ export namespace Prisma {
 
 
   /**
+   * Model BookMapping
+   */
+
+  export type AggregateBookMapping = {
+    _count: BookMappingCountAggregateOutputType | null
+    _min: BookMappingMinAggregateOutputType | null
+    _max: BookMappingMaxAggregateOutputType | null
+  }
+
+  export type BookMappingMinAggregateOutputType = {
+    id: string | null
+    productName: string | null
+    bookId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BookMappingMaxAggregateOutputType = {
+    id: string | null
+    productName: string | null
+    bookId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BookMappingCountAggregateOutputType = {
+    id: number
+    productName: number
+    bookId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BookMappingMinAggregateInputType = {
+    id?: true
+    productName?: true
+    bookId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BookMappingMaxAggregateInputType = {
+    id?: true
+    productName?: true
+    bookId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BookMappingCountAggregateInputType = {
+    id?: true
+    productName?: true
+    bookId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BookMappingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BookMapping to aggregate.
+     */
+    where?: BookMappingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BookMappings to fetch.
+     */
+    orderBy?: BookMappingOrderByWithRelationInput | BookMappingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BookMappingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BookMappings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BookMappings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BookMappings
+    **/
+    _count?: true | BookMappingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BookMappingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BookMappingMaxAggregateInputType
+  }
+
+  export type GetBookMappingAggregateType<T extends BookMappingAggregateArgs> = {
+        [P in keyof T & keyof AggregateBookMapping]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBookMapping[P]>
+      : GetScalarType<T[P], AggregateBookMapping[P]>
+  }
+
+
+
+
+  export type BookMappingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BookMappingWhereInput
+    orderBy?: BookMappingOrderByWithAggregationInput | BookMappingOrderByWithAggregationInput[]
+    by: BookMappingScalarFieldEnum[] | BookMappingScalarFieldEnum
+    having?: BookMappingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BookMappingCountAggregateInputType | true
+    _min?: BookMappingMinAggregateInputType
+    _max?: BookMappingMaxAggregateInputType
+  }
+
+  export type BookMappingGroupByOutputType = {
+    id: string
+    productName: string
+    bookId: string
+    createdAt: Date
+    updatedAt: Date
+    _count: BookMappingCountAggregateOutputType | null
+    _min: BookMappingMinAggregateOutputType | null
+    _max: BookMappingMaxAggregateOutputType | null
+  }
+
+  type GetBookMappingGroupByPayload<T extends BookMappingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BookMappingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BookMappingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BookMappingGroupByOutputType[P]>
+            : GetScalarType<T[P], BookMappingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BookMappingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    productName?: boolean
+    bookId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bookMapping"]>
+
+  export type BookMappingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    productName?: boolean
+    bookId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bookMapping"]>
+
+  export type BookMappingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    productName?: boolean
+    bookId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["bookMapping"]>
+
+  export type BookMappingSelectScalar = {
+    id?: boolean
+    productName?: boolean
+    bookId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BookMappingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productName" | "bookId" | "createdAt" | "updatedAt", ExtArgs["result"]["bookMapping"]>
+  export type BookMappingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }
+  export type BookMappingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }
+  export type BookMappingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    book?: boolean | BookDefaultArgs<ExtArgs>
+  }
+
+  export type $BookMappingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BookMapping"
+    objects: {
+      book: Prisma.$BookPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      productName: string
+      bookId: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["bookMapping"]>
+    composites: {}
+  }
+
+  type BookMappingGetPayload<S extends boolean | null | undefined | BookMappingDefaultArgs> = $Result.GetResult<Prisma.$BookMappingPayload, S>
+
+  type BookMappingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BookMappingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BookMappingCountAggregateInputType | true
+    }
+
+  export interface BookMappingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BookMapping'], meta: { name: 'BookMapping' } }
+    /**
+     * Find zero or one BookMapping that matches the filter.
+     * @param {BookMappingFindUniqueArgs} args - Arguments to find a BookMapping
+     * @example
+     * // Get one BookMapping
+     * const bookMapping = await prisma.bookMapping.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BookMappingFindUniqueArgs>(args: SelectSubset<T, BookMappingFindUniqueArgs<ExtArgs>>): Prisma__BookMappingClient<$Result.GetResult<Prisma.$BookMappingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BookMapping that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BookMappingFindUniqueOrThrowArgs} args - Arguments to find a BookMapping
+     * @example
+     * // Get one BookMapping
+     * const bookMapping = await prisma.bookMapping.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BookMappingFindUniqueOrThrowArgs>(args: SelectSubset<T, BookMappingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BookMappingClient<$Result.GetResult<Prisma.$BookMappingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BookMapping that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookMappingFindFirstArgs} args - Arguments to find a BookMapping
+     * @example
+     * // Get one BookMapping
+     * const bookMapping = await prisma.bookMapping.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BookMappingFindFirstArgs>(args?: SelectSubset<T, BookMappingFindFirstArgs<ExtArgs>>): Prisma__BookMappingClient<$Result.GetResult<Prisma.$BookMappingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BookMapping that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookMappingFindFirstOrThrowArgs} args - Arguments to find a BookMapping
+     * @example
+     * // Get one BookMapping
+     * const bookMapping = await prisma.bookMapping.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BookMappingFindFirstOrThrowArgs>(args?: SelectSubset<T, BookMappingFindFirstOrThrowArgs<ExtArgs>>): Prisma__BookMappingClient<$Result.GetResult<Prisma.$BookMappingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BookMappings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookMappingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BookMappings
+     * const bookMappings = await prisma.bookMapping.findMany()
+     * 
+     * // Get first 10 BookMappings
+     * const bookMappings = await prisma.bookMapping.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bookMappingWithIdOnly = await prisma.bookMapping.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BookMappingFindManyArgs>(args?: SelectSubset<T, BookMappingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookMappingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BookMapping.
+     * @param {BookMappingCreateArgs} args - Arguments to create a BookMapping.
+     * @example
+     * // Create one BookMapping
+     * const BookMapping = await prisma.bookMapping.create({
+     *   data: {
+     *     // ... data to create a BookMapping
+     *   }
+     * })
+     * 
+     */
+    create<T extends BookMappingCreateArgs>(args: SelectSubset<T, BookMappingCreateArgs<ExtArgs>>): Prisma__BookMappingClient<$Result.GetResult<Prisma.$BookMappingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BookMappings.
+     * @param {BookMappingCreateManyArgs} args - Arguments to create many BookMappings.
+     * @example
+     * // Create many BookMappings
+     * const bookMapping = await prisma.bookMapping.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BookMappingCreateManyArgs>(args?: SelectSubset<T, BookMappingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BookMappings and returns the data saved in the database.
+     * @param {BookMappingCreateManyAndReturnArgs} args - Arguments to create many BookMappings.
+     * @example
+     * // Create many BookMappings
+     * const bookMapping = await prisma.bookMapping.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BookMappings and only return the `id`
+     * const bookMappingWithIdOnly = await prisma.bookMapping.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BookMappingCreateManyAndReturnArgs>(args?: SelectSubset<T, BookMappingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookMappingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BookMapping.
+     * @param {BookMappingDeleteArgs} args - Arguments to delete one BookMapping.
+     * @example
+     * // Delete one BookMapping
+     * const BookMapping = await prisma.bookMapping.delete({
+     *   where: {
+     *     // ... filter to delete one BookMapping
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BookMappingDeleteArgs>(args: SelectSubset<T, BookMappingDeleteArgs<ExtArgs>>): Prisma__BookMappingClient<$Result.GetResult<Prisma.$BookMappingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BookMapping.
+     * @param {BookMappingUpdateArgs} args - Arguments to update one BookMapping.
+     * @example
+     * // Update one BookMapping
+     * const bookMapping = await prisma.bookMapping.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BookMappingUpdateArgs>(args: SelectSubset<T, BookMappingUpdateArgs<ExtArgs>>): Prisma__BookMappingClient<$Result.GetResult<Prisma.$BookMappingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BookMappings.
+     * @param {BookMappingDeleteManyArgs} args - Arguments to filter BookMappings to delete.
+     * @example
+     * // Delete a few BookMappings
+     * const { count } = await prisma.bookMapping.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BookMappingDeleteManyArgs>(args?: SelectSubset<T, BookMappingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BookMappings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookMappingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BookMappings
+     * const bookMapping = await prisma.bookMapping.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BookMappingUpdateManyArgs>(args: SelectSubset<T, BookMappingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BookMappings and returns the data updated in the database.
+     * @param {BookMappingUpdateManyAndReturnArgs} args - Arguments to update many BookMappings.
+     * @example
+     * // Update many BookMappings
+     * const bookMapping = await prisma.bookMapping.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BookMappings and only return the `id`
+     * const bookMappingWithIdOnly = await prisma.bookMapping.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BookMappingUpdateManyAndReturnArgs>(args: SelectSubset<T, BookMappingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookMappingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BookMapping.
+     * @param {BookMappingUpsertArgs} args - Arguments to update or create a BookMapping.
+     * @example
+     * // Update or create a BookMapping
+     * const bookMapping = await prisma.bookMapping.upsert({
+     *   create: {
+     *     // ... data to create a BookMapping
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BookMapping we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BookMappingUpsertArgs>(args: SelectSubset<T, BookMappingUpsertArgs<ExtArgs>>): Prisma__BookMappingClient<$Result.GetResult<Prisma.$BookMappingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BookMappings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookMappingCountArgs} args - Arguments to filter BookMappings to count.
+     * @example
+     * // Count the number of BookMappings
+     * const count = await prisma.bookMapping.count({
+     *   where: {
+     *     // ... the filter for the BookMappings we want to count
+     *   }
+     * })
+    **/
+    count<T extends BookMappingCountArgs>(
+      args?: Subset<T, BookMappingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BookMappingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BookMapping.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookMappingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BookMappingAggregateArgs>(args: Subset<T, BookMappingAggregateArgs>): Prisma.PrismaPromise<GetBookMappingAggregateType<T>>
+
+    /**
+     * Group by BookMapping.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookMappingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BookMappingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BookMappingGroupByArgs['orderBy'] }
+        : { orderBy?: BookMappingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BookMappingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBookMappingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BookMapping model
+   */
+  readonly fields: BookMappingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BookMapping.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BookMappingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    book<T extends BookDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BookDefaultArgs<ExtArgs>>): Prisma__BookClient<$Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BookMapping model
+   */ 
+  interface BookMappingFieldRefs {
+    readonly id: FieldRef<"BookMapping", 'String'>
+    readonly productName: FieldRef<"BookMapping", 'String'>
+    readonly bookId: FieldRef<"BookMapping", 'String'>
+    readonly createdAt: FieldRef<"BookMapping", 'DateTime'>
+    readonly updatedAt: FieldRef<"BookMapping", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BookMapping findUnique
+   */
+  export type BookMappingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookMapping
+     */
+    select?: BookMappingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookMapping
+     */
+    omit?: BookMappingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookMappingInclude<ExtArgs> | null
+    /**
+     * Filter, which BookMapping to fetch.
+     */
+    where: BookMappingWhereUniqueInput
+  }
+
+  /**
+   * BookMapping findUniqueOrThrow
+   */
+  export type BookMappingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookMapping
+     */
+    select?: BookMappingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookMapping
+     */
+    omit?: BookMappingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookMappingInclude<ExtArgs> | null
+    /**
+     * Filter, which BookMapping to fetch.
+     */
+    where: BookMappingWhereUniqueInput
+  }
+
+  /**
+   * BookMapping findFirst
+   */
+  export type BookMappingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookMapping
+     */
+    select?: BookMappingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookMapping
+     */
+    omit?: BookMappingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookMappingInclude<ExtArgs> | null
+    /**
+     * Filter, which BookMapping to fetch.
+     */
+    where?: BookMappingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BookMappings to fetch.
+     */
+    orderBy?: BookMappingOrderByWithRelationInput | BookMappingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BookMappings.
+     */
+    cursor?: BookMappingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BookMappings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BookMappings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BookMappings.
+     */
+    distinct?: BookMappingScalarFieldEnum | BookMappingScalarFieldEnum[]
+  }
+
+  /**
+   * BookMapping findFirstOrThrow
+   */
+  export type BookMappingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookMapping
+     */
+    select?: BookMappingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookMapping
+     */
+    omit?: BookMappingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookMappingInclude<ExtArgs> | null
+    /**
+     * Filter, which BookMapping to fetch.
+     */
+    where?: BookMappingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BookMappings to fetch.
+     */
+    orderBy?: BookMappingOrderByWithRelationInput | BookMappingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BookMappings.
+     */
+    cursor?: BookMappingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BookMappings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BookMappings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BookMappings.
+     */
+    distinct?: BookMappingScalarFieldEnum | BookMappingScalarFieldEnum[]
+  }
+
+  /**
+   * BookMapping findMany
+   */
+  export type BookMappingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookMapping
+     */
+    select?: BookMappingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookMapping
+     */
+    omit?: BookMappingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookMappingInclude<ExtArgs> | null
+    /**
+     * Filter, which BookMappings to fetch.
+     */
+    where?: BookMappingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BookMappings to fetch.
+     */
+    orderBy?: BookMappingOrderByWithRelationInput | BookMappingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BookMappings.
+     */
+    cursor?: BookMappingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BookMappings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BookMappings.
+     */
+    skip?: number
+    distinct?: BookMappingScalarFieldEnum | BookMappingScalarFieldEnum[]
+  }
+
+  /**
+   * BookMapping create
+   */
+  export type BookMappingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookMapping
+     */
+    select?: BookMappingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookMapping
+     */
+    omit?: BookMappingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookMappingInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BookMapping.
+     */
+    data: XOR<BookMappingCreateInput, BookMappingUncheckedCreateInput>
+  }
+
+  /**
+   * BookMapping createMany
+   */
+  export type BookMappingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BookMappings.
+     */
+    data: BookMappingCreateManyInput | BookMappingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BookMapping createManyAndReturn
+   */
+  export type BookMappingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookMapping
+     */
+    select?: BookMappingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookMapping
+     */
+    omit?: BookMappingOmit<ExtArgs> | null
+    /**
+     * The data used to create many BookMappings.
+     */
+    data: BookMappingCreateManyInput | BookMappingCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookMappingIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BookMapping update
+   */
+  export type BookMappingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookMapping
+     */
+    select?: BookMappingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookMapping
+     */
+    omit?: BookMappingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookMappingInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BookMapping.
+     */
+    data: XOR<BookMappingUpdateInput, BookMappingUncheckedUpdateInput>
+    /**
+     * Choose, which BookMapping to update.
+     */
+    where: BookMappingWhereUniqueInput
+  }
+
+  /**
+   * BookMapping updateMany
+   */
+  export type BookMappingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BookMappings.
+     */
+    data: XOR<BookMappingUpdateManyMutationInput, BookMappingUncheckedUpdateManyInput>
+    /**
+     * Filter which BookMappings to update
+     */
+    where?: BookMappingWhereInput
+    /**
+     * Limit how many BookMappings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BookMapping updateManyAndReturn
+   */
+  export type BookMappingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookMapping
+     */
+    select?: BookMappingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookMapping
+     */
+    omit?: BookMappingOmit<ExtArgs> | null
+    /**
+     * The data used to update BookMappings.
+     */
+    data: XOR<BookMappingUpdateManyMutationInput, BookMappingUncheckedUpdateManyInput>
+    /**
+     * Filter which BookMappings to update
+     */
+    where?: BookMappingWhereInput
+    /**
+     * Limit how many BookMappings to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookMappingIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BookMapping upsert
+   */
+  export type BookMappingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookMapping
+     */
+    select?: BookMappingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookMapping
+     */
+    omit?: BookMappingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookMappingInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BookMapping to update in case it exists.
+     */
+    where: BookMappingWhereUniqueInput
+    /**
+     * In case the BookMapping found by the `where` argument doesn't exist, create a new BookMapping with this data.
+     */
+    create: XOR<BookMappingCreateInput, BookMappingUncheckedCreateInput>
+    /**
+     * In case the BookMapping was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BookMappingUpdateInput, BookMappingUncheckedUpdateInput>
+  }
+
+  /**
+   * BookMapping delete
+   */
+  export type BookMappingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookMapping
+     */
+    select?: BookMappingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookMapping
+     */
+    omit?: BookMappingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookMappingInclude<ExtArgs> | null
+    /**
+     * Filter which BookMapping to delete.
+     */
+    where: BookMappingWhereUniqueInput
+  }
+
+  /**
+   * BookMapping deleteMany
+   */
+  export type BookMappingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BookMappings to delete
+     */
+    where?: BookMappingWhereInput
+    /**
+     * Limit how many BookMappings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BookMapping without action
+   */
+  export type BookMappingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BookMapping
+     */
+    select?: BookMappingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BookMapping
+     */
+    omit?: BookMappingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookMappingInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -23879,6 +25091,8 @@ export namespace Prisma {
     fullName: 'fullName',
     email: 'email',
     phoneNumber: 'phoneNumber',
+    customerLocation: 'customerLocation',
+    slipNumber: 'slipNumber',
     isPaid: 'isPaid',
     purchasedAt: 'purchasedAt',
     orderStatus: 'orderStatus',
@@ -23902,6 +25116,17 @@ export namespace Prisma {
   };
 
   export type BookSaleItemScalarFieldEnum = (typeof BookSaleItemScalarFieldEnum)[keyof typeof BookSaleItemScalarFieldEnum]
+
+
+  export const BookMappingScalarFieldEnum: {
+    id: 'id',
+    productName: 'productName',
+    bookId: 'bookId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BookMappingScalarFieldEnum = (typeof BookMappingScalarFieldEnum)[keyof typeof BookMappingScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -25247,6 +26472,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Book"> | Date | string
     sales?: BookSaleItemListRelationFilter
     preorders?: OrderItemListRelationFilter
+    mappings?: BookMappingListRelationFilter
   }
 
   export type BookOrderByWithRelationInput = {
@@ -25264,6 +26490,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     sales?: BookSaleItemOrderByRelationAggregateInput
     preorders?: OrderItemOrderByRelationAggregateInput
+    mappings?: BookMappingOrderByRelationAggregateInput
   }
 
   export type BookWhereUniqueInput = Prisma.AtLeast<{
@@ -25284,6 +26511,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Book"> | Date | string
     sales?: BookSaleItemListRelationFilter
     preorders?: OrderItemListRelationFilter
+    mappings?: BookMappingListRelationFilter
   }, "id">
 
   export type BookOrderByWithAggregationInput = {
@@ -25333,6 +26561,8 @@ export namespace Prisma {
     fullName?: StringFilter<"BookSale"> | string
     email?: StringFilter<"BookSale"> | string
     phoneNumber?: StringNullableFilter<"BookSale"> | string | null
+    customerLocation?: StringNullableFilter<"BookSale"> | string | null
+    slipNumber?: StringNullableFilter<"BookSale"> | string | null
     isPaid?: BoolFilter<"BookSale"> | boolean
     purchasedAt?: DateTimeNullableFilter<"BookSale"> | Date | string | null
     orderStatus?: StringFilter<"BookSale"> | string
@@ -25350,6 +26580,8 @@ export namespace Prisma {
     fullName?: SortOrder
     email?: SortOrder
     phoneNumber?: SortOrderInput | SortOrder
+    customerLocation?: SortOrderInput | SortOrder
+    slipNumber?: SortOrderInput | SortOrder
     isPaid?: SortOrder
     purchasedAt?: SortOrderInput | SortOrder
     orderStatus?: SortOrder
@@ -25370,6 +26602,8 @@ export namespace Prisma {
     fullName?: StringFilter<"BookSale"> | string
     email?: StringFilter<"BookSale"> | string
     phoneNumber?: StringNullableFilter<"BookSale"> | string | null
+    customerLocation?: StringNullableFilter<"BookSale"> | string | null
+    slipNumber?: StringNullableFilter<"BookSale"> | string | null
     isPaid?: BoolFilter<"BookSale"> | boolean
     purchasedAt?: DateTimeNullableFilter<"BookSale"> | Date | string | null
     orderStatus?: StringFilter<"BookSale"> | string
@@ -25387,6 +26621,8 @@ export namespace Prisma {
     fullName?: SortOrder
     email?: SortOrder
     phoneNumber?: SortOrderInput | SortOrder
+    customerLocation?: SortOrderInput | SortOrder
+    slipNumber?: SortOrderInput | SortOrder
     isPaid?: SortOrder
     purchasedAt?: SortOrderInput | SortOrder
     orderStatus?: SortOrder
@@ -25410,6 +26646,8 @@ export namespace Prisma {
     fullName?: StringWithAggregatesFilter<"BookSale"> | string
     email?: StringWithAggregatesFilter<"BookSale"> | string
     phoneNumber?: StringNullableWithAggregatesFilter<"BookSale"> | string | null
+    customerLocation?: StringNullableWithAggregatesFilter<"BookSale"> | string | null
+    slipNumber?: StringNullableWithAggregatesFilter<"BookSale"> | string | null
     isPaid?: BoolWithAggregatesFilter<"BookSale"> | boolean
     purchasedAt?: DateTimeNullableWithAggregatesFilter<"BookSale"> | Date | string | null
     orderStatus?: StringWithAggregatesFilter<"BookSale"> | string
@@ -25487,6 +26725,61 @@ export namespace Prisma {
     price?: FloatWithAggregatesFilter<"BookSaleItem"> | number
     createdAt?: DateTimeWithAggregatesFilter<"BookSaleItem"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"BookSaleItem"> | Date | string
+  }
+
+  export type BookMappingWhereInput = {
+    AND?: BookMappingWhereInput | BookMappingWhereInput[]
+    OR?: BookMappingWhereInput[]
+    NOT?: BookMappingWhereInput | BookMappingWhereInput[]
+    id?: StringFilter<"BookMapping"> | string
+    productName?: StringFilter<"BookMapping"> | string
+    bookId?: StringFilter<"BookMapping"> | string
+    createdAt?: DateTimeFilter<"BookMapping"> | Date | string
+    updatedAt?: DateTimeFilter<"BookMapping"> | Date | string
+    book?: XOR<BookScalarRelationFilter, BookWhereInput>
+  }
+
+  export type BookMappingOrderByWithRelationInput = {
+    id?: SortOrder
+    productName?: SortOrder
+    bookId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    book?: BookOrderByWithRelationInput
+  }
+
+  export type BookMappingWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    productName?: string
+    AND?: BookMappingWhereInput | BookMappingWhereInput[]
+    OR?: BookMappingWhereInput[]
+    NOT?: BookMappingWhereInput | BookMappingWhereInput[]
+    bookId?: StringFilter<"BookMapping"> | string
+    createdAt?: DateTimeFilter<"BookMapping"> | Date | string
+    updatedAt?: DateTimeFilter<"BookMapping"> | Date | string
+    book?: XOR<BookScalarRelationFilter, BookWhereInput>
+  }, "id" | "productName">
+
+  export type BookMappingOrderByWithAggregationInput = {
+    id?: SortOrder
+    productName?: SortOrder
+    bookId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BookMappingCountOrderByAggregateInput
+    _max?: BookMappingMaxOrderByAggregateInput
+    _min?: BookMappingMinOrderByAggregateInput
+  }
+
+  export type BookMappingScalarWhereWithAggregatesInput = {
+    AND?: BookMappingScalarWhereWithAggregatesInput | BookMappingScalarWhereWithAggregatesInput[]
+    OR?: BookMappingScalarWhereWithAggregatesInput[]
+    NOT?: BookMappingScalarWhereWithAggregatesInput | BookMappingScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BookMapping"> | string
+    productName?: StringWithAggregatesFilter<"BookMapping"> | string
+    bookId?: StringWithAggregatesFilter<"BookMapping"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"BookMapping"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"BookMapping"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -26812,6 +28105,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     sales?: BookSaleItemCreateNestedManyWithoutBookInput
     preorders?: OrderItemCreateNestedManyWithoutBookInput
+    mappings?: BookMappingCreateNestedManyWithoutBookInput
   }
 
   export type BookUncheckedCreateInput = {
@@ -26829,6 +28123,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     sales?: BookSaleItemUncheckedCreateNestedManyWithoutBookInput
     preorders?: OrderItemUncheckedCreateNestedManyWithoutBookInput
+    mappings?: BookMappingUncheckedCreateNestedManyWithoutBookInput
   }
 
   export type BookUpdateInput = {
@@ -26846,6 +28141,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sales?: BookSaleItemUpdateManyWithoutBookNestedInput
     preorders?: OrderItemUpdateManyWithoutBookNestedInput
+    mappings?: BookMappingUpdateManyWithoutBookNestedInput
   }
 
   export type BookUncheckedUpdateInput = {
@@ -26863,6 +28159,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sales?: BookSaleItemUncheckedUpdateManyWithoutBookNestedInput
     preorders?: OrderItemUncheckedUpdateManyWithoutBookNestedInput
+    mappings?: BookMappingUncheckedUpdateManyWithoutBookNestedInput
   }
 
   export type BookCreateManyInput = {
@@ -26916,6 +28213,8 @@ export namespace Prisma {
     fullName: string
     email: string
     phoneNumber?: string | null
+    customerLocation?: string | null
+    slipNumber?: string | null
     isPaid?: boolean
     purchasedAt?: Date | string | null
     orderStatus?: string
@@ -26932,6 +28231,8 @@ export namespace Prisma {
     fullName: string
     email: string
     phoneNumber?: string | null
+    customerLocation?: string | null
+    slipNumber?: string | null
     isPaid?: boolean
     purchasedAt?: Date | string | null
     orderStatus?: string
@@ -26948,6 +28249,8 @@ export namespace Prisma {
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    customerLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    slipNumber?: NullableStringFieldUpdateOperationsInput | string | null
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     purchasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     orderStatus?: StringFieldUpdateOperationsInput | string
@@ -26964,6 +28267,8 @@ export namespace Prisma {
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    customerLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    slipNumber?: NullableStringFieldUpdateOperationsInput | string | null
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     purchasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     orderStatus?: StringFieldUpdateOperationsInput | string
@@ -26980,6 +28285,8 @@ export namespace Prisma {
     fullName: string
     email: string
     phoneNumber?: string | null
+    customerLocation?: string | null
+    slipNumber?: string | null
     isPaid?: boolean
     purchasedAt?: Date | string | null
     orderStatus?: string
@@ -26995,6 +28302,8 @@ export namespace Prisma {
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    customerLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    slipNumber?: NullableStringFieldUpdateOperationsInput | string | null
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     purchasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     orderStatus?: StringFieldUpdateOperationsInput | string
@@ -27009,6 +28318,8 @@ export namespace Prisma {
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    customerLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    slipNumber?: NullableStringFieldUpdateOperationsInput | string | null
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     purchasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     orderStatus?: StringFieldUpdateOperationsInput | string
@@ -27082,6 +28393,61 @@ export namespace Prisma {
     bookId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BookMappingCreateInput = {
+    id?: string
+    productName: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    book: BookCreateNestedOneWithoutMappingsInput
+  }
+
+  export type BookMappingUncheckedCreateInput = {
+    id?: string
+    productName: string
+    bookId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BookMappingUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    book?: BookUpdateOneRequiredWithoutMappingsNestedInput
+  }
+
+  export type BookMappingUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    bookId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BookMappingCreateManyInput = {
+    id?: string
+    productName: string
+    bookId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BookMappingUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BookMappingUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    bookId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -28092,7 +29458,17 @@ export namespace Prisma {
     none?: BookSaleItemWhereInput
   }
 
+  export type BookMappingListRelationFilter = {
+    every?: BookMappingWhereInput
+    some?: BookMappingWhereInput
+    none?: BookMappingWhereInput
+  }
+
   export type BookSaleItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BookMappingOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -28172,6 +29548,8 @@ export namespace Prisma {
     fullName?: SortOrder
     email?: SortOrder
     phoneNumber?: SortOrder
+    customerLocation?: SortOrder
+    slipNumber?: SortOrder
     isPaid?: SortOrder
     purchasedAt?: SortOrder
     orderStatus?: SortOrder
@@ -28191,6 +29569,8 @@ export namespace Prisma {
     fullName?: SortOrder
     email?: SortOrder
     phoneNumber?: SortOrder
+    customerLocation?: SortOrder
+    slipNumber?: SortOrder
     isPaid?: SortOrder
     purchasedAt?: SortOrder
     orderStatus?: SortOrder
@@ -28206,6 +29586,8 @@ export namespace Prisma {
     fullName?: SortOrder
     email?: SortOrder
     phoneNumber?: SortOrder
+    customerLocation?: SortOrder
+    slipNumber?: SortOrder
     isPaid?: SortOrder
     purchasedAt?: SortOrder
     orderStatus?: SortOrder
@@ -28267,6 +29649,30 @@ export namespace Prisma {
   export type BookSaleItemSumOrderByAggregateInput = {
     quantity?: SortOrder
     price?: SortOrder
+  }
+
+  export type BookMappingCountOrderByAggregateInput = {
+    id?: SortOrder
+    productName?: SortOrder
+    bookId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BookMappingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    productName?: SortOrder
+    bookId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BookMappingMinOrderByAggregateInput = {
+    id?: SortOrder
+    productName?: SortOrder
+    bookId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type AccountCreateNestedManyWithoutUserInput = {
@@ -29297,6 +30703,13 @@ export namespace Prisma {
     connect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
   }
 
+  export type BookMappingCreateNestedManyWithoutBookInput = {
+    create?: XOR<BookMappingCreateWithoutBookInput, BookMappingUncheckedCreateWithoutBookInput> | BookMappingCreateWithoutBookInput[] | BookMappingUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: BookMappingCreateOrConnectWithoutBookInput | BookMappingCreateOrConnectWithoutBookInput[]
+    createMany?: BookMappingCreateManyBookInputEnvelope
+    connect?: BookMappingWhereUniqueInput | BookMappingWhereUniqueInput[]
+  }
+
   export type BookSaleItemUncheckedCreateNestedManyWithoutBookInput = {
     create?: XOR<BookSaleItemCreateWithoutBookInput, BookSaleItemUncheckedCreateWithoutBookInput> | BookSaleItemCreateWithoutBookInput[] | BookSaleItemUncheckedCreateWithoutBookInput[]
     connectOrCreate?: BookSaleItemCreateOrConnectWithoutBookInput | BookSaleItemCreateOrConnectWithoutBookInput[]
@@ -29309,6 +30722,13 @@ export namespace Prisma {
     connectOrCreate?: OrderItemCreateOrConnectWithoutBookInput | OrderItemCreateOrConnectWithoutBookInput[]
     createMany?: OrderItemCreateManyBookInputEnvelope
     connect?: OrderItemWhereUniqueInput | OrderItemWhereUniqueInput[]
+  }
+
+  export type BookMappingUncheckedCreateNestedManyWithoutBookInput = {
+    create?: XOR<BookMappingCreateWithoutBookInput, BookMappingUncheckedCreateWithoutBookInput> | BookMappingCreateWithoutBookInput[] | BookMappingUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: BookMappingCreateOrConnectWithoutBookInput | BookMappingCreateOrConnectWithoutBookInput[]
+    createMany?: BookMappingCreateManyBookInputEnvelope
+    connect?: BookMappingWhereUniqueInput | BookMappingWhereUniqueInput[]
   }
 
   export type BookSaleItemUpdateManyWithoutBookNestedInput = {
@@ -29339,6 +30759,20 @@ export namespace Prisma {
     deleteMany?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
   }
 
+  export type BookMappingUpdateManyWithoutBookNestedInput = {
+    create?: XOR<BookMappingCreateWithoutBookInput, BookMappingUncheckedCreateWithoutBookInput> | BookMappingCreateWithoutBookInput[] | BookMappingUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: BookMappingCreateOrConnectWithoutBookInput | BookMappingCreateOrConnectWithoutBookInput[]
+    upsert?: BookMappingUpsertWithWhereUniqueWithoutBookInput | BookMappingUpsertWithWhereUniqueWithoutBookInput[]
+    createMany?: BookMappingCreateManyBookInputEnvelope
+    set?: BookMappingWhereUniqueInput | BookMappingWhereUniqueInput[]
+    disconnect?: BookMappingWhereUniqueInput | BookMappingWhereUniqueInput[]
+    delete?: BookMappingWhereUniqueInput | BookMappingWhereUniqueInput[]
+    connect?: BookMappingWhereUniqueInput | BookMappingWhereUniqueInput[]
+    update?: BookMappingUpdateWithWhereUniqueWithoutBookInput | BookMappingUpdateWithWhereUniqueWithoutBookInput[]
+    updateMany?: BookMappingUpdateManyWithWhereWithoutBookInput | BookMappingUpdateManyWithWhereWithoutBookInput[]
+    deleteMany?: BookMappingScalarWhereInput | BookMappingScalarWhereInput[]
+  }
+
   export type BookSaleItemUncheckedUpdateManyWithoutBookNestedInput = {
     create?: XOR<BookSaleItemCreateWithoutBookInput, BookSaleItemUncheckedCreateWithoutBookInput> | BookSaleItemCreateWithoutBookInput[] | BookSaleItemUncheckedCreateWithoutBookInput[]
     connectOrCreate?: BookSaleItemCreateOrConnectWithoutBookInput | BookSaleItemCreateOrConnectWithoutBookInput[]
@@ -29365,6 +30799,20 @@ export namespace Prisma {
     update?: OrderItemUpdateWithWhereUniqueWithoutBookInput | OrderItemUpdateWithWhereUniqueWithoutBookInput[]
     updateMany?: OrderItemUpdateManyWithWhereWithoutBookInput | OrderItemUpdateManyWithWhereWithoutBookInput[]
     deleteMany?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
+  }
+
+  export type BookMappingUncheckedUpdateManyWithoutBookNestedInput = {
+    create?: XOR<BookMappingCreateWithoutBookInput, BookMappingUncheckedCreateWithoutBookInput> | BookMappingCreateWithoutBookInput[] | BookMappingUncheckedCreateWithoutBookInput[]
+    connectOrCreate?: BookMappingCreateOrConnectWithoutBookInput | BookMappingCreateOrConnectWithoutBookInput[]
+    upsert?: BookMappingUpsertWithWhereUniqueWithoutBookInput | BookMappingUpsertWithWhereUniqueWithoutBookInput[]
+    createMany?: BookMappingCreateManyBookInputEnvelope
+    set?: BookMappingWhereUniqueInput | BookMappingWhereUniqueInput[]
+    disconnect?: BookMappingWhereUniqueInput | BookMappingWhereUniqueInput[]
+    delete?: BookMappingWhereUniqueInput | BookMappingWhereUniqueInput[]
+    connect?: BookMappingWhereUniqueInput | BookMappingWhereUniqueInput[]
+    update?: BookMappingUpdateWithWhereUniqueWithoutBookInput | BookMappingUpdateWithWhereUniqueWithoutBookInput[]
+    updateMany?: BookMappingUpdateManyWithWhereWithoutBookInput | BookMappingUpdateManyWithWhereWithoutBookInput[]
+    deleteMany?: BookMappingScalarWhereInput | BookMappingScalarWhereInput[]
   }
 
   export type BookSaleItemCreateNestedManyWithoutBookSaleInput = {
@@ -29449,6 +30897,20 @@ export namespace Prisma {
     upsert?: BookUpsertWithoutSalesInput
     connect?: BookWhereUniqueInput
     update?: XOR<XOR<BookUpdateToOneWithWhereWithoutSalesInput, BookUpdateWithoutSalesInput>, BookUncheckedUpdateWithoutSalesInput>
+  }
+
+  export type BookCreateNestedOneWithoutMappingsInput = {
+    create?: XOR<BookCreateWithoutMappingsInput, BookUncheckedCreateWithoutMappingsInput>
+    connectOrCreate?: BookCreateOrConnectWithoutMappingsInput
+    connect?: BookWhereUniqueInput
+  }
+
+  export type BookUpdateOneRequiredWithoutMappingsNestedInput = {
+    create?: XOR<BookCreateWithoutMappingsInput, BookUncheckedCreateWithoutMappingsInput>
+    connectOrCreate?: BookCreateOrConnectWithoutMappingsInput
+    upsert?: BookUpsertWithoutMappingsInput
+    connect?: BookWhereUniqueInput
+    update?: XOR<XOR<BookUpdateToOneWithWhereWithoutMappingsInput, BookUpdateWithoutMappingsInput>, BookUncheckedUpdateWithoutMappingsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -30268,6 +31730,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sales?: BookSaleItemCreateNestedManyWithoutBookInput
+    mappings?: BookMappingCreateNestedManyWithoutBookInput
   }
 
   export type BookUncheckedCreateWithoutPreordersInput = {
@@ -30284,6 +31747,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sales?: BookSaleItemUncheckedCreateNestedManyWithoutBookInput
+    mappings?: BookMappingUncheckedCreateNestedManyWithoutBookInput
   }
 
   export type BookCreateOrConnectWithoutPreordersInput = {
@@ -30385,6 +31849,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sales?: BookSaleItemUpdateManyWithoutBookNestedInput
+    mappings?: BookMappingUpdateManyWithoutBookNestedInput
   }
 
   export type BookUncheckedUpdateWithoutPreordersInput = {
@@ -30401,6 +31866,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sales?: BookSaleItemUncheckedUpdateManyWithoutBookNestedInput
+    mappings?: BookMappingUncheckedUpdateManyWithoutBookNestedInput
   }
 
   export type ConsolidationUpsertWithoutItemsInput = {
@@ -30757,6 +32223,8 @@ export namespace Prisma {
     fullName: string
     email: string
     phoneNumber?: string | null
+    customerLocation?: string | null
+    slipNumber?: string | null
     isPaid?: boolean
     purchasedAt?: Date | string | null
     orderStatus?: string
@@ -30772,6 +32240,8 @@ export namespace Prisma {
     fullName: string
     email: string
     phoneNumber?: string | null
+    customerLocation?: string | null
+    slipNumber?: string | null
     isPaid?: boolean
     purchasedAt?: Date | string | null
     orderStatus?: string
@@ -30888,6 +32358,8 @@ export namespace Prisma {
     fullName?: StringFilter<"BookSale"> | string
     email?: StringFilter<"BookSale"> | string
     phoneNumber?: StringNullableFilter<"BookSale"> | string | null
+    customerLocation?: StringNullableFilter<"BookSale"> | string | null
+    slipNumber?: StringNullableFilter<"BookSale"> | string | null
     isPaid?: BoolFilter<"BookSale"> | boolean
     purchasedAt?: DateTimeNullableFilter<"BookSale"> | Date | string | null
     orderStatus?: StringFilter<"BookSale"> | string
@@ -32004,6 +33476,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BookMappingCreateWithoutBookInput = {
+    id?: string
+    productName: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BookMappingUncheckedCreateWithoutBookInput = {
+    id?: string
+    productName: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BookMappingCreateOrConnectWithoutBookInput = {
+    where: BookMappingWhereUniqueInput
+    create: XOR<BookMappingCreateWithoutBookInput, BookMappingUncheckedCreateWithoutBookInput>
+  }
+
+  export type BookMappingCreateManyBookInputEnvelope = {
+    data: BookMappingCreateManyBookInput | BookMappingCreateManyBookInput[]
+    skipDuplicates?: boolean
+  }
+
   export type BookSaleItemUpsertWithWhereUniqueWithoutBookInput = {
     where: BookSaleItemWhereUniqueInput
     update: XOR<BookSaleItemUpdateWithoutBookInput, BookSaleItemUncheckedUpdateWithoutBookInput>
@@ -32047,6 +33543,33 @@ export namespace Prisma {
   export type OrderItemUpdateManyWithWhereWithoutBookInput = {
     where: OrderItemScalarWhereInput
     data: XOR<OrderItemUpdateManyMutationInput, OrderItemUncheckedUpdateManyWithoutBookInput>
+  }
+
+  export type BookMappingUpsertWithWhereUniqueWithoutBookInput = {
+    where: BookMappingWhereUniqueInput
+    update: XOR<BookMappingUpdateWithoutBookInput, BookMappingUncheckedUpdateWithoutBookInput>
+    create: XOR<BookMappingCreateWithoutBookInput, BookMappingUncheckedCreateWithoutBookInput>
+  }
+
+  export type BookMappingUpdateWithWhereUniqueWithoutBookInput = {
+    where: BookMappingWhereUniqueInput
+    data: XOR<BookMappingUpdateWithoutBookInput, BookMappingUncheckedUpdateWithoutBookInput>
+  }
+
+  export type BookMappingUpdateManyWithWhereWithoutBookInput = {
+    where: BookMappingScalarWhereInput
+    data: XOR<BookMappingUpdateManyMutationInput, BookMappingUncheckedUpdateManyWithoutBookInput>
+  }
+
+  export type BookMappingScalarWhereInput = {
+    AND?: BookMappingScalarWhereInput | BookMappingScalarWhereInput[]
+    OR?: BookMappingScalarWhereInput[]
+    NOT?: BookMappingScalarWhereInput | BookMappingScalarWhereInput[]
+    id?: StringFilter<"BookMapping"> | string
+    productName?: StringFilter<"BookMapping"> | string
+    bookId?: StringFilter<"BookMapping"> | string
+    createdAt?: DateTimeFilter<"BookMapping"> | Date | string
+    updatedAt?: DateTimeFilter<"BookMapping"> | Date | string
   }
 
   export type BookSaleItemCreateWithoutBookSaleInput = {
@@ -32179,6 +33702,8 @@ export namespace Prisma {
     fullName: string
     email: string
     phoneNumber?: string | null
+    customerLocation?: string | null
+    slipNumber?: string | null
     isPaid?: boolean
     purchasedAt?: Date | string | null
     orderStatus?: string
@@ -32194,6 +33719,8 @@ export namespace Prisma {
     fullName: string
     email: string
     phoneNumber?: string | null
+    customerLocation?: string | null
+    slipNumber?: string | null
     isPaid?: boolean
     purchasedAt?: Date | string | null
     orderStatus?: string
@@ -32222,6 +33749,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     preorders?: OrderItemCreateNestedManyWithoutBookInput
+    mappings?: BookMappingCreateNestedManyWithoutBookInput
   }
 
   export type BookUncheckedCreateWithoutSalesInput = {
@@ -32238,6 +33766,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     preorders?: OrderItemUncheckedCreateNestedManyWithoutBookInput
+    mappings?: BookMappingUncheckedCreateNestedManyWithoutBookInput
   }
 
   export type BookCreateOrConnectWithoutSalesInput = {
@@ -32262,6 +33791,8 @@ export namespace Prisma {
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    customerLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    slipNumber?: NullableStringFieldUpdateOperationsInput | string | null
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     purchasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     orderStatus?: StringFieldUpdateOperationsInput | string
@@ -32277,6 +33808,8 @@ export namespace Prisma {
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    customerLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    slipNumber?: NullableStringFieldUpdateOperationsInput | string | null
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     purchasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     orderStatus?: StringFieldUpdateOperationsInput | string
@@ -32311,6 +33844,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     preorders?: OrderItemUpdateManyWithoutBookNestedInput
+    mappings?: BookMappingUpdateManyWithoutBookNestedInput
   }
 
   export type BookUncheckedUpdateWithoutSalesInput = {
@@ -32326,6 +33860,91 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    preorders?: OrderItemUncheckedUpdateManyWithoutBookNestedInput
+    mappings?: BookMappingUncheckedUpdateManyWithoutBookNestedInput
+  }
+
+  export type BookCreateWithoutMappingsInput = {
+    id?: string
+    title: string
+    total: number
+    available: number
+    preorderTotal: number
+    preorderAvailable: number
+    salesTotal: number
+    salesAvailable: number
+    price: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sales?: BookSaleItemCreateNestedManyWithoutBookInput
+    preorders?: OrderItemCreateNestedManyWithoutBookInput
+  }
+
+  export type BookUncheckedCreateWithoutMappingsInput = {
+    id?: string
+    title: string
+    total: number
+    available: number
+    preorderTotal: number
+    preorderAvailable: number
+    salesTotal: number
+    salesAvailable: number
+    price: number
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sales?: BookSaleItemUncheckedCreateNestedManyWithoutBookInput
+    preorders?: OrderItemUncheckedCreateNestedManyWithoutBookInput
+  }
+
+  export type BookCreateOrConnectWithoutMappingsInput = {
+    where: BookWhereUniqueInput
+    create: XOR<BookCreateWithoutMappingsInput, BookUncheckedCreateWithoutMappingsInput>
+  }
+
+  export type BookUpsertWithoutMappingsInput = {
+    update: XOR<BookUpdateWithoutMappingsInput, BookUncheckedUpdateWithoutMappingsInput>
+    create: XOR<BookCreateWithoutMappingsInput, BookUncheckedCreateWithoutMappingsInput>
+    where?: BookWhereInput
+  }
+
+  export type BookUpdateToOneWithWhereWithoutMappingsInput = {
+    where?: BookWhereInput
+    data: XOR<BookUpdateWithoutMappingsInput, BookUncheckedUpdateWithoutMappingsInput>
+  }
+
+  export type BookUpdateWithoutMappingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    total?: IntFieldUpdateOperationsInput | number
+    available?: IntFieldUpdateOperationsInput | number
+    preorderTotal?: IntFieldUpdateOperationsInput | number
+    preorderAvailable?: IntFieldUpdateOperationsInput | number
+    salesTotal?: IntFieldUpdateOperationsInput | number
+    salesAvailable?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sales?: BookSaleItemUpdateManyWithoutBookNestedInput
+    preorders?: OrderItemUpdateManyWithoutBookNestedInput
+  }
+
+  export type BookUncheckedUpdateWithoutMappingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    total?: IntFieldUpdateOperationsInput | number
+    available?: IntFieldUpdateOperationsInput | number
+    preorderTotal?: IntFieldUpdateOperationsInput | number
+    preorderAvailable?: IntFieldUpdateOperationsInput | number
+    salesTotal?: IntFieldUpdateOperationsInput | number
+    salesAvailable?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sales?: BookSaleItemUncheckedUpdateManyWithoutBookNestedInput
     preorders?: OrderItemUncheckedUpdateManyWithoutBookNestedInput
   }
 
@@ -32761,6 +34380,8 @@ export namespace Prisma {
     fullName: string
     email: string
     phoneNumber?: string | null
+    customerLocation?: string | null
+    slipNumber?: string | null
     isPaid?: boolean
     purchasedAt?: Date | string | null
     orderStatus?: string
@@ -32801,6 +34422,8 @@ export namespace Prisma {
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    customerLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    slipNumber?: NullableStringFieldUpdateOperationsInput | string | null
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     purchasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     orderStatus?: StringFieldUpdateOperationsInput | string
@@ -32816,6 +34439,8 @@ export namespace Prisma {
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    customerLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    slipNumber?: NullableStringFieldUpdateOperationsInput | string | null
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     purchasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     orderStatus?: StringFieldUpdateOperationsInput | string
@@ -32831,6 +34456,8 @@ export namespace Prisma {
     fullName?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    customerLocation?: NullableStringFieldUpdateOperationsInput | string | null
+    slipNumber?: NullableStringFieldUpdateOperationsInput | string | null
     isPaid?: BoolFieldUpdateOperationsInput | boolean
     purchasedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     orderStatus?: StringFieldUpdateOperationsInput | string
@@ -33186,6 +34813,13 @@ export namespace Prisma {
     consolidationId?: number | null
   }
 
+  export type BookMappingCreateManyBookInput = {
+    id?: string
+    productName: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type BookSaleItemUpdateWithoutBookInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
@@ -33247,6 +34881,27 @@ export namespace Prisma {
     isCollected?: BoolFieldUpdateOperationsInput | boolean
     productName?: StringFieldUpdateOperationsInput | string
     consolidationId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type BookMappingUpdateWithoutBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BookMappingUncheckedUpdateWithoutBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BookMappingUncheckedUpdateManyWithoutBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type BookSaleItemCreateManyBookSaleInput = {

@@ -140,6 +140,8 @@ export async function POST(request: NextRequest) {
           fullName: customerInfo.fullName,
           email: customerInfo.email,
           phoneNumber: customerInfo.phoneNumber || null,
+          customerLocation: customerInfo.customerLocation || null,
+          slipNumber: customerInfo.slipNumber || null,
           total,
           sessionId: mySession.tableSaleSession.id, // Use the sales person's session for the sale record
           purchasedAt: new Date(),

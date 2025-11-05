@@ -77,6 +77,14 @@ export async function POST(
         },
       });
 
+      // Get the items that are being collected (not already collected)
+      const itemsToCollect =
+        existingItems > 0
+          ? order.items.filter(
+              (item) => items.includes(item.id) && !item.isCollected
+            )
+          : order.items.filter((item) => !item.isCollected);
+
       await prisma.orderItem.updateMany({
         where: {
           orderId: id,
@@ -90,6 +98,60 @@ export async function POST(
         },
         data: { isCollected: true, consolidationId: con.id },
       });
+
+      // Update book quantities for collected items
+      for (const item of itemsToCollect) {
+        let bookId = item.bookId;
+
+        // If bookId is not set, try to get it from the mapping table
+        if (!bookId) {
+          const mapping = await prisma.bookMapping.findUnique({
+            where: { productName: item.productName },
+            select: { bookId: true },
+          });
+          if (mapping) {
+            bookId = mapping.bookId;
+            // Update the orderItem with the bookId for future reference
+            await prisma.orderItem.update({
+              where: { id: item.id },
+              data: { bookId },
+            });
+          }
+        }
+
+        // If we have a bookId, update the book quantities
+        if (bookId) {
+          const book = await prisma.book.findUnique({
+            where: { id: bookId },
+            select: { preorderAvailable: true, available: true },
+          });
+
+          if (book) {
+            // Check if there's enough stock before decrementing
+            const newPreorderAvailable = book.preorderAvailable - item.quantity;
+            const newAvailable = book.available - item.quantity;
+
+            // Prevent negative quantities
+            if (newPreorderAvailable >= 0 && newAvailable >= 0) {
+              await prisma.book.update({
+                where: { id: bookId },
+                data: {
+                  preorderAvailable: {
+                    decrement: item.quantity,
+                  },
+                  available: {
+                    decrement: item.quantity,
+                  },
+                },
+              });
+            } else {
+              console.warn(
+                `Insufficient stock for book ${bookId}. PreorderAvailable: ${book.preorderAvailable}, Available: ${book.available}, Requested: ${item.quantity}`
+              );
+            }
+          }
+        }
+      }
 
       return Response.json({
         message: `Order with id ${id} has been collected`,

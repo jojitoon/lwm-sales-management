@@ -318,6 +318,8 @@ exports.Prisma.BookSaleScalarFieldEnum = {
   fullName: 'fullName',
   email: 'email',
   phoneNumber: 'phoneNumber',
+  customerLocation: 'customerLocation',
+  slipNumber: 'slipNumber',
   isPaid: 'isPaid',
   purchasedAt: 'purchasedAt',
   orderStatus: 'orderStatus',
@@ -333,6 +335,14 @@ exports.Prisma.BookSaleItemScalarFieldEnum = {
   bookId: 'bookId',
   quantity: 'quantity',
   price: 'price',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BookMappingScalarFieldEnum = {
+  id: 'id',
+  productName: 'productName',
+  bookId: 'bookId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -386,7 +396,8 @@ exports.Prisma.ModelName = {
   MiniStoreRequest: 'MiniStoreRequest',
   Book: 'Book',
   BookSale: 'BookSale',
-  BookSaleItem: 'BookSaleItem'
+  BookSaleItem: 'BookSaleItem',
+  BookMapping: 'BookMapping'
 };
 
 /**

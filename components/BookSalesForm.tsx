@@ -59,6 +59,8 @@ export function BookSalesForm({
     fullName: '',
     email: '',
     phoneNumber: '',
+    customerLocation: '',
+    slipNumber: '',
   });
   const [saleItems, setSaleItems] = useState<SaleItem[]>([]);
   const [currentItem, setCurrentItem] = useState<SaleItem>({
@@ -85,7 +87,13 @@ export function BookSalesForm({
       toast.success('Sale completed successfully');
       setOpen(false);
       setShowConfirmation(false);
-      setCustomerInfo({ fullName: '', email: '', phoneNumber: '' });
+      setCustomerInfo({
+        fullName: '',
+        email: '',
+        phoneNumber: '',
+        customerLocation: '',
+        slipNumber: '',
+      });
       setSaleItems([]);
       setCurrentItem({ bookTitle: '', quantity: 1, price: 0 });
       queryClient.invalidateQueries({ queryKey: ['book-sales'] });
@@ -312,6 +320,36 @@ export function BookSalesForm({
                       className='mt-1'
                     />
                   </div>
+                  <div>
+                    <Label className='text-sm font-medium'>
+                      Customer Location
+                    </Label>
+                    <Input
+                      value={customerInfo.customerLocation}
+                      onChange={(e) =>
+                        setCustomerInfo({
+                          ...customerInfo,
+                          customerLocation: e.target.value,
+                        })
+                      }
+                      placeholder='Enter customer location'
+                      className='mt-1'
+                    />
+                  </div>
+                  <div>
+                    <Label className='text-sm font-medium'>Slip Number</Label>
+                    <Input
+                      value={customerInfo.slipNumber}
+                      onChange={(e) =>
+                        setCustomerInfo({
+                          ...customerInfo,
+                          slipNumber: e.target.value,
+                        })
+                      }
+                      placeholder='Enter slip number'
+                      className='mt-1'
+                    />
+                  </div>
                 </div>
               </div>
             )}
@@ -499,8 +537,8 @@ export function BookSalesForm({
             {showConfirmation && (
               <div className='space-y-4 py-6'>
                 {/* Customer Info Summary */}
-                <div className='bg-white p-2 rounded-lg border'>
-                  <h4 className='font-semibold text-gray-800 mb-2'>
+                <div className='bg-card p-2 rounded-lg border'>
+                  <h4 className='font-semibold text-card-foreground mb-2'>
                     Customer Details
                   </h4>
                   <div className='grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm'>
@@ -522,8 +560,8 @@ export function BookSalesForm({
                 </div>
 
                 {/* Items Summary */}
-                <div className='bg-white p-4 rounded-lg border'>
-                  <h4 className='font-semibold text-gray-800 mb-3'>
+                <div className='bg-card p-4 rounded-lg border'>
+                  <h4 className='font-semibold text-card-foreground mb-3'>
                     Sale Items
                   </h4>
                   <div className='space-y-2'>

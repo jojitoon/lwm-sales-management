@@ -279,25 +279,28 @@ model Book {
   updatedAt         DateTime       @updatedAt
   sales             BookSaleItem[]
   preorders         OrderItem[]
+  mappings          BookMapping[]
 
   @@map("books")
 }
 
 model BookSale {
-  id          String           @id @default(uuid())
-  orderNumber String
-  fullName    String
-  email       String
-  phoneNumber String?
-  items       BookSaleItem[]
-  isPaid      Boolean          @default(true)
-  purchasedAt DateTime?
-  orderStatus String           @default("COMPLETED")
-  total       Float            @default(0)
-  sessionId   String
-  session     TableSaleSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  createdAt   DateTime         @default(now())
-  updatedAt   DateTime         @updatedAt
+  id               String           @id @default(uuid())
+  orderNumber      String
+  fullName         String
+  email            String
+  phoneNumber      String?
+  customerLocation String?
+  slipNumber       String?
+  items            BookSaleItem[]
+  isPaid           Boolean          @default(true)
+  purchasedAt      DateTime?
+  orderStatus      String           @default("COMPLETED")
+  total            Float            @default(0)
+  sessionId        String
+  session          TableSaleSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
 
   @@map("book_sales")
 }
@@ -314,4 +317,15 @@ model BookSaleItem {
   updatedAt  DateTime @updatedAt
 
   @@map("book_sale_items")
+}
+
+model BookMapping {
+  id          String   @id @default(uuid())
+  productName String   @unique
+  bookId      String
+  book        Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("book_mappings")
 }

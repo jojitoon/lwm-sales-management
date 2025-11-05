@@ -9,6 +9,7 @@ import {
   IconFileImport,
   IconHelp,
   IconInnerShadowTop,
+  IconLink,
   IconMapPin,
   IconPackage,
   IconReport,
@@ -262,6 +263,11 @@ const buildData = (workspace: string, isAdmin: boolean) => {
         title: 'Import Pre-orders',
         url: '/import',
         icon: IconFileImport,
+      },
+      {
+        title: 'Map Books',
+        url: '/map-books',
+        icon: IconLink,
       },
       {
         title: 'Process Pre-orders',
