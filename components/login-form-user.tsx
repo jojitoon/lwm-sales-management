@@ -108,7 +108,7 @@ export function UserLoginForm({
                     <SelectContent>
                       <SelectItem value='pos'>POS</SelectItem>
                       <SelectItem value='cash'>Cash</SelectItem>
-                      <SelectItem value='transfer'>Transfer</SelectItem>
+                      <SelectItem value='trf'>Transfer</SelectItem>
                       <SelectItem value='qr'>QR</SelectItem>
                     </SelectContent>
                   </Select>

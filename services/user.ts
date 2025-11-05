@@ -1,11 +1,60 @@
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
-const generateTableId = () => {
-  const date = new Date().getTime();
-  const truncatedDate = date.toString().slice(0, 3);
-  const random = Math.random().toString(36).substring(2, 5);
-  return `${truncatedDate}-${random}`;
+const generateTableId = async (
+  tableType: string,
+  session: string
+): Promise<string> => {
+  // Get all active tables in the current session
+  const existingTables = await prisma.tableSaleSession.findMany({
+    where: {
+      session,
+      isActive: true,
+    },
+    select: {
+      tableId: true,
+      data: true,
+    },
+  });
+
+  // Filter tables by type - check both tableId pattern and data.tableType
+  const typeTables = existingTables.filter((table) => {
+    // Check if tableId matches the pattern (e.g., POS-1, TRF-2)
+    const pattern = new RegExp(`^${tableType.toUpperCase()}-\\d+$`, 'i');
+    if (pattern.test(table.tableId)) {
+      return true;
+    }
+
+    // Also check data.tableType for tables that might not have migrated yet
+    if (table.data && typeof table.data === 'object') {
+      const data = table.data as { tableType?: string };
+      if (data.tableType?.toLowerCase() === tableType.toLowerCase()) {
+        return true;
+      }
+    }
+
+    return false;
+  });
+
+  // Get the highest number for this type from tableIds that match the pattern
+  // Only count tables that follow the new format (TYPE-NUMBER)
+  let maxNumber = 0;
+  for (const table of typeTables) {
+    const pattern = new RegExp(`^${tableType.toUpperCase()}-(\\d+)$`, 'i');
+    const match = table.tableId.match(pattern);
+    if (match) {
+      const num = parseInt(match[1], 10);
+      if (num > maxNumber) {
+        maxNumber = num;
+      }
+    }
+  }
+
+  // Generate new ID: TYPE-NUMBER
+  // If no pattern matches (e.g., old format tables), start from 1
+  // Otherwise, use maxNumber + 1
+  const newNumber = maxNumber + 1;
+  return `${tableType.toUpperCase()}-${newNumber}`;
 };
 
 export const findOrCreateUser = async (
@@ -85,7 +134,7 @@ export const findOrCreateUser = async (
     });
 
     if (!tableSaleSession) {
-      const newTableId = generateTableId();
+      const newTableId = await generateTableId(tableType, currentSession);
       tableSaleSession = await prisma.tableSaleSession.create({
         data: {
           managerId: user.id,
