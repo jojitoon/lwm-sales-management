@@ -290,7 +290,7 @@ model BookSale {
   email                String
   phoneNumber          String?
   customerLocation     String?
-  slipNumber           String?
+  slipNumber           String? @unique
   items                BookSaleItem[]
   isPaid               Boolean         @default(true)
   purchasedAt          DateTime?

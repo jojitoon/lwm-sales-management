@@ -128,6 +128,23 @@ export async function POST(request: NextRequest) {
         salesPersonId: mySession.tableSaleSession.salesPersonId,
       });
 
+      // Check if slip number is provided and if it already exists
+      if (customerInfo.slipNumber) {
+        const existingSale = await prisma.bookSale.findUnique({
+          where: { slipNumber: customerInfo.slipNumber },
+          select: { id: true, orderNumber: true },
+        });
+
+        if (existingSale) {
+          return NextResponse.json(
+            {
+              message: `Slip number "${customerInfo.slipNumber}" already exists. Please use a different slip number.`,
+            },
+            { status: 400 }
+          );
+        }
+      }
+
       // Generate order number
       const orderNumber = `BS-${Date.now()}-${Math.random()
         .toString(36)
@@ -225,8 +242,19 @@ export async function POST(request: NextRequest) {
         message: 'Sale completed successfully',
         sale: bookSale,
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating book sale:', error);
+      
+      // Handle unique constraint violation for slip number
+      if (error?.code === 'P2002' && error?.meta?.target?.includes('slipNumber')) {
+        return NextResponse.json(
+          {
+            message: `Slip number already exists. Please use a different slip number.`,
+          },
+          { status: 400 }
+        );
+      }
+      
       return NextResponse.json(
         { message: 'Failed to create sale' },
         { status: 500 }
