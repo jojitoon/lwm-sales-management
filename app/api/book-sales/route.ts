@@ -130,7 +130,7 @@ export async function POST(request: NextRequest) {
 
       // Check if slip number is provided and if it already exists
       if (customerInfo.slipNumber) {
-        const existingSale = await prisma.bookSale.findUnique({
+        const existingSale = await prisma.bookSale.findFirst({
           where: { slipNumber: customerInfo.slipNumber },
           select: { id: true, orderNumber: true },
         });
