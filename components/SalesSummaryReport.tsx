@@ -146,31 +146,75 @@ export function SalesSummaryReport({
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Book</TableHead>
-                <TableHead>Quantity</TableHead>
-                <TableHead>Price</TableHead>
-                <TableHead>Total</TableHead>
-                <TableHead>Sold By</TableHead>
-                <TableHead>Date</TableHead>
+                {workspace === 'book-sales' ? (
+                  <>
+                    <TableHead>Slip Number</TableHead>
+                    <TableHead>Order Number</TableHead>
+                    <TableHead>Customer</TableHead>
+                    <TableHead>Books</TableHead>
+                    <TableHead>Total</TableHead>
+                    <TableHead>Date</TableHead>
+                  </>
+                ) : (
+                  <>
+                    <TableHead>Book</TableHead>
+                    <TableHead>Quantity</TableHead>
+                    <TableHead>Price</TableHead>
+                    <TableHead>Total</TableHead>
+                    <TableHead>Sold By</TableHead>
+                    <TableHead>Date</TableHead>
+                  </>
+                )}
               </TableRow>
             </TableHeader>
             <TableBody>
-              {recentSales.map((sale: any) => (
-                <TableRow key={sale.id}>
-                  <TableCell className='font-medium'>
-                    {sale.productName}
-                  </TableCell>
-                  <TableCell>{sale.quantity}</TableCell>
-                  <TableCell>₦{sale.price?.toLocaleString()}</TableCell>
-                  <TableCell className='font-medium'>
-                    ₦{sale.total.toLocaleString()}
-                  </TableCell>
-                  <TableCell>{sale.soldBy}</TableCell>
-                  <TableCell>
-                    {new Date(sale.soldAt).toLocaleDateString()}
-                  </TableCell>
-                </TableRow>
-              ))}
+              {workspace === 'book-sales' ? (
+                recentSales.map((sale: any) => (
+                  <TableRow key={sale.orderNumber}>
+                    <TableCell className='font-medium'>
+                      {sale.slipNumber || '-'}
+                    </TableCell>
+                    <TableCell className='text-sm text-gray-600'>
+                      {sale.orderNumber}
+                    </TableCell>
+                    <TableCell>{sale.soldBy}</TableCell>
+                    <TableCell>
+                      {sale.items ? (
+                        sale.items.map((item: any, idx: number) => (
+                          <div key={idx} className='text-sm'>
+                            {item.title} (x{item.quantity})
+                          </div>
+                        ))
+                      ) : (
+                        <div className='text-sm'>{sale.productName}</div>
+                      )}
+                    </TableCell>
+                    <TableCell className='font-medium'>
+                      ₦{sale.total.toLocaleString()}
+                    </TableCell>
+                    <TableCell>
+                      {new Date(sale.soldAt).toLocaleDateString()}
+                    </TableCell>
+                  </TableRow>
+                ))
+              ) : (
+                recentSales.map((sale: any) => (
+                  <TableRow key={sale.id}>
+                    <TableCell className='font-medium'>
+                      {sale.productName}
+                    </TableCell>
+                    <TableCell>{sale.quantity}</TableCell>
+                    <TableCell>₦{sale.price?.toLocaleString()}</TableCell>
+                    <TableCell className='font-medium'>
+                      ₦{sale.total.toLocaleString()}
+                    </TableCell>
+                    <TableCell>{sale.soldBy}</TableCell>
+                    <TableCell>
+                      {new Date(sale.soldAt).toLocaleDateString()}
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </CardContent>

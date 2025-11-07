@@ -48,10 +48,19 @@ export function BookSalesTable({ sales: initialSales }: BookSalesTableProps) {
   const sales = fetchedSales || [];
   const columns: ColumnDef<any>[] = [
     {
+      accessorKey: 'slipNumber',
+      header: 'Slip Number',
+      cell: ({ row }) => (
+        <div className='font-medium'>
+          {row.original.slipNumber || '-'}
+        </div>
+      ),
+    },
+    {
       accessorKey: 'orderNumber',
       header: 'Order Number',
       cell: ({ row }) => (
-        <div className='font-medium'>{row.original.orderNumber}</div>
+        <div className='text-sm text-gray-600'>{row.original.orderNumber}</div>
       ),
     },
     {
@@ -69,11 +78,6 @@ export function BookSalesTable({ sales: initialSales }: BookSalesTableProps) {
           {row.original.customerLocation && (
             <div className='text-sm text-gray-500'>
               Location: {row.original.customerLocation}
-            </div>
-          )}
-          {row.original.slipNumber && (
-            <div className='text-sm text-gray-500'>
-              Slip: {row.original.slipNumber}
             </div>
           )}
         </div>
@@ -183,7 +187,7 @@ export function BookSalesTable({ sales: initialSales }: BookSalesTableProps) {
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
-                key={row.id}
+                key={row.original.orderNumber}
                 data-state={row.getIsSelected() && 'selected'}
               >
                 {row.getVisibleCells().map((cell) => (

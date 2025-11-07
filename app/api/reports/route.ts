@@ -205,6 +205,8 @@ async function getSalesSummary(
       salesByUser: null,
       recentSales: bookSales.slice(0, 10).map((sale) => ({
         id: sale.id,
+        orderNumber: sale.orderNumber,
+        slipNumber: sale.slipNumber,
         productName: sale.items.map((item) => item.book.title).join(', '),
         quantity: sale.items.reduce((sum, item) => sum + item.quantity, 0),
         price:
@@ -212,6 +214,11 @@ async function getSalesSummary(
         total: sale.total,
         soldBy: sale.fullName,
         soldAt: sale.createdAt,
+        items: sale.items.map((item) => ({
+          title: item.book.title,
+          quantity: item.quantity,
+          price: item.price,
+        })),
       })),
     };
   }

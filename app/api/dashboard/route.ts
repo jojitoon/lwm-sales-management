@@ -25,6 +25,8 @@ export async function GET(request: NextRequest) {
       let workspace = 'unknown';
       let tableSaleSessionId: string | null = null;
       let preorderSessionId: string | null = null;
+      let miniStoreSessionId: string | null = null;
+      let mainStoreSessionId: string | null = null;
 
       if (!isAdmin && userId) {
         const mySession = await prisma.mySession.findFirst({
@@ -36,12 +38,16 @@ export async function GET(request: NextRequest) {
           include: {
             tableSaleSession: true,
             preorderSession: true,
+            miniStoreSession: true,
+            mainStoreSession: true,
           },
         });
 
         workspace = mySession?.workspace || 'unknown';
         tableSaleSessionId = mySession?.tableSaleSessionId || null;
         preorderSessionId = mySession?.preorderSessionId || null;
+        miniStoreSessionId = mySession?.miniStoreSessionId || null;
+        mainStoreSessionId = mySession?.mainStoreSessionId || null;
       }
 
       let dashboardData = {};
@@ -55,6 +61,12 @@ export async function GET(request: NextRequest) {
           break;
         case 'pre-order':
           dashboardData = await getPreOrderDashboard(preorderSessionId, userId, currentSession);
+          break;
+        case 'mini-store':
+          dashboardData = await getMiniStoreDashboard(miniStoreSessionId, currentSession);
+          break;
+        case 'main-store':
+          dashboardData = await getMainStoreDashboard(mainStoreSessionId, currentSession);
           break;
         default:
           // For admin or unknown workspace, return empty data
@@ -82,6 +94,7 @@ async function getBookSalesDashboard(tableSaleSessionId: string | null) {
       totalItems: 0,
       uniqueBooks: 0,
       totalTransactions: 0,
+      recentActivity: [],
     };
   }
 
@@ -107,11 +120,30 @@ async function getBookSalesDashboard(tableSaleSessionId: string | null) {
     bookSales.flatMap((sale) => sale.items.map((item) => item.book.title))
   ).size;
 
+  // Get recent sales (last 10)
+  const recentSales = bookSales
+    .slice(-10)
+    .reverse()
+    .map((sale) => ({
+      id: sale.id,
+      orderNumber: sale.orderNumber,
+      slipNumber: sale.slipNumber,
+      customerName: sale.fullName,
+      items: sale.items.map((item) => ({
+        title: item.book.title,
+        quantity: item.quantity,
+        price: item.price,
+      })),
+      total: sale.total,
+      createdAt: sale.createdAt,
+    }));
+
   return {
     totalSales,
     totalItems,
     uniqueBooks,
     totalTransactions: bookSales.length,
+    recentActivity: recentSales,
   };
 }
 
@@ -122,6 +154,7 @@ async function getTableManagerDashboard(tableSaleSessionId: string | null) {
       totalStockValue: 0,
       totalSoldValue: 0,
       totalRemainingValue: 0,
+      recentActivity: [],
     };
   }
 
@@ -173,11 +206,36 @@ async function getTableManagerDashboard(tableSaleSessionId: string | null) {
     totalRemainingValue += remainingStock * unitPrice;
   });
 
+  // Get recent activity - books with sold and remaining quantities
+  const recentActivity = stockList
+    .map((stockItem: any) => {
+      const stockTitle = (stockItem.title || '').trim().toLowerCase();
+      const soldQuantity = soldQuantities[stockTitle] || 0;
+      const totalStocksReceived = stockItem.total || stockItem.quantity || 0;
+      const remainingStock = totalStocksReceived - soldQuantity;
+      const unitPrice = stockItem.price || 0;
+
+      return {
+        bookId: stockItem.bookId || '',
+        title: stockItem.title,
+        totalReceived: totalStocksReceived,
+        sold: soldQuantity,
+        remaining: remainingStock,
+        unitPrice,
+        valueOfSold: soldQuantity * unitPrice,
+        valueOfRemaining: remainingStock * unitPrice,
+      };
+    })
+    .filter((item) => item.sold > 0) // Only show books that have been sold
+    .sort((a, b) => b.sold - a.sold) // Sort by sold quantity descending
+    .slice(0, 10); // Get top 10
+
   return {
     totalBooks: stockList.length,
     totalStockValue,
     totalSoldValue,
     totalRemainingValue,
+    recentActivity,
   };
 }
 
@@ -212,12 +270,210 @@ async function getPreOrderDashboard(
   const collectedOrders = consolidations.filter((cons) => cons.order?.isCollected).length;
   const pendingOrders = totalOrders - collectedOrders;
 
+  // Get recent activity - last 10 consolidations
+  const recentActivity = consolidations
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+    .slice(0, 10)
+    .map((cons) => ({
+      id: cons.id,
+      orderNumber: cons.order?.orderNumber || 'N/A',
+      customerName: cons.order?.fullName || 'N/A',
+      items: cons.items.map((item) => ({
+        title: item.productName,
+        quantity: item.quantity,
+        price: item.price,
+      })),
+      total: cons.items.reduce((sum, item) => sum + item.quantity * (item.price || 0), 0),
+      isCollected: cons.order?.isCollected || false,
+      createdAt: cons.createdAt,
+    }));
+
   return {
     totalOrders,
     totalItems,
     totalValue,
     collectedOrders,
     pendingOrders,
+    recentActivity,
+  };
+}
+
+async function getMiniStoreDashboard(
+  miniStoreSessionId: string | null,
+  currentSession: string
+) {
+  if (!miniStoreSessionId) {
+    return {
+      totalBooks: 0,
+      totalStockValue: 0,
+      totalDistributed: 0,
+      totalRemaining: 0,
+      pendingRequests: 0,
+      approvedRequests: 0,
+      recentActivity: [],
+    };
+  }
+
+  const miniStoreSession = await prisma.miniStoreSession.findFirst({
+    where: {
+      id: miniStoreSessionId,
+    },
+  });
+
+  const stockList = (miniStoreSession?.data as any)?.list || [];
+
+  // Calculate totals
+  let totalStockValue = 0;
+  let totalDistributed = 0;
+  let totalRemaining = 0;
+
+  stockList.forEach((stockItem: any) => {
+    const total = stockItem.total || stockItem.quantity || 0;
+    const available = stockItem.available || 0;
+    const distributed = stockItem.distributed || 0;
+    const unitPrice = stockItem.price || 0;
+
+    totalStockValue += total * unitPrice;
+    totalDistributed += distributed * unitPrice;
+    totalRemaining += available * unitPrice;
+  });
+
+  // Get requests
+  const requests = await prisma.miniStoreRequest.findMany({
+    where: {
+      miniStoreSessionId: miniStoreSessionId,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    take: 10,
+  });
+
+  const pendingRequests = requests.filter((req) => !req.wasApproved && !req.wasDenied).length;
+  const approvedRequests = requests.filter((req) => req.wasApproved).length;
+
+  // Get recent activity - top distributed books
+  const recentActivity = stockList
+    .map((stockItem: any) => {
+      const total = stockItem.total || stockItem.quantity || 0;
+      const available = stockItem.available || 0;
+      const distributed = stockItem.distributed || 0;
+      const unitPrice = stockItem.price || 0;
+
+      return {
+        bookId: stockItem.bookId || '',
+        title: stockItem.title,
+        total,
+        distributed,
+        remaining: available,
+        unitPrice,
+        valueOfDistributed: distributed * unitPrice,
+        valueOfRemaining: available * unitPrice,
+      };
+    })
+    .filter((item) => item.distributed > 0)
+    .sort((a, b) => b.distributed - a.distributed)
+    .slice(0, 10);
+
+  return {
+    totalBooks: stockList.length,
+    totalStockValue,
+    totalDistributed,
+    totalRemaining,
+    pendingRequests,
+    approvedRequests,
+    recentActivity,
+  };
+}
+
+async function getMainStoreDashboard(
+  mainStoreSessionId: string | null,
+  currentSession: string
+) {
+  if (!mainStoreSessionId) {
+    return {
+      totalBooks: 0,
+      totalStockValue: 0,
+      totalDistributed: 0,
+      totalRemaining: 0,
+      pendingRequests: 0,
+      approvedRequests: 0,
+      recentActivity: [],
+    };
+  }
+
+  const mainStoreSession = await prisma.mainStoreSession.findFirst({
+    where: {
+      id: mainStoreSessionId,
+    },
+  });
+
+  const stockList = (mainStoreSession?.data as any)?.list || [];
+
+  // Calculate totals
+  let totalStockValue = 0;
+  let totalDistributed = 0;
+  let totalRemaining = 0;
+
+  stockList.forEach((stockItem: any) => {
+    const total = stockItem.total || stockItem.quantity || 0;
+    const available = stockItem.available || 0;
+    const distributed = stockItem.distributed || 0;
+    const unitPrice = stockItem.price || 0;
+
+    totalStockValue += total * unitPrice;
+    totalDistributed += distributed * unitPrice;
+    totalRemaining += available * unitPrice;
+  });
+
+  // Get requests
+  const requests = await prisma.mainStoreRequest.findMany({
+    where: {
+      mainStoreSessionId: mainStoreSessionId,
+    },
+    include: {
+      miniStoreSession: true,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    take: 10,
+  });
+
+  const pendingRequests = requests.filter((req) => !req.wasApproved && !req.wasDenied).length;
+  const approvedRequests = requests.filter((req) => req.wasApproved).length;
+
+  // Get recent activity - top distributed books
+  const recentActivity = stockList
+    .map((stockItem: any) => {
+      const total = stockItem.total || stockItem.quantity || 0;
+      const available = stockItem.available || 0;
+      const distributed = stockItem.distributed || 0;
+      const unitPrice = stockItem.price || 0;
+
+      return {
+        bookId: stockItem.bookId || '',
+        title: stockItem.title,
+        total,
+        distributed,
+        remaining: available,
+        unitPrice,
+        valueOfDistributed: distributed * unitPrice,
+        valueOfRemaining: available * unitPrice,
+      };
+    })
+    .filter((item) => item.distributed > 0)
+    .sort((a, b) => b.distributed - a.distributed)
+    .slice(0, 10);
+
+  return {
+    totalBooks: stockList.length,
+    totalStockValue,
+    totalDistributed,
+    totalRemaining,
+    pendingRequests,
+    approvedRequests,
+    recentActivity,
   };
 }
 
