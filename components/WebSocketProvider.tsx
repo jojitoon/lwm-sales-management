@@ -45,7 +45,9 @@ export function WebSocketProvider({ children }: WebSocketProviderProps) {
     if (typeof window === 'undefined') return;
 
     // Initialize Socket.io client
-    const socketUrl = process.env.NEXT_PUBLIC_WS_URL || 'http://localhost:3000';
+    // Use environment variable if set, otherwise use current window location
+    // This allows connections over IP addresses, not just localhost
+    const socketUrl = process.env.NEXT_PUBLIC_WS_URL || window.location.origin;
     const newSocket = io(socketUrl, {
       transports: ['websocket', 'polling'],
       reconnection: true,
