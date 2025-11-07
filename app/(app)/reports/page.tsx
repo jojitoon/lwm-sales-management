@@ -1,4 +1,5 @@
 import { auth } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
 import { RoleBasedReports } from '@/components/RoleBasedReports';
 
 export default async function ReportsPage() {
@@ -17,9 +18,6 @@ export default async function ReportsPage() {
   const isAdmin = (session.user as any)?.isAdmin || false;
   const userId = session.user.id || '';
 
-  // Get user's workspace from session
-  const workspace = (session.user as any)?.workspace || 'unknown';
-
   // If userId is empty, show error message
   if (!userId) {
     return (
@@ -33,15 +31,47 @@ export default async function ReportsPage() {
     );
   }
 
+  // Get current session settings
+  const settings = await prisma.setting.findFirst({
+    where: { id: 'settings' },
+  });
+  const currentSessionName = settings?.currentSession || '';
+
+  // Get user's workspace from their active mySession
+  let workspace = 'unknown';
+  if (!isAdmin) {
+    const mySession = await prisma.mySession.findFirst({
+      where: {
+        userId: userId,
+        session: currentSessionName,
+        isActive: true,
+      },
+    });
+
+    workspace = mySession?.workspace || 'unknown';
+  } else {
+    // For admin, workspace can be determined from query params or default to 'unknown'
+    // Admin can view all workspaces, so we'll use 'unknown' as default
+    workspace = 'unknown';
+  }
+
+  // Customize description based on workspace
+  const getDescription = () => {
+    if (workspace === 'book-sales') {
+      return `Current session sales report for ${currentSessionName}`;
+    }
+    return `Comprehensive reports and analytics for ${workspace.replace(
+      '-',
+      ' '
+    )} workspace`;
+  };
+
   return (
     <main className='px-4 lg:px-6'>
       <div className='flex justify-between items-center mb-8'>
         <div>
           <h1 className='text-2xl font-bold'>Reports Dashboard</h1>
-          <p className='text-gray-600 mt-1'>
-            Comprehensive reports and analytics for{' '}
-            {workspace.replace('-', ' ')} workspace
-          </p>
+          <p className='text-gray-600 mt-1'>{getDescription()}</p>
         </div>
         <div className='text-sm text-gray-500'>
           {isAdmin ? 'Administrator Access' : 'User Access'}

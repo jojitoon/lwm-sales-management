@@ -28,9 +28,28 @@ export async function GET(request: NextRequest) {
       });
       const currentSession = session || settings?.currentSession || '';
 
-      // Base date filter
+      // Get user's mySession to find their tableSaleSessionId for table-manager and book-sales
+      let tableSaleSessionId: string | null = null;
+      if (workspace === 'table-manager' || workspace === 'book-sales') {
+        const mySession = await prisma.mySession.findFirst({
+          where: {
+            userId: userId,
+            session: currentSession,
+            workspace: workspace,
+            isActive: true,
+          },
+          include: {
+            tableSaleSession: true,
+          },
+        });
+        tableSaleSessionId = mySession?.tableSaleSessionId || null;
+      }
+
+      // Base date filter - don't use for book-sales workspace
       const dateFilter =
-        dateFrom && dateTo
+        workspace === 'book-sales'
+          ? {}
+          : dateFrom && dateTo
           ? {
               createdAt: {
                 gte: new Date(dateFrom),
@@ -48,7 +67,17 @@ export async function GET(request: NextRequest) {
             dateFilter,
             workspace,
             userId,
-            isAdmin
+            isAdmin,
+            tableSaleSessionId
+          );
+          break;
+        case 'books-sold':
+          reportData = await getBooksSold(
+            currentSession,
+            workspace,
+            userId,
+            isAdmin,
+            tableSaleSessionId
           );
           break;
         case 'stock-movement':
@@ -57,7 +86,8 @@ export async function GET(request: NextRequest) {
             dateFilter,
             workspace,
             userId,
-            isAdmin
+            isAdmin,
+            tableSaleSessionId
           );
           break;
         case 'request-status':
@@ -125,8 +155,68 @@ async function getSalesSummary(
   dateFilter: any,
   workspace: string,
   userId: string,
-  isAdmin: boolean
+  isAdmin: boolean,
+  tableSaleSessionId: string | null = null
 ) {
+  // For book-sales role, use BookSale model instead of OrderItem
+  // Don't use date filter for book-sales - always use current session
+  if (workspace === 'book-sales') {
+    if (!tableSaleSessionId) {
+      return {
+        totalSales: 0,
+        totalItems: 0,
+        uniqueBooks: 0,
+        totalTransactions: 0,
+        salesByUser: null,
+        recentSales: [],
+      };
+    }
+    const bookSales = await prisma.bookSale.findMany({
+      where: {
+        sessionId: tableSaleSessionId,
+      },
+      include: {
+        items: {
+          include: {
+            book: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    const totalSales = bookSales.reduce((sum, sale) => sum + sale.total, 0);
+    const totalItems = bookSales.reduce(
+      (sum, sale) =>
+        sum + sale.items.reduce((itemSum, item) => itemSum + item.quantity, 0),
+      0
+    );
+    const uniqueBooks = new Set(
+      bookSales.flatMap((sale) => sale.items.map((item) => item.book.title))
+    ).size;
+
+    return {
+      totalSales,
+      totalItems,
+      uniqueBooks,
+      totalTransactions: bookSales.length,
+      salesByUser: null,
+      recentSales: bookSales.slice(0, 10).map((sale) => ({
+        id: sale.id,
+        productName: sale.items.map((item) => item.book.title).join(', '),
+        quantity: sale.items.reduce((sum, item) => sum + item.quantity, 0),
+        price:
+          sale.total / sale.items.reduce((sum, item) => sum + item.quantity, 0),
+        total: sale.total,
+        soldBy: sale.fullName,
+        soldAt: sale.createdAt,
+      })),
+    };
+  }
+
+  // For other roles, use OrderItem (pre-order consolidations)
   const whereClause = {
     ...dateFilter,
     ...(session !== 'All'
@@ -206,14 +296,221 @@ async function getSalesSummary(
   };
 }
 
+async function getBooksSold(
+  session: string,
+  workspace: string,
+  userId: string,
+  isAdmin: boolean,
+  tableSaleSessionId: string | null = null
+) {
+  // Only for book-sales workspace
+  if (workspace !== 'book-sales') {
+    return {
+      booksSold: [],
+      totalBooks: 0,
+      totalQuantity: 0,
+      totalValue: 0,
+    };
+  }
+
+  if (!tableSaleSessionId) {
+    return {
+      booksSold: [],
+      totalBooks: 0,
+      totalQuantity: 0,
+      totalValue: 0,
+    };
+  }
+
+  // Get all book sales for the current session
+  const bookSales = await prisma.bookSale.findMany({
+    where: {
+      sessionId: tableSaleSessionId,
+    },
+    include: {
+      items: {
+        include: {
+          book: true,
+        },
+      },
+    },
+  });
+
+  // Aggregate books sold by book title
+  const booksSoldMap: Record<
+    string,
+    {
+      bookId: string;
+      title: string;
+      quantity: number;
+      price: number;
+      value: number;
+    }
+  > = {};
+
+  bookSales.forEach((sale) => {
+    sale.items.forEach((item) => {
+      const bookTitle = item.book.title;
+      const bookId = item.book.id;
+      const price = item.price;
+      const quantity = item.quantity;
+      const value = price * quantity;
+
+      if (booksSoldMap[bookTitle]) {
+        booksSoldMap[bookTitle].quantity += quantity;
+        booksSoldMap[bookTitle].value += value;
+        // Calculate average price
+        booksSoldMap[bookTitle].price =
+          booksSoldMap[bookTitle].value / booksSoldMap[bookTitle].quantity;
+      } else {
+        booksSoldMap[bookTitle] = {
+          bookId,
+          title: bookTitle,
+          quantity,
+          price,
+          value,
+        };
+      }
+    });
+  });
+
+  // Convert to array and sort by value descending
+  const booksSold = Object.values(booksSoldMap).sort(
+    (a, b) => b.value - a.value
+  );
+
+  const totalBooks = booksSold.length;
+  const totalQuantity = booksSold.reduce((sum, book) => sum + book.quantity, 0);
+  const totalValue = booksSold.reduce((sum, book) => sum + book.value, 0);
+
+  return {
+    booksSold,
+    totalBooks,
+    totalQuantity,
+    totalValue,
+  };
+}
+
 async function getStockMovement(
   session: string,
   dateFilter: any,
   workspace: string,
   userId: string,
-  isAdmin: boolean
+  isAdmin: boolean,
+  tableSaleSessionId: string | null = null
 ) {
-  // Get current stock levels
+  // For table-manager role, get stock from their TableSaleSession
+  if (workspace === 'table-manager') {
+    if (!tableSaleSessionId) {
+      return {
+        totalBooks: 0,
+        totalStockValue: 0,
+        totalSoldValue: 0,
+        totalRemainingValue: 0,
+        lowStockBooks: [],
+        stockMovement: [],
+      };
+    }
+    const tableSaleSession = await prisma.tableSaleSession.findFirst({
+      where: {
+        id: tableSaleSessionId,
+      },
+    });
+
+    const stockList = (tableSaleSession?.data as any)?.list || [];
+
+    // Get book sales for this session to calculate sold quantities
+    // Don't use date filter for table-manager - get all sales for the current session
+    const bookSales = await prisma.bookSale.findMany({
+      where: {
+        sessionId: tableSaleSessionId,
+      },
+      include: {
+        items: {
+          include: {
+            book: true,
+          },
+        },
+      },
+    });
+
+    // Calculate sold quantities per book
+    // Use normalized title (trimmed, lowercase) for matching to handle any inconsistencies
+    const soldQuantities: Record<string, number> = {};
+    const titleMap: Record<string, string> = {}; // Map normalized title to original title
+
+    bookSales.forEach((sale) => {
+      sale.items.forEach((item) => {
+        const bookTitle = item.book.title.trim();
+        const normalizedTitle = bookTitle.toLowerCase();
+        titleMap[normalizedTitle] = bookTitle;
+        soldQuantities[normalizedTitle] =
+          (soldQuantities[normalizedTitle] || 0) + item.quantity;
+      });
+    });
+
+    // Build stock movement from the table's stock list
+    const stockMovement = stockList.map((stockItem: any) => {
+      const stockTitle = (stockItem.title || '').trim();
+      const normalizedStockTitle = stockTitle.toLowerCase();
+      const soldQuantity = soldQuantities[normalizedStockTitle] || 0;
+      const totalStocksReceived = stockItem.total || 0;
+      const remainingStock = totalStocksReceived - soldQuantity;
+      const unitPrice = stockItem.price || 0;
+      const valueOfSold = soldQuantity * unitPrice;
+      const valueOfRemaining = remainingStock * unitPrice;
+
+      // Determine status based on remaining stock
+      let status = 'Good Stock';
+      if (remainingStock < 10) {
+        status = 'Low Stock';
+      } else if (remainingStock < 50) {
+        status = 'Medium Stock';
+      }
+
+      return {
+        bookId: stockItem.bookId || '',
+        title: stockItem.title,
+        totalStocksReceived,
+        totalSold: soldQuantity,
+        totalRemaining: remainingStock,
+        valueOfSold,
+        valueOfRemaining,
+        unitPrice,
+        status,
+        // Keep old fields for backward compatibility
+        initialStock: totalStocksReceived,
+        currentStock: remainingStock,
+        soldQuantity,
+        remainingStock,
+        price: unitPrice,
+        totalValue: valueOfRemaining,
+      };
+    });
+
+    // Calculate totals
+    const totalSoldValue = stockMovement.reduce(
+      (sum: number, item: any) => sum + item.valueOfSold,
+      0
+    );
+    const totalRemainingValue = stockMovement.reduce(
+      (sum: number, item: any) => sum + item.valueOfRemaining,
+      0
+    );
+
+    return {
+      totalBooks: stockMovement.length,
+      totalStockValue: totalRemainingValue, // Keep for backward compatibility
+      totalSoldValue,
+      totalRemainingValue,
+      lowStockBooks: stockMovement.filter(
+        (item: any) => item.totalRemaining < 10
+      ),
+      stockMovement,
+    };
+  }
+
+  // For other roles, use global book stock
   const currentStock = await prisma.book.findMany({
     where: { isActive: true },
     select: {
@@ -252,25 +549,58 @@ async function getStockMovement(
       .filter((item) => item.productName === book.title)
       .reduce((sum, item) => sum + item.quantity, 0);
 
+    const totalStocksReceived = book.total;
+    const totalRemaining = book.available;
+    const unitPrice = book.price;
+    const valueOfSold = soldQuantity * unitPrice;
+    const valueOfRemaining = totalRemaining * unitPrice;
+
+    // Determine status based on remaining stock
+    let status = 'Good Stock';
+    if (totalRemaining < 10) {
+      status = 'Low Stock';
+    } else if (totalRemaining < 50) {
+      status = 'Medium Stock';
+    }
+
     return {
       bookId: book.id,
       title: book.title,
-      initialStock: book.total,
-      currentStock: book.available,
+      totalStocksReceived,
+      totalSold: soldQuantity,
+      totalRemaining,
+      valueOfSold,
+      valueOfRemaining,
+      unitPrice,
+      status,
+      // Keep old fields for backward compatibility
+      initialStock: totalStocksReceived,
+      currentStock: totalRemaining,
       soldQuantity,
-      remainingStock: book.available,
-      price: book.price,
-      totalValue: book.available * book.price,
+      remainingStock: totalRemaining,
+      price: unitPrice,
+      totalValue: valueOfRemaining,
     };
   });
 
+  // Calculate totals
+  const totalSoldValue = stockMovement.reduce(
+    (sum: number, item: any) => sum + item.valueOfSold,
+    0
+  );
+  const totalRemainingValue = stockMovement.reduce(
+    (sum: number, item: any) => sum + item.valueOfRemaining,
+    0
+  );
+
   return {
     totalBooks: currentStock.length,
-    totalStockValue: currentStock.reduce(
-      (sum, book) => sum + book.available * book.price,
-      0
+    totalStockValue: totalRemainingValue, // Keep for backward compatibility
+    totalSoldValue,
+    totalRemainingValue,
+    lowStockBooks: stockMovement.filter(
+      (item: any) => item.totalRemaining < 10
     ),
-    lowStockBooks: stockMovement.filter((item) => item.remainingStock < 10),
     stockMovement,
   };
 }

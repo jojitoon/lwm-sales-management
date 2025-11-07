@@ -1,7 +1,6 @@
 import { ChartAreaInteractive } from '@/components/chart-area-interactive';
 import { DataTable } from '@/components/data-table';
 import { SectionCards } from '@/components/section-cards';
-import { SellBooksButton } from '@/components/SellBooksButton';
 
 import data from './data.json';
 
@@ -11,7 +10,6 @@ export default function Page() {
       <div className='px-4 lg:px-6'>
         <div className='flex justify-between items-center mb-4'>
           <h1 className='text-2xl font-bold'>Dashboard</h1>
-          <SellBooksButton />
         </div>
       </div>
       <SectionCards />

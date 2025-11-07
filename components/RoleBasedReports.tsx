@@ -26,6 +26,7 @@ import { RequestStatusReport } from './RequestStatusReport';
 import { UserPerformanceReport } from './UserPerformanceReport';
 import { FinancialSummaryReport } from './FinancialSummaryReport';
 import { SessionClosingReport } from './SessionClosingReport';
+import { BooksSoldReport } from './BooksSoldReport';
 
 interface RoleBasedReportsProps {
   workspace: string;
@@ -38,7 +39,14 @@ export function RoleBasedReports({
   isAdmin,
   userId,
 }: RoleBasedReportsProps) {
-  const [selectedTab, setSelectedTab] = useState('sales-summary');
+  // Set default tab based on role
+  const getDefaultTab = () => {
+    if (workspace === 'table-manager') return 'stock-movement';
+    if (workspace === 'book-sales') return 'sales-summary';
+    return 'sales-summary';
+  };
+
+  const [selectedTab, setSelectedTab] = useState(getDefaultTab());
   const [dateRange, setDateRange] = useState({
     from: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
       .toISOString()
@@ -47,16 +55,20 @@ export function RoleBasedReports({
   });
 
   const { data: reportData, isLoading } = useQuery({
-    queryKey: ['reports', selectedTab, dateRange, workspace],
+    queryKey: ['reports', selectedTab, dateRange, workspace, userId],
     queryFn: async () => {
-      const response = await axios.get('/api/reports', {
-        params: {
-          type: selectedTab,
-          dateFrom: dateRange.from,
-          dateTo: dateRange.to,
-          workspace,
-        },
-      });
+      const params: any = {
+        type: selectedTab,
+        workspace,
+      };
+
+      // Only include date filters if not book-sales workspace
+      if (workspace !== 'book-sales') {
+        params.dateFrom = dateRange.from;
+        params.dateTo = dateRange.to;
+      }
+
+      const response = await axios.get('/api/reports', { params });
       return response.data;
     },
   });
@@ -102,9 +114,18 @@ export function RoleBasedReports({
           { id: 'request-status', label: 'Request Status', icon: IconUsers },
         ];
       case 'table-manager':
+        // Table manager only sees stock movement for their own session
+        return [
+          { id: 'stock-movement', label: 'Stock Movement', icon: IconPackage },
+        ];
       case 'book-sales':
-        return baseTabs;
+        // Book sales sees sales summary and books sold for their own session
+        return [
+          { id: 'sales-summary', label: 'Sales Summary', icon: IconTrendingUp },
+          { id: 'books-sold', label: 'Books Sold', icon: IconPackage },
+        ];
       case 'pre-order':
+        // Pre-order (reorder) features are already completed, keep existing tabs
         return [
           ...baseTabs,
           {
@@ -186,6 +207,14 @@ export function RoleBasedReports({
             isAdmin={isAdmin}
           />
         );
+      case 'books-sold':
+        return (
+          <BooksSoldReport
+            data={reportData.data}
+            workspace={workspace}
+            isAdmin={isAdmin}
+          />
+        );
       default:
         return <div>Report not available</div>;
     }
@@ -193,46 +222,72 @@ export function RoleBasedReports({
 
   return (
     <div className='space-y-6'>
-      {/* Date Range Selector */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Report Filters</CardTitle>
-          <CardDescription>Select date range and report type</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className='flex gap-4 items-center'>
-            <div>
-              <label className='text-sm font-medium'>From:</label>
-              <input
-                type='date'
-                value={dateRange.from}
-                onChange={(e) =>
-                  setDateRange((prev) => ({ ...prev, from: e.target.value }))
-                }
-                className='ml-2 px-3 py-1 border rounded'
-              />
+      {/* Date Range Selector - Hidden for book-sales */}
+      {isAdmin && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Report Filters</CardTitle>
+            <CardDescription>Select date range and report type</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className='flex gap-4 items-center'>
+              <div>
+                <label className='text-sm font-medium'>From:</label>
+                <input
+                  type='date'
+                  value={dateRange.from}
+                  onChange={(e) =>
+                    setDateRange((prev) => ({ ...prev, from: e.target.value }))
+                  }
+                  className='ml-2 px-3 py-1 border rounded'
+                />
+              </div>
+              <div>
+                <label className='text-sm font-medium'>To:</label>
+                <input
+                  type='date'
+                  value={dateRange.to}
+                  onChange={(e) =>
+                    setDateRange((prev) => ({ ...prev, to: e.target.value }))
+                  }
+                  className='ml-2 px-3 py-1 border rounded'
+                />
+              </div>
             </div>
-            <div>
-              <label className='text-sm font-medium'>To:</label>
-              <input
-                type='date'
-                value={dateRange.to}
-                onChange={(e) =>
-                  setDateRange((prev) => ({ ...prev, to: e.target.value }))
-                }
-                className='ml-2 px-3 py-1 border rounded'
-              />
-            </div>
-            <Badge variant='outline' className='ml-4'>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Workspace Badge for book-sales */}
+      {workspace === 'book-sales' && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Current Session Report</CardTitle>
+            <CardDescription>
+              Sales report for your current session
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Badge variant='outline' className=''>
               {workspace.replace('-', ' ').toUpperCase()}
             </Badge>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Report Tabs */}
       <Tabs value={selectedTab} onValueChange={setSelectedTab}>
-        <TabsList className='grid w-full grid-cols-2 lg:grid-cols-3 xl:grid-cols-6'>
+        <TabsList
+          className={`grid ${
+            availableTabs.length === 1
+              ? 'grid-cols-1'
+              : availableTabs.length === 2
+              ? 'grid-cols-2'
+              : availableTabs.length === 3
+              ? 'lg:grid-cols-3'
+              : 'lg:grid-cols-3 xl:grid-cols-6'
+          }`}
+        >
           {availableTabs.map((tab) => (
             <TabsTrigger
               key={tab.id}
