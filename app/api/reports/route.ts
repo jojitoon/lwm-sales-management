@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
       });
       const currentSession = session || settings?.currentSession || '';
 
-      // Get user's mySession to find their tableSaleSessionId for table-manager and book-sales
+      // Get user's mySession to find their tableSaleSessionId for table-manager, book-sales, and pre-order
       let tableSaleSessionId: string | null = null;
       if (workspace === 'table-manager' || workspace === 'book-sales') {
         const mySession = await prisma.mySession.findFirst({
@@ -43,6 +43,24 @@ export async function GET(request: NextRequest) {
           },
         });
         tableSaleSessionId = mySession?.tableSaleSessionId || null;
+      } else if (workspace === 'pre-order') {
+        // For pre-order, get table session from preorderSession
+        const mySession = await prisma.mySession.findFirst({
+          where: {
+            userId: userId,
+            session: currentSession,
+            workspace: workspace,
+            isActive: true,
+          },
+          include: {
+            preorderSession: {
+              include: {
+                tableSaleSession: true,
+              },
+            },
+          },
+        });
+        tableSaleSessionId = mySession?.preorderSession?.tableSaleSessionId || null;
       }
 
       // Base date filter - don't use for book-sales workspace
@@ -406,8 +424,8 @@ async function getStockMovement(
   isAdmin: boolean,
   tableSaleSessionId: string | null = null
 ) {
-  // For table-manager role, get stock from their TableSaleSession
-  if (workspace === 'table-manager') {
+  // For table-manager and pre-order roles, get stock from their TableSaleSession
+  if (workspace === 'table-manager' || workspace === 'pre-order') {
     if (!tableSaleSessionId) {
       return {
         totalBooks: 0,
@@ -426,35 +444,83 @@ async function getStockMovement(
 
     const stockList = (tableSaleSession?.data as any)?.list || [];
 
-    // Get book sales for this session to calculate sold quantities
-    // Don't use date filter for table-manager - get all sales for the current session
-    const bookSales = await prisma.bookSale.findMany({
-      where: {
-        sessionId: tableSaleSessionId,
-      },
-      include: {
-        items: {
-          include: {
-            book: true,
-          },
-        },
-      },
-    });
-
     // Calculate sold quantities per book
     // Use normalized title (trimmed, lowercase) for matching to handle any inconsistencies
     const soldQuantities: Record<string, number> = {};
     const titleMap: Record<string, string> = {}; // Map normalized title to original title
 
-    bookSales.forEach((sale) => {
-      sale.items.forEach((item) => {
-        const bookTitle = item.book.title.trim();
-        const normalizedTitle = bookTitle.toLowerCase();
+    if (workspace === 'table-manager') {
+      // For table-manager, get book sales for this session
+      // Don't use date filter - get all sales for the current session
+      const bookSales = await prisma.bookSale.findMany({
+        where: {
+          sessionId: tableSaleSessionId,
+        },
+        include: {
+          items: {
+            include: {
+              book: true,
+            },
+          },
+        },
+      });
+
+      bookSales.forEach((sale) => {
+        sale.items.forEach((item) => {
+          const bookTitle = item.book.title.trim();
+          const normalizedTitle = bookTitle.toLowerCase();
+          titleMap[normalizedTitle] = bookTitle;
+          soldQuantities[normalizedTitle] =
+            (soldQuantities[normalizedTitle] || 0) + item.quantity;
+        });
+      });
+    } else if (workspace === 'pre-order') {
+      // For pre-order, get collected order items from consolidations
+      // Get all collected items for the current session from this table
+      const collectedItems = await prisma.orderItem.findMany({
+        where: {
+          isCollected: true,
+          consolidation: {
+            session: session,
+            userId: userId,
+          },
+        },
+        include: {
+          book: true,
+          consolidation: true,
+        },
+      });
+
+      // Map product names to book titles and calculate sold quantities
+      for (const item of collectedItems) {
+        let bookTitle = item.productName;
+        
+        // Try to get the actual book title from bookId or mapping
+        if (item.bookId) {
+          const book = await prisma.book.findUnique({
+            where: { id: item.bookId },
+            select: { title: true },
+          });
+          if (book) {
+            bookTitle = book.title;
+          }
+        } else {
+          // Try to get from mapping
+          const mapping = await prisma.bookMapping.findUnique({
+            where: { productName: item.productName },
+            include: { book: true },
+          });
+          if (mapping?.book) {
+            bookTitle = mapping.book.title;
+          }
+        }
+
+        const normalizedTitle = bookTitle.trim().toLowerCase();
         titleMap[normalizedTitle] = bookTitle;
         soldQuantities[normalizedTitle] =
           (soldQuantities[normalizedTitle] || 0) + item.quantity;
-      });
-    });
+      }
+    }
 
     // Build stock movement from the table's stock list
     const stockMovement = stockList.map((stockItem: any) => {
