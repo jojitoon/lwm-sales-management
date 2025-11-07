@@ -103,6 +103,21 @@ export const findOrCreateUser = async (
   };
 
   if (workspace === 'pre-order') {
+    // Find the existing table manager session for this table
+    // Preorder users need to be linked to a table session for stock management
+    const tableSaleSession = await prisma.tableSaleSession.findFirst({
+      where: {
+        isActive: true,
+        session: currentSession,
+        tableId,
+        managerId: { not: null }, // This should be the original table manager
+      },
+    });
+
+    if (!tableSaleSession) {
+      return null; // Cannot create preorder session without a valid table
+    }
+
     let preorderSession = await prisma.preorderSession.findFirst({
       where: {
         userId: user.id,
@@ -116,7 +131,16 @@ export const findOrCreateUser = async (
         data: {
           session: currentSession,
           userId: user.id,
+          tableSaleSessionId: tableSaleSession.id, // Link to table session
           data: {},
+        },
+      });
+    } else if (!preorderSession.tableSaleSessionId) {
+      // Update existing session if it doesn't have a table link
+      preorderSession = await prisma.preorderSession.update({
+        where: { id: preorderSession.id },
+        data: {
+          tableSaleSessionId: tableSaleSession.id,
         },
       });
     }

@@ -84,6 +84,11 @@ const buildData = (workspace: string, isAdmin: boolean) => {
       case 'pre-order':
         return [
           {
+            title: 'Stock',
+            url: '/preorder-stock',
+            icon: IconPackage,
+          },
+          {
             title: 'Sales',
             url: '/preorder-sales',
             icon: IconFileDescription,
@@ -323,14 +328,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             />
           </>
         )}
-        {['table-manager', 'book-sales'].includes(
+        {['table-manager', 'book-sales', 'pre-order'].includes(
           mySession?.workspace as string
         ) && (
           <div className='flex flex-col gap-2 p-2'>
             <div className='flex items-center gap-2'>
               <IconTable />
               <span className='text-lg font-bold uppercase'>
-                {mySession?.tableSaleSession?.tableId}
+                {mySession?.workspace === 'pre-order'
+                  ? mySession?.preorderSession?.tableSaleSession?.tableId
+                  : mySession?.tableSaleSession?.tableId}
               </span>
             </div>
           </div>

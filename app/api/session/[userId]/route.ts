@@ -14,7 +14,11 @@ export async function GET(
       tableSaleSession: true,
       miniStoreSession: true,
       mainStoreSession: true,
-      preorderSession: true,
+      preorderSession: {
+        include: {
+          tableSaleSession: true,
+        },
+      },
       user: true,
     },
   });

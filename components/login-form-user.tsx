@@ -94,22 +94,37 @@ export function UserLoginForm({
                   />
                 </div>
               )}
+              {workspace === 'pre-order' && (
+                <div className='grid gap-3'>
+                  <Label htmlFor='table-id'>Table Id</Label>
+
+                  <Input
+                    id='table-id'
+                    type='text'
+                    required
+                    value={tableId}
+                    onChange={(e) => setTableId(e.target.value)}
+                    placeholder='Enter the table ID to link your preorder session'
+                  />
+                </div>
+              )}
               {workspace === 'table-manager' && (
                 <div className='grid gap-3'>
-                  <Label htmlFor='table-id'>Table Type</Label>
+                  <Label htmlFor='table-type'>Table Type</Label>
                   <Select
                     required
                     value={tableType}
                     onValueChange={setTableType}
                   >
                     <SelectTrigger className='w-full'>
-                      <SelectValue placeholder='Select a workspace' />
+                      <SelectValue placeholder='Select a table type' />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value='pos'>POS</SelectItem>
                       <SelectItem value='cash'>Cash</SelectItem>
                       <SelectItem value='trf'>Transfer</SelectItem>
                       <SelectItem value='qr'>QR</SelectItem>
+                      <SelectItem value='preorder'>Preorder</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -120,6 +135,8 @@ export function UserLoginForm({
                   type='button'
                   className='w-full'
                   onClick={() => {
+                    // Use relative path for callbackUrl - NextAuth will use the current origin
+                    // This ensures redirects work whether accessed via localhost, IP address, or domain
                     signIn('credentials', {
                       tableId,
                       email,

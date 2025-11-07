@@ -2678,12 +2678,14 @@ export namespace Prisma {
   export type TableSaleSessionCountOutputType = {
     bookSales: number
     miniStoreRequests: number
+    preorderSessions: number
     mySessions: number
   }
 
   export type TableSaleSessionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bookSales?: boolean | TableSaleSessionCountOutputTypeCountBookSalesArgs
     miniStoreRequests?: boolean | TableSaleSessionCountOutputTypeCountMiniStoreRequestsArgs
+    preorderSessions?: boolean | TableSaleSessionCountOutputTypeCountPreorderSessionsArgs
     mySessions?: boolean | TableSaleSessionCountOutputTypeCountMySessionsArgs
   }
 
@@ -2710,6 +2712,13 @@ export namespace Prisma {
    */
   export type TableSaleSessionCountOutputTypeCountMiniStoreRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MiniStoreRequestWhereInput
+  }
+
+  /**
+   * TableSaleSessionCountOutputType without action
+   */
+  export type TableSaleSessionCountOutputTypeCountPreorderSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PreorderSessionWhereInput
   }
 
   /**
@@ -11931,6 +11940,7 @@ export namespace Prisma {
     id: string | null
     session: string | null
     userId: string | null
+    tableSaleSessionId: string | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -11940,6 +11950,7 @@ export namespace Prisma {
     id: string | null
     session: string | null
     userId: string | null
+    tableSaleSessionId: string | null
     isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -11950,6 +11961,7 @@ export namespace Prisma {
     session: number
     userId: number
     data: number
+    tableSaleSessionId: number
     isActive: number
     createdAt: number
     updatedAt: number
@@ -11961,6 +11973,7 @@ export namespace Prisma {
     id?: true
     session?: true
     userId?: true
+    tableSaleSessionId?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -11970,6 +11983,7 @@ export namespace Prisma {
     id?: true
     session?: true
     userId?: true
+    tableSaleSessionId?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -11980,6 +11994,7 @@ export namespace Prisma {
     session?: true
     userId?: true
     data?: true
+    tableSaleSessionId?: true
     isActive?: true
     createdAt?: true
     updatedAt?: true
@@ -12063,6 +12078,7 @@ export namespace Prisma {
     session: string
     userId: string
     data: JsonValue
+    tableSaleSessionId: string | null
     isActive: boolean
     createdAt: Date
     updatedAt: Date
@@ -12090,9 +12106,11 @@ export namespace Prisma {
     session?: boolean
     userId?: boolean
     data?: boolean
+    tableSaleSessionId?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    tableSaleSession?: boolean | PreorderSession$tableSaleSessionArgs<ExtArgs>
     mySessions?: boolean | PreorderSession$mySessionsArgs<ExtArgs>
     miniStoreRequests?: boolean | PreorderSession$miniStoreRequestsArgs<ExtArgs>
     _count?: boolean | PreorderSessionCountOutputTypeDefaultArgs<ExtArgs>
@@ -12103,9 +12121,11 @@ export namespace Prisma {
     session?: boolean
     userId?: boolean
     data?: boolean
+    tableSaleSessionId?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    tableSaleSession?: boolean | PreorderSession$tableSaleSessionArgs<ExtArgs>
   }, ExtArgs["result"]["preorderSession"]>
 
   export type PreorderSessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -12113,9 +12133,11 @@ export namespace Prisma {
     session?: boolean
     userId?: boolean
     data?: boolean
+    tableSaleSessionId?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    tableSaleSession?: boolean | PreorderSession$tableSaleSessionArgs<ExtArgs>
   }, ExtArgs["result"]["preorderSession"]>
 
   export type PreorderSessionSelectScalar = {
@@ -12123,23 +12145,30 @@ export namespace Prisma {
     session?: boolean
     userId?: boolean
     data?: boolean
+    tableSaleSessionId?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PreorderSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "session" | "userId" | "data" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["preorderSession"]>
+  export type PreorderSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "session" | "userId" | "data" | "tableSaleSessionId" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["preorderSession"]>
   export type PreorderSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tableSaleSession?: boolean | PreorderSession$tableSaleSessionArgs<ExtArgs>
     mySessions?: boolean | PreorderSession$mySessionsArgs<ExtArgs>
     miniStoreRequests?: boolean | PreorderSession$miniStoreRequestsArgs<ExtArgs>
     _count?: boolean | PreorderSessionCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type PreorderSessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type PreorderSessionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type PreorderSessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tableSaleSession?: boolean | PreorderSession$tableSaleSessionArgs<ExtArgs>
+  }
+  export type PreorderSessionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    tableSaleSession?: boolean | PreorderSession$tableSaleSessionArgs<ExtArgs>
+  }
 
   export type $PreorderSessionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "PreorderSession"
     objects: {
+      tableSaleSession: Prisma.$TableSaleSessionPayload<ExtArgs> | null
       mySessions: Prisma.$MySessionPayload<ExtArgs>[]
       miniStoreRequests: Prisma.$MiniStoreRequestPayload<ExtArgs>[]
     }
@@ -12148,6 +12177,7 @@ export namespace Prisma {
       session: string
       userId: string
       data: Prisma.JsonValue
+      tableSaleSessionId: string | null
       isActive: boolean
       createdAt: Date
       updatedAt: Date
@@ -12545,6 +12575,7 @@ export namespace Prisma {
    */
   export interface Prisma__PreorderSessionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    tableSaleSession<T extends PreorderSession$tableSaleSessionArgs<ExtArgs> = {}>(args?: Subset<T, PreorderSession$tableSaleSessionArgs<ExtArgs>>): Prisma__TableSaleSessionClient<$Result.GetResult<Prisma.$TableSaleSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     mySessions<T extends PreorderSession$mySessionsArgs<ExtArgs> = {}>(args?: Subset<T, PreorderSession$mySessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MySessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     miniStoreRequests<T extends PreorderSession$miniStoreRequestsArgs<ExtArgs> = {}>(args?: Subset<T, PreorderSession$miniStoreRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MiniStoreRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -12580,6 +12611,7 @@ export namespace Prisma {
     readonly session: FieldRef<"PreorderSession", 'String'>
     readonly userId: FieldRef<"PreorderSession", 'String'>
     readonly data: FieldRef<"PreorderSession", 'Json'>
+    readonly tableSaleSessionId: FieldRef<"PreorderSession", 'String'>
     readonly isActive: FieldRef<"PreorderSession", 'Boolean'>
     readonly createdAt: FieldRef<"PreorderSession", 'DateTime'>
     readonly updatedAt: FieldRef<"PreorderSession", 'DateTime'>
@@ -12832,6 +12864,10 @@ export namespace Prisma {
      */
     data: PreorderSessionCreateManyInput | PreorderSessionCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PreorderSessionIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -12902,6 +12938,10 @@ export namespace Prisma {
      * Limit how many PreorderSessions to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PreorderSessionIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -12968,6 +13008,25 @@ export namespace Prisma {
      * Limit how many PreorderSessions to delete.
      */
     limit?: number
+  }
+
+  /**
+   * PreorderSession.tableSaleSession
+   */
+  export type PreorderSession$tableSaleSessionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableSaleSession
+     */
+    select?: TableSaleSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableSaleSession
+     */
+    omit?: TableSaleSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableSaleSessionInclude<ExtArgs> | null
+    where?: TableSaleSessionWhereInput
   }
 
   /**
@@ -13243,6 +13302,7 @@ export namespace Prisma {
     updatedAt?: boolean
     bookSales?: boolean | TableSaleSession$bookSalesArgs<ExtArgs>
     miniStoreRequests?: boolean | TableSaleSession$miniStoreRequestsArgs<ExtArgs>
+    preorderSessions?: boolean | TableSaleSession$preorderSessionsArgs<ExtArgs>
     mySessions?: boolean | TableSaleSession$mySessionsArgs<ExtArgs>
     _count?: boolean | TableSaleSessionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tableSaleSession"]>
@@ -13293,6 +13353,7 @@ export namespace Prisma {
   export type TableSaleSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     bookSales?: boolean | TableSaleSession$bookSalesArgs<ExtArgs>
     miniStoreRequests?: boolean | TableSaleSession$miniStoreRequestsArgs<ExtArgs>
+    preorderSessions?: boolean | TableSaleSession$preorderSessionsArgs<ExtArgs>
     mySessions?: boolean | TableSaleSession$mySessionsArgs<ExtArgs>
     _count?: boolean | TableSaleSessionCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -13304,6 +13365,7 @@ export namespace Prisma {
     objects: {
       bookSales: Prisma.$BookSalePayload<ExtArgs>[]
       miniStoreRequests: Prisma.$MiniStoreRequestPayload<ExtArgs>[]
+      preorderSessions: Prisma.$PreorderSessionPayload<ExtArgs>[]
       mySessions: Prisma.$MySessionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -13714,6 +13776,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     bookSales<T extends TableSaleSession$bookSalesArgs<ExtArgs> = {}>(args?: Subset<T, TableSaleSession$bookSalesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookSalePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     miniStoreRequests<T extends TableSaleSession$miniStoreRequestsArgs<ExtArgs> = {}>(args?: Subset<T, TableSaleSession$miniStoreRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MiniStoreRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    preorderSessions<T extends TableSaleSession$preorderSessionsArgs<ExtArgs> = {}>(args?: Subset<T, TableSaleSession$preorderSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PreorderSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     mySessions<T extends TableSaleSession$mySessionsArgs<ExtArgs> = {}>(args?: Subset<T, TableSaleSession$mySessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MySessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -14188,6 +14251,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MiniStoreRequestScalarFieldEnum | MiniStoreRequestScalarFieldEnum[]
+  }
+
+  /**
+   * TableSaleSession.preorderSessions
+   */
+  export type TableSaleSession$preorderSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PreorderSession
+     */
+    select?: PreorderSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PreorderSession
+     */
+    omit?: PreorderSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PreorderSessionInclude<ExtArgs> | null
+    where?: PreorderSessionWhereInput
+    orderBy?: PreorderSessionOrderByWithRelationInput | PreorderSessionOrderByWithRelationInput[]
+    cursor?: PreorderSessionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PreorderSessionScalarFieldEnum | PreorderSessionScalarFieldEnum[]
   }
 
   /**
@@ -24958,6 +25045,7 @@ export namespace Prisma {
     session: 'session',
     userId: 'userId',
     data: 'data',
+    tableSaleSessionId: 'tableSaleSessionId',
     isActive: 'isActive',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -25853,9 +25941,11 @@ export namespace Prisma {
     session?: StringFilter<"PreorderSession"> | string
     userId?: StringFilter<"PreorderSession"> | string
     data?: JsonFilter<"PreorderSession">
+    tableSaleSessionId?: StringNullableFilter<"PreorderSession"> | string | null
     isActive?: BoolFilter<"PreorderSession"> | boolean
     createdAt?: DateTimeFilter<"PreorderSession"> | Date | string
     updatedAt?: DateTimeFilter<"PreorderSession"> | Date | string
+    tableSaleSession?: XOR<TableSaleSessionNullableScalarRelationFilter, TableSaleSessionWhereInput> | null
     mySessions?: MySessionListRelationFilter
     miniStoreRequests?: MiniStoreRequestListRelationFilter
   }
@@ -25865,9 +25955,11 @@ export namespace Prisma {
     session?: SortOrder
     userId?: SortOrder
     data?: SortOrder
+    tableSaleSessionId?: SortOrderInput | SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    tableSaleSession?: TableSaleSessionOrderByWithRelationInput
     mySessions?: MySessionOrderByRelationAggregateInput
     miniStoreRequests?: MiniStoreRequestOrderByRelationAggregateInput
   }
@@ -25880,9 +25972,11 @@ export namespace Prisma {
     session?: StringFilter<"PreorderSession"> | string
     userId?: StringFilter<"PreorderSession"> | string
     data?: JsonFilter<"PreorderSession">
+    tableSaleSessionId?: StringNullableFilter<"PreorderSession"> | string | null
     isActive?: BoolFilter<"PreorderSession"> | boolean
     createdAt?: DateTimeFilter<"PreorderSession"> | Date | string
     updatedAt?: DateTimeFilter<"PreorderSession"> | Date | string
+    tableSaleSession?: XOR<TableSaleSessionNullableScalarRelationFilter, TableSaleSessionWhereInput> | null
     mySessions?: MySessionListRelationFilter
     miniStoreRequests?: MiniStoreRequestListRelationFilter
   }, "id">
@@ -25892,6 +25986,7 @@ export namespace Prisma {
     session?: SortOrder
     userId?: SortOrder
     data?: SortOrder
+    tableSaleSessionId?: SortOrderInput | SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -25908,6 +26003,7 @@ export namespace Prisma {
     session?: StringWithAggregatesFilter<"PreorderSession"> | string
     userId?: StringWithAggregatesFilter<"PreorderSession"> | string
     data?: JsonWithAggregatesFilter<"PreorderSession">
+    tableSaleSessionId?: StringNullableWithAggregatesFilter<"PreorderSession"> | string | null
     isActive?: BoolWithAggregatesFilter<"PreorderSession"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"PreorderSession"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"PreorderSession"> | Date | string
@@ -25930,6 +26026,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"TableSaleSession"> | Date | string
     bookSales?: BookSaleListRelationFilter
     miniStoreRequests?: MiniStoreRequestListRelationFilter
+    preorderSessions?: PreorderSessionListRelationFilter
     mySessions?: MySessionListRelationFilter
   }
 
@@ -25947,6 +26044,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     bookSales?: BookSaleOrderByRelationAggregateInput
     miniStoreRequests?: MiniStoreRequestOrderByRelationAggregateInput
+    preorderSessions?: PreorderSessionOrderByRelationAggregateInput
     mySessions?: MySessionOrderByRelationAggregateInput
   }
 
@@ -25967,6 +26065,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"TableSaleSession"> | Date | string
     bookSales?: BookSaleListRelationFilter
     miniStoreRequests?: MiniStoreRequestListRelationFilter
+    preorderSessions?: PreorderSessionListRelationFilter
     mySessions?: MySessionListRelationFilter
   }, "id">
 
@@ -26595,6 +26694,7 @@ export namespace Prisma {
 
   export type BookSaleWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    slipNumber?: string
     AND?: BookSaleWhereInput | BookSaleWhereInput[]
     OR?: BookSaleWhereInput[]
     NOT?: BookSaleWhereInput | BookSaleWhereInput[]
@@ -26603,7 +26703,6 @@ export namespace Prisma {
     email?: StringFilter<"BookSale"> | string
     phoneNumber?: StringNullableFilter<"BookSale"> | string | null
     customerLocation?: StringNullableFilter<"BookSale"> | string | null
-    slipNumber?: StringNullableFilter<"BookSale"> | string | null
     isPaid?: BoolFilter<"BookSale"> | boolean
     purchasedAt?: DateTimeNullableFilter<"BookSale"> | Date | string | null
     orderStatus?: StringFilter<"BookSale"> | string
@@ -26613,7 +26712,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"BookSale"> | Date | string
     items?: BookSaleItemListRelationFilter
     session?: XOR<TableSaleSessionScalarRelationFilter, TableSaleSessionWhereInput>
-  }, "id">
+  }, "id" | "slipNumber">
 
   export type BookSaleOrderByWithAggregationInput = {
     id?: SortOrder
@@ -27417,6 +27516,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    tableSaleSession?: TableSaleSessionCreateNestedOneWithoutPreorderSessionsInput
     mySessions?: MySessionCreateNestedManyWithoutPreorderSessionInput
     miniStoreRequests?: MiniStoreRequestCreateNestedManyWithoutPreorderSessionInput
   }
@@ -27426,6 +27526,7 @@ export namespace Prisma {
     session: string
     userId: string
     data: JsonNullValueInput | InputJsonValue
+    tableSaleSessionId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -27441,6 +27542,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tableSaleSession?: TableSaleSessionUpdateOneWithoutPreorderSessionsNestedInput
     mySessions?: MySessionUpdateManyWithoutPreorderSessionNestedInput
     miniStoreRequests?: MiniStoreRequestUpdateManyWithoutPreorderSessionNestedInput
   }
@@ -27450,6 +27552,7 @@ export namespace Prisma {
     session?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
+    tableSaleSessionId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27462,6 +27565,7 @@ export namespace Prisma {
     session: string
     userId: string
     data: JsonNullValueInput | InputJsonValue
+    tableSaleSessionId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -27482,6 +27586,7 @@ export namespace Prisma {
     session?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
+    tableSaleSessionId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27501,6 +27606,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bookSales?: BookSaleCreateNestedManyWithoutSessionInput
     miniStoreRequests?: MiniStoreRequestCreateNestedManyWithoutTableSaleSessionInput
+    preorderSessions?: PreorderSessionCreateNestedManyWithoutTableSaleSessionInput
     mySessions?: MySessionCreateNestedManyWithoutTableSaleSessionInput
   }
 
@@ -27518,6 +27624,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bookSales?: BookSaleUncheckedCreateNestedManyWithoutSessionInput
     miniStoreRequests?: MiniStoreRequestUncheckedCreateNestedManyWithoutTableSaleSessionInput
+    preorderSessions?: PreorderSessionUncheckedCreateNestedManyWithoutTableSaleSessionInput
     mySessions?: MySessionUncheckedCreateNestedManyWithoutTableSaleSessionInput
   }
 
@@ -27535,6 +27642,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bookSales?: BookSaleUpdateManyWithoutSessionNestedInput
     miniStoreRequests?: MiniStoreRequestUpdateManyWithoutTableSaleSessionNestedInput
+    preorderSessions?: PreorderSessionUpdateManyWithoutTableSaleSessionNestedInput
     mySessions?: MySessionUpdateManyWithoutTableSaleSessionNestedInput
   }
 
@@ -27552,6 +27660,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bookSales?: BookSaleUncheckedUpdateManyWithoutSessionNestedInput
     miniStoreRequests?: MiniStoreRequestUncheckedUpdateManyWithoutTableSaleSessionNestedInput
+    preorderSessions?: PreorderSessionUncheckedUpdateManyWithoutTableSaleSessionNestedInput
     mySessions?: MySessionUncheckedUpdateManyWithoutTableSaleSessionNestedInput
   }
 
@@ -29119,6 +29228,11 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type TableSaleSessionNullableScalarRelationFilter = {
+    is?: TableSaleSessionWhereInput | null
+    isNot?: TableSaleSessionWhereInput | null
+  }
+
   export type MiniStoreRequestListRelationFilter = {
     every?: MiniStoreRequestWhereInput
     some?: MiniStoreRequestWhereInput
@@ -29134,6 +29248,7 @@ export namespace Prisma {
     session?: SortOrder
     userId?: SortOrder
     data?: SortOrder
+    tableSaleSessionId?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -29143,6 +29258,7 @@ export namespace Prisma {
     id?: SortOrder
     session?: SortOrder
     userId?: SortOrder
+    tableSaleSessionId?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -29152,6 +29268,7 @@ export namespace Prisma {
     id?: SortOrder
     session?: SortOrder
     userId?: SortOrder
+    tableSaleSessionId?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -29189,7 +29306,17 @@ export namespace Prisma {
     none?: BookSaleWhereInput
   }
 
+  export type PreorderSessionListRelationFilter = {
+    every?: PreorderSessionWhereInput
+    some?: PreorderSessionWhereInput
+    none?: PreorderSessionWhereInput
+  }
+
   export type BookSaleOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PreorderSessionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -29229,11 +29356,6 @@ export namespace Prisma {
     isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type TableSaleSessionNullableScalarRelationFilter = {
-    is?: TableSaleSessionWhereInput | null
-    isNot?: TableSaleSessionWhereInput | null
   }
 
   export type MiniStoreSessionNullableScalarRelationFilter = {
@@ -30117,6 +30239,12 @@ export namespace Prisma {
     deleteMany?: OrderItemScalarWhereInput | OrderItemScalarWhereInput[]
   }
 
+  export type TableSaleSessionCreateNestedOneWithoutPreorderSessionsInput = {
+    create?: XOR<TableSaleSessionCreateWithoutPreorderSessionsInput, TableSaleSessionUncheckedCreateWithoutPreorderSessionsInput>
+    connectOrCreate?: TableSaleSessionCreateOrConnectWithoutPreorderSessionsInput
+    connect?: TableSaleSessionWhereUniqueInput
+  }
+
   export type MySessionCreateNestedManyWithoutPreorderSessionInput = {
     create?: XOR<MySessionCreateWithoutPreorderSessionInput, MySessionUncheckedCreateWithoutPreorderSessionInput> | MySessionCreateWithoutPreorderSessionInput[] | MySessionUncheckedCreateWithoutPreorderSessionInput[]
     connectOrCreate?: MySessionCreateOrConnectWithoutPreorderSessionInput | MySessionCreateOrConnectWithoutPreorderSessionInput[]
@@ -30143,6 +30271,16 @@ export namespace Prisma {
     connectOrCreate?: MiniStoreRequestCreateOrConnectWithoutPreorderSessionInput | MiniStoreRequestCreateOrConnectWithoutPreorderSessionInput[]
     createMany?: MiniStoreRequestCreateManyPreorderSessionInputEnvelope
     connect?: MiniStoreRequestWhereUniqueInput | MiniStoreRequestWhereUniqueInput[]
+  }
+
+  export type TableSaleSessionUpdateOneWithoutPreorderSessionsNestedInput = {
+    create?: XOR<TableSaleSessionCreateWithoutPreorderSessionsInput, TableSaleSessionUncheckedCreateWithoutPreorderSessionsInput>
+    connectOrCreate?: TableSaleSessionCreateOrConnectWithoutPreorderSessionsInput
+    upsert?: TableSaleSessionUpsertWithoutPreorderSessionsInput
+    disconnect?: TableSaleSessionWhereInput | boolean
+    delete?: TableSaleSessionWhereInput | boolean
+    connect?: TableSaleSessionWhereUniqueInput
+    update?: XOR<XOR<TableSaleSessionUpdateToOneWithWhereWithoutPreorderSessionsInput, TableSaleSessionUpdateWithoutPreorderSessionsInput>, TableSaleSessionUncheckedUpdateWithoutPreorderSessionsInput>
   }
 
   export type MySessionUpdateManyWithoutPreorderSessionNestedInput = {
@@ -30215,6 +30353,13 @@ export namespace Prisma {
     connect?: MiniStoreRequestWhereUniqueInput | MiniStoreRequestWhereUniqueInput[]
   }
 
+  export type PreorderSessionCreateNestedManyWithoutTableSaleSessionInput = {
+    create?: XOR<PreorderSessionCreateWithoutTableSaleSessionInput, PreorderSessionUncheckedCreateWithoutTableSaleSessionInput> | PreorderSessionCreateWithoutTableSaleSessionInput[] | PreorderSessionUncheckedCreateWithoutTableSaleSessionInput[]
+    connectOrCreate?: PreorderSessionCreateOrConnectWithoutTableSaleSessionInput | PreorderSessionCreateOrConnectWithoutTableSaleSessionInput[]
+    createMany?: PreorderSessionCreateManyTableSaleSessionInputEnvelope
+    connect?: PreorderSessionWhereUniqueInput | PreorderSessionWhereUniqueInput[]
+  }
+
   export type MySessionCreateNestedManyWithoutTableSaleSessionInput = {
     create?: XOR<MySessionCreateWithoutTableSaleSessionInput, MySessionUncheckedCreateWithoutTableSaleSessionInput> | MySessionCreateWithoutTableSaleSessionInput[] | MySessionUncheckedCreateWithoutTableSaleSessionInput[]
     connectOrCreate?: MySessionCreateOrConnectWithoutTableSaleSessionInput | MySessionCreateOrConnectWithoutTableSaleSessionInput[]
@@ -30234,6 +30379,13 @@ export namespace Prisma {
     connectOrCreate?: MiniStoreRequestCreateOrConnectWithoutTableSaleSessionInput | MiniStoreRequestCreateOrConnectWithoutTableSaleSessionInput[]
     createMany?: MiniStoreRequestCreateManyTableSaleSessionInputEnvelope
     connect?: MiniStoreRequestWhereUniqueInput | MiniStoreRequestWhereUniqueInput[]
+  }
+
+  export type PreorderSessionUncheckedCreateNestedManyWithoutTableSaleSessionInput = {
+    create?: XOR<PreorderSessionCreateWithoutTableSaleSessionInput, PreorderSessionUncheckedCreateWithoutTableSaleSessionInput> | PreorderSessionCreateWithoutTableSaleSessionInput[] | PreorderSessionUncheckedCreateWithoutTableSaleSessionInput[]
+    connectOrCreate?: PreorderSessionCreateOrConnectWithoutTableSaleSessionInput | PreorderSessionCreateOrConnectWithoutTableSaleSessionInput[]
+    createMany?: PreorderSessionCreateManyTableSaleSessionInputEnvelope
+    connect?: PreorderSessionWhereUniqueInput | PreorderSessionWhereUniqueInput[]
   }
 
   export type MySessionUncheckedCreateNestedManyWithoutTableSaleSessionInput = {
@@ -30269,6 +30421,20 @@ export namespace Prisma {
     update?: MiniStoreRequestUpdateWithWhereUniqueWithoutTableSaleSessionInput | MiniStoreRequestUpdateWithWhereUniqueWithoutTableSaleSessionInput[]
     updateMany?: MiniStoreRequestUpdateManyWithWhereWithoutTableSaleSessionInput | MiniStoreRequestUpdateManyWithWhereWithoutTableSaleSessionInput[]
     deleteMany?: MiniStoreRequestScalarWhereInput | MiniStoreRequestScalarWhereInput[]
+  }
+
+  export type PreorderSessionUpdateManyWithoutTableSaleSessionNestedInput = {
+    create?: XOR<PreorderSessionCreateWithoutTableSaleSessionInput, PreorderSessionUncheckedCreateWithoutTableSaleSessionInput> | PreorderSessionCreateWithoutTableSaleSessionInput[] | PreorderSessionUncheckedCreateWithoutTableSaleSessionInput[]
+    connectOrCreate?: PreorderSessionCreateOrConnectWithoutTableSaleSessionInput | PreorderSessionCreateOrConnectWithoutTableSaleSessionInput[]
+    upsert?: PreorderSessionUpsertWithWhereUniqueWithoutTableSaleSessionInput | PreorderSessionUpsertWithWhereUniqueWithoutTableSaleSessionInput[]
+    createMany?: PreorderSessionCreateManyTableSaleSessionInputEnvelope
+    set?: PreorderSessionWhereUniqueInput | PreorderSessionWhereUniqueInput[]
+    disconnect?: PreorderSessionWhereUniqueInput | PreorderSessionWhereUniqueInput[]
+    delete?: PreorderSessionWhereUniqueInput | PreorderSessionWhereUniqueInput[]
+    connect?: PreorderSessionWhereUniqueInput | PreorderSessionWhereUniqueInput[]
+    update?: PreorderSessionUpdateWithWhereUniqueWithoutTableSaleSessionInput | PreorderSessionUpdateWithWhereUniqueWithoutTableSaleSessionInput[]
+    updateMany?: PreorderSessionUpdateManyWithWhereWithoutTableSaleSessionInput | PreorderSessionUpdateManyWithWhereWithoutTableSaleSessionInput[]
+    deleteMany?: PreorderSessionScalarWhereInput | PreorderSessionScalarWhereInput[]
   }
 
   export type MySessionUpdateManyWithoutTableSaleSessionNestedInput = {
@@ -30311,6 +30477,20 @@ export namespace Prisma {
     update?: MiniStoreRequestUpdateWithWhereUniqueWithoutTableSaleSessionInput | MiniStoreRequestUpdateWithWhereUniqueWithoutTableSaleSessionInput[]
     updateMany?: MiniStoreRequestUpdateManyWithWhereWithoutTableSaleSessionInput | MiniStoreRequestUpdateManyWithWhereWithoutTableSaleSessionInput[]
     deleteMany?: MiniStoreRequestScalarWhereInput | MiniStoreRequestScalarWhereInput[]
+  }
+
+  export type PreorderSessionUncheckedUpdateManyWithoutTableSaleSessionNestedInput = {
+    create?: XOR<PreorderSessionCreateWithoutTableSaleSessionInput, PreorderSessionUncheckedCreateWithoutTableSaleSessionInput> | PreorderSessionCreateWithoutTableSaleSessionInput[] | PreorderSessionUncheckedCreateWithoutTableSaleSessionInput[]
+    connectOrCreate?: PreorderSessionCreateOrConnectWithoutTableSaleSessionInput | PreorderSessionCreateOrConnectWithoutTableSaleSessionInput[]
+    upsert?: PreorderSessionUpsertWithWhereUniqueWithoutTableSaleSessionInput | PreorderSessionUpsertWithWhereUniqueWithoutTableSaleSessionInput[]
+    createMany?: PreorderSessionCreateManyTableSaleSessionInputEnvelope
+    set?: PreorderSessionWhereUniqueInput | PreorderSessionWhereUniqueInput[]
+    disconnect?: PreorderSessionWhereUniqueInput | PreorderSessionWhereUniqueInput[]
+    delete?: PreorderSessionWhereUniqueInput | PreorderSessionWhereUniqueInput[]
+    connect?: PreorderSessionWhereUniqueInput | PreorderSessionWhereUniqueInput[]
+    update?: PreorderSessionUpdateWithWhereUniqueWithoutTableSaleSessionInput | PreorderSessionUpdateWithWhereUniqueWithoutTableSaleSessionInput[]
+    updateMany?: PreorderSessionUpdateManyWithWhereWithoutTableSaleSessionInput | PreorderSessionUpdateManyWithWhereWithoutTableSaleSessionInput[]
+    deleteMany?: PreorderSessionScalarWhereInput | PreorderSessionScalarWhereInput[]
   }
 
   export type MySessionUncheckedUpdateManyWithoutTableSaleSessionNestedInput = {
@@ -32097,6 +32277,45 @@ export namespace Prisma {
     data: XOR<OrderItemUpdateManyMutationInput, OrderItemUncheckedUpdateManyWithoutConsolidationInput>
   }
 
+  export type TableSaleSessionCreateWithoutPreorderSessionsInput = {
+    id?: string
+    name: string
+    tableId: string
+    session: string
+    managerId?: string | null
+    salesPersonId?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    soldData?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bookSales?: BookSaleCreateNestedManyWithoutSessionInput
+    miniStoreRequests?: MiniStoreRequestCreateNestedManyWithoutTableSaleSessionInput
+    mySessions?: MySessionCreateNestedManyWithoutTableSaleSessionInput
+  }
+
+  export type TableSaleSessionUncheckedCreateWithoutPreorderSessionsInput = {
+    id?: string
+    name: string
+    tableId: string
+    session: string
+    managerId?: string | null
+    salesPersonId?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    soldData?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bookSales?: BookSaleUncheckedCreateNestedManyWithoutSessionInput
+    miniStoreRequests?: MiniStoreRequestUncheckedCreateNestedManyWithoutTableSaleSessionInput
+    mySessions?: MySessionUncheckedCreateNestedManyWithoutTableSaleSessionInput
+  }
+
+  export type TableSaleSessionCreateOrConnectWithoutPreorderSessionsInput = {
+    where: TableSaleSessionWhereUniqueInput
+    create: XOR<TableSaleSessionCreateWithoutPreorderSessionsInput, TableSaleSessionUncheckedCreateWithoutPreorderSessionsInput>
+  }
+
   export type MySessionCreateWithoutPreorderSessionInput = {
     id?: string
     session: string
@@ -32167,6 +32386,51 @@ export namespace Prisma {
   export type MiniStoreRequestCreateManyPreorderSessionInputEnvelope = {
     data: MiniStoreRequestCreateManyPreorderSessionInput | MiniStoreRequestCreateManyPreorderSessionInput[]
     skipDuplicates?: boolean
+  }
+
+  export type TableSaleSessionUpsertWithoutPreorderSessionsInput = {
+    update: XOR<TableSaleSessionUpdateWithoutPreorderSessionsInput, TableSaleSessionUncheckedUpdateWithoutPreorderSessionsInput>
+    create: XOR<TableSaleSessionCreateWithoutPreorderSessionsInput, TableSaleSessionUncheckedCreateWithoutPreorderSessionsInput>
+    where?: TableSaleSessionWhereInput
+  }
+
+  export type TableSaleSessionUpdateToOneWithWhereWithoutPreorderSessionsInput = {
+    where?: TableSaleSessionWhereInput
+    data: XOR<TableSaleSessionUpdateWithoutPreorderSessionsInput, TableSaleSessionUncheckedUpdateWithoutPreorderSessionsInput>
+  }
+
+  export type TableSaleSessionUpdateWithoutPreorderSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tableId?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    salesPersonId?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    soldData?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bookSales?: BookSaleUpdateManyWithoutSessionNestedInput
+    miniStoreRequests?: MiniStoreRequestUpdateManyWithoutTableSaleSessionNestedInput
+    mySessions?: MySessionUpdateManyWithoutTableSaleSessionNestedInput
+  }
+
+  export type TableSaleSessionUncheckedUpdateWithoutPreorderSessionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tableId?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    salesPersonId?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    soldData?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bookSales?: BookSaleUncheckedUpdateManyWithoutSessionNestedInput
+    miniStoreRequests?: MiniStoreRequestUncheckedUpdateManyWithoutTableSaleSessionNestedInput
+    mySessions?: MySessionUncheckedUpdateManyWithoutTableSaleSessionNestedInput
   }
 
   export type MySessionUpsertWithWhereUniqueWithoutPreorderSessionInput = {
@@ -32295,6 +32559,40 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PreorderSessionCreateWithoutTableSaleSessionInput = {
+    id?: string
+    session: string
+    userId: string
+    data: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    mySessions?: MySessionCreateNestedManyWithoutPreorderSessionInput
+    miniStoreRequests?: MiniStoreRequestCreateNestedManyWithoutPreorderSessionInput
+  }
+
+  export type PreorderSessionUncheckedCreateWithoutTableSaleSessionInput = {
+    id?: string
+    session: string
+    userId: string
+    data: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    mySessions?: MySessionUncheckedCreateNestedManyWithoutPreorderSessionInput
+    miniStoreRequests?: MiniStoreRequestUncheckedCreateNestedManyWithoutPreorderSessionInput
+  }
+
+  export type PreorderSessionCreateOrConnectWithoutTableSaleSessionInput = {
+    where: PreorderSessionWhereUniqueInput
+    create: XOR<PreorderSessionCreateWithoutTableSaleSessionInput, PreorderSessionUncheckedCreateWithoutTableSaleSessionInput>
+  }
+
+  export type PreorderSessionCreateManyTableSaleSessionInputEnvelope = {
+    data: PreorderSessionCreateManyTableSaleSessionInput | PreorderSessionCreateManyTableSaleSessionInput[]
+    skipDuplicates?: boolean
+  }
+
   export type MySessionCreateWithoutTableSaleSessionInput = {
     id?: string
     session: string
@@ -32385,6 +32683,36 @@ export namespace Prisma {
     data: XOR<MiniStoreRequestUpdateManyMutationInput, MiniStoreRequestUncheckedUpdateManyWithoutTableSaleSessionInput>
   }
 
+  export type PreorderSessionUpsertWithWhereUniqueWithoutTableSaleSessionInput = {
+    where: PreorderSessionWhereUniqueInput
+    update: XOR<PreorderSessionUpdateWithoutTableSaleSessionInput, PreorderSessionUncheckedUpdateWithoutTableSaleSessionInput>
+    create: XOR<PreorderSessionCreateWithoutTableSaleSessionInput, PreorderSessionUncheckedCreateWithoutTableSaleSessionInput>
+  }
+
+  export type PreorderSessionUpdateWithWhereUniqueWithoutTableSaleSessionInput = {
+    where: PreorderSessionWhereUniqueInput
+    data: XOR<PreorderSessionUpdateWithoutTableSaleSessionInput, PreorderSessionUncheckedUpdateWithoutTableSaleSessionInput>
+  }
+
+  export type PreorderSessionUpdateManyWithWhereWithoutTableSaleSessionInput = {
+    where: PreorderSessionScalarWhereInput
+    data: XOR<PreorderSessionUpdateManyMutationInput, PreorderSessionUncheckedUpdateManyWithoutTableSaleSessionInput>
+  }
+
+  export type PreorderSessionScalarWhereInput = {
+    AND?: PreorderSessionScalarWhereInput | PreorderSessionScalarWhereInput[]
+    OR?: PreorderSessionScalarWhereInput[]
+    NOT?: PreorderSessionScalarWhereInput | PreorderSessionScalarWhereInput[]
+    id?: StringFilter<"PreorderSession"> | string
+    session?: StringFilter<"PreorderSession"> | string
+    userId?: StringFilter<"PreorderSession"> | string
+    data?: JsonFilter<"PreorderSession">
+    tableSaleSessionId?: StringNullableFilter<"PreorderSession"> | string | null
+    isActive?: BoolFilter<"PreorderSession"> | boolean
+    createdAt?: DateTimeFilter<"PreorderSession"> | Date | string
+    updatedAt?: DateTimeFilter<"PreorderSession"> | Date | string
+  }
+
   export type MySessionUpsertWithWhereUniqueWithoutTableSaleSessionInput = {
     where: MySessionWhereUniqueInput
     update: XOR<MySessionUpdateWithoutTableSaleSessionInput, MySessionUncheckedUpdateWithoutTableSaleSessionInput>
@@ -32444,6 +32772,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bookSales?: BookSaleCreateNestedManyWithoutSessionInput
     miniStoreRequests?: MiniStoreRequestCreateNestedManyWithoutTableSaleSessionInput
+    preorderSessions?: PreorderSessionCreateNestedManyWithoutTableSaleSessionInput
   }
 
   export type TableSaleSessionUncheckedCreateWithoutMySessionsInput = {
@@ -32460,6 +32789,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bookSales?: BookSaleUncheckedCreateNestedManyWithoutSessionInput
     miniStoreRequests?: MiniStoreRequestUncheckedCreateNestedManyWithoutTableSaleSessionInput
+    preorderSessions?: PreorderSessionUncheckedCreateNestedManyWithoutTableSaleSessionInput
   }
 
   export type TableSaleSessionCreateOrConnectWithoutMySessionsInput = {
@@ -32549,6 +32879,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    tableSaleSession?: TableSaleSessionCreateNestedOneWithoutPreorderSessionsInput
     miniStoreRequests?: MiniStoreRequestCreateNestedManyWithoutPreorderSessionInput
   }
 
@@ -32557,6 +32888,7 @@ export namespace Prisma {
     session: string
     userId: string
     data: JsonNullValueInput | InputJsonValue
+    tableSaleSessionId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32628,6 +32960,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bookSales?: BookSaleUpdateManyWithoutSessionNestedInput
     miniStoreRequests?: MiniStoreRequestUpdateManyWithoutTableSaleSessionNestedInput
+    preorderSessions?: PreorderSessionUpdateManyWithoutTableSaleSessionNestedInput
   }
 
   export type TableSaleSessionUncheckedUpdateWithoutMySessionsInput = {
@@ -32644,6 +32977,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bookSales?: BookSaleUncheckedUpdateManyWithoutSessionNestedInput
     miniStoreRequests?: MiniStoreRequestUncheckedUpdateManyWithoutTableSaleSessionNestedInput
+    preorderSessions?: PreorderSessionUncheckedUpdateManyWithoutTableSaleSessionNestedInput
   }
 
   export type MiniStoreSessionUpsertWithoutMySessionsInput = {
@@ -32751,6 +33085,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tableSaleSession?: TableSaleSessionUpdateOneWithoutPreorderSessionsNestedInput
     miniStoreRequests?: MiniStoreRequestUpdateManyWithoutPreorderSessionNestedInput
   }
 
@@ -32759,6 +33094,7 @@ export namespace Prisma {
     session?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
+    tableSaleSessionId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33244,6 +33580,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     bookSales?: BookSaleCreateNestedManyWithoutSessionInput
+    preorderSessions?: PreorderSessionCreateNestedManyWithoutTableSaleSessionInput
     mySessions?: MySessionCreateNestedManyWithoutTableSaleSessionInput
   }
 
@@ -33260,6 +33597,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     bookSales?: BookSaleUncheckedCreateNestedManyWithoutSessionInput
+    preorderSessions?: PreorderSessionUncheckedCreateNestedManyWithoutTableSaleSessionInput
     mySessions?: MySessionUncheckedCreateNestedManyWithoutTableSaleSessionInput
   }
 
@@ -33276,6 +33614,7 @@ export namespace Prisma {
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    tableSaleSession?: TableSaleSessionCreateNestedOneWithoutPreorderSessionsInput
     mySessions?: MySessionCreateNestedManyWithoutPreorderSessionInput
   }
 
@@ -33284,6 +33623,7 @@ export namespace Prisma {
     session: string
     userId: string
     data: JsonNullValueInput | InputJsonValue
+    tableSaleSessionId?: string | null
     isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -33362,6 +33702,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bookSales?: BookSaleUpdateManyWithoutSessionNestedInput
+    preorderSessions?: PreorderSessionUpdateManyWithoutTableSaleSessionNestedInput
     mySessions?: MySessionUpdateManyWithoutTableSaleSessionNestedInput
   }
 
@@ -33378,6 +33719,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bookSales?: BookSaleUncheckedUpdateManyWithoutSessionNestedInput
+    preorderSessions?: PreorderSessionUncheckedUpdateManyWithoutTableSaleSessionNestedInput
     mySessions?: MySessionUncheckedUpdateManyWithoutTableSaleSessionNestedInput
   }
 
@@ -33400,6 +33742,7 @@ export namespace Prisma {
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tableSaleSession?: TableSaleSessionUpdateOneWithoutPreorderSessionsNestedInput
     mySessions?: MySessionUpdateManyWithoutPreorderSessionNestedInput
   }
 
@@ -33408,6 +33751,7 @@ export namespace Prisma {
     session?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     data?: JsonNullValueInput | InputJsonValue
+    tableSaleSessionId?: NullableStringFieldUpdateOperationsInput | string | null
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33613,6 +33957,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     miniStoreRequests?: MiniStoreRequestCreateNestedManyWithoutTableSaleSessionInput
+    preorderSessions?: PreorderSessionCreateNestedManyWithoutTableSaleSessionInput
     mySessions?: MySessionCreateNestedManyWithoutTableSaleSessionInput
   }
 
@@ -33629,6 +33974,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     miniStoreRequests?: MiniStoreRequestUncheckedCreateNestedManyWithoutTableSaleSessionInput
+    preorderSessions?: PreorderSessionUncheckedCreateNestedManyWithoutTableSaleSessionInput
     mySessions?: MySessionUncheckedCreateNestedManyWithoutTableSaleSessionInput
   }
 
@@ -33677,6 +34023,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     miniStoreRequests?: MiniStoreRequestUpdateManyWithoutTableSaleSessionNestedInput
+    preorderSessions?: PreorderSessionUpdateManyWithoutTableSaleSessionNestedInput
     mySessions?: MySessionUpdateManyWithoutTableSaleSessionNestedInput
   }
 
@@ -33693,6 +34040,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     miniStoreRequests?: MiniStoreRequestUncheckedUpdateManyWithoutTableSaleSessionNestedInput
+    preorderSessions?: PreorderSessionUncheckedUpdateManyWithoutTableSaleSessionNestedInput
     mySessions?: MySessionUncheckedUpdateManyWithoutTableSaleSessionNestedInput
   }
 
@@ -34402,6 +34750,16 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type PreorderSessionCreateManyTableSaleSessionInput = {
+    id?: string
+    session: string
+    userId: string
+    data: JsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type MySessionCreateManyTableSaleSessionInput = {
     id?: string
     userId: string
@@ -34498,6 +34856,40 @@ export namespace Prisma {
     granted?: JsonNullValueInput | InputJsonValue
     wasDenied?: BoolFieldUpdateOperationsInput | boolean
     wasApproved?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PreorderSessionUpdateWithoutTableSaleSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mySessions?: MySessionUpdateManyWithoutPreorderSessionNestedInput
+    miniStoreRequests?: MiniStoreRequestUpdateManyWithoutPreorderSessionNestedInput
+  }
+
+  export type PreorderSessionUncheckedUpdateWithoutTableSaleSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mySessions?: MySessionUncheckedUpdateManyWithoutPreorderSessionNestedInput
+    miniStoreRequests?: MiniStoreRequestUncheckedUpdateManyWithoutPreorderSessionNestedInput
+  }
+
+  export type PreorderSessionUncheckedUpdateManyWithoutTableSaleSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    data?: JsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

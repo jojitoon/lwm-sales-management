@@ -48,6 +48,11 @@ export default async function TableManagerBookStock() {
             <RequestBookFromMiniButton />
           </div>
         )}
+        {mySession?.workspace === 'pre-order' && (
+          <div className='text-sm text-gray-500'>
+            Linked to Table: {tableSale?.name} ({tableSale?.tableId})
+          </div>
+        )}
       </div>
 
       <BookStockTable data={stock} stockType='table-stock' />

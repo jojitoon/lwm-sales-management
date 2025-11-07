@@ -1,6 +1,7 @@
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
+import { wsEmitter, WebSocketEvents } from '@/lib/websocket';
 
 export async function POST(
   request: Request,
@@ -99,9 +100,36 @@ export async function POST(
         data: { isCollected: true, consolidationId: con.id },
       });
 
+      // Get the user's preorder session to find the linked table session
+      const settings = await prisma.setting.findFirst({
+        where: { id: 'settings' },
+      });
+
+      const mySession = await prisma.mySession.findFirst({
+        where: {
+          userId: req.auth.user?.id || '',
+          session: settings?.currentSession || '',
+          workspace: 'pre-order',
+          isActive: true,
+        },
+        include: {
+          preorderSession: {
+            include: {
+              tableSaleSession: true,
+            },
+          },
+        },
+      });
+
+      const tableSaleSession = mySession?.preorderSession?.tableSaleSession;
+      let tableStock = tableSaleSession
+        ? [...((tableSaleSession.data as any)?.list || [])]
+        : [];
+
       // Update book quantities for collected items
       for (const item of itemsToCollect) {
         let bookId = item.bookId;
+        let bookTitle = item.productName;
 
         // If bookId is not set, try to get it from the mapping table
         if (!bookId) {
@@ -116,10 +144,52 @@ export async function POST(
               where: { id: item.id },
               data: { bookId },
             });
+            // Get the book title from the book
+            const book = await prisma.book.findUnique({
+              where: { id: bookId },
+              select: { title: true },
+            });
+            if (book) {
+              bookTitle = book.title;
+            }
+          }
+        } else {
+          // Get the book title from the book
+          const book = await prisma.book.findUnique({
+            where: { id: bookId },
+            select: { title: true },
+          });
+          if (book) {
+            bookTitle = book.title;
           }
         }
 
-        // If we have a bookId, update the book quantities
+        // Update table stock if we have a linked table session
+        if (tableSaleSession && bookTitle) {
+          const stockIndex = tableStock.findIndex(
+            (stockItem: any) => stockItem.title === bookTitle
+          );
+          if (stockIndex >= 0) {
+            if (tableStock[stockIndex].available < item.quantity) {
+              return NextResponse.json(
+                {
+                  message: `Insufficient stock for "${bookTitle}". Available: ${tableStock[stockIndex].available}, Requested: ${item.quantity}`,
+                },
+                { status: 400 }
+              );
+            }
+            tableStock[stockIndex] = {
+              ...tableStock[stockIndex],
+              available: tableStock[stockIndex].available - item.quantity,
+            };
+          } else {
+            console.warn(
+              `Book "${bookTitle}" not found in table stock for preorder collection`
+            );
+          }
+        }
+
+        // If we have a bookId, update the global book quantities
         if (bookId) {
           const book = await prisma.book.findUnique({
             where: { id: bookId },
@@ -146,11 +216,28 @@ export async function POST(
               });
             } else {
               console.warn(
-                `Insufficient stock for book ${bookId}. PreorderAvailable: ${book.preorderAvailable}, Available: ${book.available}, Requested: ${item.quantity}`
+                `Insufficient global stock for book ${bookId}. PreorderAvailable: ${book.preorderAvailable}, Available: ${book.available}, Requested: ${item.quantity}`
               );
             }
           }
         }
+      }
+
+      // Update table sale session with new stock if we have a linked table session
+      if (tableSaleSession) {
+        await prisma.tableSaleSession.update({
+          where: { id: tableSaleSession.id },
+          data: {
+            data: { list: tableStock },
+          },
+        });
+
+        // Emit WebSocket event for stock update
+        wsEmitter.emit(WebSocketEvents.STOCK_UPDATED, {
+          sessionId: tableSaleSession.id,
+          workspace: 'pre-order',
+          tableId: tableSaleSession.tableId,
+        });
       }
 
       return Response.json({

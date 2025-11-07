@@ -132,15 +132,17 @@ model Consolidation {
 }
 
 model PreorderSession {
-  id                String             @id @default(uuid())
-  session           String
-  userId            String
-  data              Json
-  isActive          Boolean            @default(true)
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
-  mySessions        MySession[]
-  miniStoreRequests MiniStoreRequest[]
+  id                 String             @id @default(uuid())
+  session            String
+  userId             String
+  data               Json
+  tableSaleSessionId String?
+  tableSaleSession   TableSaleSession?  @relation(fields: [tableSaleSessionId], references: [id])
+  isActive           Boolean            @default(true)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  mySessions         MySession[]
+  miniStoreRequests  MiniStoreRequest[]
 
   @@map("preorder_sessions")
 }
@@ -157,6 +159,7 @@ model TableSaleSession {
   isActive          Boolean            @default(true)
   bookSales         BookSale[]
   miniStoreRequests MiniStoreRequest[]
+  preorderSessions  PreorderSession[]
   createdAt         DateTime           @default(now())
   updatedAt         DateTime           @updatedAt
   mySessions        MySession[]
@@ -291,7 +294,7 @@ model BookSale {
   email            String
   phoneNumber      String?
   customerLocation String?
-  slipNumber       String?
+  slipNumber       String?          @unique
   items            BookSaleItem[]
   isPaid           Boolean          @default(true)
   purchasedAt      DateTime?

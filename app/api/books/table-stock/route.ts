@@ -17,26 +17,40 @@ export async function GET(request: NextRequest) {
       });
 
       // Get current user's table sale session
+      // Include pre-order workspace as they also need access to table stock
       const mySession = await prisma.mySession.findFirst({
         where: {
           userId: req.auth.user.id,
           session: settings?.currentSession as string,
-          workspace: { in: ['table-manager', 'book-sales'] },
+          workspace: { in: ['table-manager', 'book-sales', 'pre-order'] },
           isActive: true,
         },
         include: {
           tableSaleSession: true,
+          preorderSession: {
+            include: {
+              tableSaleSession: true,
+            },
+          },
         },
       });
 
-      if (!mySession?.tableSaleSession) {
+      // For pre-order workspace, get table session from preorderSession
+      // For table-manager and book-sales, use tableSaleSession directly
+      let tableSaleSession = mySession?.tableSaleSession;
+      
+      if (mySession?.workspace === 'pre-order' && mySession?.preorderSession?.tableSaleSession) {
+        tableSaleSession = mySession.preorderSession.tableSaleSession;
+      }
+
+      if (!tableSaleSession) {
         return NextResponse.json(
           { message: 'Table sale session not found' },
           { status: 404 }
         );
       }
 
-      const stock = (mySession.tableSaleSession.data as any)?.list || [];
+      const stock = (tableSaleSession.data as any)?.list || [];
 
       return NextResponse.json(stock);
     } catch (error) {

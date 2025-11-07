@@ -8,13 +8,54 @@ const dev = process.env.NODE_ENV !== 'production';
 const hostname = process.env.HOSTNAME || '0.0.0.0'; // Listen on all interfaces
 const port = parseInt(process.env.PORT || '3000', 10);
 
-const app = next({ dev, hostname, port });
+// Set environment variable to ensure Next.js doesn't hardcode localhost
+// This is critical for CSS and asset loading when accessed via IP
+if (!process.env.NEXT_PUBLIC_BASE_URL) {
+  // Don't set a base URL - let Next.js use relative paths
+  // This ensures assets work when accessed via any IP or hostname
+}
+
+// Initialize Next.js app with proper hostname configuration
+// This ensures assets are served correctly when accessed via IP
+// Note: hostname should be '0.0.0.0' to accept connections from all interfaces
+// Next.js will use relative paths for assets by default
+const app = next({
+  dev,
+  hostname,
+  port,
+});
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const httpServer = createServer(async (req, res) => {
     try {
       const parsedUrl = parse(req.url, true);
+
+      // Handle OPTIONS requests for CORS
+      if (req.method === 'OPTIONS') {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+        res.statusCode = 200;
+        res.end();
+        return;
+      }
+
+      // Ensure proper headers for asset requests
+      // This helps with CORS and asset loading when accessed via IP
+      if (parsedUrl.pathname?.startsWith('/_next/')) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+      }
+
+      // Ensure proper content-type headers for CSS and JS files
+      if (parsedUrl.pathname?.endsWith('.css')) {
+        res.setHeader('Content-Type', 'text/css');
+      } else if (parsedUrl.pathname?.endsWith('.js')) {
+        res.setHeader('Content-Type', 'application/javascript');
+      }
+
       await handle(req, res, parsedUrl);
     } catch (err) {
       console.error('Error occurred handling', req.url, err);

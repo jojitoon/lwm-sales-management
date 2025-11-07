@@ -209,6 +209,7 @@ exports.Prisma.PreorderSessionScalarFieldEnum = {
   session: 'session',
   userId: 'userId',
   data: 'data',
+  tableSaleSessionId: 'tableSaleSessionId',
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
