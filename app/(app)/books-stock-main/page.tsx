@@ -34,7 +34,7 @@ export default async function BookLeftReport() {
 
   return (
     <main className='px-4 lg:px-6'>
-      <div className='flex justify-between items-center mb-8 '>
+      <div className='flex md:flex-row flex-col md:items-center justify-between items-center mb-8 gap-2'>
         <div className='flex items-center gap-4'>
           <h1 className='text-2xl font-bold my-2'>All Books Stock</h1>
           {isStockClosed && (

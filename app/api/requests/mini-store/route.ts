@@ -22,15 +22,14 @@ export async function GET(request: NextRequest) {
         where: {
           userId: req.auth.user.id,
           session: settings?.currentSession as string,
-          workspace: { in: ['mini-store', 'preorder-ministore'] },
+          workspace: { in: ['mini-store', 'preorder-ministore', 'table-manager'] },
           isActive: true,
         },
         include: {
           miniStoreSession: true,
+          tableSaleSession: true,
         },
       });
-
-      const miniStoreType = mySession?.miniStoreSession?.type || null;
 
       const whereClause: any = {
         miniStoreSession: {
@@ -38,9 +37,35 @@ export async function GET(request: NextRequest) {
         },
       };
 
-      // If user is from a mini store, only show requests for their store type
-      if (miniStoreType) {
-        whereClause.miniStoreSession.type = miniStoreType;
+      // Handle different workspace types
+      if (mySession?.workspace === 'table-manager') {
+        // For table managers, only show their own requests
+        // and ensure they only see requests to the correct mini store type
+        if (!mySession?.tableSaleSession) {
+          return NextResponse.json([]);
+        }
+
+        // Check both tableId (e.g., PREORDER-1) and data.tableType
+        const tableId = mySession.tableSaleSession.tableId || '';
+        const dataTableType = (mySession.tableSaleSession.data as any)?.tableType || '';
+        
+        // Check if tableId contains "preorder" (case-insensitive)
+        const tableIdIsPreorder = tableId.toLowerCase().includes('preorder');
+        // Check if data.tableType is "preorder"
+        const dataTypeIsPreorder = dataTableType?.toLowerCase() === 'preorder';
+        
+        const isPreorderTable = tableIdIsPreorder || dataTypeIsPreorder;
+        
+        // Preorder table managers can ONLY see requests to preorder mini store
+        // Regular table managers can ONLY see requests to regular mini store
+        whereClause.miniStoreSession.type = isPreorderTable ? 'preorder' : 'regular';
+        whereClause.tableSaleSessionId = mySession.tableSaleSession.id;
+      } else {
+        // For mini store managers, only show requests for their store type
+        const miniStoreType = mySession?.miniStoreSession?.type || null;
+        if (miniStoreType) {
+          whereClause.miniStoreSession.type = miniStoreType;
+        }
       }
 
       const requests = await prisma.miniStoreRequest.findMany({
@@ -154,8 +179,16 @@ export async function POST(request: NextRequest) {
       }
 
       // Check table type to determine which mini store to request from
-      const tableType = (mySession.tableSaleSession.data as any)?.tableType || '';
-      const isPreorderTable = tableType?.toLowerCase() === 'preorder';
+      // Check both tableId (e.g., PREORDER-1) and data.tableType
+      const tableId = mySession.tableSaleSession.tableId || '';
+      const dataTableType = (mySession.tableSaleSession.data as any)?.tableType || '';
+      
+      // Check if tableId contains "preorder" (case-insensitive)
+      const tableIdIsPreorder = tableId.toLowerCase().includes('preorder');
+      // Check if data.tableType is "preorder"
+      const dataTypeIsPreorder = dataTableType?.toLowerCase() === 'preorder';
+      
+      const isPreorderTable = tableIdIsPreorder || dataTypeIsPreorder;
 
       // Get mini store session based on table type
       // Preorder tables request from preorder ministore, others from regular mini store

@@ -251,7 +251,7 @@ export function RequestBookFromMain({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className='max-w-[calc(100vw-1rem)] sm:max-w-4xl max-h-[calc(100vh-2rem)] overflow-y-auto'>
+      <DialogContent className='max-w-[calc(100vw-1rem)] sm:max-w-4xl max-h-[calc(100vh-2rem)] overflow-y-auto overflow-x-hidden'>
         <DialogHeader>
           <DialogTitle>Request Books from Main Store</DialogTitle>
           <DialogDescription>
@@ -261,17 +261,19 @@ export function RequestBookFromMain({
 
         <div className='space-y-6'>
           {/* Add All Books Section */}
-          <div className='space-y-4 p-4 border rounded-lg bg-blue-50 dark:bg-blue-950'>
-            <h3 className='text-lg font-semibold'>Quick Add All Books</h3>
-            <div className='flex gap-4 items-end'>
-              <div className='flex-1'>
+          <div className='space-y-4 p-3 sm:p-4 border rounded-lg bg-blue-50 dark:bg-blue-950'>
+            <h3 className='text-base sm:text-lg font-semibold'>
+              Quick Add All Books
+            </h3>
+            <div className='flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-end'>
+              <div className='flex-1 w-full'>
                 <Label>Quantity for All Available Books</Label>
                 <Input
                   type='number'
                   // min='1'
                   value={allBooksQuantity}
                   onChange={(e) => setAllBooksQuantity(Number(e.target.value))}
-                  className='mt-1'
+                  className='mt-1 w-full'
                   placeholder='Enter quantity'
                 />
                 <p className='text-xs text-gray-500 mt-1'>
@@ -279,10 +281,10 @@ export function RequestBookFromMain({
                   (or available stock if less)
                 </p>
               </div>
-              <div className='flex items-end'>
+              <div className='flex items-end w-full sm:w-auto'>
                 <Button
                   onClick={addAllBooks}
-                  className='gap-2'
+                  className='gap-2 w-full sm:w-auto'
                   variant='secondary'
                   disabled={availableBooks.length === 0}
                 >
@@ -294,12 +296,12 @@ export function RequestBookFromMain({
           </div>
 
           {/* Add Items Section */}
-          <div className='space-y-4 p-4 border rounded-lg'>
-            <h3 className='text-lg font-semibold'>
+          <div className='space-y-4 p-3 sm:p-4 border rounded-lg'>
+            <h3 className='text-base sm:text-lg font-semibold'>
               Add Individual Books to Request
             </h3>
-            <div className='flex gap-4'>
-              <div className='flex-1'>
+            <div className='flex flex-col sm:flex-row gap-3 sm:gap-4'>
+              <div className='flex-1 w-full'>
                 <Label>Book Title</Label>
                 <Select value={selectedBook} onValueChange={setSelectedBook}>
                   <SelectTrigger className='w-full mt-1'>
@@ -311,8 +313,8 @@ export function RequestBookFromMain({
                       {availableBooks?.map((book, index) => (
                         <SelectItem key={index} value={book.title}>
                           <div className='flex justify-between w-full'>
-                            <span>{book.title}</span>
-                            <span className='text-sm text-gray-500 ml-2'>
+                            <span className='truncate'>{book.title}</span>
+                            <span className='text-sm text-gray-500 ml-2 flex-shrink-0'>
                               Available: {book.available}
                             </span>
                           </div>
@@ -322,18 +324,18 @@ export function RequestBookFromMain({
                   </SelectContent>
                 </Select>
               </div>
-              <div className='w-24'>
+              <div className='w-full sm:w-24'>
                 <Label>Quantity</Label>
                 <Input
                   type='number'
                   // min='1'
                   value={quantity}
                   onChange={(e) => setQuantity(Number(e.target.value))}
-                  className='mt-1'
+                  className='mt-1 w-full'
                 />
               </div>
-              <div className='flex items-end'>
-                <Button onClick={addItem} className='gap-2'>
+              <div className='flex items-end w-full sm:w-auto'>
+                <Button onClick={addItem} className='gap-2 w-full sm:w-auto'>
                   <IconPlus className='h-4 w-4' />
                   Add
                 </Button>
@@ -343,56 +345,84 @@ export function RequestBookFromMain({
 
           {/* Request Items */}
           {requestItems.length > 0 && (
-            <div className='space-y-4 p-4 border rounded-lg'>
-              <h3 className='text-lg font-semibold'>
+            <div className='space-y-4 p-3 sm:p-4 border rounded-lg'>
+              <h3 className='text-base sm:text-lg font-semibold'>
                 Request Items ({requestItems.length})
               </h3>
               <div className='space-y-3'>
                 {requestItems.map((item, index) => (
                   <div
                     key={index}
-                    className='flex items-center justify-between p-3 border rounded-lg bg-card'
+                    className='overflow-hidden rounded-lg border bg-card shadow-sm'
                   >
-                    <div className='flex-1'>
-                      <h4 className='font-semibold'>{item.bookTitle}</h4>
-                      <p className='text-sm text-gray-600'>
-                        Quantity: {item.quantity}
-                      </p>
-                    </div>
-                    <div className='flex items-center gap-3'>
-                      <div className='flex items-center gap-2'>
-                        <Button
-                          size='sm'
-                          variant='outline'
-                          onClick={() =>
-                            updateItemQuantity(index, item.quantity - 1)
-                          }
-                          className='h-8 w-8 p-0'
-                        >
-                          <IconMinus className='h-3 w-3' />
-                        </Button>
-                        <span className='font-medium min-w-[2rem] text-center'>
-                          {item.quantity}
+                    {/* Book Title Row */}
+                    <div className='flex flex-col sm:flex-row'>
+                      <div className='flex items-center bg-primary px-3 py-2 sm:px-4 sm:py-3 sm:min-w-[120px]'>
+                        <span className='font-semibold text-primary-foreground text-xs sm:text-sm'>
+                          Book Title
                         </span>
+                      </div>
+                      <div className='flex-1 border-t sm:border-t-0 sm:border-l border-border px-3 py-2 sm:px-4 sm:py-3'>
+                        <span className='text-sm sm:text-base font-medium text-foreground break-words'>
+                          {item.bookTitle}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Quantity Row */}
+                    <div className='flex flex-col sm:flex-row border-t border-border/50'>
+                      <div className='flex items-center bg-primary px-3 py-2 sm:px-4 sm:py-3 sm:min-w-[120px]'>
+                        <span className='font-semibold text-primary-foreground text-xs sm:text-sm'>
+                          Quantity
+                        </span>
+                      </div>
+                      <div className='flex-1 border-t sm:border-t-0 sm:border-l border-border px-3 py-2 sm:px-4 sm:py-3'>
+                        <div className='flex items-center gap-2 sm:gap-3'>
+                          <Button
+                            size='sm'
+                            variant='outline'
+                            onClick={() =>
+                              updateItemQuantity(index, item.quantity - 1)
+                            }
+                            className='h-7 w-7 p-0 sm:h-8 sm:w-8'
+                          >
+                            <IconMinus className='h-3 w-3' />
+                          </Button>
+                          <span className='font-medium min-w-[2rem] text-center text-sm sm:text-base'>
+                            {item.quantity}
+                          </span>
+                          <Button
+                            size='sm'
+                            variant='outline'
+                            onClick={() =>
+                              updateItemQuantity(index, item.quantity + 1)
+                            }
+                            className='h-7 w-7 p-0 sm:h-8 sm:w-8'
+                          >
+                            <IconPlus className='h-3 w-3' />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Actions Row */}
+                    <div className='flex flex-col sm:flex-row border-t border-border/50'>
+                      <div className='flex items-center bg-primary px-3 py-2 sm:px-4 sm:py-3 sm:min-w-[120px]'>
+                        <span className='font-semibold text-primary-foreground text-xs sm:text-sm'>
+                          Actions
+                        </span>
+                      </div>
+                      <div className='flex-1 border-t sm:border-t-0 sm:border-l border-border px-3 py-2 sm:px-4 sm:py-3'>
                         <Button
                           size='sm'
-                          variant='outline'
-                          onClick={() =>
-                            updateItemQuantity(index, item.quantity + 1)
-                          }
-                          className='h-8 w-8 p-0'
+                          variant='destructive'
+                          onClick={() => removeItem(index)}
+                          className='h-7 px-3 text-xs sm:h-8 sm:px-4 sm:text-sm w-full sm:w-auto'
                         >
-                          <IconPlus className='h-3 w-3' />
+                          <IconTrash className='h-3 w-3 mr-1 sm:mr-2' />
+                          Delete
                         </Button>
                       </div>
-                      <Button
-                        size='sm'
-                        variant='destructive'
-                        onClick={() => removeItem(index)}
-                        className='h-8 w-8 p-0'
-                      >
-                        <IconTrash className='h-3 w-3' />
-                      </Button>
                     </div>
                   </div>
                 ))}

@@ -25,9 +25,8 @@ export default async function MiniStoreBookStock() {
   });
 
   // Get the mini store session based on user's workspace type
-  const miniStoreType = mySession?.workspace === 'preorder-ministore' 
-    ? 'preorder' 
-    : 'regular';
+  const miniStoreType =
+    mySession?.workspace === 'preorder-ministore' ? 'preorder' : 'regular';
 
   const miniStore = await prisma.miniStoreSession.findFirst({
     where: {
@@ -42,14 +41,14 @@ export default async function MiniStoreBookStock() {
 
   return (
     <main className='px-4 lg:px-6'>
-      <div className='flex justify-between items-center mb-8'>
+      <div className='flex md:flex-row flex-col md:items-center justify-between items-center mb-8 gap-2'>
         <h1 className='text-2xl font-bold my-2'>Mini Store Book Stock</h1>
         {isStockClosed && (
           <Badge variant='destructive' className='mr-2'>
             Stock Closed
           </Badge>
         )}
-        <div className='flex items-center gap-2'>
+        <div className='flex md:flex-row flex-col md:items-center gap-2'>
           <PendingRequestsButton
             type='main-store'
             workspace={mySession?.workspace as string}

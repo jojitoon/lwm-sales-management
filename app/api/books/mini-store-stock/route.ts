@@ -18,35 +18,66 @@ export async function GET(request: NextRequest) {
 
       const currentSession = settings?.currentSession as string;
 
-      // Get the logged-in user's mini store session
+      // Get the logged-in user's session (supports mini-store, preorder-ministore, and table-manager)
       const mySession = await prisma.mySession.findFirst({
         where: {
           userId: req.auth.user.id,
           session: currentSession,
-          workspace: { in: ['mini-store', 'preorder-ministore'] },
+          workspace: { in: ['mini-store', 'preorder-ministore', 'table-manager'] },
           isActive: true,
         },
         include: {
           miniStoreSession: true,
+          tableSaleSession: true,
         },
       });
 
-      // Determine the mini store type based on user's workspace
-      const miniStoreType = mySession?.workspace === 'preorder-ministore' 
-        ? 'preorder' 
-        : 'regular';
+      let miniStoreType: string;
+      let targetMiniStore: any = null;
 
-      // Get the mini store session for the current user's session type
-      const miniStore = await prisma.miniStoreSession.findFirst({
-        where: {
-          session: currentSession,
-          isActive: true,
-          type: miniStoreType,
-        },
-      });
+      if (mySession?.workspace === 'table-manager') {
+        // For table managers, determine mini store type based on table type
+        // Check both tableId (e.g., PREORDER-1) and data.tableType
+        const tableId = mySession.tableSaleSession?.tableId || '';
+        const dataTableType = (mySession.tableSaleSession?.data as any)?.tableType || '';
+        
+        // Check if tableId contains "preorder" (case-insensitive)
+        const tableIdIsPreorder = tableId.toLowerCase().includes('preorder');
+        // Check if data.tableType is "preorder"
+        const dataTypeIsPreorder = dataTableType?.toLowerCase() === 'preorder';
+        
+        const isPreorderTable = tableIdIsPreorder || dataTypeIsPreorder;
+        
+        // Preorder table managers can ONLY request from preorder mini store
+        // Regular table managers can ONLY request from regular mini store
+        miniStoreType = isPreorderTable ? 'preorder' : 'regular';
 
-      // If no mini store found, try to get the one from mySession
-      const targetMiniStore = miniStore || mySession?.miniStoreSession;
+        // Get the mini store session based on table type
+        targetMiniStore = await prisma.miniStoreSession.findFirst({
+          where: {
+            session: currentSession,
+            isActive: true,
+            type: miniStoreType,
+          },
+        });
+      } else {
+        // For mini-store and preorder-ministore workspaces, use existing logic
+        miniStoreType = mySession?.workspace === 'preorder-ministore' 
+          ? 'preorder' 
+          : 'regular';
+
+        // Get the mini store session for the current user's session type
+        const miniStore = await prisma.miniStoreSession.findFirst({
+          where: {
+            session: currentSession,
+            isActive: true,
+            type: miniStoreType,
+          },
+        });
+
+        // If no mini store found, try to get the one from mySession
+        targetMiniStore = miniStore || mySession?.miniStoreSession;
+      }
 
       if (!targetMiniStore) {
         return NextResponse.json([]);

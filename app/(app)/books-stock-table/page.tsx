@@ -40,7 +40,7 @@ export default async function TableManagerBookStock() {
 
   return (
     <main className='px-4 lg:px-6'>
-      <div className='flex justify-between items-center my-4'>
+      <div className='flex justify-between md:flex-row flex-col md:items-center my-4 gap-2'>
         <h1 className='text-2xl font-bold '>Table Manager Book Stock</h1>
         {isStockClosed && (
           <Badge variant='destructive' className='mr-2'>
@@ -48,7 +48,7 @@ export default async function TableManagerBookStock() {
           </Badge>
         )}
         {mySession?.workspace === 'table-manager' && (
-          <div className='flex items-center gap-2'>
+          <div className='flex md:flex-row flex-col md:items-center gap-2'>
             <PendingRequestsButton
               type='mini-store'
               workspace={mySession.workspace}
