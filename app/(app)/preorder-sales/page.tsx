@@ -167,7 +167,7 @@ export default function Home() {
         ))}
       </div>
       <Sheet open={!!currentOrder} onOpenChange={() => setCurrentOrder(null)}>
-        <SheetContent className='w-[1000px] overflow-y-auto'>
+        <SheetContent className='w-[1000px] overflow-y-auto px-4'>
           <SheetHeader>
             <SheetTitle>#{currentOrder?.orderNumber}</SheetTitle>
             <SheetDescription>

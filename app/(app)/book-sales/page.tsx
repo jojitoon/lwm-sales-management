@@ -2,6 +2,7 @@ import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { BookSalesForm } from '@/components/BookSalesForm';
 import { BookSalesTable } from '@/components/BookSalesTable';
+import { Badge } from '@/components/ui/badge';
 
 export default async function BookSales() {
   const session = await auth();
@@ -42,6 +43,7 @@ export default async function BookSales() {
 
   // Get stock from the shared table sale session
   const stock = (mySession.tableSaleSession.data as any)?.list || [];
+  const isStockClosed = !!(mySession.tableSaleSession.data as any)?.closingStock;
 
   const tableSale = await prisma.tableSaleSession.findFirst({
     where: {
@@ -67,9 +69,14 @@ export default async function BookSales() {
     <main className='px-4 lg:px-6'>
       <div className='flex justify-between items-center my-4'>
         <h1 className='text-2xl font-bold '>Book Sales</h1>
+        {isStockClosed && (
+          <Badge variant='destructive' className='mr-2'>
+            Stock Closed
+          </Badge>
+        )}
         {mySession?.workspace === 'book-sales' && (
           <div className='flex items-center gap-2'>
-            <BookSalesForm availableStock={stock} />
+            <BookSalesForm availableStock={stock} disabled={isStockClosed} />
           </div>
         )}
       </div>

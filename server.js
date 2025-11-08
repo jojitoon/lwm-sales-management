@@ -5,7 +5,7 @@ const next = require('next');
 const { Server } = require('socket.io');
 
 const dev = process.env.NODE_ENV !== 'production';
-const hostname = process.env.HOSTNAME || '0.0.0.0'; // Listen on all interfaces
+const hostname = process.env.HOSTNAME || '192.168.0.144'; //'0.0.0.0'; // Listen on all interfaces
 const port = parseInt(process.env.PORT || '3000', 10);
 
 // Set environment variable to ensure Next.js doesn't hardcode localhost
@@ -114,4 +114,48 @@ app.prepare().then(() => {
         console.log(`> Server is accessible from all network interfaces`);
       }
     });
+
+  // Handle graceful shutdown to close database connections
+  let isShuttingDown = false;
+  const gracefulShutdown = async (signal) => {
+    if (isShuttingDown) return;
+    isShuttingDown = true;
+
+    console.log(`\n> Received ${signal}, closing server gracefully...`);
+
+    // Close HTTP server first to stop accepting new requests
+    httpServer.close(() => {
+      console.log('> HTTP server closed');
+    });
+
+    // Give some time for existing requests to complete
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    // Disconnect Prisma client
+    try {
+      const { prisma } = require('./lib/prisma');
+      await prisma.$disconnect();
+      console.log('> Database connections closed');
+    } catch (error) {
+      console.error('> Error closing database connections:', error);
+    }
+
+    process.exit(0);
+  };
+
+  // Only register handlers once
+  if (
+    !process
+      .listeners('SIGTERM')
+      .some((listener) => listener.name === 'gracefulShutdown')
+  ) {
+    process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+  }
+  if (
+    !process
+      .listeners('SIGINT')
+      .some((listener) => listener.name === 'gracefulShutdown')
+  ) {
+    process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+  }
 });

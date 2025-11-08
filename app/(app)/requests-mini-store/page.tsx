@@ -11,15 +11,40 @@ export default async function MiniStoreRequests() {
     },
   });
 
-  const requests = await prisma.miniStoreRequest.findMany({
-    where: {
-      miniStoreSession: {
+  // Get user's workspace to filter by mini store type
+  let miniStoreType: string | null = null;
+  if (session?.user?.id) {
+    const mySession = await prisma.mySession.findFirst({
+      where: {
+        userId: session.user.id,
         session: settings?.currentSession as string,
+        workspace: { in: ['mini-store', 'preorder-ministore'] },
         isActive: true,
       },
+      include: {
+        miniStoreSession: true,
+      },
+    });
+    miniStoreType = mySession?.miniStoreSession?.type || null;
+  }
+
+  const whereClause: any = {
+    miniStoreSession: {
+      session: settings?.currentSession as string,
+      isActive: true,
     },
+  };
+
+  // If user is from a mini store, only show requests for their store type
+  if (miniStoreType) {
+    whereClause.miniStoreSession.type = miniStoreType;
+  }
+
+  const requests = await prisma.miniStoreRequest.findMany({
+    where: whereClause,
     include: {
       tableSaleSession: true,
+      miniStoreSession: true,
     },
     orderBy: {
       createdAt: 'desc',

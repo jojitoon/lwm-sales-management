@@ -193,31 +193,106 @@ export async function POST(
         if (bookId) {
           const book = await prisma.book.findUnique({
             where: { id: bookId },
-            select: { preorderAvailable: true, available: true },
+            include: {
+              comboItems: {
+                include: {
+                  componentBook: true,
+                },
+              },
+            },
           });
 
           if (book) {
-            // Check if there's enough stock before decrementing
-            const newPreorderAvailable = book.preorderAvailable - item.quantity;
-            const newAvailable = book.available - item.quantity;
+            // If it's a combo book, update all linked component books
+            if (book.isCombo && book.comboItems.length > 0) {
+              for (const comboItem of book.comboItems) {
+                const componentBook = comboItem.componentBook;
+                const quantityToDeduct = item.quantity * comboItem.quantity;
 
-            // Prevent negative quantities
-            if (newPreorderAvailable >= 0 && newAvailable >= 0) {
-              await prisma.book.update({
-                where: { id: bookId },
-                data: {
-                  preorderAvailable: {
-                    decrement: item.quantity,
+                // Update table stock for component book if we have a linked table session
+                if (tableSaleSession) {
+                  const componentStockIndex = tableStock.findIndex(
+                    (stockItem: any) => stockItem.title === componentBook.title
+                  );
+                  if (componentStockIndex >= 0) {
+                    if (
+                      tableStock[componentStockIndex].available <
+                      quantityToDeduct
+                    ) {
+                      return NextResponse.json(
+                        {
+                          message: `Insufficient stock for "${componentBook.title}" (component of "${bookTitle}"). Required: ${quantityToDeduct}, Available: ${tableStock[componentStockIndex].available}`,
+                        },
+                        { status: 400 }
+                      );
+                    }
+                    tableStock[componentStockIndex] = {
+                      ...tableStock[componentStockIndex],
+                      available:
+                        tableStock[componentStockIndex].available -
+                        quantityToDeduct,
+                    };
+                  }
+                }
+
+                // Update global book quantities for component book
+                const componentBookData = await prisma.book.findUnique({
+                  where: { id: componentBook.id },
+                  select: {
+                    preorderAvailable: true,
+                    available: true,
                   },
-                  available: {
-                    decrement: item.quantity,
-                  },
-                },
-              });
+                });
+
+                if (componentBookData) {
+                  const newPreorderAvailable =
+                    componentBookData.preorderAvailable - quantityToDeduct;
+                  const newAvailable =
+                    componentBookData.available - quantityToDeduct;
+
+                  if (newPreorderAvailable >= 0 && newAvailable >= 0) {
+                    await prisma.book.update({
+                      where: { id: componentBook.id },
+                      data: {
+                        preorderAvailable: {
+                          decrement: quantityToDeduct,
+                        },
+                        available: {
+                          decrement: quantityToDeduct,
+                        },
+                      },
+                    });
+                  } else {
+                    console.warn(
+                      `Insufficient global stock for component book ${componentBook.id}. PreorderAvailable: ${componentBookData.preorderAvailable}, Available: ${componentBookData.available}, Requested: ${quantityToDeduct}`
+                    );
+                  }
+                }
+              }
             } else {
-              console.warn(
-                `Insufficient global stock for book ${bookId}. PreorderAvailable: ${book.preorderAvailable}, Available: ${book.available}, Requested: ${item.quantity}`
-              );
+              // Regular book - update as before
+              const newPreorderAvailable =
+                book.preorderAvailable - item.quantity;
+              const newAvailable = book.available - item.quantity;
+
+              // Prevent negative quantities
+              if (newPreorderAvailable >= 0 && newAvailable >= 0) {
+                await prisma.book.update({
+                  where: { id: bookId },
+                  data: {
+                    preorderAvailable: {
+                      decrement: item.quantity,
+                    },
+                    available: {
+                      decrement: item.quantity,
+                    },
+                  },
+                });
+              } else {
+                console.warn(
+                  `Insufficient global stock for book ${bookId}. PreorderAvailable: ${book.preorderAvailable}, Available: ${book.available}, Requested: ${item.quantity}`
+                );
+              }
             }
           }
         }

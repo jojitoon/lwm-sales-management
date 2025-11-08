@@ -1,4 +1,6 @@
 import { BookStockTable } from '@/components/BookStockTable';
+import { CloseStockButton } from '@/components/CloseStockButton';
+import { Badge } from '@/components/ui/badge';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
@@ -27,15 +29,21 @@ export default async function BookLeftReport() {
     },
   });
 
-  console.log(mainStore);
-
   const stock = (mainStore?.data as any)?.list || [];
+  const isStockClosed = !!mainStore?.closingStock;
 
   return (
     <main className='px-4 lg:px-6'>
       <div className='flex justify-between items-center mb-8 '>
-        <h1 className='text-2xl font-bold my-2'>All Books Stock</h1>
-        {/* Main-store users are approvers, not requestors, so no pending requests button here */}
+        <div className='flex items-center gap-4'>
+          <h1 className='text-2xl font-bold my-2'>All Books Stock</h1>
+          {isStockClosed && (
+            <Badge variant='outline' className='bg-yellow-50 text-yellow-800'>
+              Stock Closed
+            </Badge>
+          )}
+        </div>
+        {!isStockClosed && <CloseStockButton workspace='main-store' />}
       </div>
 
       <BookStockTable data={stock} stockType='main-store-stock' />

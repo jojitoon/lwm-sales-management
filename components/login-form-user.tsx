@@ -76,6 +76,7 @@ export function UserLoginForm({
                     <SelectItem value='table-manager'>Table Manager</SelectItem>
                     <SelectItem value='book-sales'>Book Sales</SelectItem>
                     <SelectItem value='mini-store'>Mini Store</SelectItem>
+                    <SelectItem value='preorder-ministore'>Preorder Mini Store</SelectItem>
                     <SelectItem value='main-store'>Main Store</SelectItem>
                     <SelectItem value='pre-order'>Pre-order</SelectItem>
                   </SelectContent>

@@ -1,9 +1,18 @@
 import { BookListTable } from '@/components/BookListTable';
 import RefAddBook from '@/components/RefAddBook';
 import { prisma } from '@/lib/prisma';
+import { auth } from '@/lib/auth';
 
 export default async function BookLeftReport() {
-  const data = await prisma.book.findMany();
+  const session = await auth();
+  const isAdmin = (session?.user as any)?.isAdmin || false;
+
+  const data = await prisma.book.findMany({
+    where: {
+      // Include combo books only for admin users
+      ...(isAdmin ? {} : { isCombo: false }),
+    },
+  });
 
   return (
     <main className='px-4 lg:px-6'>

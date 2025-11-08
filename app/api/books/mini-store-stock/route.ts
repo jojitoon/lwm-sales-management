@@ -16,16 +16,57 @@ export async function GET(request: NextRequest) {
         where: { id: 'settings' },
       });
 
-      const miniStore = await prisma.miniStoreSession.findFirst({
+      const currentSession = settings?.currentSession as string;
+
+      // Get the logged-in user's mini store session
+      const mySession = await prisma.mySession.findFirst({
         where: {
-          session: settings?.currentSession as string,
+          userId: req.auth.user.id,
+          session: currentSession,
+          workspace: { in: ['mini-store', 'preorder-ministore'] },
           isActive: true,
+        },
+        include: {
+          miniStoreSession: true,
         },
       });
 
-      const stock = (miniStore?.data as any)?.list || [];
+      // Determine the mini store type based on user's workspace
+      const miniStoreType = mySession?.workspace === 'preorder-ministore' 
+        ? 'preorder' 
+        : 'regular';
 
-      return NextResponse.json(stock);
+      // Get the mini store session for the current user's session type
+      const miniStore = await prisma.miniStoreSession.findFirst({
+        where: {
+          session: currentSession,
+          isActive: true,
+          type: miniStoreType,
+        },
+      });
+
+      // If no mini store found, try to get the one from mySession
+      const targetMiniStore = miniStore || mySession?.miniStoreSession;
+
+      if (!targetMiniStore) {
+        return NextResponse.json([]);
+      }
+
+      const stock = (targetMiniStore.data as any)?.list || [];
+
+      // Get all combo books to filter them out
+      const comboBooks = await prisma.book.findMany({
+        where: { isCombo: true },
+        select: { title: true },
+      });
+      const comboBookTitles = new Set(comboBooks.map((b) => b.title));
+
+      // Filter out combo books from stock
+      const filteredStock = stock.filter(
+        (item: any) => !comboBookTitles.has(item.title)
+      );
+
+      return NextResponse.json(filteredStock);
     } catch (error) {
       console.error('Error fetching mini store stock:', error);
       return NextResponse.json(

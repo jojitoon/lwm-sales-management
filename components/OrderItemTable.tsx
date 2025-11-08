@@ -32,6 +32,9 @@ import {
 } from '@/components/ui/table';
 import { EllipsisIcon } from 'lucide-react';
 import { useState } from 'react';
+import axios from 'axios';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 const columns: ColumnDef<any>[] = [
   {
@@ -104,31 +107,73 @@ const columns: ColumnDef<any>[] = [
   {
     id: 'actions',
     enableHiding: false,
-    cell: ({}) => {
-      // const order = row.original;
+    cell: ({ row }) => {
+      const orderItem = row.original;
+      // Use orderId from the orderItem, or fallback to order.id if order relation is included
+      const orderId = orderItem.orderId || orderItem.order?.id;
+      const isCollected = orderItem.isCollected;
 
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='ghost' className='h-8 w-8 p-0'>
-              <span className='sr-only'>Open menu</span>
-              <EllipsisIcon className='h-4 w-4' />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => {}}>
-              Mark as collected
-            </DropdownMenuItem>
-            {/* <DropdownMenuSeparator />
-              <DropdownMenuItem>View customer</DropdownMenuItem>
-              <DropdownMenuItem>View payment details</DropdownMenuItem> */}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <OrderActionsCell orderId={orderId} isCollected={isCollected} />
       );
     },
   },
 ];
+
+function OrderActionsCell({
+  orderId,
+  isCollected,
+}: {
+  orderId: string;
+  isCollected: boolean;
+}) {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleMarkUncollected = async () => {
+    if (!confirm('Are you sure you want to mark this order as uncollected? This will restore stock.')) {
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const response = await axios.post(`/api/pre-orders/${orderId}/uncollect`);
+      if (response.data) {
+        toast.success('Order marked as uncollected successfully');
+        // Refresh the page to update the data
+        router.refresh();
+      }
+    } catch (error: any) {
+      toast.error(
+        error.response?.data?.message || 'Failed to mark order as uncollected'
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant='ghost' className='h-8 w-8 p-0' disabled={isLoading}>
+          <span className='sr-only'>Open menu</span>
+          <EllipsisIcon className='h-4 w-4' />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align='end'>
+        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+        {isCollected && (
+          <DropdownMenuItem
+            onClick={handleMarkUncollected}
+            disabled={isLoading}
+          >
+            Mark as uncollected
+          </DropdownMenuItem>
+        )}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
 
 export const OrderItemTable = ({ data }: any) => {
   const [sorting, setSorting] = useState<SortingState>([]);

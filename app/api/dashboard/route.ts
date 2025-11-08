@@ -60,13 +60,29 @@ export async function GET(request: NextRequest) {
           dashboardData = await getTableManagerDashboard(tableSaleSessionId);
           break;
         case 'pre-order':
-          dashboardData = await getPreOrderDashboard(preorderSessionId, userId, currentSession);
+          dashboardData = await getPreOrderDashboard(
+            preorderSessionId,
+            userId,
+            currentSession
+          );
           break;
         case 'mini-store':
-          dashboardData = await getMiniStoreDashboard(miniStoreSessionId, currentSession);
+          dashboardData = await getMiniStoreDashboard(
+            miniStoreSessionId,
+            currentSession
+          );
+          break;
+        case 'preorder-ministore':
+          dashboardData = await getMiniStoreDashboard(
+            miniStoreSessionId,
+            currentSession
+          );
           break;
         case 'main-store':
-          dashboardData = await getMainStoreDashboard(mainStoreSessionId, currentSession);
+          dashboardData = await getMainStoreDashboard(
+            mainStoreSessionId,
+            currentSession
+          );
           break;
         default:
           // For admin or unknown workspace, return empty data
@@ -113,7 +129,8 @@ async function getBookSalesDashboard(tableSaleSessionId: string | null) {
 
   const totalSales = bookSales.reduce((sum, sale) => sum + sale.total, 0);
   const totalItems = bookSales.reduce(
-    (sum, sale) => sum + sale.items.reduce((itemSum, item) => itemSum + item.quantity, 0),
+    (sum, sale) =>
+      sum + sale.items.reduce((itemSum, item) => itemSum + item.quantity, 0),
     0
   );
   const uniqueBooks = new Set(
@@ -185,7 +202,8 @@ async function getTableManagerDashboard(tableSaleSessionId: string | null) {
   bookSales.forEach((sale) => {
     sale.items.forEach((item) => {
       const bookTitle = item.book.title.trim().toLowerCase();
-      soldQuantities[bookTitle] = (soldQuantities[bookTitle] || 0) + item.quantity;
+      soldQuantities[bookTitle] =
+        (soldQuantities[bookTitle] || 0) + item.quantity;
     });
   });
 
@@ -227,8 +245,7 @@ async function getTableManagerDashboard(tableSaleSessionId: string | null) {
       };
     })
     .filter((item) => item.sold > 0) // Only show books that have been sold
-    .sort((a, b) => b.sold - a.sold) // Sort by sold quantity descending
-    .slice(0, 10); // Get top 10
+    .sort((a, b) => b.sold - a.sold); // Sort by sold quantity descending
 
   return {
     totalBooks: stockList.length,
@@ -258,22 +275,32 @@ async function getPreOrderDashboard(
 
   const totalOrders = consolidations.length;
   const totalItems = consolidations.reduce(
-    (sum, cons) => sum + cons.items.reduce((itemSum, item) => itemSum + item.quantity, 0),
+    (sum, cons) =>
+      sum + cons.items.reduce((itemSum, item) => itemSum + item.quantity, 0),
     0
   );
   const totalValue = consolidations.reduce(
-    (sum, cons) => sum + cons.items.reduce((itemSum, item) => itemSum + item.quantity * (item.price || 0), 0),
+    (sum, cons) =>
+      sum +
+      cons.items.reduce(
+        (itemSum, item) => itemSum + item.quantity * (item.price || 0),
+        0
+      ),
     0
   );
 
   // Count collected vs pending
-  const collectedOrders = consolidations.filter((cons) => cons.order?.isCollected).length;
+  const collectedOrders = consolidations.filter(
+    (cons) => cons.order?.isCollected
+  ).length;
   const pendingOrders = totalOrders - collectedOrders;
 
   // Get recent activity - last 10 consolidations
   const recentActivity = consolidations
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .slice(0, 10)
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    )
     .map((cons) => ({
       id: cons.id,
       orderNumber: cons.order?.orderNumber || 'N/A',
@@ -283,7 +310,10 @@ async function getPreOrderDashboard(
         quantity: item.quantity,
         price: item.price,
       })),
-      total: cons.items.reduce((sum, item) => sum + item.quantity * (item.price || 0), 0),
+      total: cons.items.reduce(
+        (sum, item) => sum + item.quantity * (item.price || 0),
+        0
+      ),
       isCollected: cons.order?.isCollected || false,
       createdAt: cons.createdAt,
     }));
@@ -338,19 +368,17 @@ async function getMiniStoreDashboard(
     totalRemaining += available * unitPrice;
   });
 
-  // Get requests
-  const requests = await prisma.miniStoreRequest.findMany({
+  // Get all requests for accurate counts
+  const allRequests = await prisma.miniStoreRequest.findMany({
     where: {
       miniStoreSessionId: miniStoreSessionId,
     },
-    orderBy: {
-      createdAt: 'desc',
-    },
-    take: 10,
   });
 
-  const pendingRequests = requests.filter((req) => !req.wasApproved && !req.wasDenied).length;
-  const approvedRequests = requests.filter((req) => req.wasApproved).length;
+  const pendingRequests = allRequests.filter(
+    (req) => !req.wasApproved && !req.wasDenied
+  ).length;
+  const approvedRequests = allRequests.filter((req) => req.wasApproved).length;
 
   // Get recent activity - top distributed books
   const recentActivity = stockList
@@ -372,8 +400,7 @@ async function getMiniStoreDashboard(
       };
     })
     .filter((item) => item.distributed > 0)
-    .sort((a, b) => b.distributed - a.distributed)
-    .slice(0, 10);
+    .sort((a, b) => b.distributed - a.distributed);
 
   return {
     totalBooks: stockList.length,
@@ -426,22 +453,20 @@ async function getMainStoreDashboard(
     totalRemaining += available * unitPrice;
   });
 
-  // Get requests
-  const requests = await prisma.mainStoreRequest.findMany({
+  // Get all requests for accurate counts
+  const allRequests = await prisma.mainStoreRequest.findMany({
     where: {
       mainStoreSessionId: mainStoreSessionId,
     },
     include: {
       miniStoreSession: true,
     },
-    orderBy: {
-      createdAt: 'desc',
-    },
-    take: 10,
   });
 
-  const pendingRequests = requests.filter((req) => !req.wasApproved && !req.wasDenied).length;
-  const approvedRequests = requests.filter((req) => req.wasApproved).length;
+  const pendingRequests = allRequests.filter(
+    (req) => !req.wasApproved && !req.wasDenied
+  ).length;
+  const approvedRequests = allRequests.filter((req) => req.wasApproved).length;
 
   // Get recent activity - top distributed books
   const recentActivity = stockList
@@ -463,8 +488,7 @@ async function getMainStoreDashboard(
       };
     })
     .filter((item) => item.distributed > 0)
-    .sort((a, b) => b.distributed - a.distributed)
-    .slice(0, 10);
+    .sort((a, b) => b.distributed - a.distributed);
 
   return {
     totalBooks: stockList.length,
@@ -476,4 +500,3 @@ async function getMainStoreDashboard(
     recentActivity,
   };
 }
-

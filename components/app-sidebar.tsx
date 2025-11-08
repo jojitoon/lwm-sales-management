@@ -40,6 +40,11 @@ const buildData = (workspace: string, isAdmin: boolean) => {
       case 'main-store':
         return [
           {
+            title: 'Reports',
+            url: '/reports',
+            icon: IconReport,
+          },
+          {
             title: 'Stock',
             url: '/books-stock-main',
             icon: IconPackage,
@@ -58,6 +63,29 @@ const buildData = (workspace: string, isAdmin: boolean) => {
       case 'mini-store':
         return [
           {
+            title: 'Reports',
+            url: '/reports',
+            icon: IconReport,
+          },
+          {
+            title: 'Stock',
+            url: '/books-stock-mini',
+            icon: IconPackage,
+          },
+          {
+            title: 'Requests',
+            url: '/requests-mini-store',
+            icon: IconFileDescription,
+          },
+        ];
+      case 'preorder-ministore':
+        return [
+          {
+            title: 'Reports',
+            url: '/reports',
+            icon: IconReport,
+          },
+          {
             title: 'Stock',
             url: '/books-stock-mini',
             icon: IconPackage,
@@ -70,6 +98,11 @@ const buildData = (workspace: string, isAdmin: boolean) => {
         ];
       case 'table-manager':
         return [
+          {
+            title: 'Reports',
+            url: '/reports',
+            icon: IconReport,
+          },
           {
             title: 'Stock',
             url: '/books-stock-table',
@@ -102,6 +135,11 @@ const buildData = (workspace: string, isAdmin: boolean) => {
       case 'book-sales':
         return [
           {
+            title: 'Reports',
+            url: '/reports',
+            icon: IconReport,
+          },
+          {
             title: 'Sales',
             url: '/book-sales',
             icon: IconFileDescription,
@@ -123,6 +161,11 @@ const buildData = (workspace: string, isAdmin: boolean) => {
       url: '/books',
       icon: IconBook,
     },
+    {
+      title: 'Reconciliation',
+      url: '/reconciliation',
+      icon: IconReport,
+    },
   ];
 
   const data = {
@@ -132,11 +175,11 @@ const buildData = (workspace: string, isAdmin: boolean) => {
         url: '/',
         icon: IconDashboard,
       },
-      {
-        title: 'Reports',
-        url: '/reports',
-        icon: IconReport,
-      },
+      // {
+      //   title: 'Reports',
+      //   url: '/reports',
+      //   icon: IconReport,
+      // },
     ],
     navMain: isAdmin ? adminMain : mainSwitch(),
     // navClouds: [

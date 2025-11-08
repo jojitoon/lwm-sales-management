@@ -25,7 +25,19 @@ export async function GET(request: NextRequest) {
 
       const stock = (mainStore?.data as any)?.list || [];
 
-      return NextResponse.json(stock);
+      // Get all combo books to filter them out
+      const comboBooks = await prisma.book.findMany({
+        where: { isCombo: true },
+        select: { title: true },
+      });
+      const comboBookTitles = new Set(comboBooks.map((b) => b.title));
+
+      // Filter out combo books from stock
+      const filteredStock = stock.filter(
+        (item: any) => !comboBookTitles.has(item.title)
+      );
+
+      return NextResponse.json(filteredStock);
     } catch (error) {
       console.error('Error fetching main store stock:', error);
       return NextResponse.json(

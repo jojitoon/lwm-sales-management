@@ -248,6 +248,7 @@ exports.Prisma.MiniStoreSessionScalarFieldEnum = {
   id: 'id',
   session: 'session',
   managerId: 'managerId',
+  type: 'type',
   collectedData: 'collectedData',
   distributedData: 'distributedData',
   data: 'data',
@@ -309,6 +310,7 @@ exports.Prisma.BookScalarFieldEnum = {
   salesAvailable: 'salesAvailable',
   price: 'price',
   isActive: 'isActive',
+  isCombo: 'isCombo',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -344,6 +346,15 @@ exports.Prisma.BookMappingScalarFieldEnum = {
   id: 'id',
   productName: 'productName',
   bookId: 'bookId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ComboBookItemScalarFieldEnum = {
+  id: 'id',
+  comboBookId: 'comboBookId',
+  componentBookId: 'componentBookId',
+  quantity: 'quantity',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -398,7 +409,8 @@ exports.Prisma.ModelName = {
   Book: 'Book',
   BookSale: 'BookSale',
   BookSaleItem: 'BookSaleItem',
-  BookMapping: 'BookMapping'
+  BookMapping: 'BookMapping',
+  ComboBookItem: 'ComboBookItem'
 };
 
 /**

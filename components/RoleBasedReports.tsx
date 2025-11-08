@@ -27,6 +27,8 @@ import { UserPerformanceReport } from './UserPerformanceReport';
 import { FinancialSummaryReport } from './FinancialSummaryReport';
 import { SessionClosingReport } from './SessionClosingReport';
 import { BooksSoldReport } from './BooksSoldReport';
+import { ClosingStockReport } from './ClosingStockReport';
+import { StockSummaryReport } from './StockSummaryReport';
 
 interface RoleBasedReportsProps {
   workspace: string;
@@ -98,6 +100,11 @@ export function RoleBasedReports({
           label: 'Session Closing',
           icon: IconTrendingDown,
         },
+        {
+          id: 'closing-stock',
+          label: 'Closing Stock',
+          icon: IconPackage,
+        },
       ];
     }
 
@@ -105,12 +112,14 @@ export function RoleBasedReports({
     switch (workspace) {
       case 'main-store':
         return [
-          ...baseTabs,
+          { id: 'stock-movement', label: 'Stock Movement', icon: IconPackage },
+          { id: 'stock-summary', label: 'Stock Summary', icon: IconPackage },
           { id: 'request-status', label: 'Request Status', icon: IconUsers },
         ];
       case 'mini-store':
         return [
-          ...baseTabs,
+          { id: 'stock-movement', label: 'Stock Movement', icon: IconPackage },
+          { id: 'stock-summary', label: 'Stock Summary', icon: IconPackage },
           { id: 'request-status', label: 'Request Status', icon: IconUsers },
         ];
       case 'table-manager':
@@ -210,6 +219,22 @@ export function RoleBasedReports({
       case 'books-sold':
         return (
           <BooksSoldReport
+            data={reportData.data}
+            workspace={workspace}
+            isAdmin={isAdmin}
+          />
+        );
+      case 'closing-stock':
+        return (
+          <ClosingStockReport
+            data={reportData.data}
+            workspace={workspace}
+            isAdmin={isAdmin}
+          />
+        );
+      case 'stock-summary':
+        return (
+          <StockSummaryReport
             data={reportData.data}
             workspace={workspace}
             isAdmin={isAdmin}

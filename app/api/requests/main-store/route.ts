@@ -98,12 +98,12 @@ export async function POST(request: NextRequest) {
         where: { id: 'settings' },
       });
 
-      // Get current user's mini store session
+      // Get current user's mini store session (can be regular or preorder ministore)
       const mySession = await prisma.mySession.findFirst({
         where: {
           userId: req.auth.user.id,
           session: settings?.currentSession as string,
-          workspace: 'mini-store',
+          workspace: { in: ['mini-store', 'preorder-ministore'] },
           isActive: true,
         },
         include: {
@@ -115,6 +115,17 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(
           { message: 'Mini store session not found' },
           { status: 404 }
+        );
+      }
+
+      // Check if stock is closed
+      if (mySession.miniStoreSession.closingStock) {
+        return NextResponse.json(
+          {
+            message:
+              'Stock has been closed for this mini store session. No new stock requests can be made.',
+          },
+          { status: 400 }
         );
       }
 

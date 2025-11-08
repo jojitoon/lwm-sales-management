@@ -2,6 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import {
   IconTrendingUp,
   IconPackage,
@@ -10,6 +11,8 @@ import {
   IconCheck,
   IconClock,
 } from '@tabler/icons-react';
+import { useRealtimeUpdates } from '@/hooks/useRealtimeUpdates';
+import { WebSocketEvents } from '@/lib/websocket';
 import { Badge } from '@/components/ui/badge';
 import {
   Card,
@@ -34,12 +37,24 @@ interface RoleBasedDashboardProps {
 }
 
 export function RoleBasedDashboard({ workspace }: RoleBasedDashboardProps) {
+  const router = useRouter();
+
   const { data, isLoading } = useQuery({
     queryKey: ['dashboard', workspace],
     queryFn: async () => {
       const response = await axios.get('/api/dashboard');
       return response.data;
     },
+  });
+
+  // Subscribe to real-time updates for requests
+  useRealtimeUpdates({
+    events: [
+      WebSocketEvents.REQUEST_CREATED,
+      WebSocketEvents.REQUEST_APPROVED,
+      WebSocketEvents.REQUEST_DENIED,
+    ],
+    queryKeys: ['dashboard', workspace],
   });
 
   if (isLoading) {
@@ -72,6 +87,10 @@ export function RoleBasedDashboard({ workspace }: RoleBasedDashboardProps) {
   }
 
   if (workspace === 'mini-store') {
+    return <MiniStoreDashboard data={dashboardData} />;
+  }
+
+  if (workspace === 'preorder-ministore') {
     return <MiniStoreDashboard data={dashboardData} />;
   }
 
@@ -581,6 +600,7 @@ function PreOrderDashboard({ data }: { data: any }) {
 }
 
 function MiniStoreDashboard({ data }: { data: any }) {
+  const router = useRouter();
   const {
     totalBooks = 0,
     totalStockValue = 0,
@@ -674,7 +694,10 @@ function MiniStoreDashboard({ data }: { data: any }) {
           </CardFooter>
         </Card>
 
-        <Card className='@container/card'>
+        <Card
+          className='@container/card cursor-pointer hover:bg-card transition-colors'
+          onClick={() => router.push('/requests-mini-store')}
+        >
           <CardHeader>
             <CardDescription>Pending Requests</CardDescription>
             <CardTitle className='text-2xl font-semibold tabular-nums @[250px]/card:text-3xl'>
@@ -690,7 +713,9 @@ function MiniStoreDashboard({ data }: { data: any }) {
             <div className='line-clamp-1 flex gap-2 font-medium'>
               Requests awaiting approval
             </div>
-            <div className='text-muted-foreground'>From main store</div>
+            <div className='text-muted-foreground'>
+              From tables/pre-orders - Click to view
+            </div>
           </CardFooter>
         </Card>
 
@@ -780,6 +805,7 @@ function MiniStoreDashboard({ data }: { data: any }) {
 }
 
 function MainStoreDashboard({ data }: { data: any }) {
+  const router = useRouter();
   const {
     totalBooks = 0,
     totalStockValue = 0,
@@ -873,7 +899,10 @@ function MainStoreDashboard({ data }: { data: any }) {
           </CardFooter>
         </Card>
 
-        <Card className='@container/card'>
+        <Card
+          className='@container/card cursor-pointer hover:bg-card transition-colors'
+          onClick={() => router.push('/requests-main-store')}
+        >
           <CardHeader>
             <CardDescription>Pending Requests</CardDescription>
             <CardTitle className='text-2xl font-semibold tabular-nums @[250px]/card:text-3xl'>
@@ -889,7 +918,9 @@ function MainStoreDashboard({ data }: { data: any }) {
             <div className='line-clamp-1 flex gap-2 font-medium'>
               Requests awaiting approval
             </div>
-            <div className='text-muted-foreground'>From mini stores</div>
+            <div className='text-muted-foreground'>
+              From mini stores - Click to view
+            </div>
           </CardFooter>
         </Card>
 

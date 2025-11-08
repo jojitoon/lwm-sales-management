@@ -25,6 +25,7 @@ export function RequestBookFromMiniButton({
   trigger,
   variant = 'default',
   size = 'default',
+  disabled = false,
   className,
 }: RequestBookFromMiniButtonProps) {
   const [internalOpen, setInternalOpen] = useState(false);
@@ -42,7 +43,13 @@ export function RequestBookFromMiniButton({
           onClick={() => setOpen(true)}
           variant={variant}
           size={size}
+          disabled={disabled}
           className={className}
+          title={
+            disabled
+              ? 'Stock has been closed. No new requests can be made.'
+              : ''
+          }
         >
           Request Books from Mini Store
         </Button>

@@ -197,6 +197,7 @@ model MiniStoreSession {
   id                String             @id @default(uuid())
   session           String
   managerId         String?
+  type              String             @default("regular") // "regular" or "preorder"
   collectedData     Json?
   distributedData   Json?
   data              Json?
@@ -268,7 +269,7 @@ model MiniStoreRequest {
 }
 
 model Book {
-  id                String         @id @default(uuid())
+  id                String          @id @default(uuid())
   title             String
   total             Int
   available         Int
@@ -277,12 +278,15 @@ model Book {
   salesTotal        Int
   salesAvailable    Int
   price             Float
-  isActive          Boolean        @default(true)
-  createdAt         DateTime       @default(now())
-  updatedAt         DateTime       @updatedAt
+  isActive          Boolean         @default(true)
+  isCombo           Boolean         @default(false)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
   sales             BookSaleItem[]
   preorders         OrderItem[]
   mappings          BookMapping[]
+  comboItems        ComboBookItem[] @relation("ComboBook")
+  componentOf       ComboBookItem[] @relation("ComponentBook")
 
   @@map("books")
 }
@@ -331,4 +335,18 @@ model BookMapping {
   updatedAt   DateTime @updatedAt
 
   @@map("book_mappings")
+}
+
+model ComboBookItem {
+  id              String   @id @default(uuid())
+  comboBookId     String
+  comboBook       Book     @relation("ComboBook", fields: [comboBookId], references: [id], onDelete: Cascade)
+  componentBookId String
+  componentBook   Book     @relation("ComponentBook", fields: [componentBookId], references: [id], onDelete: Cascade)
+  quantity        Int      @default(1)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([comboBookId, componentBookId])
+  @@map("combo_book_items")
 }

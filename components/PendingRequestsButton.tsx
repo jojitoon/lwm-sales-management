@@ -93,11 +93,11 @@ export function PendingRequestsButton({
 
   // Only show button to requestors based on workspace
   // type='mini-store' requests are made by table-manager users
-  // type='main-store' requests are made by mini-store users
+  // type='main-store' requests are made by mini-store users (regular or preorder)
   const isRequestor =
     (type === 'mini-store' &&
       (workspace === 'table-manager' || workspace === 'book-sales')) ||
-    (type === 'main-store' && workspace === 'mini-store');
+    (type === 'main-store' && (workspace === 'mini-store' || workspace === 'preorder-ministore'));
 
   if (!isRequestor) {
     return null;
@@ -118,7 +118,7 @@ export function PendingRequestsButton({
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className='max-w-4xl max-h-[90vh] overflow-y-auto'>
+        <DialogContent className='max-w-[calc(100vw-1rem)] sm:max-w-4xl max-h-[calc(100vh-2rem)] overflow-y-auto'>
           <DialogHeader>
             <DialogTitle className='flex items-center gap-2'>
               <IconClock className='h-5 w-5' />

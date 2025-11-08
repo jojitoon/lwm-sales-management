@@ -7,6 +7,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
 import { useMySession } from '@/hooks/data/useMySession';
@@ -31,6 +32,7 @@ export function NavMain({
   const isAdmin = (session?.user as any)?.isAdmin as boolean;
   const { data: mySession } = useMySession(userId);
   const workspace = mySession?.workspace as string;
+  const { isMobile, setOpenMobile } = useSidebar();
 
   const [openAddBook, setOpenAddBook] = useState(false);
   const [openRequestFromMain, setOpenRequestFromMain] = useState(false);
@@ -138,7 +140,14 @@ export function NavMain({
             {items.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton tooltip={item.title} asChild>
-                  <Link href={item.url}>
+                  <Link 
+                    href={item.url}
+                    onClick={() => {
+                      if (isMobile) {
+                        setOpenMobile(false);
+                      }
+                    }}
+                  >
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
                   </Link>

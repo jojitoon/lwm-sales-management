@@ -61,7 +61,9 @@ export function StockMovementReport({
 
         <Card>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-            <CardTitle className='text-sm font-medium'>Sold Value</CardTitle>
+            <CardTitle className='text-sm font-medium'>
+              {workspace === 'mini-store' ? 'Distributed Value' : 'Sold Value'}
+            </CardTitle>
             <IconTrendingDown className='h-4 w-4 text-muted-foreground' />
           </CardHeader>
           <CardContent>
@@ -69,7 +71,9 @@ export function StockMovementReport({
               ₦{totalSoldValue.toLocaleString()}
             </div>
             <p className='text-xs text-muted-foreground'>
-              Total value of sold books
+              {workspace === 'mini-store'
+                ? 'Total value of distributed books'
+                : 'Total value of sold books'}
             </p>
           </CardContent>
         </Card>
@@ -152,10 +156,14 @@ export function StockMovementReport({
                 <TableRow>
                   <TableHead>Book Title</TableHead>
                   <TableHead>Total Stocks Received</TableHead>
-                  <TableHead>Total Sold</TableHead>
+                  <TableHead>
+                    {workspace === 'mini-store' ? 'Total Distributed' : 'Total Sold'}
+                  </TableHead>
                   <TableHead>Total Remaining</TableHead>
                   <TableHead>Unit Price</TableHead>
-                  <TableHead>Value of Sold</TableHead>
+                  <TableHead>
+                    {workspace === 'mini-store' ? 'Value of Distributed' : 'Value of Sold'}
+                  </TableHead>
                   <TableHead>Value of Remaining</TableHead>
                   <TableHead>Status</TableHead>
                 </TableRow>

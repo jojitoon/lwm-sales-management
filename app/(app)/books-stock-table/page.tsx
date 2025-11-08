@@ -1,6 +1,8 @@
 import { BookStockTable } from '@/components/BookStockTable';
 import { RequestBookFromMiniButton } from '@/components/RequestBookFromMiniButton';
 import { PendingRequestsButton } from '@/components/PendingRequestsButton';
+import { CloseStockButton } from '@/components/CloseStockButton';
+import { Badge } from '@/components/ui/badge';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
@@ -34,18 +36,25 @@ export default async function TableManagerBookStock() {
   });
 
   const stock = (tableSale?.data as any)?.list || [];
+  const isStockClosed = !!(tableSale?.data as any)?.closingStock;
 
   return (
     <main className='px-4 lg:px-6'>
       <div className='flex justify-between items-center my-4'>
         <h1 className='text-2xl font-bold '>Table Manager Book Stock</h1>
+        {isStockClosed && (
+          <Badge variant='destructive' className='mr-2'>
+            Stock Closed
+          </Badge>
+        )}
         {mySession?.workspace === 'table-manager' && (
           <div className='flex items-center gap-2'>
             <PendingRequestsButton
               type='mini-store'
               workspace={mySession.workspace}
             />
-            <RequestBookFromMiniButton />
+            <RequestBookFromMiniButton disabled={isStockClosed} />
+            <CloseStockButton workspace='table-manager' />
           </div>
         )}
         {mySession?.workspace === 'pre-order' && (

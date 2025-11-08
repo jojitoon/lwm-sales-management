@@ -16,6 +16,7 @@ interface RequestBookFromMainButtonProps {
     | 'link'
     | 'destructive';
   size?: 'default' | 'sm' | 'lg' | 'icon';
+  disabled?: boolean;
   className?: string;
 }
 
@@ -25,6 +26,7 @@ export function RequestBookFromMainButton({
   trigger,
   variant = 'default',
   size = 'default',
+  disabled = false,
   className,
 }: RequestBookFromMainButtonProps) {
   const [internalOpen, setInternalOpen] = useState(false);
@@ -42,7 +44,13 @@ export function RequestBookFromMainButton({
           onClick={() => setOpen(true)}
           variant={variant}
           size={size}
+          disabled={disabled}
           className={className}
+          title={
+            disabled
+              ? 'Stock has been closed. No new requests can be made.'
+              : ''
+          }
         >
           Request Books from Main Store
         </Button>

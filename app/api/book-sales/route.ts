@@ -120,6 +120,18 @@ export async function POST(request: NextRequest) {
       // Use the shared table sale session for stock updates
       const stockUpdateSession = mySession.tableSaleSession;
 
+      // Check if stock is closed
+      const sessionData = (stockUpdateSession.data as any) || {};
+      if (sessionData.closingStock) {
+        return NextResponse.json(
+          {
+            message:
+              'Stock has been closed for this table session. No new sales can be made.',
+          },
+          { status: 400 }
+        );
+      }
+
       console.log('Book sales API - session info:', {
         workspace: mySession.workspace,
         tableId: mySession.tableSaleSession.tableId,
@@ -170,9 +182,16 @@ export async function POST(request: NextRequest) {
       const updatedStock = [...tableStock];
 
       for (const item of items) {
-        // Find the book in the database
+        // Find the book in the database with combo items
         const book = await prisma.book.findFirst({
           where: { title: item.bookTitle },
+          include: {
+            comboItems: {
+              include: {
+                componentBook: true,
+              },
+            },
+          },
         });
 
         if (!book) {
@@ -192,21 +211,71 @@ export async function POST(request: NextRequest) {
           },
         });
 
-        // Update table stock
-        const stockIndex = updatedStock.findIndex(
-          (stockItem: any) => stockItem.title === item.bookTitle
-        );
-        if (stockIndex >= 0) {
-          if (updatedStock[stockIndex].available < item.quantity) {
-            return NextResponse.json(
-              { message: `Insufficient stock for "${item.bookTitle}"` },
-              { status: 400 }
+        // If it's a combo book, update all linked component books
+        if (book.isCombo && book.comboItems.length > 0) {
+          for (const comboItem of book.comboItems) {
+            const componentBook = comboItem.componentBook;
+            const quantityToDeduct = item.quantity * comboItem.quantity;
+
+            // Check and update table stock for component book
+            const componentStockIndex = updatedStock.findIndex(
+              (stockItem: any) => stockItem.title === componentBook.title
             );
+            if (componentStockIndex >= 0) {
+              if (
+                updatedStock[componentStockIndex].available < quantityToDeduct
+              ) {
+                return NextResponse.json(
+                  {
+                    message: `Insufficient stock for "${componentBook.title}" (component of "${item.bookTitle}"). Required: ${quantityToDeduct}, Available: ${updatedStock[componentStockIndex].available}`,
+                  },
+                  { status: 400 }
+                );
+              }
+              updatedStock[componentStockIndex] = {
+                ...updatedStock[componentStockIndex],
+                available:
+                  updatedStock[componentStockIndex].available -
+                  quantityToDeduct,
+              };
+            } else {
+              // Component book not in table stock, but we should still check global stock
+              const globalBook = await prisma.book.findUnique({
+                where: { id: componentBook.id },
+                select: { available: true, salesAvailable: true },
+              });
+
+              if (
+                !globalBook ||
+                globalBook.available < quantityToDeduct ||
+                globalBook.salesAvailable < quantityToDeduct
+              ) {
+                return NextResponse.json(
+                  {
+                    message: `Insufficient global stock for "${componentBook.title}" (component of "${item.bookTitle}"). Required: ${quantityToDeduct}`,
+                  },
+                  { status: 400 }
+                );
+              }
+            }
           }
-          updatedStock[stockIndex] = {
-            ...updatedStock[stockIndex],
-            available: updatedStock[stockIndex].available - item.quantity,
-          };
+        } else {
+          // Regular book - update table stock as before
+          const stockIndex = updatedStock.findIndex(
+            (stockItem: any) => stockItem.title === item.bookTitle
+          );
+          if (stockIndex >= 0) {
+            if (updatedStock[stockIndex].available < item.quantity) {
+              return NextResponse.json(
+                { message: `Insufficient stock for "${item.bookTitle}"` },
+                { status: 400 }
+              );
+            }
+            updatedStock[stockIndex] = {
+              ...updatedStock[stockIndex],
+              available: updatedStock[stockIndex].available - item.quantity,
+            };
+          }
         }
       }
 
@@ -244,9 +313,12 @@ export async function POST(request: NextRequest) {
       });
     } catch (error: any) {
       console.error('Error creating book sale:', error);
-      
+
       // Handle unique constraint violation for slip number
-      if (error?.code === 'P2002' && error?.meta?.target?.includes('slipNumber')) {
+      if (
+        error?.code === 'P2002' &&
+        error?.meta?.target?.includes('slipNumber')
+      ) {
         return NextResponse.json(
           {
             message: `Slip number already exists. Please use a different slip number.`,
@@ -254,7 +326,7 @@ export async function POST(request: NextRequest) {
           { status: 400 }
         );
       }
-      
+
       return NextResponse.json(
         { message: 'Failed to create sale' },
         { status: 500 }

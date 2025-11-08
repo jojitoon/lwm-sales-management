@@ -99,6 +99,7 @@ export const findOrCreateUser = async (
     'table-manager': 'tableSaleSession',
     'book-sales': 'tableSaleSession',
     'mini-store': 'miniStoreSession',
+    'preorder-ministore': 'miniStoreSession',
     'main-store': 'mainStoreSession',
   };
 
@@ -208,6 +209,7 @@ export const findOrCreateUser = async (
       where: {
         isActive: true,
         session: currentSession,
+        type: 'regular',
       },
     });
 
@@ -215,6 +217,31 @@ export const findOrCreateUser = async (
       miniStoreSession = await prisma.miniStoreSession.create({
         data: {
           session: currentSession,
+          type: 'regular',
+          data: {
+            list: [], // Initialize with empty stock list
+          },
+        },
+      });
+    }
+
+    workspaceModelId = miniStoreSession.id;
+  }
+
+  if (workspace === 'preorder-ministore') {
+    let miniStoreSession = await prisma.miniStoreSession.findFirst({
+      where: {
+        isActive: true,
+        session: currentSession,
+        type: 'preorder',
+      },
+    });
+
+    if (!miniStoreSession) {
+      miniStoreSession = await prisma.miniStoreSession.create({
+        data: {
+          session: currentSession,
+          type: 'preorder',
           data: {
             list: [], // Initialize with empty stock list
           },

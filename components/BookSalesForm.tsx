@@ -38,6 +38,7 @@ interface BookSalesFormProps {
   open?: boolean;
   setOpen?: (open: boolean) => void;
   trigger?: React.ReactNode;
+  disabled?: boolean;
 }
 
 interface SaleItem {
@@ -51,6 +52,7 @@ export function BookSalesForm({
   open: externalOpen,
   setOpen: externalSetOpen,
   trigger,
+  disabled = false,
 }: BookSalesFormProps) {
   const [internalOpen, setInternalOpen] = useState(false);
   const open = externalOpen !== undefined ? externalOpen : internalOpen;
@@ -247,17 +249,26 @@ export function BookSalesForm({
   return (
     <>
       {trigger ? (
-        <div onClick={() => setOpen(true)} className='cursor-pointer w-full'>
+        <div 
+          onClick={() => !disabled && setOpen(true)} 
+          className={disabled ? 'cursor-not-allowed opacity-50 w-full' : 'cursor-pointer w-full'}
+          title={disabled ? 'Stock has been closed. No new sales can be made.' : ''}
+        >
           {trigger}
         </div>
       ) : (
-        <Button onClick={() => setOpen(true)} className='gap-2'>
+        <Button 
+          onClick={() => setOpen(true)} 
+          className='gap-2'
+          disabled={disabled}
+          title={disabled ? 'Stock has been closed. No new sales can be made.' : ''}
+        >
           <IconShoppingCart className='h-4 w-4' />
           Make Sale
         </Button>
       )}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className='w-[95vw] max-w-6xl max-h-[95vh] overflow-y-auto sm:w-full'>
+        <DialogContent className='max-w-[calc(100vw-1rem)] sm:max-w-6xl max-h-[calc(100vh-2rem)] overflow-y-auto'>
           <DialogHeader>
             <DialogTitle className='text-2xl font-bold'>
               {showConfirmation ? 'Confirm Sale' : 'Book Sales'}

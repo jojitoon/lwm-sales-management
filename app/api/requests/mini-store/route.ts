@@ -17,12 +17,34 @@ export async function GET(request: NextRequest) {
         where: { id: 'settings' },
       });
 
-      const requests = await prisma.miniStoreRequest.findMany({
+      // Get user's workspace to filter by mini store type
+      const mySession = await prisma.mySession.findFirst({
         where: {
-          miniStoreSession: {
-            session: settings?.currentSession as string,
-          },
+          userId: req.auth.user.id,
+          session: settings?.currentSession as string,
+          workspace: { in: ['mini-store', 'preorder-ministore'] },
+          isActive: true,
         },
+        include: {
+          miniStoreSession: true,
+        },
+      });
+
+      const miniStoreType = mySession?.miniStoreSession?.type || null;
+
+      const whereClause: any = {
+        miniStoreSession: {
+          session: settings?.currentSession as string,
+        },
+      };
+
+      // If user is from a mini store, only show requests for their store type
+      if (miniStoreType) {
+        whereClause.miniStoreSession.type = miniStoreType;
+      }
+
+      const requests = await prisma.miniStoreRequest.findMany({
+        where: whereClause,
         include: {
           miniStoreSession: true,
           tableSaleSession: true,
@@ -119,17 +141,35 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      // Get mini store session
+      // Check if stock is closed
+      const sessionData = (mySession.tableSaleSession.data as any) || {};
+      if (sessionData.closingStock) {
+        return NextResponse.json(
+          {
+            message:
+              'Stock has been closed for this table session. No new stock requests can be made.',
+          },
+          { status: 400 }
+        );
+      }
+
+      // Check table type to determine which mini store to request from
+      const tableType = (mySession.tableSaleSession.data as any)?.tableType || '';
+      const isPreorderTable = tableType?.toLowerCase() === 'preorder';
+
+      // Get mini store session based on table type
+      // Preorder tables request from preorder ministore, others from regular mini store
       const miniStore = await prisma.miniStoreSession.findFirst({
         where: {
           session: settings?.currentSession as string,
           isActive: true,
+          type: isPreorderTable ? 'preorder' : 'regular',
         },
       });
 
       if (!miniStore) {
         return NextResponse.json(
-          { message: 'Mini store session not found' },
+          { message: `${isPreorderTable ? 'Preorder ' : ''}Mini store session not found` },
           { status: 404 }
         );
       }

@@ -108,6 +108,11 @@ export type BookSaleItem = $Result.DefaultSelection<Prisma.$BookSaleItemPayload>
  * 
  */
 export type BookMapping = $Result.DefaultSelection<Prisma.$BookMappingPayload>
+/**
+ * Model ComboBookItem
+ * 
+ */
+export type ComboBookItem = $Result.DefaultSelection<Prisma.$ComboBookItemPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -423,6 +428,16 @@ export class PrismaClient<
     * ```
     */
   get bookMapping(): Prisma.BookMappingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.comboBookItem`: Exposes CRUD operations for the **ComboBookItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ComboBookItems
+    * const comboBookItems = await prisma.comboBookItem.findMany()
+    * ```
+    */
+  get comboBookItem(): Prisma.ComboBookItemDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -881,7 +896,8 @@ export namespace Prisma {
     Book: 'Book',
     BookSale: 'BookSale',
     BookSaleItem: 'BookSaleItem',
-    BookMapping: 'BookMapping'
+    BookMapping: 'BookMapping',
+    ComboBookItem: 'ComboBookItem'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -900,7 +916,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "verificationToken" | "setting" | "preOrder" | "orderItem" | "consolidation" | "preorderSession" | "tableSaleSession" | "mySession" | "miniStoreSession" | "mainStoreSession" | "mainStoreRequest" | "miniStoreRequest" | "book" | "bookSale" | "bookSaleItem" | "bookMapping"
+      modelProps: "user" | "account" | "session" | "verificationToken" | "setting" | "preOrder" | "orderItem" | "consolidation" | "preorderSession" | "tableSaleSession" | "mySession" | "miniStoreSession" | "mainStoreSession" | "mainStoreRequest" | "miniStoreRequest" | "book" | "bookSale" | "bookSaleItem" | "bookMapping" | "comboBookItem"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2310,6 +2326,80 @@ export namespace Prisma {
           }
         }
       }
+      ComboBookItem: {
+        payload: Prisma.$ComboBookItemPayload<ExtArgs>
+        fields: Prisma.ComboBookItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ComboBookItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComboBookItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ComboBookItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComboBookItemPayload>
+          }
+          findFirst: {
+            args: Prisma.ComboBookItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComboBookItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ComboBookItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComboBookItemPayload>
+          }
+          findMany: {
+            args: Prisma.ComboBookItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComboBookItemPayload>[]
+          }
+          create: {
+            args: Prisma.ComboBookItemCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComboBookItemPayload>
+          }
+          createMany: {
+            args: Prisma.ComboBookItemCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ComboBookItemCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComboBookItemPayload>[]
+          }
+          delete: {
+            args: Prisma.ComboBookItemDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComboBookItemPayload>
+          }
+          update: {
+            args: Prisma.ComboBookItemUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComboBookItemPayload>
+          }
+          deleteMany: {
+            args: Prisma.ComboBookItemDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ComboBookItemUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ComboBookItemUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComboBookItemPayload>[]
+          }
+          upsert: {
+            args: Prisma.ComboBookItemUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ComboBookItemPayload>
+          }
+          aggregate: {
+            args: Prisma.ComboBookItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateComboBookItem>
+          }
+          groupBy: {
+            args: Prisma.ComboBookItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ComboBookItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ComboBookItemCountArgs<ExtArgs>
+            result: $Utils.Optional<ComboBookItemCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2413,6 +2503,7 @@ export namespace Prisma {
     bookSale?: BookSaleOmit
     bookSaleItem?: BookSaleItemOmit
     bookMapping?: BookMappingOmit
+    comboBookItem?: ComboBookItemOmit
   }
 
   /* Types for Logging */
@@ -2826,12 +2917,16 @@ export namespace Prisma {
     sales: number
     preorders: number
     mappings: number
+    comboItems: number
+    componentOf: number
   }
 
   export type BookCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sales?: boolean | BookCountOutputTypeCountSalesArgs
     preorders?: boolean | BookCountOutputTypeCountPreordersArgs
     mappings?: boolean | BookCountOutputTypeCountMappingsArgs
+    comboItems?: boolean | BookCountOutputTypeCountComboItemsArgs
+    componentOf?: boolean | BookCountOutputTypeCountComponentOfArgs
   }
 
   // Custom InputTypes
@@ -2864,6 +2959,20 @@ export namespace Prisma {
    */
   export type BookCountOutputTypeCountMappingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BookMappingWhereInput
+  }
+
+  /**
+   * BookCountOutputType without action
+   */
+  export type BookCountOutputTypeCountComboItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ComboBookItemWhereInput
+  }
+
+  /**
+   * BookCountOutputType without action
+   */
+  export type BookCountOutputTypeCountComponentOfArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ComboBookItemWhereInput
   }
 
 
@@ -15587,6 +15696,7 @@ export namespace Prisma {
     id: string | null
     session: string | null
     managerId: string | null
+    type: string | null
     closedAt: Date | null
     isActive: boolean | null
     createdAt: Date | null
@@ -15597,6 +15707,7 @@ export namespace Prisma {
     id: string | null
     session: string | null
     managerId: string | null
+    type: string | null
     closedAt: Date | null
     isActive: boolean | null
     createdAt: Date | null
@@ -15607,6 +15718,7 @@ export namespace Prisma {
     id: number
     session: number
     managerId: number
+    type: number
     collectedData: number
     distributedData: number
     data: number
@@ -15623,6 +15735,7 @@ export namespace Prisma {
     id?: true
     session?: true
     managerId?: true
+    type?: true
     closedAt?: true
     isActive?: true
     createdAt?: true
@@ -15633,6 +15746,7 @@ export namespace Prisma {
     id?: true
     session?: true
     managerId?: true
+    type?: true
     closedAt?: true
     isActive?: true
     createdAt?: true
@@ -15643,6 +15757,7 @@ export namespace Prisma {
     id?: true
     session?: true
     managerId?: true
+    type?: true
     collectedData?: true
     distributedData?: true
     data?: true
@@ -15730,6 +15845,7 @@ export namespace Prisma {
     id: string
     session: string
     managerId: string | null
+    type: string
     collectedData: JsonValue | null
     distributedData: JsonValue | null
     data: JsonValue | null
@@ -15761,6 +15877,7 @@ export namespace Prisma {
     id?: boolean
     session?: boolean
     managerId?: boolean
+    type?: boolean
     collectedData?: boolean
     distributedData?: boolean
     data?: boolean
@@ -15779,6 +15896,7 @@ export namespace Prisma {
     id?: boolean
     session?: boolean
     managerId?: boolean
+    type?: boolean
     collectedData?: boolean
     distributedData?: boolean
     data?: boolean
@@ -15793,6 +15911,7 @@ export namespace Prisma {
     id?: boolean
     session?: boolean
     managerId?: boolean
+    type?: boolean
     collectedData?: boolean
     distributedData?: boolean
     data?: boolean
@@ -15807,6 +15926,7 @@ export namespace Prisma {
     id?: boolean
     session?: boolean
     managerId?: boolean
+    type?: boolean
     collectedData?: boolean
     distributedData?: boolean
     data?: boolean
@@ -15817,7 +15937,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type MiniStoreSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "session" | "managerId" | "collectedData" | "distributedData" | "data" | "closingStock" | "closedAt" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["miniStoreSession"]>
+  export type MiniStoreSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "session" | "managerId" | "type" | "collectedData" | "distributedData" | "data" | "closingStock" | "closedAt" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["miniStoreSession"]>
   export type MiniStoreSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     mySessions?: boolean | MiniStoreSession$mySessionsArgs<ExtArgs>
     mainStoreRequests?: boolean | MiniStoreSession$mainStoreRequestsArgs<ExtArgs>
@@ -15838,6 +15958,7 @@ export namespace Prisma {
       id: string
       session: string
       managerId: string | null
+      type: string
       collectedData: Prisma.JsonValue | null
       distributedData: Prisma.JsonValue | null
       data: Prisma.JsonValue | null
@@ -16275,6 +16396,7 @@ export namespace Prisma {
     readonly id: FieldRef<"MiniStoreSession", 'String'>
     readonly session: FieldRef<"MiniStoreSession", 'String'>
     readonly managerId: FieldRef<"MiniStoreSession", 'String'>
+    readonly type: FieldRef<"MiniStoreSession", 'String'>
     readonly collectedData: FieldRef<"MiniStoreSession", 'Json'>
     readonly distributedData: FieldRef<"MiniStoreSession", 'Json'>
     readonly data: FieldRef<"MiniStoreSession", 'Json'>
@@ -20256,6 +20378,7 @@ export namespace Prisma {
     salesAvailable: number | null
     price: number | null
     isActive: boolean | null
+    isCombo: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -20271,6 +20394,7 @@ export namespace Prisma {
     salesAvailable: number | null
     price: number | null
     isActive: boolean | null
+    isCombo: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -20286,6 +20410,7 @@ export namespace Prisma {
     salesAvailable: number
     price: number
     isActive: number
+    isCombo: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -20323,6 +20448,7 @@ export namespace Prisma {
     salesAvailable?: true
     price?: true
     isActive?: true
+    isCombo?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -20338,6 +20464,7 @@ export namespace Prisma {
     salesAvailable?: true
     price?: true
     isActive?: true
+    isCombo?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -20353,6 +20480,7 @@ export namespace Prisma {
     salesAvailable?: true
     price?: true
     isActive?: true
+    isCombo?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -20455,6 +20583,7 @@ export namespace Prisma {
     salesAvailable: number
     price: number
     isActive: boolean
+    isCombo: boolean
     createdAt: Date
     updatedAt: Date
     _count: BookCountAggregateOutputType | null
@@ -20489,11 +20618,14 @@ export namespace Prisma {
     salesAvailable?: boolean
     price?: boolean
     isActive?: boolean
+    isCombo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     sales?: boolean | Book$salesArgs<ExtArgs>
     preorders?: boolean | Book$preordersArgs<ExtArgs>
     mappings?: boolean | Book$mappingsArgs<ExtArgs>
+    comboItems?: boolean | Book$comboItemsArgs<ExtArgs>
+    componentOf?: boolean | Book$componentOfArgs<ExtArgs>
     _count?: boolean | BookCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["book"]>
 
@@ -20508,6 +20640,7 @@ export namespace Prisma {
     salesAvailable?: boolean
     price?: boolean
     isActive?: boolean
+    isCombo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["book"]>
@@ -20523,6 +20656,7 @@ export namespace Prisma {
     salesAvailable?: boolean
     price?: boolean
     isActive?: boolean
+    isCombo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["book"]>
@@ -20538,15 +20672,18 @@ export namespace Prisma {
     salesAvailable?: boolean
     price?: boolean
     isActive?: boolean
+    isCombo?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type BookOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "total" | "available" | "preorderTotal" | "preorderAvailable" | "salesTotal" | "salesAvailable" | "price" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["book"]>
+  export type BookOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "total" | "available" | "preorderTotal" | "preorderAvailable" | "salesTotal" | "salesAvailable" | "price" | "isActive" | "isCombo" | "createdAt" | "updatedAt", ExtArgs["result"]["book"]>
   export type BookInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sales?: boolean | Book$salesArgs<ExtArgs>
     preorders?: boolean | Book$preordersArgs<ExtArgs>
     mappings?: boolean | Book$mappingsArgs<ExtArgs>
+    comboItems?: boolean | Book$comboItemsArgs<ExtArgs>
+    componentOf?: boolean | Book$componentOfArgs<ExtArgs>
     _count?: boolean | BookCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BookIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -20558,6 +20695,8 @@ export namespace Prisma {
       sales: Prisma.$BookSaleItemPayload<ExtArgs>[]
       preorders: Prisma.$OrderItemPayload<ExtArgs>[]
       mappings: Prisma.$BookMappingPayload<ExtArgs>[]
+      comboItems: Prisma.$ComboBookItemPayload<ExtArgs>[]
+      componentOf: Prisma.$ComboBookItemPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -20570,6 +20709,7 @@ export namespace Prisma {
       salesAvailable: number
       price: number
       isActive: boolean
+      isCombo: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["book"]>
@@ -20969,6 +21109,8 @@ export namespace Prisma {
     sales<T extends Book$salesArgs<ExtArgs> = {}>(args?: Subset<T, Book$salesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookSaleItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     preorders<T extends Book$preordersArgs<ExtArgs> = {}>(args?: Subset<T, Book$preordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     mappings<T extends Book$mappingsArgs<ExtArgs> = {}>(args?: Subset<T, Book$mappingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookMappingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    comboItems<T extends Book$comboItemsArgs<ExtArgs> = {}>(args?: Subset<T, Book$comboItemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComboBookItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    componentOf<T extends Book$componentOfArgs<ExtArgs> = {}>(args?: Subset<T, Book$componentOfArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComboBookItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -21008,6 +21150,7 @@ export namespace Prisma {
     readonly salesAvailable: FieldRef<"Book", 'Int'>
     readonly price: FieldRef<"Book", 'Float'>
     readonly isActive: FieldRef<"Book", 'Boolean'>
+    readonly isCombo: FieldRef<"Book", 'Boolean'>
     readonly createdAt: FieldRef<"Book", 'DateTime'>
     readonly updatedAt: FieldRef<"Book", 'DateTime'>
   }
@@ -21467,6 +21610,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: BookMappingScalarFieldEnum | BookMappingScalarFieldEnum[]
+  }
+
+  /**
+   * Book.comboItems
+   */
+  export type Book$comboItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboBookItem
+     */
+    select?: ComboBookItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboBookItem
+     */
+    omit?: ComboBookItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboBookItemInclude<ExtArgs> | null
+    where?: ComboBookItemWhereInput
+    orderBy?: ComboBookItemOrderByWithRelationInput | ComboBookItemOrderByWithRelationInput[]
+    cursor?: ComboBookItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ComboBookItemScalarFieldEnum | ComboBookItemScalarFieldEnum[]
+  }
+
+  /**
+   * Book.componentOf
+   */
+  export type Book$componentOfArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboBookItem
+     */
+    select?: ComboBookItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboBookItem
+     */
+    omit?: ComboBookItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboBookItemInclude<ExtArgs> | null
+    where?: ComboBookItemWhereInput
+    orderBy?: ComboBookItemOrderByWithRelationInput | ComboBookItemOrderByWithRelationInput[]
+    cursor?: ComboBookItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ComboBookItemScalarFieldEnum | ComboBookItemScalarFieldEnum[]
   }
 
   /**
@@ -24916,6 +25107,1119 @@ export namespace Prisma {
 
 
   /**
+   * Model ComboBookItem
+   */
+
+  export type AggregateComboBookItem = {
+    _count: ComboBookItemCountAggregateOutputType | null
+    _avg: ComboBookItemAvgAggregateOutputType | null
+    _sum: ComboBookItemSumAggregateOutputType | null
+    _min: ComboBookItemMinAggregateOutputType | null
+    _max: ComboBookItemMaxAggregateOutputType | null
+  }
+
+  export type ComboBookItemAvgAggregateOutputType = {
+    quantity: number | null
+  }
+
+  export type ComboBookItemSumAggregateOutputType = {
+    quantity: number | null
+  }
+
+  export type ComboBookItemMinAggregateOutputType = {
+    id: string | null
+    comboBookId: string | null
+    componentBookId: string | null
+    quantity: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ComboBookItemMaxAggregateOutputType = {
+    id: string | null
+    comboBookId: string | null
+    componentBookId: string | null
+    quantity: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ComboBookItemCountAggregateOutputType = {
+    id: number
+    comboBookId: number
+    componentBookId: number
+    quantity: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ComboBookItemAvgAggregateInputType = {
+    quantity?: true
+  }
+
+  export type ComboBookItemSumAggregateInputType = {
+    quantity?: true
+  }
+
+  export type ComboBookItemMinAggregateInputType = {
+    id?: true
+    comboBookId?: true
+    componentBookId?: true
+    quantity?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ComboBookItemMaxAggregateInputType = {
+    id?: true
+    comboBookId?: true
+    componentBookId?: true
+    quantity?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ComboBookItemCountAggregateInputType = {
+    id?: true
+    comboBookId?: true
+    componentBookId?: true
+    quantity?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ComboBookItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ComboBookItem to aggregate.
+     */
+    where?: ComboBookItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ComboBookItems to fetch.
+     */
+    orderBy?: ComboBookItemOrderByWithRelationInput | ComboBookItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ComboBookItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ComboBookItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ComboBookItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ComboBookItems
+    **/
+    _count?: true | ComboBookItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ComboBookItemAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ComboBookItemSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ComboBookItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ComboBookItemMaxAggregateInputType
+  }
+
+  export type GetComboBookItemAggregateType<T extends ComboBookItemAggregateArgs> = {
+        [P in keyof T & keyof AggregateComboBookItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateComboBookItem[P]>
+      : GetScalarType<T[P], AggregateComboBookItem[P]>
+  }
+
+
+
+
+  export type ComboBookItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ComboBookItemWhereInput
+    orderBy?: ComboBookItemOrderByWithAggregationInput | ComboBookItemOrderByWithAggregationInput[]
+    by: ComboBookItemScalarFieldEnum[] | ComboBookItemScalarFieldEnum
+    having?: ComboBookItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ComboBookItemCountAggregateInputType | true
+    _avg?: ComboBookItemAvgAggregateInputType
+    _sum?: ComboBookItemSumAggregateInputType
+    _min?: ComboBookItemMinAggregateInputType
+    _max?: ComboBookItemMaxAggregateInputType
+  }
+
+  export type ComboBookItemGroupByOutputType = {
+    id: string
+    comboBookId: string
+    componentBookId: string
+    quantity: number
+    createdAt: Date
+    updatedAt: Date
+    _count: ComboBookItemCountAggregateOutputType | null
+    _avg: ComboBookItemAvgAggregateOutputType | null
+    _sum: ComboBookItemSumAggregateOutputType | null
+    _min: ComboBookItemMinAggregateOutputType | null
+    _max: ComboBookItemMaxAggregateOutputType | null
+  }
+
+  type GetComboBookItemGroupByPayload<T extends ComboBookItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ComboBookItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ComboBookItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ComboBookItemGroupByOutputType[P]>
+            : GetScalarType<T[P], ComboBookItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ComboBookItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    comboBookId?: boolean
+    componentBookId?: boolean
+    quantity?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    comboBook?: boolean | BookDefaultArgs<ExtArgs>
+    componentBook?: boolean | BookDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["comboBookItem"]>
+
+  export type ComboBookItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    comboBookId?: boolean
+    componentBookId?: boolean
+    quantity?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    comboBook?: boolean | BookDefaultArgs<ExtArgs>
+    componentBook?: boolean | BookDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["comboBookItem"]>
+
+  export type ComboBookItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    comboBookId?: boolean
+    componentBookId?: boolean
+    quantity?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    comboBook?: boolean | BookDefaultArgs<ExtArgs>
+    componentBook?: boolean | BookDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["comboBookItem"]>
+
+  export type ComboBookItemSelectScalar = {
+    id?: boolean
+    comboBookId?: boolean
+    componentBookId?: boolean
+    quantity?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ComboBookItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "comboBookId" | "componentBookId" | "quantity" | "createdAt" | "updatedAt", ExtArgs["result"]["comboBookItem"]>
+  export type ComboBookItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    comboBook?: boolean | BookDefaultArgs<ExtArgs>
+    componentBook?: boolean | BookDefaultArgs<ExtArgs>
+  }
+  export type ComboBookItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    comboBook?: boolean | BookDefaultArgs<ExtArgs>
+    componentBook?: boolean | BookDefaultArgs<ExtArgs>
+  }
+  export type ComboBookItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    comboBook?: boolean | BookDefaultArgs<ExtArgs>
+    componentBook?: boolean | BookDefaultArgs<ExtArgs>
+  }
+
+  export type $ComboBookItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ComboBookItem"
+    objects: {
+      comboBook: Prisma.$BookPayload<ExtArgs>
+      componentBook: Prisma.$BookPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      comboBookId: string
+      componentBookId: string
+      quantity: number
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["comboBookItem"]>
+    composites: {}
+  }
+
+  type ComboBookItemGetPayload<S extends boolean | null | undefined | ComboBookItemDefaultArgs> = $Result.GetResult<Prisma.$ComboBookItemPayload, S>
+
+  type ComboBookItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ComboBookItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ComboBookItemCountAggregateInputType | true
+    }
+
+  export interface ComboBookItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ComboBookItem'], meta: { name: 'ComboBookItem' } }
+    /**
+     * Find zero or one ComboBookItem that matches the filter.
+     * @param {ComboBookItemFindUniqueArgs} args - Arguments to find a ComboBookItem
+     * @example
+     * // Get one ComboBookItem
+     * const comboBookItem = await prisma.comboBookItem.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ComboBookItemFindUniqueArgs>(args: SelectSubset<T, ComboBookItemFindUniqueArgs<ExtArgs>>): Prisma__ComboBookItemClient<$Result.GetResult<Prisma.$ComboBookItemPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ComboBookItem that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ComboBookItemFindUniqueOrThrowArgs} args - Arguments to find a ComboBookItem
+     * @example
+     * // Get one ComboBookItem
+     * const comboBookItem = await prisma.comboBookItem.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ComboBookItemFindUniqueOrThrowArgs>(args: SelectSubset<T, ComboBookItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ComboBookItemClient<$Result.GetResult<Prisma.$ComboBookItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ComboBookItem that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ComboBookItemFindFirstArgs} args - Arguments to find a ComboBookItem
+     * @example
+     * // Get one ComboBookItem
+     * const comboBookItem = await prisma.comboBookItem.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ComboBookItemFindFirstArgs>(args?: SelectSubset<T, ComboBookItemFindFirstArgs<ExtArgs>>): Prisma__ComboBookItemClient<$Result.GetResult<Prisma.$ComboBookItemPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ComboBookItem that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ComboBookItemFindFirstOrThrowArgs} args - Arguments to find a ComboBookItem
+     * @example
+     * // Get one ComboBookItem
+     * const comboBookItem = await prisma.comboBookItem.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ComboBookItemFindFirstOrThrowArgs>(args?: SelectSubset<T, ComboBookItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__ComboBookItemClient<$Result.GetResult<Prisma.$ComboBookItemPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ComboBookItems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ComboBookItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ComboBookItems
+     * const comboBookItems = await prisma.comboBookItem.findMany()
+     * 
+     * // Get first 10 ComboBookItems
+     * const comboBookItems = await prisma.comboBookItem.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const comboBookItemWithIdOnly = await prisma.comboBookItem.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ComboBookItemFindManyArgs>(args?: SelectSubset<T, ComboBookItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComboBookItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ComboBookItem.
+     * @param {ComboBookItemCreateArgs} args - Arguments to create a ComboBookItem.
+     * @example
+     * // Create one ComboBookItem
+     * const ComboBookItem = await prisma.comboBookItem.create({
+     *   data: {
+     *     // ... data to create a ComboBookItem
+     *   }
+     * })
+     * 
+     */
+    create<T extends ComboBookItemCreateArgs>(args: SelectSubset<T, ComboBookItemCreateArgs<ExtArgs>>): Prisma__ComboBookItemClient<$Result.GetResult<Prisma.$ComboBookItemPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ComboBookItems.
+     * @param {ComboBookItemCreateManyArgs} args - Arguments to create many ComboBookItems.
+     * @example
+     * // Create many ComboBookItems
+     * const comboBookItem = await prisma.comboBookItem.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ComboBookItemCreateManyArgs>(args?: SelectSubset<T, ComboBookItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ComboBookItems and returns the data saved in the database.
+     * @param {ComboBookItemCreateManyAndReturnArgs} args - Arguments to create many ComboBookItems.
+     * @example
+     * // Create many ComboBookItems
+     * const comboBookItem = await prisma.comboBookItem.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ComboBookItems and only return the `id`
+     * const comboBookItemWithIdOnly = await prisma.comboBookItem.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ComboBookItemCreateManyAndReturnArgs>(args?: SelectSubset<T, ComboBookItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComboBookItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ComboBookItem.
+     * @param {ComboBookItemDeleteArgs} args - Arguments to delete one ComboBookItem.
+     * @example
+     * // Delete one ComboBookItem
+     * const ComboBookItem = await prisma.comboBookItem.delete({
+     *   where: {
+     *     // ... filter to delete one ComboBookItem
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ComboBookItemDeleteArgs>(args: SelectSubset<T, ComboBookItemDeleteArgs<ExtArgs>>): Prisma__ComboBookItemClient<$Result.GetResult<Prisma.$ComboBookItemPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ComboBookItem.
+     * @param {ComboBookItemUpdateArgs} args - Arguments to update one ComboBookItem.
+     * @example
+     * // Update one ComboBookItem
+     * const comboBookItem = await prisma.comboBookItem.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ComboBookItemUpdateArgs>(args: SelectSubset<T, ComboBookItemUpdateArgs<ExtArgs>>): Prisma__ComboBookItemClient<$Result.GetResult<Prisma.$ComboBookItemPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ComboBookItems.
+     * @param {ComboBookItemDeleteManyArgs} args - Arguments to filter ComboBookItems to delete.
+     * @example
+     * // Delete a few ComboBookItems
+     * const { count } = await prisma.comboBookItem.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ComboBookItemDeleteManyArgs>(args?: SelectSubset<T, ComboBookItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ComboBookItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ComboBookItemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ComboBookItems
+     * const comboBookItem = await prisma.comboBookItem.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ComboBookItemUpdateManyArgs>(args: SelectSubset<T, ComboBookItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ComboBookItems and returns the data updated in the database.
+     * @param {ComboBookItemUpdateManyAndReturnArgs} args - Arguments to update many ComboBookItems.
+     * @example
+     * // Update many ComboBookItems
+     * const comboBookItem = await prisma.comboBookItem.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ComboBookItems and only return the `id`
+     * const comboBookItemWithIdOnly = await prisma.comboBookItem.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ComboBookItemUpdateManyAndReturnArgs>(args: SelectSubset<T, ComboBookItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ComboBookItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ComboBookItem.
+     * @param {ComboBookItemUpsertArgs} args - Arguments to update or create a ComboBookItem.
+     * @example
+     * // Update or create a ComboBookItem
+     * const comboBookItem = await prisma.comboBookItem.upsert({
+     *   create: {
+     *     // ... data to create a ComboBookItem
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ComboBookItem we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ComboBookItemUpsertArgs>(args: SelectSubset<T, ComboBookItemUpsertArgs<ExtArgs>>): Prisma__ComboBookItemClient<$Result.GetResult<Prisma.$ComboBookItemPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ComboBookItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ComboBookItemCountArgs} args - Arguments to filter ComboBookItems to count.
+     * @example
+     * // Count the number of ComboBookItems
+     * const count = await prisma.comboBookItem.count({
+     *   where: {
+     *     // ... the filter for the ComboBookItems we want to count
+     *   }
+     * })
+    **/
+    count<T extends ComboBookItemCountArgs>(
+      args?: Subset<T, ComboBookItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ComboBookItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ComboBookItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ComboBookItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ComboBookItemAggregateArgs>(args: Subset<T, ComboBookItemAggregateArgs>): Prisma.PrismaPromise<GetComboBookItemAggregateType<T>>
+
+    /**
+     * Group by ComboBookItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ComboBookItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ComboBookItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ComboBookItemGroupByArgs['orderBy'] }
+        : { orderBy?: ComboBookItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ComboBookItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetComboBookItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ComboBookItem model
+   */
+  readonly fields: ComboBookItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ComboBookItem.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ComboBookItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    comboBook<T extends BookDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BookDefaultArgs<ExtArgs>>): Prisma__BookClient<$Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    componentBook<T extends BookDefaultArgs<ExtArgs> = {}>(args?: Subset<T, BookDefaultArgs<ExtArgs>>): Prisma__BookClient<$Result.GetResult<Prisma.$BookPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ComboBookItem model
+   */ 
+  interface ComboBookItemFieldRefs {
+    readonly id: FieldRef<"ComboBookItem", 'String'>
+    readonly comboBookId: FieldRef<"ComboBookItem", 'String'>
+    readonly componentBookId: FieldRef<"ComboBookItem", 'String'>
+    readonly quantity: FieldRef<"ComboBookItem", 'Int'>
+    readonly createdAt: FieldRef<"ComboBookItem", 'DateTime'>
+    readonly updatedAt: FieldRef<"ComboBookItem", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ComboBookItem findUnique
+   */
+  export type ComboBookItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboBookItem
+     */
+    select?: ComboBookItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboBookItem
+     */
+    omit?: ComboBookItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboBookItemInclude<ExtArgs> | null
+    /**
+     * Filter, which ComboBookItem to fetch.
+     */
+    where: ComboBookItemWhereUniqueInput
+  }
+
+  /**
+   * ComboBookItem findUniqueOrThrow
+   */
+  export type ComboBookItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboBookItem
+     */
+    select?: ComboBookItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboBookItem
+     */
+    omit?: ComboBookItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboBookItemInclude<ExtArgs> | null
+    /**
+     * Filter, which ComboBookItem to fetch.
+     */
+    where: ComboBookItemWhereUniqueInput
+  }
+
+  /**
+   * ComboBookItem findFirst
+   */
+  export type ComboBookItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboBookItem
+     */
+    select?: ComboBookItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboBookItem
+     */
+    omit?: ComboBookItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboBookItemInclude<ExtArgs> | null
+    /**
+     * Filter, which ComboBookItem to fetch.
+     */
+    where?: ComboBookItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ComboBookItems to fetch.
+     */
+    orderBy?: ComboBookItemOrderByWithRelationInput | ComboBookItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ComboBookItems.
+     */
+    cursor?: ComboBookItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ComboBookItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ComboBookItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ComboBookItems.
+     */
+    distinct?: ComboBookItemScalarFieldEnum | ComboBookItemScalarFieldEnum[]
+  }
+
+  /**
+   * ComboBookItem findFirstOrThrow
+   */
+  export type ComboBookItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboBookItem
+     */
+    select?: ComboBookItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboBookItem
+     */
+    omit?: ComboBookItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboBookItemInclude<ExtArgs> | null
+    /**
+     * Filter, which ComboBookItem to fetch.
+     */
+    where?: ComboBookItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ComboBookItems to fetch.
+     */
+    orderBy?: ComboBookItemOrderByWithRelationInput | ComboBookItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ComboBookItems.
+     */
+    cursor?: ComboBookItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ComboBookItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ComboBookItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ComboBookItems.
+     */
+    distinct?: ComboBookItemScalarFieldEnum | ComboBookItemScalarFieldEnum[]
+  }
+
+  /**
+   * ComboBookItem findMany
+   */
+  export type ComboBookItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboBookItem
+     */
+    select?: ComboBookItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboBookItem
+     */
+    omit?: ComboBookItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboBookItemInclude<ExtArgs> | null
+    /**
+     * Filter, which ComboBookItems to fetch.
+     */
+    where?: ComboBookItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ComboBookItems to fetch.
+     */
+    orderBy?: ComboBookItemOrderByWithRelationInput | ComboBookItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ComboBookItems.
+     */
+    cursor?: ComboBookItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ComboBookItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ComboBookItems.
+     */
+    skip?: number
+    distinct?: ComboBookItemScalarFieldEnum | ComboBookItemScalarFieldEnum[]
+  }
+
+  /**
+   * ComboBookItem create
+   */
+  export type ComboBookItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboBookItem
+     */
+    select?: ComboBookItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboBookItem
+     */
+    omit?: ComboBookItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboBookItemInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ComboBookItem.
+     */
+    data: XOR<ComboBookItemCreateInput, ComboBookItemUncheckedCreateInput>
+  }
+
+  /**
+   * ComboBookItem createMany
+   */
+  export type ComboBookItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ComboBookItems.
+     */
+    data: ComboBookItemCreateManyInput | ComboBookItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ComboBookItem createManyAndReturn
+   */
+  export type ComboBookItemCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboBookItem
+     */
+    select?: ComboBookItemSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboBookItem
+     */
+    omit?: ComboBookItemOmit<ExtArgs> | null
+    /**
+     * The data used to create many ComboBookItems.
+     */
+    data: ComboBookItemCreateManyInput | ComboBookItemCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboBookItemIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ComboBookItem update
+   */
+  export type ComboBookItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboBookItem
+     */
+    select?: ComboBookItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboBookItem
+     */
+    omit?: ComboBookItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboBookItemInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ComboBookItem.
+     */
+    data: XOR<ComboBookItemUpdateInput, ComboBookItemUncheckedUpdateInput>
+    /**
+     * Choose, which ComboBookItem to update.
+     */
+    where: ComboBookItemWhereUniqueInput
+  }
+
+  /**
+   * ComboBookItem updateMany
+   */
+  export type ComboBookItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ComboBookItems.
+     */
+    data: XOR<ComboBookItemUpdateManyMutationInput, ComboBookItemUncheckedUpdateManyInput>
+    /**
+     * Filter which ComboBookItems to update
+     */
+    where?: ComboBookItemWhereInput
+    /**
+     * Limit how many ComboBookItems to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ComboBookItem updateManyAndReturn
+   */
+  export type ComboBookItemUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboBookItem
+     */
+    select?: ComboBookItemSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboBookItem
+     */
+    omit?: ComboBookItemOmit<ExtArgs> | null
+    /**
+     * The data used to update ComboBookItems.
+     */
+    data: XOR<ComboBookItemUpdateManyMutationInput, ComboBookItemUncheckedUpdateManyInput>
+    /**
+     * Filter which ComboBookItems to update
+     */
+    where?: ComboBookItemWhereInput
+    /**
+     * Limit how many ComboBookItems to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboBookItemIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ComboBookItem upsert
+   */
+  export type ComboBookItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboBookItem
+     */
+    select?: ComboBookItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboBookItem
+     */
+    omit?: ComboBookItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboBookItemInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ComboBookItem to update in case it exists.
+     */
+    where: ComboBookItemWhereUniqueInput
+    /**
+     * In case the ComboBookItem found by the `where` argument doesn't exist, create a new ComboBookItem with this data.
+     */
+    create: XOR<ComboBookItemCreateInput, ComboBookItemUncheckedCreateInput>
+    /**
+     * In case the ComboBookItem was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ComboBookItemUpdateInput, ComboBookItemUncheckedUpdateInput>
+  }
+
+  /**
+   * ComboBookItem delete
+   */
+  export type ComboBookItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboBookItem
+     */
+    select?: ComboBookItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboBookItem
+     */
+    omit?: ComboBookItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboBookItemInclude<ExtArgs> | null
+    /**
+     * Filter which ComboBookItem to delete.
+     */
+    where: ComboBookItemWhereUniqueInput
+  }
+
+  /**
+   * ComboBookItem deleteMany
+   */
+  export type ComboBookItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ComboBookItems to delete
+     */
+    where?: ComboBookItemWhereInput
+    /**
+     * Limit how many ComboBookItems to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ComboBookItem without action
+   */
+  export type ComboBookItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ComboBookItem
+     */
+    select?: ComboBookItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ComboBookItem
+     */
+    omit?: ComboBookItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ComboBookItemInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -25093,6 +26397,7 @@ export namespace Prisma {
     id: 'id',
     session: 'session',
     managerId: 'managerId',
+    type: 'type',
     collectedData: 'collectedData',
     distributedData: 'distributedData',
     data: 'data',
@@ -25166,6 +26471,7 @@ export namespace Prisma {
     salesAvailable: 'salesAvailable',
     price: 'price',
     isActive: 'isActive',
+    isCombo: 'isCombo',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -25215,6 +26521,18 @@ export namespace Prisma {
   };
 
   export type BookMappingScalarFieldEnum = (typeof BookMappingScalarFieldEnum)[keyof typeof BookMappingScalarFieldEnum]
+
+
+  export const ComboBookItemScalarFieldEnum: {
+    id: 'id',
+    comboBookId: 'comboBookId',
+    componentBookId: 'componentBookId',
+    quantity: 'quantity',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ComboBookItemScalarFieldEnum = (typeof ComboBookItemScalarFieldEnum)[keyof typeof ComboBookItemScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -26212,6 +27530,7 @@ export namespace Prisma {
     id?: StringFilter<"MiniStoreSession"> | string
     session?: StringFilter<"MiniStoreSession"> | string
     managerId?: StringNullableFilter<"MiniStoreSession"> | string | null
+    type?: StringFilter<"MiniStoreSession"> | string
     collectedData?: JsonNullableFilter<"MiniStoreSession">
     distributedData?: JsonNullableFilter<"MiniStoreSession">
     data?: JsonNullableFilter<"MiniStoreSession">
@@ -26229,6 +27548,7 @@ export namespace Prisma {
     id?: SortOrder
     session?: SortOrder
     managerId?: SortOrderInput | SortOrder
+    type?: SortOrder
     collectedData?: SortOrderInput | SortOrder
     distributedData?: SortOrderInput | SortOrder
     data?: SortOrderInput | SortOrder
@@ -26249,6 +27569,7 @@ export namespace Prisma {
     NOT?: MiniStoreSessionWhereInput | MiniStoreSessionWhereInput[]
     session?: StringFilter<"MiniStoreSession"> | string
     managerId?: StringNullableFilter<"MiniStoreSession"> | string | null
+    type?: StringFilter<"MiniStoreSession"> | string
     collectedData?: JsonNullableFilter<"MiniStoreSession">
     distributedData?: JsonNullableFilter<"MiniStoreSession">
     data?: JsonNullableFilter<"MiniStoreSession">
@@ -26266,6 +27587,7 @@ export namespace Prisma {
     id?: SortOrder
     session?: SortOrder
     managerId?: SortOrderInput | SortOrder
+    type?: SortOrder
     collectedData?: SortOrderInput | SortOrder
     distributedData?: SortOrderInput | SortOrder
     data?: SortOrderInput | SortOrder
@@ -26286,6 +27608,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"MiniStoreSession"> | string
     session?: StringWithAggregatesFilter<"MiniStoreSession"> | string
     managerId?: StringNullableWithAggregatesFilter<"MiniStoreSession"> | string | null
+    type?: StringWithAggregatesFilter<"MiniStoreSession"> | string
     collectedData?: JsonNullableWithAggregatesFilter<"MiniStoreSession">
     distributedData?: JsonNullableWithAggregatesFilter<"MiniStoreSession">
     data?: JsonNullableWithAggregatesFilter<"MiniStoreSession">
@@ -26567,11 +27890,14 @@ export namespace Prisma {
     salesAvailable?: IntFilter<"Book"> | number
     price?: FloatFilter<"Book"> | number
     isActive?: BoolFilter<"Book"> | boolean
+    isCombo?: BoolFilter<"Book"> | boolean
     createdAt?: DateTimeFilter<"Book"> | Date | string
     updatedAt?: DateTimeFilter<"Book"> | Date | string
     sales?: BookSaleItemListRelationFilter
     preorders?: OrderItemListRelationFilter
     mappings?: BookMappingListRelationFilter
+    comboItems?: ComboBookItemListRelationFilter
+    componentOf?: ComboBookItemListRelationFilter
   }
 
   export type BookOrderByWithRelationInput = {
@@ -26585,11 +27911,14 @@ export namespace Prisma {
     salesAvailable?: SortOrder
     price?: SortOrder
     isActive?: SortOrder
+    isCombo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     sales?: BookSaleItemOrderByRelationAggregateInput
     preorders?: OrderItemOrderByRelationAggregateInput
     mappings?: BookMappingOrderByRelationAggregateInput
+    comboItems?: ComboBookItemOrderByRelationAggregateInput
+    componentOf?: ComboBookItemOrderByRelationAggregateInput
   }
 
   export type BookWhereUniqueInput = Prisma.AtLeast<{
@@ -26606,11 +27935,14 @@ export namespace Prisma {
     salesAvailable?: IntFilter<"Book"> | number
     price?: FloatFilter<"Book"> | number
     isActive?: BoolFilter<"Book"> | boolean
+    isCombo?: BoolFilter<"Book"> | boolean
     createdAt?: DateTimeFilter<"Book"> | Date | string
     updatedAt?: DateTimeFilter<"Book"> | Date | string
     sales?: BookSaleItemListRelationFilter
     preorders?: OrderItemListRelationFilter
     mappings?: BookMappingListRelationFilter
+    comboItems?: ComboBookItemListRelationFilter
+    componentOf?: ComboBookItemListRelationFilter
   }, "id">
 
   export type BookOrderByWithAggregationInput = {
@@ -26624,6 +27956,7 @@ export namespace Prisma {
     salesAvailable?: SortOrder
     price?: SortOrder
     isActive?: SortOrder
+    isCombo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: BookCountOrderByAggregateInput
@@ -26647,6 +27980,7 @@ export namespace Prisma {
     salesAvailable?: IntWithAggregatesFilter<"Book"> | number
     price?: FloatWithAggregatesFilter<"Book"> | number
     isActive?: BoolWithAggregatesFilter<"Book"> | boolean
+    isCombo?: BoolWithAggregatesFilter<"Book"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Book"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Book"> | Date | string
   }
@@ -26879,6 +28213,72 @@ export namespace Prisma {
     bookId?: StringWithAggregatesFilter<"BookMapping"> | string
     createdAt?: DateTimeWithAggregatesFilter<"BookMapping"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"BookMapping"> | Date | string
+  }
+
+  export type ComboBookItemWhereInput = {
+    AND?: ComboBookItemWhereInput | ComboBookItemWhereInput[]
+    OR?: ComboBookItemWhereInput[]
+    NOT?: ComboBookItemWhereInput | ComboBookItemWhereInput[]
+    id?: StringFilter<"ComboBookItem"> | string
+    comboBookId?: StringFilter<"ComboBookItem"> | string
+    componentBookId?: StringFilter<"ComboBookItem"> | string
+    quantity?: IntFilter<"ComboBookItem"> | number
+    createdAt?: DateTimeFilter<"ComboBookItem"> | Date | string
+    updatedAt?: DateTimeFilter<"ComboBookItem"> | Date | string
+    comboBook?: XOR<BookScalarRelationFilter, BookWhereInput>
+    componentBook?: XOR<BookScalarRelationFilter, BookWhereInput>
+  }
+
+  export type ComboBookItemOrderByWithRelationInput = {
+    id?: SortOrder
+    comboBookId?: SortOrder
+    componentBookId?: SortOrder
+    quantity?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    comboBook?: BookOrderByWithRelationInput
+    componentBook?: BookOrderByWithRelationInput
+  }
+
+  export type ComboBookItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    comboBookId_componentBookId?: ComboBookItemComboBookIdComponentBookIdCompoundUniqueInput
+    AND?: ComboBookItemWhereInput | ComboBookItemWhereInput[]
+    OR?: ComboBookItemWhereInput[]
+    NOT?: ComboBookItemWhereInput | ComboBookItemWhereInput[]
+    comboBookId?: StringFilter<"ComboBookItem"> | string
+    componentBookId?: StringFilter<"ComboBookItem"> | string
+    quantity?: IntFilter<"ComboBookItem"> | number
+    createdAt?: DateTimeFilter<"ComboBookItem"> | Date | string
+    updatedAt?: DateTimeFilter<"ComboBookItem"> | Date | string
+    comboBook?: XOR<BookScalarRelationFilter, BookWhereInput>
+    componentBook?: XOR<BookScalarRelationFilter, BookWhereInput>
+  }, "id" | "comboBookId_componentBookId">
+
+  export type ComboBookItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    comboBookId?: SortOrder
+    componentBookId?: SortOrder
+    quantity?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ComboBookItemCountOrderByAggregateInput
+    _avg?: ComboBookItemAvgOrderByAggregateInput
+    _max?: ComboBookItemMaxOrderByAggregateInput
+    _min?: ComboBookItemMinOrderByAggregateInput
+    _sum?: ComboBookItemSumOrderByAggregateInput
+  }
+
+  export type ComboBookItemScalarWhereWithAggregatesInput = {
+    AND?: ComboBookItemScalarWhereWithAggregatesInput | ComboBookItemScalarWhereWithAggregatesInput[]
+    OR?: ComboBookItemScalarWhereWithAggregatesInput[]
+    NOT?: ComboBookItemScalarWhereWithAggregatesInput | ComboBookItemScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ComboBookItem"> | string
+    comboBookId?: StringWithAggregatesFilter<"ComboBookItem"> | string
+    componentBookId?: StringWithAggregatesFilter<"ComboBookItem"> | string
+    quantity?: IntWithAggregatesFilter<"ComboBookItem"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"ComboBookItem"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ComboBookItem"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -27810,6 +29210,7 @@ export namespace Prisma {
     id?: string
     session: string
     managerId?: string | null
+    type?: string
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
@@ -27827,6 +29228,7 @@ export namespace Prisma {
     id?: string
     session: string
     managerId?: string | null
+    type?: string
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
@@ -27844,6 +29246,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     session?: StringFieldUpdateOperationsInput | string
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
@@ -27861,6 +29264,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     session?: StringFieldUpdateOperationsInput | string
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
@@ -27878,6 +29282,7 @@ export namespace Prisma {
     id?: string
     session: string
     managerId?: string | null
+    type?: string
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
@@ -27892,6 +29297,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     session?: StringFieldUpdateOperationsInput | string
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
@@ -27906,6 +29312,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     session?: StringFieldUpdateOperationsInput | string
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
@@ -28210,11 +29617,14 @@ export namespace Prisma {
     salesAvailable: number
     price: number
     isActive?: boolean
+    isCombo?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     sales?: BookSaleItemCreateNestedManyWithoutBookInput
     preorders?: OrderItemCreateNestedManyWithoutBookInput
     mappings?: BookMappingCreateNestedManyWithoutBookInput
+    comboItems?: ComboBookItemCreateNestedManyWithoutComboBookInput
+    componentOf?: ComboBookItemCreateNestedManyWithoutComponentBookInput
   }
 
   export type BookUncheckedCreateInput = {
@@ -28228,11 +29638,14 @@ export namespace Prisma {
     salesAvailable: number
     price: number
     isActive?: boolean
+    isCombo?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     sales?: BookSaleItemUncheckedCreateNestedManyWithoutBookInput
     preorders?: OrderItemUncheckedCreateNestedManyWithoutBookInput
     mappings?: BookMappingUncheckedCreateNestedManyWithoutBookInput
+    comboItems?: ComboBookItemUncheckedCreateNestedManyWithoutComboBookInput
+    componentOf?: ComboBookItemUncheckedCreateNestedManyWithoutComponentBookInput
   }
 
   export type BookUpdateInput = {
@@ -28246,11 +29659,14 @@ export namespace Prisma {
     salesAvailable?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isCombo?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sales?: BookSaleItemUpdateManyWithoutBookNestedInput
     preorders?: OrderItemUpdateManyWithoutBookNestedInput
     mappings?: BookMappingUpdateManyWithoutBookNestedInput
+    comboItems?: ComboBookItemUpdateManyWithoutComboBookNestedInput
+    componentOf?: ComboBookItemUpdateManyWithoutComponentBookNestedInput
   }
 
   export type BookUncheckedUpdateInput = {
@@ -28264,11 +29680,14 @@ export namespace Prisma {
     salesAvailable?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isCombo?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sales?: BookSaleItemUncheckedUpdateManyWithoutBookNestedInput
     preorders?: OrderItemUncheckedUpdateManyWithoutBookNestedInput
     mappings?: BookMappingUncheckedUpdateManyWithoutBookNestedInput
+    comboItems?: ComboBookItemUncheckedUpdateManyWithoutComboBookNestedInput
+    componentOf?: ComboBookItemUncheckedUpdateManyWithoutComponentBookNestedInput
   }
 
   export type BookCreateManyInput = {
@@ -28282,6 +29701,7 @@ export namespace Prisma {
     salesAvailable: number
     price: number
     isActive?: boolean
+    isCombo?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -28297,6 +29717,7 @@ export namespace Prisma {
     salesAvailable?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isCombo?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -28312,6 +29733,7 @@ export namespace Prisma {
     salesAvailable?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isCombo?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -28557,6 +29979,67 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
     bookId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ComboBookItemCreateInput = {
+    id?: string
+    quantity?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    comboBook: BookCreateNestedOneWithoutComboItemsInput
+    componentBook: BookCreateNestedOneWithoutComponentOfInput
+  }
+
+  export type ComboBookItemUncheckedCreateInput = {
+    id?: string
+    comboBookId: string
+    componentBookId: string
+    quantity?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ComboBookItemUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    comboBook?: BookUpdateOneRequiredWithoutComboItemsNestedInput
+    componentBook?: BookUpdateOneRequiredWithoutComponentOfNestedInput
+  }
+
+  export type ComboBookItemUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    comboBookId?: StringFieldUpdateOperationsInput | string
+    componentBookId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ComboBookItemCreateManyInput = {
+    id?: string
+    comboBookId: string
+    componentBookId: string
+    quantity?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ComboBookItemUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ComboBookItemUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    comboBookId?: StringFieldUpdateOperationsInput | string
+    componentBookId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -29430,6 +30913,7 @@ export namespace Prisma {
     id?: SortOrder
     session?: SortOrder
     managerId?: SortOrder
+    type?: SortOrder
     collectedData?: SortOrder
     distributedData?: SortOrder
     data?: SortOrder
@@ -29444,6 +30928,7 @@ export namespace Prisma {
     id?: SortOrder
     session?: SortOrder
     managerId?: SortOrder
+    type?: SortOrder
     closedAt?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -29454,6 +30939,7 @@ export namespace Prisma {
     id?: SortOrder
     session?: SortOrder
     managerId?: SortOrder
+    type?: SortOrder
     closedAt?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -29586,11 +31072,21 @@ export namespace Prisma {
     none?: BookMappingWhereInput
   }
 
+  export type ComboBookItemListRelationFilter = {
+    every?: ComboBookItemWhereInput
+    some?: ComboBookItemWhereInput
+    none?: ComboBookItemWhereInput
+  }
+
   export type BookSaleItemOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type BookMappingOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ComboBookItemOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -29605,6 +31101,7 @@ export namespace Prisma {
     salesAvailable?: SortOrder
     price?: SortOrder
     isActive?: SortOrder
+    isCombo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -29630,6 +31127,7 @@ export namespace Prisma {
     salesAvailable?: SortOrder
     price?: SortOrder
     isActive?: SortOrder
+    isCombo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -29645,6 +31143,7 @@ export namespace Prisma {
     salesAvailable?: SortOrder
     price?: SortOrder
     isActive?: SortOrder
+    isCombo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -29795,6 +31294,46 @@ export namespace Prisma {
     bookId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type ComboBookItemComboBookIdComponentBookIdCompoundUniqueInput = {
+    comboBookId: string
+    componentBookId: string
+  }
+
+  export type ComboBookItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    comboBookId?: SortOrder
+    componentBookId?: SortOrder
+    quantity?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ComboBookItemAvgOrderByAggregateInput = {
+    quantity?: SortOrder
+  }
+
+  export type ComboBookItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    comboBookId?: SortOrder
+    componentBookId?: SortOrder
+    quantity?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ComboBookItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    comboBookId?: SortOrder
+    componentBookId?: SortOrder
+    quantity?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ComboBookItemSumOrderByAggregateInput = {
+    quantity?: SortOrder
   }
 
   export type AccountCreateNestedManyWithoutUserInput = {
@@ -30890,6 +32429,20 @@ export namespace Prisma {
     connect?: BookMappingWhereUniqueInput | BookMappingWhereUniqueInput[]
   }
 
+  export type ComboBookItemCreateNestedManyWithoutComboBookInput = {
+    create?: XOR<ComboBookItemCreateWithoutComboBookInput, ComboBookItemUncheckedCreateWithoutComboBookInput> | ComboBookItemCreateWithoutComboBookInput[] | ComboBookItemUncheckedCreateWithoutComboBookInput[]
+    connectOrCreate?: ComboBookItemCreateOrConnectWithoutComboBookInput | ComboBookItemCreateOrConnectWithoutComboBookInput[]
+    createMany?: ComboBookItemCreateManyComboBookInputEnvelope
+    connect?: ComboBookItemWhereUniqueInput | ComboBookItemWhereUniqueInput[]
+  }
+
+  export type ComboBookItemCreateNestedManyWithoutComponentBookInput = {
+    create?: XOR<ComboBookItemCreateWithoutComponentBookInput, ComboBookItemUncheckedCreateWithoutComponentBookInput> | ComboBookItemCreateWithoutComponentBookInput[] | ComboBookItemUncheckedCreateWithoutComponentBookInput[]
+    connectOrCreate?: ComboBookItemCreateOrConnectWithoutComponentBookInput | ComboBookItemCreateOrConnectWithoutComponentBookInput[]
+    createMany?: ComboBookItemCreateManyComponentBookInputEnvelope
+    connect?: ComboBookItemWhereUniqueInput | ComboBookItemWhereUniqueInput[]
+  }
+
   export type BookSaleItemUncheckedCreateNestedManyWithoutBookInput = {
     create?: XOR<BookSaleItemCreateWithoutBookInput, BookSaleItemUncheckedCreateWithoutBookInput> | BookSaleItemCreateWithoutBookInput[] | BookSaleItemUncheckedCreateWithoutBookInput[]
     connectOrCreate?: BookSaleItemCreateOrConnectWithoutBookInput | BookSaleItemCreateOrConnectWithoutBookInput[]
@@ -30909,6 +32462,20 @@ export namespace Prisma {
     connectOrCreate?: BookMappingCreateOrConnectWithoutBookInput | BookMappingCreateOrConnectWithoutBookInput[]
     createMany?: BookMappingCreateManyBookInputEnvelope
     connect?: BookMappingWhereUniqueInput | BookMappingWhereUniqueInput[]
+  }
+
+  export type ComboBookItemUncheckedCreateNestedManyWithoutComboBookInput = {
+    create?: XOR<ComboBookItemCreateWithoutComboBookInput, ComboBookItemUncheckedCreateWithoutComboBookInput> | ComboBookItemCreateWithoutComboBookInput[] | ComboBookItemUncheckedCreateWithoutComboBookInput[]
+    connectOrCreate?: ComboBookItemCreateOrConnectWithoutComboBookInput | ComboBookItemCreateOrConnectWithoutComboBookInput[]
+    createMany?: ComboBookItemCreateManyComboBookInputEnvelope
+    connect?: ComboBookItemWhereUniqueInput | ComboBookItemWhereUniqueInput[]
+  }
+
+  export type ComboBookItemUncheckedCreateNestedManyWithoutComponentBookInput = {
+    create?: XOR<ComboBookItemCreateWithoutComponentBookInput, ComboBookItemUncheckedCreateWithoutComponentBookInput> | ComboBookItemCreateWithoutComponentBookInput[] | ComboBookItemUncheckedCreateWithoutComponentBookInput[]
+    connectOrCreate?: ComboBookItemCreateOrConnectWithoutComponentBookInput | ComboBookItemCreateOrConnectWithoutComponentBookInput[]
+    createMany?: ComboBookItemCreateManyComponentBookInputEnvelope
+    connect?: ComboBookItemWhereUniqueInput | ComboBookItemWhereUniqueInput[]
   }
 
   export type BookSaleItemUpdateManyWithoutBookNestedInput = {
@@ -30953,6 +32520,34 @@ export namespace Prisma {
     deleteMany?: BookMappingScalarWhereInput | BookMappingScalarWhereInput[]
   }
 
+  export type ComboBookItemUpdateManyWithoutComboBookNestedInput = {
+    create?: XOR<ComboBookItemCreateWithoutComboBookInput, ComboBookItemUncheckedCreateWithoutComboBookInput> | ComboBookItemCreateWithoutComboBookInput[] | ComboBookItemUncheckedCreateWithoutComboBookInput[]
+    connectOrCreate?: ComboBookItemCreateOrConnectWithoutComboBookInput | ComboBookItemCreateOrConnectWithoutComboBookInput[]
+    upsert?: ComboBookItemUpsertWithWhereUniqueWithoutComboBookInput | ComboBookItemUpsertWithWhereUniqueWithoutComboBookInput[]
+    createMany?: ComboBookItemCreateManyComboBookInputEnvelope
+    set?: ComboBookItemWhereUniqueInput | ComboBookItemWhereUniqueInput[]
+    disconnect?: ComboBookItemWhereUniqueInput | ComboBookItemWhereUniqueInput[]
+    delete?: ComboBookItemWhereUniqueInput | ComboBookItemWhereUniqueInput[]
+    connect?: ComboBookItemWhereUniqueInput | ComboBookItemWhereUniqueInput[]
+    update?: ComboBookItemUpdateWithWhereUniqueWithoutComboBookInput | ComboBookItemUpdateWithWhereUniqueWithoutComboBookInput[]
+    updateMany?: ComboBookItemUpdateManyWithWhereWithoutComboBookInput | ComboBookItemUpdateManyWithWhereWithoutComboBookInput[]
+    deleteMany?: ComboBookItemScalarWhereInput | ComboBookItemScalarWhereInput[]
+  }
+
+  export type ComboBookItemUpdateManyWithoutComponentBookNestedInput = {
+    create?: XOR<ComboBookItemCreateWithoutComponentBookInput, ComboBookItemUncheckedCreateWithoutComponentBookInput> | ComboBookItemCreateWithoutComponentBookInput[] | ComboBookItemUncheckedCreateWithoutComponentBookInput[]
+    connectOrCreate?: ComboBookItemCreateOrConnectWithoutComponentBookInput | ComboBookItemCreateOrConnectWithoutComponentBookInput[]
+    upsert?: ComboBookItemUpsertWithWhereUniqueWithoutComponentBookInput | ComboBookItemUpsertWithWhereUniqueWithoutComponentBookInput[]
+    createMany?: ComboBookItemCreateManyComponentBookInputEnvelope
+    set?: ComboBookItemWhereUniqueInput | ComboBookItemWhereUniqueInput[]
+    disconnect?: ComboBookItemWhereUniqueInput | ComboBookItemWhereUniqueInput[]
+    delete?: ComboBookItemWhereUniqueInput | ComboBookItemWhereUniqueInput[]
+    connect?: ComboBookItemWhereUniqueInput | ComboBookItemWhereUniqueInput[]
+    update?: ComboBookItemUpdateWithWhereUniqueWithoutComponentBookInput | ComboBookItemUpdateWithWhereUniqueWithoutComponentBookInput[]
+    updateMany?: ComboBookItemUpdateManyWithWhereWithoutComponentBookInput | ComboBookItemUpdateManyWithWhereWithoutComponentBookInput[]
+    deleteMany?: ComboBookItemScalarWhereInput | ComboBookItemScalarWhereInput[]
+  }
+
   export type BookSaleItemUncheckedUpdateManyWithoutBookNestedInput = {
     create?: XOR<BookSaleItemCreateWithoutBookInput, BookSaleItemUncheckedCreateWithoutBookInput> | BookSaleItemCreateWithoutBookInput[] | BookSaleItemUncheckedCreateWithoutBookInput[]
     connectOrCreate?: BookSaleItemCreateOrConnectWithoutBookInput | BookSaleItemCreateOrConnectWithoutBookInput[]
@@ -30993,6 +32588,34 @@ export namespace Prisma {
     update?: BookMappingUpdateWithWhereUniqueWithoutBookInput | BookMappingUpdateWithWhereUniqueWithoutBookInput[]
     updateMany?: BookMappingUpdateManyWithWhereWithoutBookInput | BookMappingUpdateManyWithWhereWithoutBookInput[]
     deleteMany?: BookMappingScalarWhereInput | BookMappingScalarWhereInput[]
+  }
+
+  export type ComboBookItemUncheckedUpdateManyWithoutComboBookNestedInput = {
+    create?: XOR<ComboBookItemCreateWithoutComboBookInput, ComboBookItemUncheckedCreateWithoutComboBookInput> | ComboBookItemCreateWithoutComboBookInput[] | ComboBookItemUncheckedCreateWithoutComboBookInput[]
+    connectOrCreate?: ComboBookItemCreateOrConnectWithoutComboBookInput | ComboBookItemCreateOrConnectWithoutComboBookInput[]
+    upsert?: ComboBookItemUpsertWithWhereUniqueWithoutComboBookInput | ComboBookItemUpsertWithWhereUniqueWithoutComboBookInput[]
+    createMany?: ComboBookItemCreateManyComboBookInputEnvelope
+    set?: ComboBookItemWhereUniqueInput | ComboBookItemWhereUniqueInput[]
+    disconnect?: ComboBookItemWhereUniqueInput | ComboBookItemWhereUniqueInput[]
+    delete?: ComboBookItemWhereUniqueInput | ComboBookItemWhereUniqueInput[]
+    connect?: ComboBookItemWhereUniqueInput | ComboBookItemWhereUniqueInput[]
+    update?: ComboBookItemUpdateWithWhereUniqueWithoutComboBookInput | ComboBookItemUpdateWithWhereUniqueWithoutComboBookInput[]
+    updateMany?: ComboBookItemUpdateManyWithWhereWithoutComboBookInput | ComboBookItemUpdateManyWithWhereWithoutComboBookInput[]
+    deleteMany?: ComboBookItemScalarWhereInput | ComboBookItemScalarWhereInput[]
+  }
+
+  export type ComboBookItemUncheckedUpdateManyWithoutComponentBookNestedInput = {
+    create?: XOR<ComboBookItemCreateWithoutComponentBookInput, ComboBookItemUncheckedCreateWithoutComponentBookInput> | ComboBookItemCreateWithoutComponentBookInput[] | ComboBookItemUncheckedCreateWithoutComponentBookInput[]
+    connectOrCreate?: ComboBookItemCreateOrConnectWithoutComponentBookInput | ComboBookItemCreateOrConnectWithoutComponentBookInput[]
+    upsert?: ComboBookItemUpsertWithWhereUniqueWithoutComponentBookInput | ComboBookItemUpsertWithWhereUniqueWithoutComponentBookInput[]
+    createMany?: ComboBookItemCreateManyComponentBookInputEnvelope
+    set?: ComboBookItemWhereUniqueInput | ComboBookItemWhereUniqueInput[]
+    disconnect?: ComboBookItemWhereUniqueInput | ComboBookItemWhereUniqueInput[]
+    delete?: ComboBookItemWhereUniqueInput | ComboBookItemWhereUniqueInput[]
+    connect?: ComboBookItemWhereUniqueInput | ComboBookItemWhereUniqueInput[]
+    update?: ComboBookItemUpdateWithWhereUniqueWithoutComponentBookInput | ComboBookItemUpdateWithWhereUniqueWithoutComponentBookInput[]
+    updateMany?: ComboBookItemUpdateManyWithWhereWithoutComponentBookInput | ComboBookItemUpdateManyWithWhereWithoutComponentBookInput[]
+    deleteMany?: ComboBookItemScalarWhereInput | ComboBookItemScalarWhereInput[]
   }
 
   export type BookSaleItemCreateNestedManyWithoutBookSaleInput = {
@@ -31091,6 +32714,34 @@ export namespace Prisma {
     upsert?: BookUpsertWithoutMappingsInput
     connect?: BookWhereUniqueInput
     update?: XOR<XOR<BookUpdateToOneWithWhereWithoutMappingsInput, BookUpdateWithoutMappingsInput>, BookUncheckedUpdateWithoutMappingsInput>
+  }
+
+  export type BookCreateNestedOneWithoutComboItemsInput = {
+    create?: XOR<BookCreateWithoutComboItemsInput, BookUncheckedCreateWithoutComboItemsInput>
+    connectOrCreate?: BookCreateOrConnectWithoutComboItemsInput
+    connect?: BookWhereUniqueInput
+  }
+
+  export type BookCreateNestedOneWithoutComponentOfInput = {
+    create?: XOR<BookCreateWithoutComponentOfInput, BookUncheckedCreateWithoutComponentOfInput>
+    connectOrCreate?: BookCreateOrConnectWithoutComponentOfInput
+    connect?: BookWhereUniqueInput
+  }
+
+  export type BookUpdateOneRequiredWithoutComboItemsNestedInput = {
+    create?: XOR<BookCreateWithoutComboItemsInput, BookUncheckedCreateWithoutComboItemsInput>
+    connectOrCreate?: BookCreateOrConnectWithoutComboItemsInput
+    upsert?: BookUpsertWithoutComboItemsInput
+    connect?: BookWhereUniqueInput
+    update?: XOR<XOR<BookUpdateToOneWithWhereWithoutComboItemsInput, BookUpdateWithoutComboItemsInput>, BookUncheckedUpdateWithoutComboItemsInput>
+  }
+
+  export type BookUpdateOneRequiredWithoutComponentOfNestedInput = {
+    create?: XOR<BookCreateWithoutComponentOfInput, BookUncheckedCreateWithoutComponentOfInput>
+    connectOrCreate?: BookCreateOrConnectWithoutComponentOfInput
+    upsert?: BookUpsertWithoutComponentOfInput
+    connect?: BookWhereUniqueInput
+    update?: XOR<XOR<BookUpdateToOneWithWhereWithoutComponentOfInput, BookUpdateWithoutComponentOfInput>, BookUncheckedUpdateWithoutComponentOfInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -31907,10 +33558,13 @@ export namespace Prisma {
     salesAvailable: number
     price: number
     isActive?: boolean
+    isCombo?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     sales?: BookSaleItemCreateNestedManyWithoutBookInput
     mappings?: BookMappingCreateNestedManyWithoutBookInput
+    comboItems?: ComboBookItemCreateNestedManyWithoutComboBookInput
+    componentOf?: ComboBookItemCreateNestedManyWithoutComponentBookInput
   }
 
   export type BookUncheckedCreateWithoutPreordersInput = {
@@ -31924,10 +33578,13 @@ export namespace Prisma {
     salesAvailable: number
     price: number
     isActive?: boolean
+    isCombo?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     sales?: BookSaleItemUncheckedCreateNestedManyWithoutBookInput
     mappings?: BookMappingUncheckedCreateNestedManyWithoutBookInput
+    comboItems?: ComboBookItemUncheckedCreateNestedManyWithoutComboBookInput
+    componentOf?: ComboBookItemUncheckedCreateNestedManyWithoutComponentBookInput
   }
 
   export type BookCreateOrConnectWithoutPreordersInput = {
@@ -32026,10 +33683,13 @@ export namespace Prisma {
     salesAvailable?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isCombo?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sales?: BookSaleItemUpdateManyWithoutBookNestedInput
     mappings?: BookMappingUpdateManyWithoutBookNestedInput
+    comboItems?: ComboBookItemUpdateManyWithoutComboBookNestedInput
+    componentOf?: ComboBookItemUpdateManyWithoutComponentBookNestedInput
   }
 
   export type BookUncheckedUpdateWithoutPreordersInput = {
@@ -32043,10 +33703,13 @@ export namespace Prisma {
     salesAvailable?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isCombo?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sales?: BookSaleItemUncheckedUpdateManyWithoutBookNestedInput
     mappings?: BookMappingUncheckedUpdateManyWithoutBookNestedInput
+    comboItems?: ComboBookItemUncheckedUpdateManyWithoutComboBookNestedInput
+    componentOf?: ComboBookItemUncheckedUpdateManyWithoutComponentBookNestedInput
   }
 
   export type ConsolidationUpsertWithoutItemsInput = {
@@ -32801,6 +34464,7 @@ export namespace Prisma {
     id?: string
     session: string
     managerId?: string | null
+    type?: string
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
@@ -32817,6 +34481,7 @@ export namespace Prisma {
     id?: string
     session: string
     managerId?: string | null
+    type?: string
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
@@ -32995,6 +34660,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     session?: StringFieldUpdateOperationsInput | string
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
@@ -33011,6 +34677,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     session?: StringFieldUpdateOperationsInput | string
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
@@ -33411,6 +35078,7 @@ export namespace Prisma {
     id?: string
     session: string
     managerId?: string | null
+    type?: string
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
@@ -33427,6 +35095,7 @@ export namespace Prisma {
     id?: string
     session: string
     managerId?: string | null
+    type?: string
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
@@ -33502,6 +35171,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     session?: StringFieldUpdateOperationsInput | string
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
@@ -33518,6 +35188,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     session?: StringFieldUpdateOperationsInput | string
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
@@ -33534,6 +35205,7 @@ export namespace Prisma {
     id?: string
     session: string
     managerId?: string | null
+    type?: string
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
@@ -33550,6 +35222,7 @@ export namespace Prisma {
     id?: string
     session: string
     managerId?: string | null
+    type?: string
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
@@ -33650,6 +35323,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     session?: StringFieldUpdateOperationsInput | string
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
@@ -33666,6 +35340,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     session?: StringFieldUpdateOperationsInput | string
     managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
     collectedData?: NullableJsonNullValueInput | InputJsonValue
     distributedData?: NullableJsonNullValueInput | InputJsonValue
     data?: NullableJsonNullValueInput | InputJsonValue
@@ -33844,6 +35519,58 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ComboBookItemCreateWithoutComboBookInput = {
+    id?: string
+    quantity?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    componentBook: BookCreateNestedOneWithoutComponentOfInput
+  }
+
+  export type ComboBookItemUncheckedCreateWithoutComboBookInput = {
+    id?: string
+    componentBookId: string
+    quantity?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ComboBookItemCreateOrConnectWithoutComboBookInput = {
+    where: ComboBookItemWhereUniqueInput
+    create: XOR<ComboBookItemCreateWithoutComboBookInput, ComboBookItemUncheckedCreateWithoutComboBookInput>
+  }
+
+  export type ComboBookItemCreateManyComboBookInputEnvelope = {
+    data: ComboBookItemCreateManyComboBookInput | ComboBookItemCreateManyComboBookInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ComboBookItemCreateWithoutComponentBookInput = {
+    id?: string
+    quantity?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    comboBook: BookCreateNestedOneWithoutComboItemsInput
+  }
+
+  export type ComboBookItemUncheckedCreateWithoutComponentBookInput = {
+    id?: string
+    comboBookId: string
+    quantity?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ComboBookItemCreateOrConnectWithoutComponentBookInput = {
+    where: ComboBookItemWhereUniqueInput
+    create: XOR<ComboBookItemCreateWithoutComponentBookInput, ComboBookItemUncheckedCreateWithoutComponentBookInput>
+  }
+
+  export type ComboBookItemCreateManyComponentBookInputEnvelope = {
+    data: ComboBookItemCreateManyComponentBookInput | ComboBookItemCreateManyComponentBookInput[]
+    skipDuplicates?: boolean
+  }
+
   export type BookSaleItemUpsertWithWhereUniqueWithoutBookInput = {
     where: BookSaleItemWhereUniqueInput
     update: XOR<BookSaleItemUpdateWithoutBookInput, BookSaleItemUncheckedUpdateWithoutBookInput>
@@ -33914,6 +35641,50 @@ export namespace Prisma {
     bookId?: StringFilter<"BookMapping"> | string
     createdAt?: DateTimeFilter<"BookMapping"> | Date | string
     updatedAt?: DateTimeFilter<"BookMapping"> | Date | string
+  }
+
+  export type ComboBookItemUpsertWithWhereUniqueWithoutComboBookInput = {
+    where: ComboBookItemWhereUniqueInput
+    update: XOR<ComboBookItemUpdateWithoutComboBookInput, ComboBookItemUncheckedUpdateWithoutComboBookInput>
+    create: XOR<ComboBookItemCreateWithoutComboBookInput, ComboBookItemUncheckedCreateWithoutComboBookInput>
+  }
+
+  export type ComboBookItemUpdateWithWhereUniqueWithoutComboBookInput = {
+    where: ComboBookItemWhereUniqueInput
+    data: XOR<ComboBookItemUpdateWithoutComboBookInput, ComboBookItemUncheckedUpdateWithoutComboBookInput>
+  }
+
+  export type ComboBookItemUpdateManyWithWhereWithoutComboBookInput = {
+    where: ComboBookItemScalarWhereInput
+    data: XOR<ComboBookItemUpdateManyMutationInput, ComboBookItemUncheckedUpdateManyWithoutComboBookInput>
+  }
+
+  export type ComboBookItemScalarWhereInput = {
+    AND?: ComboBookItemScalarWhereInput | ComboBookItemScalarWhereInput[]
+    OR?: ComboBookItemScalarWhereInput[]
+    NOT?: ComboBookItemScalarWhereInput | ComboBookItemScalarWhereInput[]
+    id?: StringFilter<"ComboBookItem"> | string
+    comboBookId?: StringFilter<"ComboBookItem"> | string
+    componentBookId?: StringFilter<"ComboBookItem"> | string
+    quantity?: IntFilter<"ComboBookItem"> | number
+    createdAt?: DateTimeFilter<"ComboBookItem"> | Date | string
+    updatedAt?: DateTimeFilter<"ComboBookItem"> | Date | string
+  }
+
+  export type ComboBookItemUpsertWithWhereUniqueWithoutComponentBookInput = {
+    where: ComboBookItemWhereUniqueInput
+    update: XOR<ComboBookItemUpdateWithoutComponentBookInput, ComboBookItemUncheckedUpdateWithoutComponentBookInput>
+    create: XOR<ComboBookItemCreateWithoutComponentBookInput, ComboBookItemUncheckedCreateWithoutComponentBookInput>
+  }
+
+  export type ComboBookItemUpdateWithWhereUniqueWithoutComponentBookInput = {
+    where: ComboBookItemWhereUniqueInput
+    data: XOR<ComboBookItemUpdateWithoutComponentBookInput, ComboBookItemUncheckedUpdateWithoutComponentBookInput>
+  }
+
+  export type ComboBookItemUpdateManyWithWhereWithoutComponentBookInput = {
+    where: ComboBookItemScalarWhereInput
+    data: XOR<ComboBookItemUpdateManyMutationInput, ComboBookItemUncheckedUpdateManyWithoutComponentBookInput>
   }
 
   export type BookSaleItemCreateWithoutBookSaleInput = {
@@ -34094,10 +35865,13 @@ export namespace Prisma {
     salesAvailable: number
     price: number
     isActive?: boolean
+    isCombo?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     preorders?: OrderItemCreateNestedManyWithoutBookInput
     mappings?: BookMappingCreateNestedManyWithoutBookInput
+    comboItems?: ComboBookItemCreateNestedManyWithoutComboBookInput
+    componentOf?: ComboBookItemCreateNestedManyWithoutComponentBookInput
   }
 
   export type BookUncheckedCreateWithoutSalesInput = {
@@ -34111,10 +35885,13 @@ export namespace Prisma {
     salesAvailable: number
     price: number
     isActive?: boolean
+    isCombo?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     preorders?: OrderItemUncheckedCreateNestedManyWithoutBookInput
     mappings?: BookMappingUncheckedCreateNestedManyWithoutBookInput
+    comboItems?: ComboBookItemUncheckedCreateNestedManyWithoutComboBookInput
+    componentOf?: ComboBookItemUncheckedCreateNestedManyWithoutComponentBookInput
   }
 
   export type BookCreateOrConnectWithoutSalesInput = {
@@ -34189,10 +35966,13 @@ export namespace Prisma {
     salesAvailable?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isCombo?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     preorders?: OrderItemUpdateManyWithoutBookNestedInput
     mappings?: BookMappingUpdateManyWithoutBookNestedInput
+    comboItems?: ComboBookItemUpdateManyWithoutComboBookNestedInput
+    componentOf?: ComboBookItemUpdateManyWithoutComponentBookNestedInput
   }
 
   export type BookUncheckedUpdateWithoutSalesInput = {
@@ -34206,10 +35986,13 @@ export namespace Prisma {
     salesAvailable?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isCombo?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     preorders?: OrderItemUncheckedUpdateManyWithoutBookNestedInput
     mappings?: BookMappingUncheckedUpdateManyWithoutBookNestedInput
+    comboItems?: ComboBookItemUncheckedUpdateManyWithoutComboBookNestedInput
+    componentOf?: ComboBookItemUncheckedUpdateManyWithoutComponentBookNestedInput
   }
 
   export type BookCreateWithoutMappingsInput = {
@@ -34223,10 +36006,13 @@ export namespace Prisma {
     salesAvailable: number
     price: number
     isActive?: boolean
+    isCombo?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     sales?: BookSaleItemCreateNestedManyWithoutBookInput
     preorders?: OrderItemCreateNestedManyWithoutBookInput
+    comboItems?: ComboBookItemCreateNestedManyWithoutComboBookInput
+    componentOf?: ComboBookItemCreateNestedManyWithoutComponentBookInput
   }
 
   export type BookUncheckedCreateWithoutMappingsInput = {
@@ -34240,10 +36026,13 @@ export namespace Prisma {
     salesAvailable: number
     price: number
     isActive?: boolean
+    isCombo?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     sales?: BookSaleItemUncheckedCreateNestedManyWithoutBookInput
     preorders?: OrderItemUncheckedCreateNestedManyWithoutBookInput
+    comboItems?: ComboBookItemUncheckedCreateNestedManyWithoutComboBookInput
+    componentOf?: ComboBookItemUncheckedCreateNestedManyWithoutComponentBookInput
   }
 
   export type BookCreateOrConnectWithoutMappingsInput = {
@@ -34273,10 +36062,13 @@ export namespace Prisma {
     salesAvailable?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isCombo?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sales?: BookSaleItemUpdateManyWithoutBookNestedInput
     preorders?: OrderItemUpdateManyWithoutBookNestedInput
+    comboItems?: ComboBookItemUpdateManyWithoutComboBookNestedInput
+    componentOf?: ComboBookItemUpdateManyWithoutComponentBookNestedInput
   }
 
   export type BookUncheckedUpdateWithoutMappingsInput = {
@@ -34290,10 +36082,205 @@ export namespace Prisma {
     salesAvailable?: IntFieldUpdateOperationsInput | number
     price?: FloatFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
+    isCombo?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sales?: BookSaleItemUncheckedUpdateManyWithoutBookNestedInput
     preorders?: OrderItemUncheckedUpdateManyWithoutBookNestedInput
+    comboItems?: ComboBookItemUncheckedUpdateManyWithoutComboBookNestedInput
+    componentOf?: ComboBookItemUncheckedUpdateManyWithoutComponentBookNestedInput
+  }
+
+  export type BookCreateWithoutComboItemsInput = {
+    id?: string
+    title: string
+    total: number
+    available: number
+    preorderTotal: number
+    preorderAvailable: number
+    salesTotal: number
+    salesAvailable: number
+    price: number
+    isActive?: boolean
+    isCombo?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sales?: BookSaleItemCreateNestedManyWithoutBookInput
+    preorders?: OrderItemCreateNestedManyWithoutBookInput
+    mappings?: BookMappingCreateNestedManyWithoutBookInput
+    componentOf?: ComboBookItemCreateNestedManyWithoutComponentBookInput
+  }
+
+  export type BookUncheckedCreateWithoutComboItemsInput = {
+    id?: string
+    title: string
+    total: number
+    available: number
+    preorderTotal: number
+    preorderAvailable: number
+    salesTotal: number
+    salesAvailable: number
+    price: number
+    isActive?: boolean
+    isCombo?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sales?: BookSaleItemUncheckedCreateNestedManyWithoutBookInput
+    preorders?: OrderItemUncheckedCreateNestedManyWithoutBookInput
+    mappings?: BookMappingUncheckedCreateNestedManyWithoutBookInput
+    componentOf?: ComboBookItemUncheckedCreateNestedManyWithoutComponentBookInput
+  }
+
+  export type BookCreateOrConnectWithoutComboItemsInput = {
+    where: BookWhereUniqueInput
+    create: XOR<BookCreateWithoutComboItemsInput, BookUncheckedCreateWithoutComboItemsInput>
+  }
+
+  export type BookCreateWithoutComponentOfInput = {
+    id?: string
+    title: string
+    total: number
+    available: number
+    preorderTotal: number
+    preorderAvailable: number
+    salesTotal: number
+    salesAvailable: number
+    price: number
+    isActive?: boolean
+    isCombo?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sales?: BookSaleItemCreateNestedManyWithoutBookInput
+    preorders?: OrderItemCreateNestedManyWithoutBookInput
+    mappings?: BookMappingCreateNestedManyWithoutBookInput
+    comboItems?: ComboBookItemCreateNestedManyWithoutComboBookInput
+  }
+
+  export type BookUncheckedCreateWithoutComponentOfInput = {
+    id?: string
+    title: string
+    total: number
+    available: number
+    preorderTotal: number
+    preorderAvailable: number
+    salesTotal: number
+    salesAvailable: number
+    price: number
+    isActive?: boolean
+    isCombo?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sales?: BookSaleItemUncheckedCreateNestedManyWithoutBookInput
+    preorders?: OrderItemUncheckedCreateNestedManyWithoutBookInput
+    mappings?: BookMappingUncheckedCreateNestedManyWithoutBookInput
+    comboItems?: ComboBookItemUncheckedCreateNestedManyWithoutComboBookInput
+  }
+
+  export type BookCreateOrConnectWithoutComponentOfInput = {
+    where: BookWhereUniqueInput
+    create: XOR<BookCreateWithoutComponentOfInput, BookUncheckedCreateWithoutComponentOfInput>
+  }
+
+  export type BookUpsertWithoutComboItemsInput = {
+    update: XOR<BookUpdateWithoutComboItemsInput, BookUncheckedUpdateWithoutComboItemsInput>
+    create: XOR<BookCreateWithoutComboItemsInput, BookUncheckedCreateWithoutComboItemsInput>
+    where?: BookWhereInput
+  }
+
+  export type BookUpdateToOneWithWhereWithoutComboItemsInput = {
+    where?: BookWhereInput
+    data: XOR<BookUpdateWithoutComboItemsInput, BookUncheckedUpdateWithoutComboItemsInput>
+  }
+
+  export type BookUpdateWithoutComboItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    total?: IntFieldUpdateOperationsInput | number
+    available?: IntFieldUpdateOperationsInput | number
+    preorderTotal?: IntFieldUpdateOperationsInput | number
+    preorderAvailable?: IntFieldUpdateOperationsInput | number
+    salesTotal?: IntFieldUpdateOperationsInput | number
+    salesAvailable?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isCombo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sales?: BookSaleItemUpdateManyWithoutBookNestedInput
+    preorders?: OrderItemUpdateManyWithoutBookNestedInput
+    mappings?: BookMappingUpdateManyWithoutBookNestedInput
+    componentOf?: ComboBookItemUpdateManyWithoutComponentBookNestedInput
+  }
+
+  export type BookUncheckedUpdateWithoutComboItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    total?: IntFieldUpdateOperationsInput | number
+    available?: IntFieldUpdateOperationsInput | number
+    preorderTotal?: IntFieldUpdateOperationsInput | number
+    preorderAvailable?: IntFieldUpdateOperationsInput | number
+    salesTotal?: IntFieldUpdateOperationsInput | number
+    salesAvailable?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isCombo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sales?: BookSaleItemUncheckedUpdateManyWithoutBookNestedInput
+    preorders?: OrderItemUncheckedUpdateManyWithoutBookNestedInput
+    mappings?: BookMappingUncheckedUpdateManyWithoutBookNestedInput
+    componentOf?: ComboBookItemUncheckedUpdateManyWithoutComponentBookNestedInput
+  }
+
+  export type BookUpsertWithoutComponentOfInput = {
+    update: XOR<BookUpdateWithoutComponentOfInput, BookUncheckedUpdateWithoutComponentOfInput>
+    create: XOR<BookCreateWithoutComponentOfInput, BookUncheckedCreateWithoutComponentOfInput>
+    where?: BookWhereInput
+  }
+
+  export type BookUpdateToOneWithWhereWithoutComponentOfInput = {
+    where?: BookWhereInput
+    data: XOR<BookUpdateWithoutComponentOfInput, BookUncheckedUpdateWithoutComponentOfInput>
+  }
+
+  export type BookUpdateWithoutComponentOfInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    total?: IntFieldUpdateOperationsInput | number
+    available?: IntFieldUpdateOperationsInput | number
+    preorderTotal?: IntFieldUpdateOperationsInput | number
+    preorderAvailable?: IntFieldUpdateOperationsInput | number
+    salesTotal?: IntFieldUpdateOperationsInput | number
+    salesAvailable?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isCombo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sales?: BookSaleItemUpdateManyWithoutBookNestedInput
+    preorders?: OrderItemUpdateManyWithoutBookNestedInput
+    mappings?: BookMappingUpdateManyWithoutBookNestedInput
+    comboItems?: ComboBookItemUpdateManyWithoutComboBookNestedInput
+  }
+
+  export type BookUncheckedUpdateWithoutComponentOfInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    total?: IntFieldUpdateOperationsInput | number
+    available?: IntFieldUpdateOperationsInput | number
+    preorderTotal?: IntFieldUpdateOperationsInput | number
+    preorderAvailable?: IntFieldUpdateOperationsInput | number
+    salesTotal?: IntFieldUpdateOperationsInput | number
+    salesAvailable?: IntFieldUpdateOperationsInput | number
+    price?: FloatFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    isCombo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sales?: BookSaleItemUncheckedUpdateManyWithoutBookNestedInput
+    preorders?: OrderItemUncheckedUpdateManyWithoutBookNestedInput
+    mappings?: BookMappingUncheckedUpdateManyWithoutBookNestedInput
+    comboItems?: ComboBookItemUncheckedUpdateManyWithoutComboBookNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -35212,6 +37199,22 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ComboBookItemCreateManyComboBookInput = {
+    id?: string
+    componentBookId: string
+    quantity?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ComboBookItemCreateManyComponentBookInput = {
+    id?: string
+    comboBookId: string
+    quantity?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type BookSaleItemUpdateWithoutBookInput = {
     id?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
@@ -35292,6 +37295,54 @@ export namespace Prisma {
   export type BookMappingUncheckedUpdateManyWithoutBookInput = {
     id?: StringFieldUpdateOperationsInput | string
     productName?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ComboBookItemUpdateWithoutComboBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    componentBook?: BookUpdateOneRequiredWithoutComponentOfNestedInput
+  }
+
+  export type ComboBookItemUncheckedUpdateWithoutComboBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    componentBookId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ComboBookItemUncheckedUpdateManyWithoutComboBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    componentBookId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ComboBookItemUpdateWithoutComponentBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    comboBook?: BookUpdateOneRequiredWithoutComboItemsNestedInput
+  }
+
+  export type ComboBookItemUncheckedUpdateWithoutComponentBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    comboBookId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ComboBookItemUncheckedUpdateManyWithoutComponentBookInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    comboBookId?: StringFieldUpdateOperationsInput | string
+    quantity?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

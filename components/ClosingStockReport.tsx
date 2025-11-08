@@ -1,7 +1,13 @@
 'use client';
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import {
   Table,
   TableBody,
@@ -10,234 +16,216 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
-import { IconDownload, IconEye } from '@tabler/icons-react';
+import { ArrowRight, Package, TrendingDown } from 'lucide-react';
 
 interface ClosingStockReportProps {
-  sessionType: 'main-store' | 'mini-store';
+  data: any;
+  workspace: string;
+  isAdmin: boolean;
 }
 
-interface SessionWithSummary {
-  id: string;
-  name?: string;
-  session: string;
-  managerId?: string;
-  closedAt: string;
-  closingStockSummary: {
-    totalBooks: number;
-    totalQuantity: number;
-    totalValue: number;
-    books: any[];
-  };
-}
-
-export function ClosingStockReport({ sessionType }: ClosingStockReportProps) {
-  const [selectedSession, setSelectedSession] =
-    useState<SessionWithSummary | null>(null);
-
-  const { data: sessionsData, isLoading } = useQuery({
-    queryKey: [`closing-stock-${sessionType}`],
-    queryFn: async () => {
-      const response = await axios.get(
-        `/api/sessions/closing-stock?type=${sessionType}`
-      );
-      return response.data;
-    },
-  });
-
-  const sessions = sessionsData?.sessions || [];
-
-  if (isLoading) {
+export function ClosingStockReport({
+  data,
+  workspace,
+  isAdmin,
+}: ClosingStockReportProps) {
+  if (!data) {
     return (
-      <div className='flex justify-center items-center h-32'>
-        <div className='text-gray-500'>Loading closing stock data...</div>
+      <div className='flex justify-center items-center h-64'>
+        <div className='text-gray-500'>No closing stock data available</div>
       </div>
     );
   }
 
-  if (sessions.length === 0) {
-    return (
-      <div className='text-center py-8'>
-        <div className='text-gray-500'>
-          No closed sessions found for{' '}
-          {sessionType === 'main-store' ? 'Main Store' : 'Mini Store'}
-        </div>
-      </div>
-    );
-  }
+  const { totalClosings, totalItemsReturned, closingStockFlow, bookReturns } =
+    data;
 
   return (
     <div className='space-y-6'>
-      {/* Summary */}
-      <div className='grid grid-cols-3 gap-4'>
-        <div className='bg-blue-50 p-4 rounded-lg text-center'>
-          <div className='text-2xl font-bold text-blue-600'>
-            {sessions.length}
-          </div>
-          <div className='text-gray-600'>Closed Sessions</div>
-        </div>
-        <div className='bg-green-50 p-4 rounded-lg text-center'>
-          <div className='text-2xl font-bold text-green-600'>
-            {sessions.reduce(
-              (sum: number, s: any) => sum + s.closingStockSummary.totalBooks,
-              0
-            )}
-          </div>
-          <div className='text-gray-600'>Total Books</div>
-        </div>
-        <div className='bg-purple-50 p-4 rounded-lg text-center'>
-          <div className='text-2xl font-bold text-purple-600'>
-            ₦
-            {sessions
-              .reduce(
-                (sum: number, s: any) => sum + s.closingStockSummary.totalValue,
-                0
-              )
-              .toLocaleString()}
-          </div>
-          <div className='text-gray-600'>Total Value</div>
-        </div>
-      </div>
+      {/* Summary Cards */}
+      <div className='grid gap-4 md:grid-cols-3'>
+        <Card>
+          <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+            <CardTitle className='text-sm font-medium'>
+              Total Closings
+            </CardTitle>
+            <Package className='h-4 w-4 text-muted-foreground' />
+          </CardHeader>
+          <CardContent>
+            <div className='text-2xl font-bold'>{totalClosings || 0}</div>
+            <p className='text-xs text-muted-foreground'>
+              Stock closing operations
+            </p>
+          </CardContent>
+        </Card>
 
-      {/* Sessions Table */}
-      <div className='border rounded-lg'>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Session</TableHead>
-              <TableHead>Store Name</TableHead>
-              <TableHead>Manager</TableHead>
-              <TableHead>Closed At</TableHead>
-              <TableHead>Books</TableHead>
-              <TableHead>Quantity</TableHead>
-              <TableHead>Value</TableHead>
-              <TableHead>Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {sessions.map((session: SessionWithSummary) => (
-              <TableRow key={session.id}>
-                <TableCell className='font-medium'>{session.session}</TableCell>
-                <TableCell>{session.name || 'N/A'}</TableCell>
-                <TableCell>{session.managerId || 'N/A'}</TableCell>
-                <TableCell>
-                  {new Date(session.closedAt).toLocaleString()}
-                </TableCell>
-                <TableCell>
-                  <Badge variant='secondary'>
-                    {session.closingStockSummary.totalBooks}
-                  </Badge>
-                </TableCell>
-                <TableCell>
-                  <Badge variant='outline'>
-                    {session.closingStockSummary.totalQuantity}
-                  </Badge>
-                </TableCell>
-                <TableCell className='font-medium'>
-                  ₦{session.closingStockSummary.totalValue.toLocaleString()}
-                </TableCell>
-                <TableCell>
-                  <div className='flex gap-2'>
-                    <Button
-                      size='sm'
-                      variant='outline'
-                      onClick={() => setSelectedSession(session)}
-                    >
-                      <IconEye className='h-4 w-4 mr-1' />
-                      View
-                    </Button>
-                    <Button
-                      size='sm'
-                      variant='outline'
-                      onClick={() => {
-                        // Export functionality could be implemented here
-                        console.log('Export session:', session.id);
-                      }}
-                    >
-                      <IconDownload className='h-4 w-4 mr-1' />
-                      Export
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
+        <Card>
+          <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+            <CardTitle className='text-sm font-medium'>
+              Total Items Returned
+            </CardTitle>
+            <TrendingDown className='h-4 w-4 text-muted-foreground' />
+          </CardHeader>
+          <CardContent>
+            <div className='text-2xl font-bold'>{totalItemsReturned || 0}</div>
+            <p className='text-xs text-muted-foreground'>
+              Books returned to source
+            </p>
+          </CardContent>
+        </Card>
 
-      {/* Session Details Modal */}
-      {selectedSession && (
-        <div className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50'>
-          <div className='bg-white rounded-lg p-6 max-w-4xl max-h-[90vh] overflow-y-auto'>
-            <div className='flex justify-between items-center mb-4'>
-              <h2 className='text-xl font-bold'>
-                Closing Stock Details - {selectedSession.session}
-              </h2>
-              <Button
-                variant='outline'
-                onClick={() => setSelectedSession(null)}
-              >
-                Close
-              </Button>
+        <Card>
+          <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
+            <CardTitle className='text-sm font-medium'>
+              Unique Books Returned
+            </CardTitle>
+            <Package className='h-4 w-4 text-muted-foreground' />
+          </CardHeader>
+          <CardContent>
+            <div className='text-2xl font-bold'>
+              {bookReturns?.length || 0}
             </div>
+            <p className='text-xs text-muted-foreground'>
+              Different book titles
+            </p>
+          </CardContent>
+        </Card>
+      </div>
 
+      {/* Closing Stock Flow */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Closing Stock Flow</CardTitle>
+          <CardDescription>
+            Complete inventory flow showing stock returns from table managers to
+            mini stores and mini stores to main stores
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {closingStockFlow && closingStockFlow.length > 0 ? (
             <div className='space-y-4'>
-              <div className='grid grid-cols-3 gap-4'>
-                <div className='bg-blue-50 p-3 rounded text-center'>
-                  <div className='text-lg font-bold text-blue-600'>
-                    {selectedSession.closingStockSummary.totalBooks}
-                  </div>
-                  <div className='text-sm text-gray-600'>Books</div>
-                </div>
-                <div className='bg-green-50 p-3 rounded text-center'>
-                  <div className='text-lg font-bold text-green-600'>
-                    {selectedSession.closingStockSummary.totalQuantity}
-                  </div>
-                  <div className='text-sm text-gray-600'>Quantity</div>
-                </div>
-                <div className='bg-purple-50 p-3 rounded text-center'>
-                  <div className='text-lg font-bold text-purple-600'>
-                    ₦
-                    {selectedSession.closingStockSummary.totalValue.toLocaleString()}
-                  </div>
-                  <div className='text-sm text-gray-600'>Value</div>
-                </div>
-              </div>
-
-              <div className='border rounded-lg'>
-                <div className='p-3 border-b bg-gray-50'>
-                  <h3 className='font-semibold'>Stock Details</h3>
-                </div>
-                <div className='max-h-60 overflow-y-auto'>
-                  {selectedSession.closingStockSummary.books.map(
-                    (book: any, index: number) => (
-                      <div
-                        key={index}
-                        className='flex justify-between items-center p-3 border-b last:border-b-0'
-                      >
-                        <div className='flex-1'>
-                          <span className='font-medium'>{book.title}</span>
+              {closingStockFlow.map((flow: any, index: number) => (
+                <Card key={index} className='border-l-4 border-l-blue-500'>
+                  <CardHeader className='pb-3'>
+                    <div className='flex items-center justify-between'>
+                      <div className='flex items-center gap-4'>
+                        <div>
+                          <Badge variant='outline' className='mb-1'>
+                            {flow.from.type === 'table-manager'
+                              ? 'Table Manager'
+                              : flow.from.type === 'mini-store'
+                              ? 'Mini Store'
+                              : 'Main Store'}
+                          </Badge>
+                          <p className='font-semibold'>{flow.from.name}</p>
                         </div>
-                        <div className='flex items-center gap-4 text-sm text-gray-600'>
-                          <span>Available: {book.available}</span>
-                          <span>Price: ₦{book.price?.toLocaleString()}</span>
-                          <span className='font-medium'>
-                            Value: ₦
-                            {(
-                              (book.price || 0) * (book.available || 0)
-                            ).toLocaleString()}
-                          </span>
+                        <ArrowRight className='h-5 w-5 text-gray-400' />
+                        <div>
+                          <Badge variant='outline' className='mb-1'>
+                            {flow.to.type === 'table-manager'
+                              ? 'Table Manager'
+                              : flow.to.type === 'mini-store'
+                              ? 'Mini Store'
+                              : 'Main Store'}
+                          </Badge>
+                          <p className='font-semibold'>{flow.to.name}</p>
                         </div>
                       </div>
-                    )
-                  )}
-                </div>
-              </div>
+                      <div className='text-right text-sm text-gray-500'>
+                        <p>
+                          {flow.closedAt
+                            ? new Date(flow.closedAt).toLocaleString()
+                            : 'N/A'}
+                        </p>
+                        <p className='text-xs'>by {flow.closedBy || 'N/A'}</p>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className='space-y-2'>
+                      <div className='flex gap-4 text-sm'>
+                        <span>
+                          <strong>Items:</strong> {flow.totalItems || 0}
+                        </span>
+                        <span>
+                          <strong>Quantity:</strong> {flow.totalQuantity || 0}
+                        </span>
+                      </div>
+                      {flow.items && flow.items.length > 0 && (
+                        <div className='mt-3'>
+                          <p className='text-sm font-medium mb-2'>
+                            Returned Items:
+                          </p>
+                          <div className='grid grid-cols-2 md:grid-cols-3 gap-2'>
+                            {flow.items.map((item: any, itemIndex: number) => (
+                              <div
+                                key={itemIndex}
+                                className='text-xs p-2 bg-gray-50 rounded'
+                              >
+                                <p className='font-medium'>{item.title}</p>
+                                <p className='text-gray-600'>
+                                  Qty: {item.quantity}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
-          </div>
-        </div>
+          ) : (
+            <div className='text-center py-8 text-gray-500'>
+              No closing stock data available
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Book Returns Summary */}
+      {bookReturns && bookReturns.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle>Book Returns Summary</CardTitle>
+            <CardDescription>
+              Total quantities returned by book title
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className='rounded-md border'>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Book Title</TableHead>
+                    <TableHead className='text-right'>
+                      Total Quantity Returned
+                    </TableHead>
+                    <TableHead className='text-right'>
+                      Number of Returns
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {bookReturns.map((book: any, index: number) => (
+                    <TableRow key={index}>
+                      <TableCell className='font-medium'>
+                        {book.title}
+                      </TableCell>
+                      <TableCell className='text-right'>
+                        {book.totalQuantity}
+                      </TableCell>
+                      <TableCell className='text-right'>
+                        {book.numberOfReturns}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </CardContent>
+        </Card>
       )}
     </div>
   );
