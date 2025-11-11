@@ -1,18 +1,24 @@
 import { LocationServerFilter } from '@/components/LocationServerFilter';
 import { OrdersReportTable } from '@/components/OrdersReportTable';
 import { ServerDownload } from '@/components/ServerDownload';
+import { BulkCollectOrdersButton } from '@/components/BulkCollectOrdersButton';
 import { prisma } from '@/lib/prisma';
+import { auth } from '@/lib/auth';
 
 export default async function BookReport({
   searchParams,
 }: {
   searchParams?: Promise<{ location: string; isCollected: string }>;
 }) {
+  const session = await auth();
+  const isAdmin = (session?.user as any)?.isAdmin || false;
+
   const shippingZones = (
     await prisma.preOrder.groupBy({
       by: ['shippingZone'],
     })
   ).map((item) => item.shippingZone as string);
+  // .filter((zone): zone is string => zone != null && zone !== '');
 
   const location = (await searchParams)?.location;
   const isCollected = (await searchParams)?.isCollected;
@@ -45,13 +51,19 @@ export default async function BookReport({
         },
       });
       return {
-        name: locate,
+        name: locate || 'Unknown',
         data: locationData.map((item) => ({
-          orderId: item.orderNumber,
-          email: item.email,
-          phone: item.phoneNumber,
-          name: item.fullName,
-          items: item.items?.length,
+          orderId: item.orderNumber || '',
+          email: item.email || '',
+          phone: item.phoneNumber || '',
+          name: item.fullName || '',
+          items: item?.items
+            ?.map((i: any) => `${i.productName} (${i.quantity})`)
+            .join(', '),
+          total: new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'NGN',
+          }).format(item.total),
         })),
       };
     })
@@ -94,6 +106,15 @@ export default async function BookReport({
             name={`order_by_location_all_${isCollected}.xlsx`}
             isMultiple
           />
+          {isAdmin &&
+            location &&
+            isCollected === 'Not_collected' &&
+            orders.length > 0 && (
+              <BulkCollectOrdersButton
+                location={location}
+                orderCount={orders.length}
+              />
+            )}
         </div>
       </div>
       <OrdersReportTable data={orders} />

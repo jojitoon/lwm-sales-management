@@ -21,6 +21,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRealtimeUpdates } from '@/hooks/useRealtimeUpdates';
 import { WebSocketEvents } from '@/lib/websocket';
+import { Button } from '@/components/ui/button';
 
 interface BookStockTableProps {
   data?: {
@@ -31,13 +32,15 @@ interface BookStockTableProps {
     distributed: number;
   }[];
   stockType?: 'main-store-stock' | 'mini-store-stock' | 'table-stock';
+  disableFetch?: boolean; // When true, use data prop directly without fetching
 }
 
 export const BookStockTable = ({
   data: initialData,
   stockType,
+  disableFetch = false,
 }: BookStockTableProps) => {
-  // If stockType is provided, fetch data client-side for real-time updates
+  // If stockType is provided and fetch is not disabled, fetch data client-side for real-time updates
   const { data: fetchedData = [], isLoading } = useQuery({
     queryKey: stockType ? [stockType] : [],
     queryFn: async () => {
@@ -54,23 +57,23 @@ export const BookStockTable = ({
       }
       return [];
     },
-    enabled: !!stockType,
+    enabled: !!stockType && !disableFetch,
     initialData: initialData,
     staleTime: 0, // Always consider stale to allow refetching
   });
 
-  // Subscribe to real-time stock updates
+  // Subscribe to real-time stock updates only if fetching is enabled
   useRealtimeUpdates({
     events: [WebSocketEvents.STOCK_UPDATED, WebSocketEvents.BOOK_SALE_CREATED],
-    queryKeys: stockType ? [stockType] : [],
+    queryKeys: stockType && !disableFetch ? [stockType] : [],
     onEvent: (event, data) => {
       // Additional logic can be added here if needed
       console.log('Stock update received:', event, data);
     },
   });
 
-  // Use fetched data if available, otherwise use initial data
-  const data = stockType ? fetchedData : initialData || [];
+  // Use fetched data if fetching is enabled, otherwise use initial data
+  const data = stockType && !disableFetch ? fetchedData : initialData || [];
 
   const columns: ColumnDef<{
     title: string;
@@ -128,6 +131,11 @@ export const BookStockTable = ({
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: 10,
+      },
+    },
   });
 
   if (isLoading && stockType) {
@@ -195,6 +203,46 @@ export const BookStockTable = ({
           </TableBody>
         </Table>
       </div>
+      {/* Pagination Controls */}
+      {data && data.length > 0 && (
+        <div className='flex items-center justify-between space-x-2 py-4 px-4'>
+          <div className='text-sm text-muted-foreground'>
+            Showing{' '}
+            {table.getState().pagination.pageIndex *
+              table.getState().pagination.pageSize +
+              1}{' '}
+            to{' '}
+            {Math.min(
+              (table.getState().pagination.pageIndex + 1) *
+                table.getState().pagination.pageSize,
+              data.length
+            )}{' '}
+            of {data.length} book{data.length !== 1 ? 's' : ''}
+          </div>
+          <div className='flex items-center space-x-2'>
+            <div className='text-sm text-muted-foreground'>
+              Page {table.getState().pagination.pageIndex + 1} of{' '}
+              {table.getPageCount() || 1}
+            </div>
+            <Button
+              variant='outline'
+              size='sm'
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Previous
+            </Button>
+            <Button
+              variant='outline'
+              size='sm'
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+      )}
     </main>
   );
 };

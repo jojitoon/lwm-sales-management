@@ -54,9 +54,9 @@ export default async function MiniStoreBookStock() {
             workspace={mySession?.workspace as string}
           />
           <RequestBookFromMainButton disabled={isStockClosed} />
-          {mySession?.workspace === 'mini-store' && (
-            <CloseStockButton workspace='mini-store' />
-          )}
+          {['mini-store', 'preorder-ministore'].includes(
+            mySession?.workspace!
+          ) && <CloseStockButton workspace={mySession?.workspace!} />}
         </div>
       </div>
 

@@ -16,6 +16,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getPaginationRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 import {
   IconTrendingUp,
   IconPackage,
@@ -44,6 +52,162 @@ export function SalesSummaryReport({
     salesByUser,
     recentSales,
   } = data;
+
+  // Columns for Sales by User table
+  const salesByUserColumns: ColumnDef<any>[] = [
+    {
+      accessorKey: 'email',
+      header: 'User',
+      cell: ({ row }) => (
+        <div className='font-medium'>{row.original.email}</div>
+      ),
+    },
+    {
+      accessorKey: 'totalSales',
+      header: 'Total Sales',
+      cell: ({ row }) => (
+        <div>₦{row.original.totalSales.toLocaleString()}</div>
+      ),
+    },
+    {
+      accessorKey: 'totalItems',
+      header: 'Items Sold',
+      cell: ({ row }) => <div>{row.original.totalItems}</div>,
+    },
+    {
+      accessorKey: 'uniqueBooks',
+      header: 'Unique Books',
+      cell: ({ row }) => (
+        <Badge variant='outline'>{row.original.uniqueBooks}</Badge>
+      ),
+    },
+  ];
+
+  // Columns for Recent Sales table
+  const recentSalesColumns: ColumnDef<any>[] =
+    workspace === 'book-sales'
+      ? [
+          {
+            accessorKey: 'slipNumber',
+            header: 'Slip Number',
+            cell: ({ row }) => (
+              <div className='font-medium'>{row.original.slipNumber || '-'}</div>
+            ),
+          },
+          {
+            accessorKey: 'orderNumber',
+            header: 'Order Number',
+            cell: ({ row }) => (
+              <div className='text-sm text-gray-600'>
+                {row.original.orderNumber}
+              </div>
+            ),
+          },
+          {
+            accessorKey: 'soldBy',
+            header: 'Customer',
+            cell: ({ row }) => <div>{row.original.soldBy}</div>,
+          },
+          {
+            accessorKey: 'items',
+            header: 'Books',
+            cell: ({ row }) => (
+              <div>
+                {row.original.items ? (
+                  row.original.items.map((item: any, idx: number) => (
+                    <div key={idx} className='text-sm'>
+                      {item.title} (x{item.quantity})
+                    </div>
+                  ))
+                ) : (
+                  <div className='text-sm'>{row.original.productName}</div>
+                )}
+              </div>
+            ),
+          },
+          {
+            accessorKey: 'total',
+            header: 'Total',
+            cell: ({ row }) => (
+              <div className='font-medium'>
+                ₦{row.original.total.toLocaleString()}
+              </div>
+            ),
+          },
+          {
+            accessorKey: 'soldAt',
+            header: 'Date',
+            cell: ({ row }) => (
+              <div>{new Date(row.original.soldAt).toLocaleDateString()}</div>
+            ),
+          },
+        ]
+      : [
+          {
+            accessorKey: 'productName',
+            header: 'Book',
+            cell: ({ row }) => (
+              <div className='font-medium'>{row.original.productName}</div>
+            ),
+          },
+          {
+            accessorKey: 'quantity',
+            header: 'Quantity',
+            cell: ({ row }) => <div>{row.original.quantity}</div>,
+          },
+          {
+            accessorKey: 'price',
+            header: 'Price',
+            cell: ({ row }) => (
+              <div>₦{row.original.price?.toLocaleString()}</div>
+            ),
+          },
+          {
+            accessorKey: 'total',
+            header: 'Total',
+            cell: ({ row }) => (
+              <div className='font-medium'>
+                ₦{row.original.total.toLocaleString()}
+              </div>
+            ),
+          },
+          {
+            accessorKey: 'soldBy',
+            header: 'Sold By',
+            cell: ({ row }) => <div>{row.original.soldBy}</div>,
+          },
+          {
+            accessorKey: 'soldAt',
+            header: 'Date',
+            cell: ({ row }) => (
+              <div>{new Date(row.original.soldAt).toLocaleDateString()}</div>
+            ),
+          },
+        ];
+
+  const salesByUserTable = useReactTable({
+    data: salesByUser || [],
+    columns: salesByUserColumns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: 10,
+      },
+    },
+  });
+
+  const recentSalesTable = useReactTable({
+    data: recentSales || [],
+    columns: recentSalesColumns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: 10,
+      },
+    },
+  });
 
   return (
     <div className='space-y-6'>
@@ -103,35 +267,109 @@ export function SalesSummaryReport({
       </div>
 
       {/* Sales by User (Admin only) */}
-      {isAdmin && salesByUser && (
+      {isAdmin && salesByUser && salesByUser.length > 0 && (
         <Card>
           <CardHeader>
             <CardTitle>Sales by User</CardTitle>
             <CardDescription>Performance breakdown by user</CardDescription>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>User</TableHead>
-                  <TableHead>Total Sales</TableHead>
-                  <TableHead>Items Sold</TableHead>
-                  <TableHead>Unique Books</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {salesByUser.map((user: any, index: number) => (
-                  <TableRow key={index}>
-                    <TableCell className='font-medium'>{user.email}</TableCell>
-                    <TableCell>₦{user.totalSales.toLocaleString()}</TableCell>
-                    <TableCell>{user.totalItems}</TableCell>
-                    <TableCell>
-                      <Badge variant='outline'>{user.uniqueBooks}</Badge>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <div className='rounded-md border'>
+              <Table>
+                <TableHeader>
+                  {salesByUserTable.getHeaderGroups().map((headerGroup) => (
+                    <TableRow key={headerGroup.id}>
+                      {headerGroup.headers.map((header) => {
+                        return (
+                          <TableHead key={header.id}>
+                            {header.isPlaceholder
+                              ? null
+                              : flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext()
+                                )}
+                          </TableHead>
+                        );
+                      })}
+                    </TableRow>
+                  ))}
+                </TableHeader>
+                <TableBody>
+                  {salesByUserTable.getRowModel().rows?.length ? (
+                    salesByUserTable.getRowModel().rows.map((row) => (
+                      <TableRow
+                        key={row.id}
+                        data-state={row.getIsSelected() && 'selected'}
+                      >
+                        {row.getVisibleCells().map((cell) => {
+                          const headerLabel =
+                            typeof cell.column.columnDef.header === 'string'
+                              ? cell.column.columnDef.header
+                              : cell.column.id;
+                          return (
+                            <TableCell key={cell.id} data-label={headerLabel}>
+                              {flexRender(
+                                cell.column.columnDef.cell,
+                                cell.getContext()
+                              )}
+                            </TableCell>
+                          );
+                        })}
+                      </TableRow>
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell
+                        colSpan={salesByUserColumns.length}
+                        className='text-center text-muted-foreground h-24'
+                      >
+                        No sales data available
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </div>
+            {/* Pagination Controls */}
+            {salesByUser && salesByUser.length > 0 && (
+              <div className='flex items-center justify-between space-x-2 py-4 px-4'>
+                <div className='text-sm text-muted-foreground'>
+                  Showing{' '}
+                  {salesByUserTable.getState().pagination.pageIndex *
+                    salesByUserTable.getState().pagination.pageSize +
+                    1}{' '}
+                  to{' '}
+                  {Math.min(
+                    (salesByUserTable.getState().pagination.pageIndex + 1) *
+                      salesByUserTable.getState().pagination.pageSize,
+                    salesByUser.length
+                  )}{' '}
+                  of {salesByUser.length} user{salesByUser.length !== 1 ? 's' : ''}
+                </div>
+                <div className='flex items-center space-x-2'>
+                  <div className='text-sm text-muted-foreground'>
+                    Page {salesByUserTable.getState().pagination.pageIndex + 1} of{' '}
+                    {salesByUserTable.getPageCount() || 1}
+                  </div>
+                  <Button
+                    variant='outline'
+                    size='sm'
+                    onClick={() => salesByUserTable.previousPage()}
+                    disabled={!salesByUserTable.getCanPreviousPage()}
+                  >
+                    Previous
+                  </Button>
+                  <Button
+                    variant='outline'
+                    size='sm'
+                    onClick={() => salesByUserTable.nextPage()}
+                    disabled={!salesByUserTable.getCanNextPage()}
+                  >
+                    Next
+                  </Button>
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
       )}
@@ -143,80 +381,102 @@ export function SalesSummaryReport({
           <CardDescription>Latest sales transactions</CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                {workspace === 'book-sales' ? (
-                  <>
-                    <TableHead>Slip Number</TableHead>
-                    <TableHead>Order Number</TableHead>
-                    <TableHead>Customer</TableHead>
-                    <TableHead>Books</TableHead>
-                    <TableHead>Total</TableHead>
-                    <TableHead>Date</TableHead>
-                  </>
+          <div className='rounded-md border'>
+            <Table>
+              <TableHeader>
+                {recentSalesTable.getHeaderGroups().map((headerGroup) => (
+                  <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => {
+                      return (
+                        <TableHead key={header.id}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                        </TableHead>
+                      );
+                    })}
+                  </TableRow>
+                ))}
+              </TableHeader>
+              <TableBody>
+                {recentSalesTable.getRowModel().rows?.length ? (
+                  recentSalesTable.getRowModel().rows.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && 'selected'}
+                    >
+                      {row.getVisibleCells().map((cell) => {
+                        const headerLabel =
+                          typeof cell.column.columnDef.header === 'string'
+                            ? cell.column.columnDef.header
+                            : cell.column.id;
+                        return (
+                          <TableCell key={cell.id} data-label={headerLabel}>
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  ))
                 ) : (
-                  <>
-                    <TableHead>Book</TableHead>
-                    <TableHead>Quantity</TableHead>
-                    <TableHead>Price</TableHead>
-                    <TableHead>Total</TableHead>
-                    <TableHead>Sold By</TableHead>
-                    <TableHead>Date</TableHead>
-                  </>
+                  <TableRow>
+                    <TableCell
+                      colSpan={recentSalesColumns.length}
+                      className='text-center text-muted-foreground h-24'
+                    >
+                      No recent sales
+                    </TableCell>
+                  </TableRow>
                 )}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {workspace === 'book-sales' ? (
-                recentSales.map((sale: any) => (
-                  <TableRow key={sale.orderNumber}>
-                    <TableCell className='font-medium'>
-                      {sale.slipNumber || '-'}
-                    </TableCell>
-                    <TableCell className='text-sm text-gray-600'>
-                      {sale.orderNumber}
-                    </TableCell>
-                    <TableCell>{sale.soldBy}</TableCell>
-                    <TableCell>
-                      {sale.items ? (
-                        sale.items.map((item: any, idx: number) => (
-                          <div key={idx} className='text-sm'>
-                            {item.title} (x{item.quantity})
-                          </div>
-                        ))
-                      ) : (
-                        <div className='text-sm'>{sale.productName}</div>
-                      )}
-                    </TableCell>
-                    <TableCell className='font-medium'>
-                      ₦{sale.total.toLocaleString()}
-                    </TableCell>
-                    <TableCell>
-                      {new Date(sale.soldAt).toLocaleDateString()}
-                    </TableCell>
-                  </TableRow>
-                ))
-              ) : (
-                recentSales.map((sale: any) => (
-                  <TableRow key={sale.id}>
-                    <TableCell className='font-medium'>
-                      {sale.productName}
-                    </TableCell>
-                    <TableCell>{sale.quantity}</TableCell>
-                    <TableCell>₦{sale.price?.toLocaleString()}</TableCell>
-                    <TableCell className='font-medium'>
-                      ₦{sale.total.toLocaleString()}
-                    </TableCell>
-                    <TableCell>{sale.soldBy}</TableCell>
-                    <TableCell>
-                      {new Date(sale.soldAt).toLocaleDateString()}
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
+              </TableBody>
+            </Table>
+          </div>
+          {/* Pagination Controls */}
+          {recentSales && recentSales.length > 0 && (
+            <div className='flex items-center justify-between space-x-2 py-4 px-4'>
+              <div className='text-sm text-muted-foreground'>
+                Showing{' '}
+                {recentSalesTable.getState().pagination.pageIndex *
+                  recentSalesTable.getState().pagination.pageSize +
+                  1}{' '}
+                to{' '}
+                {Math.min(
+                  (recentSalesTable.getState().pagination.pageIndex + 1) *
+                    recentSalesTable.getState().pagination.pageSize,
+                  recentSales.length
+                )}{' '}
+                of {recentSales.length} sale{recentSales.length !== 1 ? 's' : ''}
+              </div>
+              <div className='flex items-center space-x-2'>
+                <div className='text-sm text-muted-foreground'>
+                  Page {recentSalesTable.getState().pagination.pageIndex + 1} of{' '}
+                  {recentSalesTable.getPageCount() || 1}
+                </div>
+                <Button
+                  variant='outline'
+                  size='sm'
+                  onClick={() => recentSalesTable.previousPage()}
+                  disabled={!recentSalesTable.getCanPreviousPage()}
+                >
+                  Previous
+                </Button>
+                <Button
+                  variant='outline'
+                  size='sm'
+                  onClick={() => recentSalesTable.nextPage()}
+                  disabled={!recentSalesTable.getCanNextPage()}
+                >
+                  Next
+                </Button>
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

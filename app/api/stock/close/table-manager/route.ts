@@ -13,31 +13,60 @@ export async function POST(request: Request) {
         );
       }
 
+      // Check if user is admin
+      const user = await prisma.user.findUnique({
+        where: { id: req.auth.user.id },
+        select: { isAdmin: true },
+      });
+
+      const body = await request.json().catch(() => ({}));
+      const { tableSaleSessionId } = body;
+
       const settings = await prisma.setting.findFirst({
         where: { id: 'settings' },
       });
 
-      // Get table manager's session
-      const mySession = await prisma.mySession.findFirst({
-        where: {
-          userId: req.auth.user.id,
-          session: settings?.currentSession || '',
-          workspace: 'table-manager',
-          isActive: true,
-        },
-        include: {
-          tableSaleSession: true,
-        },
-      });
+      let tableSaleSession;
 
-      if (!mySession?.tableSaleSession) {
-        return NextResponse.json(
-          { message: 'Table sale session not found' },
-          { status: 404 }
-        );
+      // If admin provided tableSaleSessionId, use that (admin mode)
+      if (user?.isAdmin && tableSaleSessionId) {
+        tableSaleSession = await prisma.tableSaleSession.findFirst({
+          where: {
+            id: tableSaleSessionId,
+            session: settings?.currentSession || '',
+            isActive: true,
+          },
+        });
+
+        if (!tableSaleSession) {
+          return NextResponse.json(
+            { message: 'Table sale session not found' },
+            { status: 404 }
+          );
+        }
+      } else {
+        // Regular table manager mode - get their own session
+        const mySession = await prisma.mySession.findFirst({
+          where: {
+            userId: req.auth.user.id,
+            session: settings?.currentSession || '',
+            workspace: 'table-manager',
+            isActive: true,
+          },
+          include: {
+            tableSaleSession: true,
+          },
+        });
+
+        if (!mySession?.tableSaleSession) {
+          return NextResponse.json(
+            { message: 'Table sale session not found' },
+            { status: 404 }
+          );
+        }
+
+        tableSaleSession = mySession.tableSaleSession;
       }
-
-      const tableSaleSession = mySession.tableSaleSession;
       const tableStock = (tableSaleSession.data as any)?.list || [];
 
       // Check if stock is already closed
@@ -135,6 +164,7 @@ export async function POST(request: Request) {
       const closingStockData = {
         closedAt: new Date().toISOString(),
         closedBy: req.auth.user.email,
+        closedByAdmin: user?.isAdmin || false,
         remainingStock,
         totalItems: remainingStock.length,
         totalQuantity: remainingStock.reduce(

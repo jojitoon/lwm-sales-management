@@ -81,12 +81,7 @@ export async function POST(request: NextRequest) {
     try {
       const { customerInfo, items, total } = await request.json();
 
-      if (
-        !customerInfo.fullName ||
-        !customerInfo.email ||
-        !items ||
-        items.length === 0
-      ) {
+      if (!customerInfo.fullName || !items || items.length === 0) {
         return NextResponse.json(
           { message: 'Invalid request data' },
           { status: 400 }

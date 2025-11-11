@@ -15,6 +15,14 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getPaginationRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
 import { IconBook, IconCurrencyDollar, IconPackage } from '@tabler/icons-react';
 
 interface BooksSoldReportProps {
@@ -31,6 +39,47 @@ export function BooksSoldReport({
   if (!data) return <div>No data available</div>;
 
   const { booksSold, totalBooks, totalQuantity, totalValue } = data;
+
+  const columns: ColumnDef<any>[] = [
+    {
+      accessorKey: 'title',
+      header: 'Book Title',
+      cell: ({ row }) => (
+        <div className='font-medium'>{row.original.title}</div>
+      ),
+    },
+    {
+      accessorKey: 'quantity',
+      header: 'Quantity Sold',
+      cell: ({ row }) => <div>{row.original.quantity}</div>,
+    },
+    {
+      accessorKey: 'price',
+      header: 'Unit Price',
+      cell: ({ row }) => (
+        <div>₦{row.original.price.toLocaleString()}</div>
+      ),
+    },
+    {
+      accessorKey: 'value',
+      header: 'Total Value',
+      cell: ({ row }) => (
+        <div className='font-medium'>₦{row.original.value.toLocaleString()}</div>
+      ),
+    },
+  ];
+
+  const table = useReactTable({
+    data: booksSold || [],
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: 10,
+      },
+    },
+  });
 
   return (
     <div className='space-y-6'>
@@ -87,39 +136,102 @@ export function BooksSoldReport({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Book Title</TableHead>
-                <TableHead>Quantity Sold</TableHead>
-                <TableHead>Unit Price</TableHead>
-                <TableHead>Total Value</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {booksSold && booksSold.length > 0 ? (
-                booksSold.map((book: any, index: number) => (
-                  <TableRow key={book.bookId || index}>
-                    <TableCell className='font-medium'>{book.title}</TableCell>
-                    <TableCell>{book.quantity}</TableCell>
-                    <TableCell>₦{book.price.toLocaleString()}</TableCell>
-                    <TableCell className='font-medium'>
-                      ₦{book.value.toLocaleString()}
+          <div className='rounded-md border'>
+            <Table>
+              <TableHeader>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => {
+                      return (
+                        <TableHead key={header.id}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                        </TableHead>
+                      );
+                    })}
+                  </TableRow>
+                ))}
+              </TableHeader>
+              <TableBody>
+                {table.getRowModel().rows?.length ? (
+                  table.getRowModel().rows.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && 'selected'}
+                    >
+                      {row.getVisibleCells().map((cell) => {
+                        const headerLabel =
+                          typeof cell.column.columnDef.header === 'string'
+                            ? cell.column.columnDef.header
+                            : cell.column.id;
+                        return (
+                          <TableCell key={cell.id} data-label={headerLabel}>
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className='text-center text-muted-foreground h-24'
+                    >
+                      No books sold yet
                     </TableCell>
                   </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={4}
-                    className='text-center text-muted-foreground'
-                  >
-                    No books sold yet
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+          {/* Pagination Controls */}
+          {booksSold && booksSold.length > 0 && (
+            <div className='flex items-center justify-between space-x-2 py-4 px-4'>
+              <div className='text-sm text-muted-foreground'>
+                Showing{' '}
+                {table.getState().pagination.pageIndex *
+                  table.getState().pagination.pageSize +
+                  1}{' '}
+                to{' '}
+                {Math.min(
+                  (table.getState().pagination.pageIndex + 1) *
+                    table.getState().pagination.pageSize,
+                  booksSold.length
+                )}{' '}
+                of {booksSold.length} book{booksSold.length !== 1 ? 's' : ''}
+              </div>
+              <div className='flex items-center space-x-2'>
+                <div className='text-sm text-muted-foreground'>
+                  Page {table.getState().pagination.pageIndex + 1} of{' '}
+                  {table.getPageCount() || 1}
+                </div>
+                <Button
+                  variant='outline'
+                  size='sm'
+                  onClick={() => table.previousPage()}
+                  disabled={!table.getCanPreviousPage()}
+                >
+                  Previous
+                </Button>
+                <Button
+                  variant='outline'
+                  size='sm'
+                  onClick={() => table.nextPage()}
+                  disabled={!table.getCanNextPage()}
+                >
+                  Next
+                </Button>
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

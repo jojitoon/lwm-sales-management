@@ -18,6 +18,7 @@ import {
   SelectLabel,
   SelectItem,
 } from '@/components/ui/select';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { useState, useEffect } from 'react';
 import { Label } from './ui/label';
 import { Input } from './ui/input';
@@ -52,6 +53,7 @@ export function RequestBookFromMini({
   const [requestItems, setRequestItems] = useState<RequestItem[]>([]);
   const [availableBooks, setAvailableBooks] = useState<any[]>([]);
   const [allBooksQuantity, setAllBooksQuantity] = useState(1);
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
 
   // Subscribe to real-time updates for requests and stock
   useRealtimeUpdates({
@@ -88,6 +90,7 @@ export function RequestBookFromMini({
     onSuccess: () => {
       toast.success('Request sent successfully');
       setOpen(false);
+      setConfirmDialogOpen(false);
       setSelectedBook('');
       setQuantity(1);
       setRequestItems([]);
@@ -244,9 +247,14 @@ export function RequestBookFromMini({
       return;
     }
 
+    setConfirmDialogOpen(true);
+  };
+
+  const handleConfirmSend = () => {
     mutation.mutate({
       items: requestItems,
     });
+    setConfirmDialogOpen(false);
   };
 
   return (
@@ -260,87 +268,89 @@ export function RequestBookFromMini({
         </DialogHeader>
 
         <div className='space-y-6'>
-          {/* Add All Books Section */}
-          <div className='space-y-4 p-3 sm:p-4 border rounded-lg bg-blue-50 dark:bg-blue-950'>
-            <h3 className='text-base sm:text-lg font-semibold'>
-              Quick Add All Books
-            </h3>
-            <div className='flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-end'>
-              <div className='flex-1 w-full'>
-                <Label>Quantity for All Available Books</Label>
-                <Input
-                  type='number'
-                  // min='1'
-                  value={allBooksQuantity}
-                  onChange={(e) => setAllBooksQuantity(Number(e.target.value))}
-                  className='mt-1 w-full'
-                  placeholder='Enter quantity'
-                />
-                <p className='text-xs text-gray-500 mt-1'>
-                  This will add all available books with the specified quantity
-                  (or available stock if less)
-                </p>
-              </div>
-              <div className='flex items-end w-full sm:w-auto'>
-                <Button
-                  onClick={addAllBooks}
-                  className='gap-2 w-full sm:w-auto'
-                  variant='secondary'
-                  disabled={availableBooks.length === 0}
-                >
-                  <IconChecklist className='h-4 w-4' />
-                  Add All Books
-                </Button>
-              </div>
-            </div>
-          </div>
+          <Tabs defaultValue='individual' className='w-full'>
+            <TabsList className='grid w-full grid-cols-2'>
+              <TabsTrigger value='individual'>Add Individual Books</TabsTrigger>
+              <TabsTrigger value='all'>Add All Books</TabsTrigger>
+            </TabsList>
 
-          {/* Add Items Section */}
-          <div className='space-y-4 p-3 sm:p-4 border rounded-lg'>
-            <h3 className='text-base sm:text-lg font-semibold'>
-              Add Individual Books to Request
-            </h3>
-            <div className='flex flex-col sm:flex-row gap-3 sm:gap-4'>
-              <div className='flex-1 w-full'>
-                <Label>Book Title</Label>
-                <Select value={selectedBook} onValueChange={setSelectedBook}>
-                  <SelectTrigger className='w-full mt-1'>
-                    <SelectValue placeholder='Select a book' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Available Books</SelectLabel>
-                      {availableBooks?.map((book, index) => (
-                        <SelectItem key={index} value={book.title}>
-                          <div className='flex justify-between w-full'>
-                            <span className='truncate'>{book.title}</span>
-                            <span className='text-sm text-gray-500 ml-2 flex-shrink-0'>
-                              Available: {book.available}
-                            </span>
-                          </div>
-                        </SelectItem>
-                      ))}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+            <TabsContent value='individual' className='space-y-4 mt-4'>
+              <div className='space-y-4 p-3 sm:p-4 border rounded-lg'>
+                <div className='flex flex-col sm:flex-row gap-3 sm:gap-4'>
+                  <div className='flex-1 w-full'>
+                    <Label>Book Title</Label>
+                    <Select value={selectedBook} onValueChange={setSelectedBook}>
+                      <SelectTrigger className='w-full mt-1'>
+                        <SelectValue placeholder='Select a book' />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Available Books</SelectLabel>
+                          {availableBooks?.map((book, index) => (
+                            <SelectItem key={index} value={book.title}>
+                              <div className='flex justify-between w-full'>
+                                <span className='truncate'>{book.title}</span>
+                                <span className='text-sm text-gray-500 ml-2 flex-shrink-0'>
+                                  Available: {book.available}
+                                </span>
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className='w-full sm:w-24'>
+                    <Label>Quantity</Label>
+                    <Input
+                      type='number'
+                      value={quantity}
+                      onChange={(e) => setQuantity(Number(e.target.value))}
+                      className='mt-1 w-full'
+                    />
+                  </div>
+                  <div className='flex items-end w-full sm:w-auto'>
+                    <Button onClick={addItem} className='gap-2 w-full sm:w-auto'>
+                      <IconPlus className='h-4 w-4' />
+                      Add
+                    </Button>
+                  </div>
+                </div>
               </div>
-              <div className='w-full sm:w-24'>
-                <Label>Quantity</Label>
-                <Input
-                  type='number'
-                  value={quantity}
-                  onChange={(e) => setQuantity(Number(e.target.value))}
-                  className='mt-1 w-full'
-                />
+            </TabsContent>
+
+            <TabsContent value='all' className='space-y-4 mt-4'>
+              <div className='space-y-4 p-3 sm:p-4 border rounded-lg bg-blue-50 dark:bg-blue-950'>
+                <div className='flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-end'>
+                  <div className='flex-1 w-full'>
+                    <Label>Quantity for All Available Books</Label>
+                    <Input
+                      type='number'
+                      value={allBooksQuantity}
+                      onChange={(e) => setAllBooksQuantity(Number(e.target.value))}
+                      className='mt-1 w-full'
+                      placeholder='Enter quantity'
+                    />
+                    <p className='text-xs text-gray-500 mt-1'>
+                      This will add all available books with the specified quantity
+                      (or available stock if less)
+                    </p>
+                  </div>
+                  <div className='flex items-end w-full sm:w-auto'>
+                    <Button
+                      onClick={addAllBooks}
+                      className='gap-2 w-full sm:w-auto'
+                      variant='secondary'
+                      disabled={availableBooks.length === 0}
+                    >
+                      <IconChecklist className='h-4 w-4' />
+                      Add All Books
+                    </Button>
+                  </div>
+                </div>
               </div>
-              <div className='flex items-end w-full sm:w-auto'>
-                <Button onClick={addItem} className='gap-2 w-full sm:w-auto'>
-                  <IconPlus className='h-4 w-4' />
-                  Add
-                </Button>
-              </div>
-            </div>
-          </div>
+            </TabsContent>
+          </Tabs>
 
           {/* Request Items */}
           {requestItems.length > 0 && (
@@ -348,46 +358,41 @@ export function RequestBookFromMini({
               <h3 className='text-base sm:text-lg font-semibold'>
                 Request Items ({requestItems.length})
               </h3>
-              <div className='space-y-3'>
+              <div className='space-y-2 sm:space-y-3'>
                 {requestItems.map((item, index) => (
                   <div
                     key={index}
                     className='overflow-hidden rounded-lg border bg-card shadow-sm'
                   >
-                    {/* Book Title Row */}
-                    <div className='flex flex-col sm:flex-row'>
-                      <div className='flex items-center bg-primary px-3 py-2 sm:px-4 sm:py-3 sm:min-w-[120px]'>
-                        <span className='font-semibold text-primary-foreground text-xs sm:text-sm'>
-                          Book Title
-                        </span>
-                      </div>
-                      <div className='flex-1 border-t sm:border-t-0 sm:border-l border-border px-3 py-2 sm:px-4 sm:py-3'>
-                        <span className='text-sm sm:text-base font-medium text-foreground break-words'>
+                    {/* Mobile Compact View */}
+                    <div className='sm:hidden flex flex-col'>
+                      <div className='flex items-center justify-between p-2 border-b border-border/50'>
+                        <span className='text-xs font-medium text-foreground break-words flex-1 pr-2'>
                           {item.bookTitle}
                         </span>
+                        <Button
+                          size='sm'
+                          variant='ghost'
+                          onClick={() => removeItem(index)}
+                          className='h-6 w-6 p-0 flex-shrink-0'
+                        >
+                          <IconTrash className='h-3 w-3' />
+                        </Button>
                       </div>
-                    </div>
-
-                    {/* Quantity Row */}
-                    <div className='flex flex-col sm:flex-row border-t border-border/50'>
-                      <div className='flex items-center bg-primary px-3 py-2 sm:px-4 sm:py-3 sm:min-w-[120px]'>
-                        <span className='font-semibold text-primary-foreground text-xs sm:text-sm'>
-                          Quantity
-                        </span>
-                      </div>
-                      <div className='flex-1 border-t sm:border-t-0 sm:border-l border-border px-3 py-2 sm:px-4 sm:py-3'>
-                        <div className='flex items-center gap-2 sm:gap-3'>
+                      <div className='flex items-center justify-between p-2'>
+                        <span className='text-xs text-muted-foreground'>Quantity:</span>
+                        <div className='flex items-center gap-2'>
                           <Button
                             size='sm'
                             variant='outline'
                             onClick={() =>
                               updateItemQuantity(index, item.quantity - 1)
                             }
-                            className='h-7 w-7 p-0 sm:h-8 sm:w-8'
+                            className='h-6 w-6 p-0'
                           >
                             <IconMinus className='h-3 w-3' />
                           </Button>
-                          <span className='font-medium min-w-[2rem] text-center text-sm sm:text-base'>
+                          <span className='font-medium min-w-[2rem] text-center text-xs'>
                             {item.quantity}
                           </span>
                           <Button
@@ -396,7 +401,7 @@ export function RequestBookFromMini({
                             onClick={() =>
                               updateItemQuantity(index, item.quantity + 1)
                             }
-                            className='h-7 w-7 p-0 sm:h-8 sm:w-8'
+                            className='h-6 w-6 p-0'
                           >
                             <IconPlus className='h-3 w-3' />
                           </Button>
@@ -404,23 +409,76 @@ export function RequestBookFromMini({
                       </div>
                     </div>
 
-                    {/* Actions Row */}
-                    <div className='flex flex-col sm:flex-row border-t border-border/50'>
-                      <div className='flex items-center bg-primary px-3 py-2 sm:px-4 sm:py-3 sm:min-w-[120px]'>
-                        <span className='font-semibold text-primary-foreground text-xs sm:text-sm'>
-                          Actions
-                        </span>
+                    {/* Desktop View */}
+                    <div className='hidden sm:block'>
+                      {/* Book Title Row */}
+                      <div className='flex flex-row w-full'>
+                        <div className='flex items-center bg-primary min-w-[100px] flex-shrink-0 px-3 py-2 sm:px-4 sm:py-3 border-r border-border'>
+                          <span className='font-semibold text-primary-foreground text-xs sm:text-sm'>
+                            Book Title
+                          </span>
+                        </div>
+                        <div className='flex-1 px-3 py-2 sm:px-4 sm:py-3'>
+                          <span className='text-xs sm:text-sm font-medium text-foreground break-words'>
+                            {item.bookTitle}
+                          </span>
+                        </div>
                       </div>
-                      <div className='flex-1 border-t sm:border-t-0 sm:border-l border-border px-3 py-2 sm:px-4 sm:py-3'>
-                        <Button
-                          size='sm'
-                          variant='destructive'
-                          onClick={() => removeItem(index)}
-                          className='h-7 px-3 text-xs sm:h-8 sm:px-4 sm:text-sm w-full sm:w-auto'
-                        >
-                          <IconTrash className='h-3 w-3 mr-1 sm:mr-2' />
-                          Delete
-                        </Button>
+
+                      {/* Quantity Row */}
+                      <div className='flex flex-row w-full border-t border-border/50'>
+                        <div className='flex items-center bg-primary min-w-[100px] flex-shrink-0 px-3 py-2 sm:px-4 sm:py-3 border-r border-border'>
+                          <span className='font-semibold text-primary-foreground text-xs sm:text-sm'>
+                            Quantity
+                          </span>
+                        </div>
+                        <div className='flex-1 px-3 py-2 sm:px-4 sm:py-3'>
+                          <div className='flex items-center gap-2 sm:gap-3'>
+                            <Button
+                              size='sm'
+                              variant='outline'
+                              onClick={() =>
+                                updateItemQuantity(index, item.quantity - 1)
+                              }
+                              className='h-7 w-7 p-0 sm:h-8 sm:w-8'
+                            >
+                              <IconMinus className='h-3 w-3' />
+                            </Button>
+                            <span className='font-medium min-w-[2rem] text-center text-xs sm:text-sm'>
+                              {item.quantity}
+                            </span>
+                            <Button
+                              size='sm'
+                              variant='outline'
+                              onClick={() =>
+                                updateItemQuantity(index, item.quantity + 1)
+                              }
+                              className='h-7 w-7 p-0 sm:h-8 sm:w-8'
+                            >
+                              <IconPlus className='h-3 w-3' />
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Actions Row */}
+                      <div className='flex flex-row w-full border-t border-border/50'>
+                        <div className='flex items-center bg-primary min-w-[100px] flex-shrink-0 px-3 py-2 sm:px-4 sm:py-3 border-r border-border'>
+                          <span className='font-semibold text-primary-foreground text-xs sm:text-sm'>
+                            Actions
+                          </span>
+                        </div>
+                        <div className='flex-1 px-3 py-2 sm:px-4 sm:py-3'>
+                          <Button
+                            size='sm'
+                            variant='destructive'
+                            onClick={() => removeItem(index)}
+                            className='h-7 px-3 text-xs sm:h-8 sm:px-4 sm:text-sm w-full sm:w-auto'
+                          >
+                            <IconTrash className='h-3 w-3 mr-1 sm:mr-2' />
+                            Delete
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -441,6 +499,59 @@ export function RequestBookFromMini({
           </Button>
         </DialogFooter>
       </DialogContent>
+
+      {/* Confirmation Dialog */}
+      <Dialog open={confirmDialogOpen} onOpenChange={setConfirmDialogOpen}>
+        <DialogContent className='max-w-[calc(100vw-1rem)] sm:max-w-md'>
+          <DialogHeader>
+            <DialogTitle>Confirm Request</DialogTitle>
+            <DialogDescription>
+              Please review your request before sending.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className='space-y-4 py-4'>
+            <div className='space-y-2'>
+              <p className='text-sm font-medium'>
+                Total Items: {requestItems.length}
+              </p>
+              <p className='text-sm font-medium'>
+                Total Quantity:{' '}
+                {requestItems.reduce((sum, item) => sum + item.quantity, 0)}
+              </p>
+            </div>
+
+            <div className='max-h-[300px] overflow-y-auto space-y-2 border rounded-lg p-3'>
+              {requestItems.map((item, index) => (
+                <div
+                  key={index}
+                  className='flex justify-between items-center text-sm border-b border-border/50 pb-2 last:border-0 last:pb-0'
+                >
+                  <span className='flex-1 truncate pr-2'>{item.bookTitle}</span>
+                  <span className='font-medium'>× {item.quantity}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button
+              variant='outline'
+              onClick={() => setConfirmDialogOpen(false)}
+              disabled={mutation.isPending}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleConfirmSend}
+              disabled={mutation.isPending}
+              className='w-full sm:w-auto'
+            >
+              {mutation.isPending ? 'Sending...' : 'Confirm & Send'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Dialog>
   );
 }

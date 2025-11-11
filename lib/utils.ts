@@ -48,15 +48,38 @@ export const toSheet = async (
   try {
     const workBook = XLSX.utils.book_new();
     if (isMultiple) {
-      data.forEach((item) => {
+      // Filter out items with empty or undefined data
+      const validData = data.filter(
+        (item) => item?.data && Array.isArray(item.data) && item.data.length > 0
+      );
+
+      if (validData.length === 0) {
+        toast.error('Error', { description: 'No data available to download' });
+        return;
+      }
+
+      validData.forEach((item) => {
+        // Excel sheet names have a 31 character limit
+        let sheetName = item.name.replace(/[^\w\s]/gi, '_');
+        if (sheetName.length > 31) {
+          sheetName = sheetName.substring(0, 31);
+        }
+        // Ensure sheet name is not empty
+        if (!sheetName || sheetName.trim() === '') {
+          sheetName = 'Sheet';
+        }
+
         XLSX.utils.book_append_sheet(
           workBook,
           XLSX.utils.json_to_sheet(item.data),
-          // replace any speacial characters with ''
-          item.name.replace(/[^\w\s]/gi, '_')
+          sheetName
         );
       });
     } else {
+      if (!data || data.length === 0) {
+        toast.error('Error', { description: 'No data available to download' });
+        return;
+      }
       XLSX.utils.book_append_sheet(
         workBook,
         XLSX.utils.json_to_sheet(data),
@@ -64,9 +87,18 @@ export const toSheet = async (
       );
     }
 
+    // Check if workbook has any sheets before writing
+    if (workBook.SheetNames.length === 0) {
+      toast.error('Error', { description: 'No data available to download' });
+      return;
+    }
+
     return XLSX.writeFileXLSX(workBook, name);
   } catch (error) {
-    console.log(error);
+    console.error('Error generating Excel file:', error);
+    toast.error('Error', {
+      description: 'Failed to generate download file. Please try again.',
+    });
   }
 };
 

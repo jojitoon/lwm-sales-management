@@ -21,6 +21,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRealtimeUpdates } from '@/hooks/useRealtimeUpdates';
 import { WebSocketEvents } from '@/lib/websocket';
+import { Button } from '@/components/ui/button';
 
 interface BookSalesTableProps {
   sales?: any[];
@@ -51,9 +52,7 @@ export function BookSalesTable({ sales: initialSales }: BookSalesTableProps) {
       accessorKey: 'slipNumber',
       header: 'Slip Number',
       cell: ({ row }) => (
-        <div className='font-medium'>
-          {row.original.slipNumber || '-'}
-        </div>
+        <div className='font-medium'>{row.original.slipNumber || '-'}</div>
       ),
     },
     {
@@ -152,6 +151,11 @@ export function BookSalesTable({ sales: initialSales }: BookSalesTableProps) {
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: 10,
+      },
+    },
   });
 
   if (isLoading && !initialSales) {
@@ -190,11 +194,20 @@ export function BookSalesTable({ sales: initialSales }: BookSalesTableProps) {
                 key={row.original.orderNumber}
                 data-state={row.getIsSelected() && 'selected'}
               >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
+                {row.getVisibleCells().map((cell) => {
+                  const headerLabel =
+                    typeof cell.column.columnDef.header === 'string'
+                      ? cell.column.columnDef.header
+                      : cell.column.id;
+                  return (
+                    <TableCell key={cell.id} data-label={headerLabel}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  );
+                })}
               </TableRow>
             ))
           ) : (
@@ -206,6 +219,46 @@ export function BookSalesTable({ sales: initialSales }: BookSalesTableProps) {
           )}
         </TableBody>
       </Table>
+      {/* Pagination Controls */}
+      {sales && sales.length > 0 && (
+        <div className='flex items-center justify-between space-x-2 py-4 px-4'>
+          <div className='text-sm text-muted-foreground'>
+            Showing{' '}
+            {table.getState().pagination.pageIndex *
+              table.getState().pagination.pageSize +
+              1}{' '}
+            to{' '}
+            {Math.min(
+              (table.getState().pagination.pageIndex + 1) *
+                table.getState().pagination.pageSize,
+              sales.length
+            )}{' '}
+            of {sales.length} sale{sales.length !== 1 ? 's' : ''}
+          </div>
+          <div className='flex items-center space-x-2'>
+            <div className='text-sm text-muted-foreground'>
+              Page {table.getState().pagination.pageIndex + 1} of{' '}
+              {table.getPageCount() || 1}
+            </div>
+            <Button
+              variant='outline'
+              size='sm'
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Previous
+            </Button>
+            <Button
+              variant='outline'
+              size='sm'
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

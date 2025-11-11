@@ -5,7 +5,7 @@ const next = require('next');
 const { Server } = require('socket.io');
 
 const dev = process.env.NODE_ENV !== 'production';
-const hostname = process.env.HOSTNAME || '192.168.0.144'; //'0.0.0.0'; // Listen on all interfaces
+const hostname = process.env.HOSTNAME || '0.0.0.0'; // Listen on all interfaces
 const port = parseInt(process.env.PORT || '3000', 10);
 
 // Set environment variable to ensure Next.js doesn't hardcode localhost

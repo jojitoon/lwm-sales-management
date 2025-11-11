@@ -17,6 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
 
 const columns: ColumnDef<{
   productName: string;
@@ -55,6 +56,11 @@ export const BookTable = ({
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: 10,
+      },
+    },
   });
 
   return (
@@ -86,14 +92,19 @@ export const BookTable = ({
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
                 >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
+                  {row.getVisibleCells().map((cell) => {
+                    const headerLabel = typeof cell.column.columnDef.header === 'string' 
+                      ? cell.column.columnDef.header 
+                      : cell.column.id;
+                    return (
+                      <TableCell key={cell.id} data-label={headerLabel}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
               ))
             ) : (
@@ -109,6 +120,46 @@ export const BookTable = ({
           </TableBody>
         </Table>
       </div>
+      {/* Pagination Controls */}
+      {data && data.length > 0 && (
+        <div className='flex items-center justify-between space-x-2 py-4 px-4'>
+          <div className='text-sm text-muted-foreground'>
+            Showing{' '}
+            {table.getState().pagination.pageIndex *
+              table.getState().pagination.pageSize +
+              1}{' '}
+            to{' '}
+            {Math.min(
+              (table.getState().pagination.pageIndex + 1) *
+                table.getState().pagination.pageSize,
+              data.length
+            )}{' '}
+            of {data.length} book{data.length !== 1 ? 's' : ''}
+          </div>
+          <div className='flex items-center space-x-2'>
+            <div className='text-sm text-muted-foreground'>
+              Page {table.getState().pagination.pageIndex + 1} of{' '}
+              {table.getPageCount() || 1}
+            </div>
+            <Button
+              variant='outline'
+              size='sm'
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Previous
+            </Button>
+            <Button
+              variant='outline'
+              size='sm'
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+      )}
     </main>
   );
 };

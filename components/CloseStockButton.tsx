@@ -19,22 +19,52 @@ import {
 } from '@/components/ui/alert-dialog';
 
 interface CloseStockButtonProps {
-  workspace: 'table-manager' | 'mini-store' | 'main-store';
+  workspace:
+    | 'table-manager'
+    | 'mini-store'
+    | 'main-store'
+    | 'preorder-ministore';
+  tableSaleSessionId?: string; // For admin to close stock for a specific table
+  miniStoreSessionId?: string; // For admin to close stock for a specific mini store
+  mainStoreSessionId?: string; // For admin to close stock for a specific main store
+  onSuccess?: () => void; // Callback when stock is successfully closed
 }
 
-export function CloseStockButton({ workspace }: CloseStockButtonProps) {
+export function CloseStockButton({
+  workspace,
+  tableSaleSessionId,
+  miniStoreSessionId,
+  mainStoreSessionId,
+  onSuccess,
+}: CloseStockButtonProps) {
   const queryClient = useQueryClient();
   const router = useRouter();
 
   const mutation = useMutation({
     mutationFn: async () => {
       let endpoint = '/api/stock/close/table-manager';
-      if (workspace === 'mini-store') {
+      let payload: any = {};
+
+      if (workspace === 'mini-store' || workspace === 'preorder-ministore') {
         endpoint = '/api/stock/close/mini-store';
+        if (miniStoreSessionId) {
+          payload.miniStoreSessionId = miniStoreSessionId;
+        }
       } else if (workspace === 'main-store') {
         endpoint = '/api/stock/close/main-store';
+        if (mainStoreSessionId) {
+          payload.mainStoreSessionId = mainStoreSessionId;
+        }
+      } else if (workspace === 'table-manager') {
+        if (tableSaleSessionId) {
+          payload.tableSaleSessionId = tableSaleSessionId;
+        }
       }
-      const response = await axios.post(endpoint);
+
+      const response = await axios.post(
+        endpoint,
+        Object.keys(payload).length > 0 ? payload : undefined
+      );
       return response.data;
     },
     onSuccess: (data) => {
@@ -43,11 +73,15 @@ export function CloseStockButton({ workspace }: CloseStockButtonProps) {
       queryClient.invalidateQueries({ queryKey: ['mini-store-stock'] });
       queryClient.invalidateQueries({ queryKey: ['main-store-stock'] });
       router.refresh();
+      // Call custom onSuccess callback if provided
+      if (onSuccess) {
+        onSuccess();
+      }
     },
     onError: (error: any) => {
       const errorData = error.response?.data;
       let errorMessage = errorData?.message || 'Failed to close stock';
-      
+
       // If there are unclosed tables or mini stores, include them in the error message
       if (errorData?.unclosedTables) {
         errorMessage += `\n${errorData.unclosedTables}`;
@@ -55,7 +89,7 @@ export function CloseStockButton({ workspace }: CloseStockButtonProps) {
       if (errorData?.unclosedMiniStores) {
         errorMessage += `\n${errorData.unclosedMiniStores}`;
       }
-      
+
       toast.error(errorMessage, {
         duration: 6000, // Show longer for detailed messages
       });
@@ -106,4 +140,3 @@ export function CloseStockButton({ workspace }: CloseStockButtonProps) {
     </AlertDialog>
   );
 }
-

@@ -185,11 +185,16 @@ export function BookMappingTable({
                 key={row.id}
                 data-state={row.getIsSelected() && 'selected'}
               >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
+                {row.getVisibleCells().map((cell) => {
+                  const headerLabel = typeof cell.column.columnDef.header === 'string' 
+                    ? cell.column.columnDef.header 
+                    : cell.column.id;
+                  return (
+                    <TableCell key={cell.id} data-label={headerLabel}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  );
+                })}
               </TableRow>
             ))
           ) : (

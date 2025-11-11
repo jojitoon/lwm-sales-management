@@ -65,6 +65,11 @@ export const OrderReportTable = ({ data }: { data: any[] }) => {
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: 10,
+      },
+    },
   });
 
   return (
@@ -97,14 +102,19 @@ export const OrderReportTable = ({ data }: { data: any[] }) => {
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
                 >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
+                  {row.getVisibleCells().map((cell) => {
+                    const headerLabel = typeof cell.column.columnDef.header === 'string' 
+                      ? cell.column.columnDef.header 
+                      : cell.column.id;
+                    return (
+                      <TableCell key={cell.id} data-label={headerLabel}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    );
+                  })}
                 </TableRow>
               ))
             ) : (
@@ -120,11 +130,25 @@ export const OrderReportTable = ({ data }: { data: any[] }) => {
           </TableBody>
         </Table>
       </div>
-      <div className='flex items-center justify-end space-x-2 py-4'>
-        <div className='flex-1 text-sm text-muted-foreground'>
-          {table.getFilteredRowModel().rows.length} row(s)
+      <div className='flex items-center justify-between space-x-2 py-4 px-4'>
+        <div className='text-sm text-muted-foreground'>
+          Showing{' '}
+          {table.getState().pagination.pageIndex *
+            table.getState().pagination.pageSize +
+            1}{' '}
+          to{' '}
+          {Math.min(
+            (table.getState().pagination.pageIndex + 1) *
+              table.getState().pagination.pageSize,
+            data.length
+          )}{' '}
+          of {data.length} order{data.length !== 1 ? 's' : ''}
         </div>
-        <div className='space-x-2'>
+        <div className='flex items-center space-x-2'>
+          <div className='text-sm text-muted-foreground'>
+            Page {table.getState().pagination.pageIndex + 1} of{' '}
+            {table.getPageCount() || 1}
+          </div>
           <Button
             variant='outline'
             size='sm'

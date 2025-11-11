@@ -131,30 +131,27 @@ export async function POST(
         let bookId = item.bookId;
         let bookTitle = item.productName;
 
-        // If bookId is not set, try to get it from the mapping table
-        if (!bookId) {
-          const mapping = await prisma.bookMapping.findUnique({
-            where: { productName: item.productName },
-            select: { bookId: true },
-          });
-          if (mapping) {
-            bookId = mapping.bookId;
-            // Update the orderItem with the bookId for future reference
+        // Always try to get the mapped book first, even if bookId is set
+        // This ensures we use the correct mapped book for table stock deduction
+        const mapping = await prisma.bookMapping.findUnique({
+          where: { productName: item.productName },
+          include: { book: true },
+        });
+
+        if (mapping && mapping.book) {
+          // Use the mapped book
+          bookId = mapping.bookId;
+          bookTitle = mapping.book.title;
+          
+          // Update the orderItem with the bookId for future reference if not already set
+          if (!item.bookId) {
             await prisma.orderItem.update({
               where: { id: item.id },
               data: { bookId },
             });
-            // Get the book title from the book
-            const book = await prisma.book.findUnique({
-              where: { id: bookId },
-              select: { title: true },
-            });
-            if (book) {
-              bookTitle = book.title;
-            }
           }
-        } else {
-          // Get the book title from the book
+        } else if (bookId) {
+          // If no mapping but bookId exists, get the book title from the book
           const book = await prisma.book.findUnique({
             where: { id: bookId },
             select: { title: true },
@@ -165,7 +162,8 @@ export async function POST(
         }
 
         // Update table stock if we have a linked table session
-        if (tableSaleSession && bookTitle) {
+        // Always use the mapped book title (or book title if no mapping) for table stock deduction
+        if (tableSaleSession && bookTitle && bookTitle !== item.productName) {
           const stockIndex = tableStock.findIndex(
             (stockItem: any) => stockItem.title === bookTitle
           );
@@ -184,9 +182,14 @@ export async function POST(
             };
           } else {
             console.warn(
-              `Book "${bookTitle}" not found in table stock for preorder collection`
+              `Book "${bookTitle}" (mapped from "${item.productName}") not found in table stock for preorder collection`
             );
           }
+        } else if (tableSaleSession && !bookTitle) {
+          // If we couldn't find a mapped book, log a warning
+          console.warn(
+            `No book mapping found for product "${item.productName}" - cannot deduct from table stock`
+          );
         }
 
         // If we have a bookId, update the global book quantities

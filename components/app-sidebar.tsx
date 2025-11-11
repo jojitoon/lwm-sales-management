@@ -4,6 +4,7 @@ import * as React from 'react';
 import {
   IconBook,
   IconBook2,
+  IconBuildingStore,
   IconDashboard,
   IconFileDescription,
   IconFileImport,
@@ -15,6 +16,7 @@ import {
   IconReport,
   IconSearch,
   IconSettings,
+  IconShoppingCart,
   IconTable,
 } from '@tabler/icons-react';
 
@@ -165,6 +167,21 @@ const buildData = (workspace: string, isAdmin: boolean) => {
       title: 'Reconciliation',
       url: '/reconciliation',
       icon: IconReport,
+    },
+    {
+      title: 'Manage Table Managers',
+      url: '/admin/table-managers',
+      icon: IconTable,
+    },
+    {
+      title: 'Manage Mini Stores',
+      url: '/admin/mini-stores',
+      icon: IconShoppingCart,
+    },
+    {
+      title: 'Manage Main Stores',
+      url: '/admin/main-stores',
+      icon: IconBuildingStore,
     },
   ];
 

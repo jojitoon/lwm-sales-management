@@ -54,7 +54,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     try {
-      const { requestId, approved, grantedQuantity } = await request.json();
+      const { requestId, approved, grantedQuantity, items: providedItems } = await request.json();
 
       if (!requestId || typeof approved !== 'boolean') {
         return NextResponse.json(
@@ -81,14 +81,20 @@ export async function PATCH(request: NextRequest) {
       const requestData = miniStoreRequest.request as any;
       let items: any[] = [];
 
-      // Handle new format with multiple items
-      if (requestData.items && Array.isArray(requestData.items)) {
-        items = requestData.items;
+      // If items are provided in the request (from approval dialog), use those
+      if (providedItems && Array.isArray(providedItems) && providedItems.length > 0) {
+        items = providedItems;
       } else {
-        // Fallback for old format (single item)
-        items = [
-          { bookTitle: requestData.bookTitle, quantity: requestData.quantity },
-        ];
+        // Otherwise, use items from the original request
+        // Handle new format with multiple items
+        if (requestData.items && Array.isArray(requestData.items)) {
+          items = requestData.items;
+        } else {
+          // Fallback for old format (single item)
+          items = [
+            { bookTitle: requestData.bookTitle, quantity: requestData.quantity },
+          ];
+        }
       }
 
       console.log('Processing mini store request approval:', {

@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -124,69 +124,105 @@
 /* Hide scrollbar for tabs but keep functionality */
 @layer utilities {
   .scrollbar-hide {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
   }
-  
+
   .scrollbar-hide::-webkit-scrollbar {
-    display: none;  /* Chrome, Safari and Opera */
+    display: none; /* Chrome, Safari and Opera */
   }
 }
 
 /* Mobile-responsive tables */
 @layer utilities {
   @media (max-width: 640px) {
-    table[data-slot="table"] {
+    table[data-slot='table'] {
       display: block;
       width: 100%;
       border-collapse: collapse;
     }
-    
-    table[data-slot="table"] thead {
+
+    table[data-slot='table'] thead {
       display: none;
     }
-    
-    table[data-slot="table"] tbody {
+
+    table[data-slot='table'] tbody {
       display: block;
       width: 100%;
     }
-    
-    table[data-slot="table"] tbody tr {
-      display: block;
+
+    table[data-slot='table'] tbody tr {
+      display: flex;
+      flex-direction: column;
       width: 100%;
       margin-bottom: 0.75rem;
       border: 1px solid hsl(var(--border));
       border-radius: 0.5rem;
-      padding: 0.75rem;
+      overflow: hidden;
       background: hsl(var(--card));
       box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     }
-    
-    table[data-slot="table"] tbody td {
+
+    table[data-slot='table'] tbody td {
       display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      padding: 0.5rem 0;
+      flex-direction: row;
+      width: 100%;
+      padding: 0;
       border: none;
-      border-bottom: 1px solid hsl(var(--border) / 0.5);
+      border-top: 1px solid hsl(var(--border) / 0.5);
       text-align: left !important;
     }
-    
-    table[data-slot="table"] tbody td:last-child {
-      border-bottom: none;
+
+    table[data-slot='table'] tbody td:first-child {
+      border-top: none;
     }
-    
-    table[data-slot="table"] tbody td::before {
+
+    /* Label column (left side) */
+    table[data-slot='table'] tbody td::before {
       content: attr(data-label);
+      display: flex;
+      align-items: center;
+      background: hsl(var(--primary));
+      color: hsl(var(--primary-foreground));
       font-weight: 600;
-      margin-right: 1rem;
-      flex-shrink: 0;
+      font-size: 0.75rem;
+      padding: 0.5rem 0.75rem;
       min-width: 100px;
-      color: hsl(var(--muted-foreground));
+      flex-shrink: 0;
+      border-right: 1px solid hsl(var(--border));
     }
-    
-    table[data-slot="table"] tbody td[data-label=""]::before {
+
+    /* Value column (right side) */
+    table[data-slot='table'] tbody td {
+      background: hsl(var(--card));
+      position: relative;
+    }
+
+    /* Content wrapper styling */
+    table[data-slot='table'] tbody td > * {
+      flex: 1;
+      padding: 0.5rem 0.75rem;
+      word-break: break-word;
+      min-width: 0;
+    }
+
+    /* For cells with direct text content (no wrapper) */
+    table[data-slot='table'] tbody td:not(:has(> *)) {
+      padding: 0.5rem 0.75rem;
+      padding-left: calc(100px + 0.75rem);
+    }
+
+    /* Hide label if data-label is empty */
+    table[data-slot='table'] tbody td[data-label='']::before {
       display: none;
     }
+
+    table[data-slot='table'] tbody td[data-label=''] {
+      padding-left: 0.75rem;
+    }
   }
+}
+
+nextjs-portal {
+  display: none !important;
 }

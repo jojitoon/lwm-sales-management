@@ -1,9 +1,9 @@
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { wsEmitter, WebSocketEvents } from '@/lib/websocket';
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   return auth(async (req) => {
     try {
       if (!req.auth || !req.auth.user) {
@@ -13,37 +13,65 @@ export async function POST(request: Request) {
         );
       }
 
+      const body = await request.json().catch(() => ({}));
+      const miniStoreSessionId = body.miniStoreSessionId;
+
       const settings = await prisma.setting.findFirst({
         where: { id: 'settings' },
       });
 
-      // Get mini store session
-      const mySession = await prisma.mySession.findFirst({
-        where: {
-          userId: req.auth.user.id,
-          session: settings?.currentSession || '',
-          workspace: 'mini-store',
-          isActive: true,
-        },
-        include: {
-          miniStoreSession: true,
-        },
+      // Check if user is admin
+      const user = await prisma.user.findUnique({
+        where: { id: req.auth.user.id },
+        select: { isAdmin: true },
       });
 
-      if (!mySession?.miniStoreSession) {
+      let miniStoreSession;
+
+      if (miniStoreSessionId && user?.isAdmin) {
+        // Admin mode: close specific mini store session
+        miniStoreSession = await prisma.miniStoreSession.findUnique({
+          where: { id: miniStoreSessionId },
+        });
+      } else {
+        // Regular mode: get current user's mini store session
+        const mySession = await prisma.mySession.findFirst({
+          where: {
+            userId: req.auth.user.id,
+            session: settings?.currentSession || '',
+            workspace: { in: ['mini-store', 'preorder-ministore'] },
+            isActive: true,
+          },
+          include: {
+            miniStoreSession: true,
+          },
+        });
+
+        if (!mySession?.miniStoreSession) {
+          return NextResponse.json(
+            { message: 'Mini store session not found' },
+            { status: 404 }
+          );
+        }
+
+        miniStoreSession = mySession.miniStoreSession;
+      }
+
+      if (!miniStoreSession) {
         return NextResponse.json(
           { message: 'Mini store session not found' },
           { status: 404 }
         );
       }
-
-      const miniStoreSession = mySession.miniStoreSession;
       const miniStoreStock = (miniStoreSession.data as any)?.list || [];
 
       // Check if stock is already closed
       if (miniStoreSession.closingStock) {
         return NextResponse.json(
-          { message: 'Stock has already been closed for this mini store session' },
+          {
+            message:
+              'Stock has already been closed for this mini store session',
+          },
           { status: 400 }
         );
       }
@@ -82,8 +110,11 @@ export async function POST(request: Request) {
       if (unclosedTables.length > 0) {
         return NextResponse.json(
           {
-            message: 'Cannot close stock. The following tables have not closed their sessions yet:',
-            unclosedTables: unclosedTables.map((t) => `${t.name} (${t.tableId})`).join(', '),
+            message:
+              'Cannot close stock. The following tables have not closed their sessions yet:',
+            unclosedTables: unclosedTables
+              .map((t) => `${t.name} (${t.tableId})`)
+              .join(', '),
             unclosedTableDetails: unclosedTables,
           },
           { status: 400 }
@@ -129,7 +160,10 @@ export async function POST(request: Request) {
               return {
                 ...book,
                 available: book.available + returnedItem.quantity,
-                distributed: Math.max(0, book.distributed - returnedItem.quantity),
+                distributed: Math.max(
+                  0,
+                  book.distributed - returnedItem.quantity
+                ),
               };
             }
             return book;
@@ -207,6 +241,5 @@ export async function POST(request: Request) {
         { status: 500 }
       );
     }
-  })(request as any, {} as any) as any;
+  })(request, {} as any) as any;
 }
-

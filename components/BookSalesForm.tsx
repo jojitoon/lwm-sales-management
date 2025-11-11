@@ -182,7 +182,7 @@ export function BookSalesForm({
   };
 
   const handleSubmit = () => {
-    if (!customerInfo.fullName || !customerInfo.email) {
+    if (!customerInfo.fullName) {
       toast.error('Please fill in customer information');
       return;
     }
@@ -249,19 +249,27 @@ export function BookSalesForm({
   return (
     <>
       {trigger ? (
-        <div 
-          onClick={() => !disabled && setOpen(true)} 
-          className={disabled ? 'cursor-not-allowed opacity-50 w-full' : 'cursor-pointer w-full'}
-          title={disabled ? 'Stock has been closed. No new sales can be made.' : ''}
+        <div
+          onClick={() => !disabled && setOpen(true)}
+          className={
+            disabled
+              ? 'cursor-not-allowed opacity-50 w-full'
+              : 'cursor-pointer w-full'
+          }
+          title={
+            disabled ? 'Stock has been closed. No new sales can be made.' : ''
+          }
         >
           {trigger}
         </div>
       ) : (
-        <Button 
-          onClick={() => setOpen(true)} 
+        <Button
+          onClick={() => setOpen(true)}
           className='gap-2'
           disabled={disabled}
-          title={disabled ? 'Stock has been closed. No new sales can be made.' : ''}
+          title={
+            disabled ? 'Stock has been closed. No new sales can be made.' : ''
+          }
         >
           <IconShoppingCart className='h-4 w-4' />
           Make Sale
@@ -303,7 +311,7 @@ export function BookSalesForm({
                     />
                   </div>
                   <div>
-                    <Label className='text-sm font-medium'>Email *</Label>
+                    <Label className='text-sm font-medium'>Email</Label>
                     <Input
                       type='email'
                       value={customerInfo.email}

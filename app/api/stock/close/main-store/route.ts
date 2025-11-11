@@ -185,6 +185,18 @@ export async function POST(request: Request) {
         }
       });
 
+      // Calculate distributed amounts per book (total - available) for restoration
+      const distributedPerBook: Array<{ title: string; distributed: number }> = [];
+      for (const bookStock of mainStoreStock) {
+        const distributed = (bookStock.total || 0) - (bookStock.available || 0);
+        if (distributed > 0) {
+          distributedPerBook.push({
+            title: bookStock.title,
+            distributed: distributed,
+          });
+        }
+      }
+
       // Save closing stock data to main store session
       const closingStockData = {
         closedAt: new Date().toISOString(),
@@ -203,6 +215,7 @@ export async function POST(request: Request) {
             miniStores: data.miniStores,
           })
         ),
+        distributedPerBook, // Store distributed amounts for restoration
         returnedStock: Object.entries(returnedByBook).map(([title, data]) => ({
           title,
           quantity: data.quantity,
@@ -218,6 +231,30 @@ export async function POST(request: Request) {
           0
         ),
       };
+
+      // Deduct distributed stock from main store books (available field only)
+      // Distributed = total - available for each book in the main store session
+      // This distributed amount should be deducted from the available in the books table
+      for (const bookStock of mainStoreStock) {
+        const distributed = (bookStock.total || 0) - (bookStock.available || 0);
+        
+        if (distributed > 0) {
+          const book = await prisma.book.findFirst({
+            where: { title: bookStock.title, isActive: true },
+          });
+
+          if (book) {
+            const newAvailable = Math.max(0, book.available - distributed);
+
+            await prisma.book.update({
+              where: { id: book.id },
+              data: {
+                available: newAvailable,
+              },
+            });
+          }
+        }
+      }
 
       // Update main store session with closing data
       await prisma.mainStoreSession.update({

@@ -4,6 +4,7 @@ import { SiteHeader } from '@/components/site-header';
 import { SidebarInset } from '@/components/ui/sidebar';
 import { SessionProvider } from 'next-auth/react';
 import { Toaster } from '@/components/ui/sonner';
+import { RequestNotificationListener } from '@/components/RequestNotificationListener';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -26,6 +27,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Toaster position='top-right' />
           </div>
         </SidebarInset>
+        <RequestNotificationListener />
       </SidebarProvider>
     </SessionProvider>
   );
