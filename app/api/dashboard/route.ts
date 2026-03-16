@@ -21,8 +21,8 @@ export async function GET(request: NextRequest) {
       });
       const currentSession = settings?.currentSession || '';
 
-      // Get user's workspace from their active mySession
-      let workspace = 'unknown';
+      // Determine workspace
+      let workspace = isAdmin ? 'admin' : 'unknown';
       let tableSaleSessionId: string | null = null;
       let preorderSessionId: string | null = null;
       let miniStoreSessionId: string | null = null;
@@ -84,8 +84,10 @@ export async function GET(request: NextRequest) {
             currentSession
           );
           break;
+        case 'admin':
+          dashboardData = await getAdminDashboard(currentSession);
+          break;
         default:
-          // For admin or unknown workspace, return empty data
           dashboardData = {};
       }
 
@@ -101,6 +103,95 @@ export async function GET(request: NextRequest) {
       );
     }
   })(request, {});
+}
+
+async function getAdminDashboard(currentSession: string) {
+  // Aggregate overall sales and inventory for current session
+  // Get all table sale sessions for this session
+  const tableSessions = await prisma.tableSaleSession.findMany({
+    where: { session: currentSession },
+    select: { id: true },
+  });
+
+  const tableSessionIds = tableSessions.map((s) => s.id);
+
+  const bookSales = await prisma.bookSale.findMany({
+    where: {
+      sessionId: {
+        in: tableSessionIds.length > 0 ? tableSessionIds : undefined,
+      },
+    },
+    include: {
+      items: {
+        include: {
+          book: true,
+        },
+      },
+    },
+  });
+
+  const totalSalesRevenue = bookSales.reduce((sum, sale) => sum + sale.total, 0);
+  const totalTransactions = bookSales.length;
+
+  const perBook: Record<
+    string,
+    { title: string; quantity: number; revenue: number }
+  > = {};
+
+  let totalItemsSold = 0;
+
+  bookSales.forEach((sale) => {
+    sale.items.forEach((item) => {
+      const bookId = item.bookId;
+      if (!bookId) return;
+      const title = item.book.title;
+      const qty = item.quantity;
+      const rev = item.quantity * item.price;
+
+      totalItemsSold += qty;
+
+      if (!perBook[bookId]) {
+        perBook[bookId] = { title, quantity: 0, revenue: 0 };
+      }
+      perBook[bookId].quantity += qty;
+      perBook[bookId].revenue += rev;
+    });
+  });
+
+  const topBooks = Object.values(perBook)
+    .sort((a, b) => b.quantity - a.quantity)
+    .slice(0, 8);
+
+  // Pre-order revenue (all completed pre-orders)
+  const preOrders = await prisma.preOrder.findMany({
+    where: {
+      orderStatus: 'COMPLETED',
+    },
+  });
+
+  const totalPreorderRevenue = preOrders.reduce(
+    (sum, order) => sum + order.total,
+    0
+  );
+
+  // Inventory overview
+  const books = await prisma.book.findMany();
+  const totalBooksInCatalog = books.length;
+  const totalCurrentStock = books.reduce(
+    (sum, book) => sum + (book.salesAvailable || 0),
+    0
+  );
+
+  return {
+    totalSalesRevenue,
+    totalPreorderRevenue,
+    totalRevenue: totalSalesRevenue + totalPreorderRevenue,
+    totalTransactions,
+    totalItemsSold,
+    totalBooksInCatalog,
+    totalCurrentStock,
+    topBooks,
+  };
 }
 
 async function getBookSalesDashboard(tableSaleSessionId: string | null) {

@@ -26,9 +26,11 @@ export default async function Page() {
   });
   const currentSessionName = settings?.currentSession || '';
 
-  // Get user's workspace from their active mySession
+  // Get workspace
   let workspace = 'unknown';
-  if (!isAdmin && userId) {
+  if (isAdmin) {
+    workspace = 'admin';
+  } else if (userId) {
     const mySession = await prisma.mySession.findFirst({
       where: {
         userId: userId,

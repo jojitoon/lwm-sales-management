@@ -96,7 +96,13 @@ export default async function BookReport({
               email: item.email,
               phone: item.phoneNumber,
               name: item.fullName,
-              items: item?.items?.length,
+              items: item?.items
+                ?.map((i: any) => `${i.productName} (${i.quantity})`)
+                .join(', '),
+              total: new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'NGN',
+              }).format(item.total),
             }))}
             name={`order_by_location_${location}_${isCollected}.xlsx`}
           />

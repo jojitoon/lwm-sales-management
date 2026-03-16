@@ -98,8 +98,24 @@ export function RoleBasedDashboard({ workspace }: RoleBasedDashboardProps) {
     return <MainStoreDashboard data={dashboardData} />;
   }
 
-  // Default/Admin view - show empty or generic content
-  return null;
+  if (workspace === 'admin') {
+    return <AdminDashboard data={dashboardData} />;
+  }
+
+  // Default view when workspace is unknown
+  return (
+    <div className='px-4 lg:px-6'>
+      <Card>
+        <CardHeader>
+          <CardTitle>Dashboard</CardTitle>
+          <CardDescription>
+            No active workspace found. Assign a workspace to this user to see
+            detailed metrics.
+          </CardDescription>
+        </CardHeader>
+      </Card>
+    </div>
+  );
 }
 
 function BookSalesDashboard({ data }: { data: any }) {
@@ -1002,6 +1018,239 @@ function MainStoreDashboard({ data }: { data: any }) {
                 )}
               </TableBody>
             </Table>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+function AdminDashboard({ data }: { data: any }) {
+  const {
+    totalRevenue = 0,
+    totalSalesRevenue = 0,
+    totalPreorderRevenue = 0,
+    totalTransactions = 0,
+    totalItemsSold = 0,
+    totalBooksInCatalog = 0,
+    totalCurrentStock = 0,
+    topBooks = [],
+  } = data || {};
+
+  const maxQuantity =
+    topBooks && topBooks.length
+      ? Math.max(...topBooks.map((b: any) => b.quantity || 0))
+      : 0;
+
+  return (
+    <div className='space-y-6'>
+      {/* KPI cards */}
+      <div className='*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4'>
+        <Card className='@container/card'>
+          <CardHeader>
+            <CardDescription>Total Revenue</CardDescription>
+            <CardTitle className='text-2xl font-semibold tabular-nums @[250px]/card:text-3xl'>
+              ₦{totalRevenue.toLocaleString()}
+            </CardTitle>
+            <CardAction>
+              <Badge variant='outline'>
+                <IconCurrencyDollar className='h-3 w-3' />
+              </Badge>
+            </CardAction>
+          </CardHeader>
+          <CardFooter className='flex-col items-start gap-1.5 text-sm'>
+            <div className='line-clamp-1 flex gap-2 font-medium'>
+              Sales + pre-orders
+            </div>
+            <div className='text-muted-foreground'>Current session</div>
+          </CardFooter>
+        </Card>
+
+        <Card className='@container/card'>
+          <CardHeader>
+            <CardDescription>Sales Revenue</CardDescription>
+            <CardTitle className='text-2xl font-semibold tabular-nums @[250px]/card:text-3xl'>
+              ₦{totalSalesRevenue.toLocaleString()}
+            </CardTitle>
+            <CardAction>
+              <Badge variant='outline'>
+                <IconTrendingUp className='h-3 w-3' />
+              </Badge>
+            </CardAction>
+          </CardHeader>
+          <CardFooter className='flex-col items-start gap-1.5 text-sm'>
+            <div className='line-clamp-1 flex gap-2 font-medium'>
+              Table sales only
+            </div>
+            <div className='text-muted-foreground'>Book sales</div>
+          </CardFooter>
+        </Card>
+
+        <Card className='@container/card'>
+          <CardHeader>
+            <CardDescription>Pre-order Revenue</CardDescription>
+            <CardTitle className='text-2xl font-semibold tabular-nums @[250px]/card:text-3xl'>
+              ₦{totalPreorderRevenue.toLocaleString()}
+            </CardTitle>
+            <CardAction>
+              <Badge variant='outline'>
+                <IconShoppingCart className='h-3 w-3' />
+              </Badge>
+            </CardAction>
+          </CardHeader>
+          <CardFooter className='flex-col items-start gap-1.5 text-sm'>
+            <div className='line-clamp-1 flex gap-2 font-medium'>
+              Confirmed pre-orders
+            </div>
+            <div className='text-muted-foreground'>All completed</div>
+          </CardFooter>
+        </Card>
+
+        <Card className='@container/card'>
+          <CardHeader>
+            <CardDescription>Transactions</CardDescription>
+            <CardTitle className='text-2xl font-semibold tabular-nums @[250px]/card:text-3xl'>
+              {totalTransactions}
+            </CardTitle>
+            <CardAction>
+              <Badge variant='outline'>
+                <IconCheck className='h-3 w-3' />
+              </Badge>
+            </CardAction>
+          </CardHeader>
+          <CardFooter className='flex-col items-start gap-1.5 text-sm'>
+            <div className='line-clamp-1 flex gap-2 font-medium'>
+              Completed sales
+            </div>
+            <div className='text-muted-foreground'>Current session</div>
+          </CardFooter>
+        </Card>
+      </div>
+
+      {/* Secondary KPIs */}
+      <div className='grid grid-cols-1 gap-4 px-4 lg:px-6 @xl/main:grid-cols-3'>
+        <Card>
+          <CardHeader>
+            <CardDescription>Units Sold</CardDescription>
+            <CardTitle className='text-2xl font-semibold tabular-nums'>
+              {totalItemsSold.toLocaleString()}
+            </CardTitle>
+          </CardHeader>
+          <CardFooter className='text-sm text-muted-foreground'>
+            Total copies sold across all books
+          </CardFooter>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardDescription>Books in Catalogue</CardDescription>
+            <CardTitle className='text-2xl font-semibold tabular-nums'>
+              {totalBooksInCatalog}
+            </CardTitle>
+          </CardHeader>
+          <CardFooter className='text-sm text-muted-foreground'>
+            Unique titles currently configured
+          </CardFooter>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardDescription>Current Stock (Sales)</CardDescription>
+            <CardTitle className='text-2xl font-semibold tabular-nums'>
+              {totalCurrentStock.toLocaleString()}
+            </CardTitle>
+          </CardHeader>
+          <CardFooter className='text-sm text-muted-foreground'>
+            Remaining units available for sale
+          </CardFooter>
+        </Card>
+      </div>
+
+      {/* Top books + demand chart */}
+      <div className='grid grid-cols-1 gap-4 px-4 lg:px-6 @xl/main:grid-cols-2'>
+        <Card>
+          <CardHeader>
+            <CardTitle>Top selling books</CardTitle>
+            <CardDescription>
+              Ranked by quantity sold in the current session
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Title</TableHead>
+                  <TableHead className='text-right'>Units Sold</TableHead>
+                  <TableHead className='text-right'>Revenue</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {topBooks && topBooks.length > 0 ? (
+                  topBooks.map((book: any) => (
+                    <TableRow key={book.title}>
+                      <TableCell className='font-medium'>{book.title}</TableCell>
+                      <TableCell className='text-right'>
+                        {book.quantity.toLocaleString()}
+                      </TableCell>
+                      <TableCell className='text-right'>
+                        ₦{(book.revenue || 0).toLocaleString()}
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={3}
+                      className='text-center text-muted-foreground'
+                    >
+                      No sales yet for this session
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Demand by quantity</CardTitle>
+            <CardDescription>
+              Quick bar view of most needed titles
+            </CardDescription>
+          </CardHeader>
+          <CardContent className='space-y-3'>
+            {topBooks && topBooks.length > 0 ? (
+              topBooks.map((book: any) => {
+                const percent =
+                  maxQuantity > 0
+                    ? Math.max(
+                        5,
+                        Math.round((book.quantity / maxQuantity) * 100)
+                      )
+                    : 0;
+                return (
+                  <div key={book.title}>
+                    <div className='flex justify-between text-xs mb-1'>
+                      <span className='font-medium line-clamp-1'>
+                        {book.title}
+                      </span>
+                      <span className='text-muted-foreground'>
+                        {book.quantity.toLocaleString()} units
+                      </span>
+                    </div>
+                    <div className='h-2 w-full rounded-full bg-muted overflow-hidden'>
+                      <div
+                        className='h-2 rounded-full bg-primary'
+                        style={{ width: `${percent}%` }}
+                      />
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <p className='text-sm text-muted-foreground'>
+                No demand data yet. Sales will appear here once recorded.
+              </p>
+            )}
           </CardContent>
         </Card>
       </div>
