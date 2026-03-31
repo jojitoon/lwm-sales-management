@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
     if (!req.auth || !req.auth.user) {
       return NextResponse.json(
         { message: 'Not authenticated' },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
       if (!mySession?.tableSaleSession) {
         return NextResponse.json(
           { message: 'Table sale session not found' },
-          { status: 404 }
+          { status: 404 },
         );
       }
 
@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
       console.error('Error fetching book sales:', error);
       return NextResponse.json(
         { message: 'Failed to fetch book sales' },
-        { status: 500 }
+        { status: 500 },
       );
     }
   })(request, {});
@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
     if (!req.auth || !req.auth.user) {
       return NextResponse.json(
         { message: 'Not authenticated' },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -84,7 +84,7 @@ export async function POST(request: NextRequest) {
       if (!customerInfo.fullName || !items || items.length === 0) {
         return NextResponse.json(
           { message: 'Invalid request data' },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
@@ -108,7 +108,7 @@ export async function POST(request: NextRequest) {
       if (!mySession?.tableSaleSession) {
         return NextResponse.json(
           { message: 'Table sale session not found' },
-          { status: 404 }
+          { status: 404 },
         );
       }
 
@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
             message:
               'Stock has been closed for this table session. No new sales can be made.',
           },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
@@ -147,7 +147,7 @@ export async function POST(request: NextRequest) {
             {
               message: `Slip number "${customerInfo.slipNumber}" already exists. Please use a different slip number.`,
             },
-            { status: 400 }
+            { status: 400 },
           );
         }
       }
@@ -192,7 +192,7 @@ export async function POST(request: NextRequest) {
         if (!book) {
           return NextResponse.json(
             { message: `Book "${item.bookTitle}" not found` },
-            { status: 400 }
+            { status: 400 },
           );
         }
 
@@ -214,7 +214,7 @@ export async function POST(request: NextRequest) {
 
             // Check and update table stock for component book
             const componentStockIndex = updatedStock.findIndex(
-              (stockItem: any) => stockItem.title === componentBook.title
+              (stockItem: any) => stockItem.title === componentBook.title,
             );
             if (componentStockIndex >= 0) {
               if (
@@ -224,13 +224,16 @@ export async function POST(request: NextRequest) {
                   {
                     message: `Insufficient stock for "${componentBook.title}" (component of "${item.bookTitle}"). Required: ${quantityToDeduct}, Available: ${updatedStock[componentStockIndex].available}`,
                   },
-                  { status: 400 }
+                  { status: 400 },
                 );
               }
               updatedStock[componentStockIndex] = {
                 ...updatedStock[componentStockIndex],
                 available:
                   updatedStock[componentStockIndex].available -
+                  quantityToDeduct,
+                distributed:
+                  updatedStock[componentStockIndex].distributed +
                   quantityToDeduct,
               };
             } else {
@@ -249,7 +252,7 @@ export async function POST(request: NextRequest) {
                   {
                     message: `Insufficient global stock for "${componentBook.title}" (component of "${item.bookTitle}"). Required: ${quantityToDeduct}`,
                   },
-                  { status: 400 }
+                  { status: 400 },
                 );
               }
             }
@@ -257,18 +260,19 @@ export async function POST(request: NextRequest) {
         } else {
           // Regular book - update table stock as before
           const stockIndex = updatedStock.findIndex(
-            (stockItem: any) => stockItem.title === item.bookTitle
+            (stockItem: any) => stockItem.title === item.bookTitle,
           );
           if (stockIndex >= 0) {
             if (updatedStock[stockIndex].available < item.quantity) {
               return NextResponse.json(
                 { message: `Insufficient stock for "${item.bookTitle}"` },
-                { status: 400 }
+                { status: 400 },
               );
             }
             updatedStock[stockIndex] = {
               ...updatedStock[stockIndex],
               available: updatedStock[stockIndex].available - item.quantity,
+              distributed: updatedStock[stockIndex].distributed + item.quantity,
             };
           }
         }
@@ -318,13 +322,13 @@ export async function POST(request: NextRequest) {
           {
             message: `Slip number already exists. Please use a different slip number.`,
           },
-          { status: 400 }
+          { status: 400 },
         );
       }
 
       return NextResponse.json(
         { message: 'Failed to create sale' },
-        { status: 500 }
+        { status: 500 },
       );
     }
   })(request, {});

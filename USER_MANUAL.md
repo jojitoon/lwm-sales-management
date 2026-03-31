@@ -8,6 +8,7 @@
    - [Admin](#admin)
    - [Main Store](#main-store)
    - [Mini Store](#mini-store)
+   - [Preorder Mini Store](#preorder-mini-store)
    - [Table Manager](#table-manager)
    - [Book Sales](#book-sales)
    - [Pre-order](#pre-order)
@@ -40,6 +41,29 @@ It also handles:
 1. Open your web browser and navigate to the application URL
 2. You will see the login page
 
+### Email address conventions (examples)
+
+Use a **different email for each workspace** (and for each person). The examples below match the screenshots in this manual; replace `workspace.com` with your organisation’s domain if needed.
+
+| Workspace | Example email | Extra fields on login |
+|-----------|---------------|------------------------|
+| Main Store | `test@main.workspace.com` | — |
+| Mini Store | `test@mini.workspace.com` | — |
+| Preorder Mini Store | `test@preorder-mini.workspace.com` | — |
+| Table Manager (POS) | `test+pos@table.workspace.com` | **Table type:** POS |
+| Table Manager (Cash) | `test+cash@table.workspace.com` | **Table type:** Cash |
+| Table Manager (Transfer) | `test+trf@table.workspace.com` | **Table type:** Transfer |
+| Table Manager (QR) | `test+qr@table.workspace.com` | **Table type:** QR |
+| Table Manager (Preorder table) | `test+preorder@table.workspace.com` | **Table type:** Preorder |
+| Book Sales | `staff+POS-1@sales.workspace.com` | **Table Id** = exact ID from Table Manager (e.g. `POS-1`) |
+| Pre-order | `preorder+POS-1@workspace.com` | **Table Id** = same linked table (e.g. `POS-1`) |
+
+**How to read these patterns**
+
+- **Table Manager:** `test+{type}@table.workspace.com` — the tag after `+` matches the **table type** (`pos`, `cash`, `trf`, `qr`, `preorder`).
+- **Book Sales:** `staff+{TABLE_ID}@sales.workspace.com` — the tag after `+` is the **exact Table ID** (e.g. `POS-1`) shown to the Table Manager after login.
+- **Pre-order:** `preorder+{TABLE_ID}@workspace.com` plus the same value in **Table Id**. A Table Manager must already be logged in for that table in the current session.
+
 ### Step 2: Login Process
 
 1. **For Regular Users:**
@@ -62,6 +86,10 @@ It also handles:
    - You will be redirected to the admin login page
    - Enter your admin credentials
 
+![Login page (regular users)](public/manual-screenshots/01-login-page.png)
+
+![Admin login page](public/manual-screenshots/02-admin-login.png)
+
 ### Step 3: Understanding Your Dashboard
 
 After logging in, you'll see a dashboard customized for your role showing:
@@ -69,6 +97,8 @@ After logging in, you'll see a dashboard customized for your role showing:
 - Key metrics and statistics
 - Recent activity
 - Quick access to important features
+
+![Dashboard preview](public/manual-screenshots/03-dashboard.png)
 
 ---
 
@@ -95,12 +125,16 @@ Admins have full access to the system, including reconciliation, session managem
    - Configure admin password
    - Manage main store data
 
+![Admin App Settings page](public/manual-screenshots/04-app-settings.png)
+
 **Step 1.2: Manage Books**
 
 1. Click **"All Books"** in the sidebar
 2. View all books in the system
 3. Add new books, edit existing ones, or manage book quantities
 4. Set book prices and availability
+
+![All Books page](public/manual-screenshots/05-all-books.png)
 
 **Step 1.3: Import Pre-orders (if applicable)**
 
@@ -175,6 +209,8 @@ Admins have full access to the system, including reconciliation, session managem
    - Closing stock reports
    - Pre-order data
 
+![Reconciliation Report page](public/manual-screenshots/06-reconciliation.png)
+
 **Step 4.2: Review Reconciliation Details**
 
 1. Click on any table or section to view detailed breakdowns
@@ -212,10 +248,15 @@ Main Store manages the primary inventory and distributes books to Mini Stores up
 
 **Step 1.1: First Login**
 
-1. Log in with your email
-2. Select **"Main Store"** as your workspace
-3. Click **"Login"**
-4. Your Main Store session will be created automatically
+1. Open the login page (see [Getting Started](#getting-started)).
+2. Enter your email, e.g. **`test@main.workspace.com`** (see [email conventions](#email-address-conventions-examples)).
+3. Select **"Main Store"** as your workspace.
+4. Click **"Login"**.
+5. Your Main Store session is created automatically.
+
+![Main Store — login](public/manual-screenshots/07-login-main-store.png)
+
+![Main Store — dashboard after login](public/manual-screenshots/08-main-store-dashboard.png)
 
 **Step 1.2: Receive Initial Stock**
 
@@ -329,10 +370,14 @@ Mini Store receives books from Main Store and distributes them to Table Managers
 
 **Step 1.1: First Login**
 
-1. Log in with your email
-2. Select **"Mini Store"** as your workspace
-3. Click **"Login"**
-4. Your Mini Store session will be created automatically
+1. Enter your email, e.g. **`test@mini.workspace.com`**.
+2. Select **"Mini Store"** as your workspace.
+3. Click **"Login"**.
+4. Your Mini Store session is created automatically.
+
+![Mini Store — login](public/manual-screenshots/09-login-mini-store.png)
+
+![Mini Store — dashboard](public/manual-screenshots/10-mini-store-dashboard.png)
 
 #### 2. Requesting Books from Main Store
 
@@ -357,6 +402,8 @@ Mini Store receives books from Main Store and distributes them to Table Managers
    - **Approved**: Books have been granted
    - **Denied**: Request was rejected
 3. If approved, the books will appear in your stock
+
+![Mini Store — Requests page](public/manual-screenshots/11-mini-store-requests.png)
 
 #### 3. Stock Management
 
@@ -436,6 +483,30 @@ Mini Store receives books from Main Store and distributes them to Table Managers
 
 ---
 
+## Preorder Mini Store
+
+### Overview
+
+**Preorder Mini Store** is a separate workspace for preorder-specific mini store operations (distinct from the regular Mini Store). Use its own email.
+
+### Step-by-Step Guide
+
+**Step 1: Login**
+
+1. Enter e.g. **`test@preorder-mini.workspace.com`**.
+2. Select **"Preorder Mini Store"** as your workspace.
+3. Click **"Login"**.
+
+![Preorder Mini Store — login](public/manual-screenshots/18-login-preorder-mini-store.png)
+
+**Step 2: Dashboard**
+
+After login you see the Preorder Mini Store dashboard (session name in the header, sidebar shows **Stock**, **Requests**, etc.).
+
+![Preorder Mini Store — dashboard](public/manual-screenshots/19-preorder-mini-dashboard.png)
+
+---
+
 ## Table Manager
 
 ### Overview
@@ -448,16 +519,16 @@ Table Manager receives stock from Mini Store and manages inventory for a specifi
 
 **Step 1.1: First Login**
 
-1. Log in with your email
-2. Select **"Table Manager"** as your workspace
-3. Select your **Table Type**:
-   - POS
-   - Cash
-   - Transfer
-   - QR
-   - Preorder
-4. Click **"Login"**
-5. A table session will be created with a unique Table ID (e.g., POS-001)
+1. Use an email in the form **`test+{type}@table.workspace.com`**, where `{type}` is **`pos`**, **`cash`**, **`trf`**, **`qr`**, or **`preorder`** (matching the table type you will select).
+2. Example for a **POS** table: **`test+pos@table.workspace.com`**.
+3. Select **"Table Manager"** as your workspace.
+4. Select your **Table Type** (POS, Cash, Transfer, QR, or Preorder) — it must match the tag in your email.
+5. Click **"Login"**.
+6. A table session is created with a unique **Table ID** (e.g. **POS-1**).
+
+![Table Manager — login (POS example)](public/manual-screenshots/12-login-table-manager-pos.png)
+
+![Table Manager — dashboard; note Table ID in sidebar (e.g. POS-1)](public/manual-screenshots/13-table-manager-dashboard.png)
 
 **Step 1.2: Note Your Table ID**
 
@@ -602,11 +673,16 @@ Book Sales personnel work at a specific table and process customer sales. They s
 
 **Step 1.1: First Login**
 
-1. Log in with your email
-2. Select **"Book Sales"** as your workspace
-3. Enter the **Table ID** provided by your Table Manager
-4. Click **"Login"**
-5. You will be linked to that table's stock and sales session
+1. **Prerequisite:** A Table Manager must already have logged in for that table; note the **Table ID** (e.g. **POS-1**).
+2. Use an email **`staff+{TABLE_ID}@sales.workspace.com`** — the part after `+` must be the **exact Table ID** (e.g. **`staff+POS-1@sales.workspace.com`** for table **POS-1**).
+3. Select **"Book Sales"** as your workspace.
+4. Enter the same **Table Id** in the field (e.g. **`POS-1`**).
+5. Click **"Login"**.
+6. You are linked to that table’s stock and sales session.
+
+![Book Sales — login](public/manual-screenshots/14-login-book-sales.png)
+
+![Book Sales — dashboard](public/manual-screenshots/15-book-sales-dashboard.png)
 
 **Step 1.2: Verify Table Assignment**
 
@@ -731,11 +807,16 @@ Pre-order personnel handle pre-order confirmations and collections. They receive
 
 **Step 1.1: First Login**
 
-1. Log in with your email
-2. Select **"Pre-order"** as your workspace
-3. Enter the **Table ID** of the Table Manager you're linked to
-4. Click **"Login"**
-5. Your pre-order session will be linked to that table
+1. **Prerequisite:** A Table Manager session must exist for the table you link to (same **Table Id**).
+2. Use e.g. **`preorder+POS-1@workspace.com`** (tag after `+` = that table’s ID).
+3. Select **"Pre-order"** as your workspace.
+4. Enter the **Table Id** (e.g. **`POS-1`**) — must match the Table Manager’s table.
+5. Click **"Login"**.
+6. Your pre-order session is linked to that table.
+
+![Pre-order — login](public/manual-screenshots/16-login-preorder.png)
+
+![Pre-order — dashboard](public/manual-screenshots/17-preorder-dashboard.png)
 
 **Step 1.2: Verify Session Link**
 

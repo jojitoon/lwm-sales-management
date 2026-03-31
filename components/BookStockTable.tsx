@@ -82,47 +82,47 @@ export const BookStockTable = ({
     available: number;
     distributed: number;
   }>[] = [
-    {
-      accessorKey: 'title',
-      cell: ({ row }) => {
-        return <div className='capitalize'>{row.original.title}</div>;
+      {
+        accessorKey: 'title',
+        cell: ({ row }) => {
+          return <div className='capitalize'>{row.original.title}</div>;
+        },
+        header: 'Title',
       },
-      header: 'Title',
-    },
-    {
-      accessorKey: 'price',
-      header: 'Price',
-      cell: ({ row }) => (
-        <div>{`${Number(row.original.price).toLocaleString('en-NG', {
-          style: 'currency',
-          currency: 'NGN',
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 0,
-        })}`}</div>
-      ),
-    },
-    {
-      accessorKey: 'total',
-      header: 'Total',
-      cell: ({ row }) => (
-        <div>{Number(row.original.total).toLocaleString()}</div>
-      ),
-    },
-    {
-      accessorKey: 'available',
-      header: 'Available',
-      cell: ({ row }) => (
-        <div>{Number(row.original.available).toLocaleString()}</div>
-      ),
-    },
-    {
-      accessorKey: 'distributed',
-      header: 'Distributed',
-      cell: ({ row }) => (
-        <div>{Number(row.original.distributed).toLocaleString()}</div>
-      ),
-    },
-  ];
+      {
+        accessorKey: 'price',
+        header: 'Price',
+        cell: ({ row }) => (
+          <div>{`${Number(row.original.price).toLocaleString('en-NG', {
+            style: 'currency',
+            currency: 'NGN',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+          })}`}</div>
+        ),
+      },
+      {
+        accessorKey: 'total',
+        header: 'Total',
+        cell: ({ row }) => (
+          <div>{Number(row.original.total).toLocaleString()}</div>
+        ),
+      },
+      {
+        accessorKey: 'available',
+        header: 'Available',
+        cell: ({ row }) => (
+          <div>{Number(row.original.available).toLocaleString()}</div>
+        ),
+      },
+      {
+        accessorKey: 'distributed',
+        header: 'Distributed',
+        cell: ({ row }) => (
+          <div>{Number(row.original.distributed || (row.original.total - row.original.available)).toLocaleString()}</div>
+        ),
+      },
+    ];
 
   const table = useReactTable({
     data: data || [],
@@ -159,9 +159,9 @@ export const BookStockTable = ({
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
                   );
                 })}
@@ -176,8 +176,8 @@ export const BookStockTable = ({
                   data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => {
-                    const headerLabel = typeof cell.column.columnDef.header === 'string' 
-                      ? cell.column.columnDef.header 
+                    const headerLabel = typeof cell.column.columnDef.header === 'string'
+                      ? cell.column.columnDef.header
                       : cell.column.id;
                     return (
                       <TableCell key={cell.id} data-label={headerLabel}>
@@ -214,7 +214,7 @@ export const BookStockTable = ({
             to{' '}
             {Math.min(
               (table.getState().pagination.pageIndex + 1) *
-                table.getState().pagination.pageSize,
+              table.getState().pagination.pageSize,
               data.length
             )}{' '}
             of {data.length} book{data.length !== 1 ? 's' : ''}
