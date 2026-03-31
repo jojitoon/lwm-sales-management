@@ -113,6 +113,11 @@ export type BookMapping = $Result.DefaultSelection<Prisma.$BookMappingPayload>
  * 
  */
 export type ComboBookItem = $Result.DefaultSelection<Prisma.$ComboBookItemPayload>
+/**
+ * Model ClosingStockRequest
+ * 
+ */
+export type ClosingStockRequest = $Result.DefaultSelection<Prisma.$ClosingStockRequestPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -438,6 +443,16 @@ export class PrismaClient<
     * ```
     */
   get comboBookItem(): Prisma.ComboBookItemDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.closingStockRequest`: Exposes CRUD operations for the **ClosingStockRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ClosingStockRequests
+    * const closingStockRequests = await prisma.closingStockRequest.findMany()
+    * ```
+    */
+  get closingStockRequest(): Prisma.ClosingStockRequestDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -897,7 +912,8 @@ export namespace Prisma {
     BookSale: 'BookSale',
     BookSaleItem: 'BookSaleItem',
     BookMapping: 'BookMapping',
-    ComboBookItem: 'ComboBookItem'
+    ComboBookItem: 'ComboBookItem',
+    ClosingStockRequest: 'ClosingStockRequest'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -916,7 +932,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "verificationToken" | "setting" | "preOrder" | "orderItem" | "consolidation" | "preorderSession" | "tableSaleSession" | "mySession" | "miniStoreSession" | "mainStoreSession" | "mainStoreRequest" | "miniStoreRequest" | "book" | "bookSale" | "bookSaleItem" | "bookMapping" | "comboBookItem"
+      modelProps: "user" | "account" | "session" | "verificationToken" | "setting" | "preOrder" | "orderItem" | "consolidation" | "preorderSession" | "tableSaleSession" | "mySession" | "miniStoreSession" | "mainStoreSession" | "mainStoreRequest" | "miniStoreRequest" | "book" | "bookSale" | "bookSaleItem" | "bookMapping" | "comboBookItem" | "closingStockRequest"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2400,6 +2416,80 @@ export namespace Prisma {
           }
         }
       }
+      ClosingStockRequest: {
+        payload: Prisma.$ClosingStockRequestPayload<ExtArgs>
+        fields: Prisma.ClosingStockRequestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ClosingStockRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClosingStockRequestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ClosingStockRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClosingStockRequestPayload>
+          }
+          findFirst: {
+            args: Prisma.ClosingStockRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClosingStockRequestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ClosingStockRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClosingStockRequestPayload>
+          }
+          findMany: {
+            args: Prisma.ClosingStockRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClosingStockRequestPayload>[]
+          }
+          create: {
+            args: Prisma.ClosingStockRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClosingStockRequestPayload>
+          }
+          createMany: {
+            args: Prisma.ClosingStockRequestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ClosingStockRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClosingStockRequestPayload>[]
+          }
+          delete: {
+            args: Prisma.ClosingStockRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClosingStockRequestPayload>
+          }
+          update: {
+            args: Prisma.ClosingStockRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClosingStockRequestPayload>
+          }
+          deleteMany: {
+            args: Prisma.ClosingStockRequestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ClosingStockRequestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ClosingStockRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClosingStockRequestPayload>[]
+          }
+          upsert: {
+            args: Prisma.ClosingStockRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ClosingStockRequestPayload>
+          }
+          aggregate: {
+            args: Prisma.ClosingStockRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateClosingStockRequest>
+          }
+          groupBy: {
+            args: Prisma.ClosingStockRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ClosingStockRequestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ClosingStockRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<ClosingStockRequestCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2504,6 +2594,7 @@ export namespace Prisma {
     bookSaleItem?: BookSaleItemOmit
     bookMapping?: BookMappingOmit
     comboBookItem?: ComboBookItemOmit
+    closingStockRequest?: ClosingStockRequestOmit
   }
 
   /* Types for Logging */
@@ -2770,6 +2861,7 @@ export namespace Prisma {
     bookSales: number
     miniStoreRequests: number
     preorderSessions: number
+    closingRequestsFrom: number
     mySessions: number
   }
 
@@ -2777,6 +2869,7 @@ export namespace Prisma {
     bookSales?: boolean | TableSaleSessionCountOutputTypeCountBookSalesArgs
     miniStoreRequests?: boolean | TableSaleSessionCountOutputTypeCountMiniStoreRequestsArgs
     preorderSessions?: boolean | TableSaleSessionCountOutputTypeCountPreorderSessionsArgs
+    closingRequestsFrom?: boolean | TableSaleSessionCountOutputTypeCountClosingRequestsFromArgs
     mySessions?: boolean | TableSaleSessionCountOutputTypeCountMySessionsArgs
   }
 
@@ -2815,6 +2908,13 @@ export namespace Prisma {
   /**
    * TableSaleSessionCountOutputType without action
    */
+  export type TableSaleSessionCountOutputTypeCountClosingRequestsFromArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClosingStockRequestWhereInput
+  }
+
+  /**
+   * TableSaleSessionCountOutputType without action
+   */
   export type TableSaleSessionCountOutputTypeCountMySessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MySessionWhereInput
   }
@@ -2828,12 +2928,16 @@ export namespace Prisma {
     mySessions: number
     mainStoreRequests: number
     miniStoreRequests: number
+    closingRequestsTo: number
+    closingRequestsFrom: number
   }
 
   export type MiniStoreSessionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     mySessions?: boolean | MiniStoreSessionCountOutputTypeCountMySessionsArgs
     mainStoreRequests?: boolean | MiniStoreSessionCountOutputTypeCountMainStoreRequestsArgs
     miniStoreRequests?: boolean | MiniStoreSessionCountOutputTypeCountMiniStoreRequestsArgs
+    closingRequestsTo?: boolean | MiniStoreSessionCountOutputTypeCountClosingRequestsToArgs
+    closingRequestsFrom?: boolean | MiniStoreSessionCountOutputTypeCountClosingRequestsFromArgs
   }
 
   // Custom InputTypes
@@ -2868,6 +2972,20 @@ export namespace Prisma {
     where?: MiniStoreRequestWhereInput
   }
 
+  /**
+   * MiniStoreSessionCountOutputType without action
+   */
+  export type MiniStoreSessionCountOutputTypeCountClosingRequestsToArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClosingStockRequestWhereInput
+  }
+
+  /**
+   * MiniStoreSessionCountOutputType without action
+   */
+  export type MiniStoreSessionCountOutputTypeCountClosingRequestsFromArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClosingStockRequestWhereInput
+  }
+
 
   /**
    * Count Type MainStoreSessionCountOutputType
@@ -2876,11 +2994,13 @@ export namespace Prisma {
   export type MainStoreSessionCountOutputType = {
     mySessions: number
     mainStoreRequests: number
+    closingRequestsTo: number
   }
 
   export type MainStoreSessionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     mySessions?: boolean | MainStoreSessionCountOutputTypeCountMySessionsArgs
     mainStoreRequests?: boolean | MainStoreSessionCountOutputTypeCountMainStoreRequestsArgs
+    closingRequestsTo?: boolean | MainStoreSessionCountOutputTypeCountClosingRequestsToArgs
   }
 
   // Custom InputTypes
@@ -2906,6 +3026,13 @@ export namespace Prisma {
    */
   export type MainStoreSessionCountOutputTypeCountMainStoreRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MainStoreRequestWhereInput
+  }
+
+  /**
+   * MainStoreSessionCountOutputType without action
+   */
+  export type MainStoreSessionCountOutputTypeCountClosingRequestsToArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClosingStockRequestWhereInput
   }
 
 
@@ -13412,6 +13539,7 @@ export namespace Prisma {
     bookSales?: boolean | TableSaleSession$bookSalesArgs<ExtArgs>
     miniStoreRequests?: boolean | TableSaleSession$miniStoreRequestsArgs<ExtArgs>
     preorderSessions?: boolean | TableSaleSession$preorderSessionsArgs<ExtArgs>
+    closingRequestsFrom?: boolean | TableSaleSession$closingRequestsFromArgs<ExtArgs>
     mySessions?: boolean | TableSaleSession$mySessionsArgs<ExtArgs>
     _count?: boolean | TableSaleSessionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["tableSaleSession"]>
@@ -13463,6 +13591,7 @@ export namespace Prisma {
     bookSales?: boolean | TableSaleSession$bookSalesArgs<ExtArgs>
     miniStoreRequests?: boolean | TableSaleSession$miniStoreRequestsArgs<ExtArgs>
     preorderSessions?: boolean | TableSaleSession$preorderSessionsArgs<ExtArgs>
+    closingRequestsFrom?: boolean | TableSaleSession$closingRequestsFromArgs<ExtArgs>
     mySessions?: boolean | TableSaleSession$mySessionsArgs<ExtArgs>
     _count?: boolean | TableSaleSessionCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -13475,6 +13604,7 @@ export namespace Prisma {
       bookSales: Prisma.$BookSalePayload<ExtArgs>[]
       miniStoreRequests: Prisma.$MiniStoreRequestPayload<ExtArgs>[]
       preorderSessions: Prisma.$PreorderSessionPayload<ExtArgs>[]
+      closingRequestsFrom: Prisma.$ClosingStockRequestPayload<ExtArgs>[]
       mySessions: Prisma.$MySessionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -13886,6 +14016,7 @@ export namespace Prisma {
     bookSales<T extends TableSaleSession$bookSalesArgs<ExtArgs> = {}>(args?: Subset<T, TableSaleSession$bookSalesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookSalePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     miniStoreRequests<T extends TableSaleSession$miniStoreRequestsArgs<ExtArgs> = {}>(args?: Subset<T, TableSaleSession$miniStoreRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MiniStoreRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     preorderSessions<T extends TableSaleSession$preorderSessionsArgs<ExtArgs> = {}>(args?: Subset<T, TableSaleSession$preorderSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PreorderSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    closingRequestsFrom<T extends TableSaleSession$closingRequestsFromArgs<ExtArgs> = {}>(args?: Subset<T, TableSaleSession$closingRequestsFromArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClosingStockRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     mySessions<T extends TableSaleSession$mySessionsArgs<ExtArgs> = {}>(args?: Subset<T, TableSaleSession$mySessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MySessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -14384,6 +14515,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PreorderSessionScalarFieldEnum | PreorderSessionScalarFieldEnum[]
+  }
+
+  /**
+   * TableSaleSession.closingRequestsFrom
+   */
+  export type TableSaleSession$closingRequestsFromArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClosingStockRequest
+     */
+    select?: ClosingStockRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClosingStockRequest
+     */
+    omit?: ClosingStockRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClosingStockRequestInclude<ExtArgs> | null
+    where?: ClosingStockRequestWhereInput
+    orderBy?: ClosingStockRequestOrderByWithRelationInput | ClosingStockRequestOrderByWithRelationInput[]
+    cursor?: ClosingStockRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ClosingStockRequestScalarFieldEnum | ClosingStockRequestScalarFieldEnum[]
   }
 
   /**
@@ -15889,6 +16044,8 @@ export namespace Prisma {
     mySessions?: boolean | MiniStoreSession$mySessionsArgs<ExtArgs>
     mainStoreRequests?: boolean | MiniStoreSession$mainStoreRequestsArgs<ExtArgs>
     miniStoreRequests?: boolean | MiniStoreSession$miniStoreRequestsArgs<ExtArgs>
+    closingRequestsTo?: boolean | MiniStoreSession$closingRequestsToArgs<ExtArgs>
+    closingRequestsFrom?: boolean | MiniStoreSession$closingRequestsFromArgs<ExtArgs>
     _count?: boolean | MiniStoreSessionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["miniStoreSession"]>
 
@@ -15942,6 +16099,8 @@ export namespace Prisma {
     mySessions?: boolean | MiniStoreSession$mySessionsArgs<ExtArgs>
     mainStoreRequests?: boolean | MiniStoreSession$mainStoreRequestsArgs<ExtArgs>
     miniStoreRequests?: boolean | MiniStoreSession$miniStoreRequestsArgs<ExtArgs>
+    closingRequestsTo?: boolean | MiniStoreSession$closingRequestsToArgs<ExtArgs>
+    closingRequestsFrom?: boolean | MiniStoreSession$closingRequestsFromArgs<ExtArgs>
     _count?: boolean | MiniStoreSessionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type MiniStoreSessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -15953,6 +16112,8 @@ export namespace Prisma {
       mySessions: Prisma.$MySessionPayload<ExtArgs>[]
       mainStoreRequests: Prisma.$MainStoreRequestPayload<ExtArgs>[]
       miniStoreRequests: Prisma.$MiniStoreRequestPayload<ExtArgs>[]
+      closingRequestsTo: Prisma.$ClosingStockRequestPayload<ExtArgs>[]
+      closingRequestsFrom: Prisma.$ClosingStockRequestPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -16364,6 +16525,8 @@ export namespace Prisma {
     mySessions<T extends MiniStoreSession$mySessionsArgs<ExtArgs> = {}>(args?: Subset<T, MiniStoreSession$mySessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MySessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     mainStoreRequests<T extends MiniStoreSession$mainStoreRequestsArgs<ExtArgs> = {}>(args?: Subset<T, MiniStoreSession$mainStoreRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MainStoreRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     miniStoreRequests<T extends MiniStoreSession$miniStoreRequestsArgs<ExtArgs> = {}>(args?: Subset<T, MiniStoreSession$miniStoreRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MiniStoreRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    closingRequestsTo<T extends MiniStoreSession$closingRequestsToArgs<ExtArgs> = {}>(args?: Subset<T, MiniStoreSession$closingRequestsToArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClosingStockRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    closingRequestsFrom<T extends MiniStoreSession$closingRequestsFromArgs<ExtArgs> = {}>(args?: Subset<T, MiniStoreSession$closingRequestsFromArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClosingStockRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -16865,6 +17028,54 @@ export namespace Prisma {
   }
 
   /**
+   * MiniStoreSession.closingRequestsTo
+   */
+  export type MiniStoreSession$closingRequestsToArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClosingStockRequest
+     */
+    select?: ClosingStockRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClosingStockRequest
+     */
+    omit?: ClosingStockRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClosingStockRequestInclude<ExtArgs> | null
+    where?: ClosingStockRequestWhereInput
+    orderBy?: ClosingStockRequestOrderByWithRelationInput | ClosingStockRequestOrderByWithRelationInput[]
+    cursor?: ClosingStockRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ClosingStockRequestScalarFieldEnum | ClosingStockRequestScalarFieldEnum[]
+  }
+
+  /**
+   * MiniStoreSession.closingRequestsFrom
+   */
+  export type MiniStoreSession$closingRequestsFromArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClosingStockRequest
+     */
+    select?: ClosingStockRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClosingStockRequest
+     */
+    omit?: ClosingStockRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClosingStockRequestInclude<ExtArgs> | null
+    where?: ClosingStockRequestWhereInput
+    orderBy?: ClosingStockRequestOrderByWithRelationInput | ClosingStockRequestOrderByWithRelationInput[]
+    cursor?: ClosingStockRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ClosingStockRequestScalarFieldEnum | ClosingStockRequestScalarFieldEnum[]
+  }
+
+  /**
    * MiniStoreSession without action
    */
   export type MiniStoreSessionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -17089,6 +17300,7 @@ export namespace Prisma {
     updatedAt?: boolean
     mySessions?: boolean | MainStoreSession$mySessionsArgs<ExtArgs>
     mainStoreRequests?: boolean | MainStoreSession$mainStoreRequestsArgs<ExtArgs>
+    closingRequestsTo?: boolean | MainStoreSession$closingRequestsToArgs<ExtArgs>
     _count?: boolean | MainStoreSessionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["mainStoreSession"]>
 
@@ -17141,6 +17353,7 @@ export namespace Prisma {
   export type MainStoreSessionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     mySessions?: boolean | MainStoreSession$mySessionsArgs<ExtArgs>
     mainStoreRequests?: boolean | MainStoreSession$mainStoreRequestsArgs<ExtArgs>
+    closingRequestsTo?: boolean | MainStoreSession$closingRequestsToArgs<ExtArgs>
     _count?: boolean | MainStoreSessionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type MainStoreSessionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -17151,6 +17364,7 @@ export namespace Prisma {
     objects: {
       mySessions: Prisma.$MySessionPayload<ExtArgs>[]
       mainStoreRequests: Prisma.$MainStoreRequestPayload<ExtArgs>[]
+      closingRequestsTo: Prisma.$ClosingStockRequestPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -17561,6 +17775,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     mySessions<T extends MainStoreSession$mySessionsArgs<ExtArgs> = {}>(args?: Subset<T, MainStoreSession$mySessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MySessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     mainStoreRequests<T extends MainStoreSession$mainStoreRequestsArgs<ExtArgs> = {}>(args?: Subset<T, MainStoreSession$mainStoreRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MainStoreRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    closingRequestsTo<T extends MainStoreSession$closingRequestsToArgs<ExtArgs> = {}>(args?: Subset<T, MainStoreSession$closingRequestsToArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClosingStockRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -18035,6 +18250,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MainStoreRequestScalarFieldEnum | MainStoreRequestScalarFieldEnum[]
+  }
+
+  /**
+   * MainStoreSession.closingRequestsTo
+   */
+  export type MainStoreSession$closingRequestsToArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClosingStockRequest
+     */
+    select?: ClosingStockRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClosingStockRequest
+     */
+    omit?: ClosingStockRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClosingStockRequestInclude<ExtArgs> | null
+    where?: ClosingStockRequestWhereInput
+    orderBy?: ClosingStockRequestOrderByWithRelationInput | ClosingStockRequestOrderByWithRelationInput[]
+    cursor?: ClosingStockRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ClosingStockRequestScalarFieldEnum | ClosingStockRequestScalarFieldEnum[]
   }
 
   /**
@@ -26220,6 +26459,1312 @@ export namespace Prisma {
 
 
   /**
+   * Model ClosingStockRequest
+   */
+
+  export type AggregateClosingStockRequest = {
+    _count: ClosingStockRequestCountAggregateOutputType | null
+    _min: ClosingStockRequestMinAggregateOutputType | null
+    _max: ClosingStockRequestMaxAggregateOutputType | null
+  }
+
+  export type ClosingStockRequestMinAggregateOutputType = {
+    id: string | null
+    session: string | null
+    fromWorkspace: string | null
+    toWorkspace: string | null
+    fromUserEmail: string | null
+    toUserEmail: string | null
+    fromTableSaleSessionId: string | null
+    toMiniStoreSessionId: string | null
+    fromMiniStoreSessionId: string | null
+    toMainStoreSessionId: string | null
+    status: string | null
+    verifiedBy: string | null
+    verifiedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ClosingStockRequestMaxAggregateOutputType = {
+    id: string | null
+    session: string | null
+    fromWorkspace: string | null
+    toWorkspace: string | null
+    fromUserEmail: string | null
+    toUserEmail: string | null
+    fromTableSaleSessionId: string | null
+    toMiniStoreSessionId: string | null
+    fromMiniStoreSessionId: string | null
+    toMainStoreSessionId: string | null
+    status: string | null
+    verifiedBy: string | null
+    verifiedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ClosingStockRequestCountAggregateOutputType = {
+    id: number
+    session: number
+    fromWorkspace: number
+    toWorkspace: number
+    fromUserEmail: number
+    toUserEmail: number
+    fromTableSaleSessionId: number
+    toMiniStoreSessionId: number
+    fromMiniStoreSessionId: number
+    toMainStoreSessionId: number
+    items: number
+    status: number
+    verifiedBy: number
+    verifiedAt: number
+    verification: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ClosingStockRequestMinAggregateInputType = {
+    id?: true
+    session?: true
+    fromWorkspace?: true
+    toWorkspace?: true
+    fromUserEmail?: true
+    toUserEmail?: true
+    fromTableSaleSessionId?: true
+    toMiniStoreSessionId?: true
+    fromMiniStoreSessionId?: true
+    toMainStoreSessionId?: true
+    status?: true
+    verifiedBy?: true
+    verifiedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ClosingStockRequestMaxAggregateInputType = {
+    id?: true
+    session?: true
+    fromWorkspace?: true
+    toWorkspace?: true
+    fromUserEmail?: true
+    toUserEmail?: true
+    fromTableSaleSessionId?: true
+    toMiniStoreSessionId?: true
+    fromMiniStoreSessionId?: true
+    toMainStoreSessionId?: true
+    status?: true
+    verifiedBy?: true
+    verifiedAt?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ClosingStockRequestCountAggregateInputType = {
+    id?: true
+    session?: true
+    fromWorkspace?: true
+    toWorkspace?: true
+    fromUserEmail?: true
+    toUserEmail?: true
+    fromTableSaleSessionId?: true
+    toMiniStoreSessionId?: true
+    fromMiniStoreSessionId?: true
+    toMainStoreSessionId?: true
+    items?: true
+    status?: true
+    verifiedBy?: true
+    verifiedAt?: true
+    verification?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ClosingStockRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ClosingStockRequest to aggregate.
+     */
+    where?: ClosingStockRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClosingStockRequests to fetch.
+     */
+    orderBy?: ClosingStockRequestOrderByWithRelationInput | ClosingStockRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ClosingStockRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClosingStockRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClosingStockRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ClosingStockRequests
+    **/
+    _count?: true | ClosingStockRequestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ClosingStockRequestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ClosingStockRequestMaxAggregateInputType
+  }
+
+  export type GetClosingStockRequestAggregateType<T extends ClosingStockRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregateClosingStockRequest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateClosingStockRequest[P]>
+      : GetScalarType<T[P], AggregateClosingStockRequest[P]>
+  }
+
+
+
+
+  export type ClosingStockRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ClosingStockRequestWhereInput
+    orderBy?: ClosingStockRequestOrderByWithAggregationInput | ClosingStockRequestOrderByWithAggregationInput[]
+    by: ClosingStockRequestScalarFieldEnum[] | ClosingStockRequestScalarFieldEnum
+    having?: ClosingStockRequestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ClosingStockRequestCountAggregateInputType | true
+    _min?: ClosingStockRequestMinAggregateInputType
+    _max?: ClosingStockRequestMaxAggregateInputType
+  }
+
+  export type ClosingStockRequestGroupByOutputType = {
+    id: string
+    session: string
+    fromWorkspace: string
+    toWorkspace: string
+    fromUserEmail: string | null
+    toUserEmail: string | null
+    fromTableSaleSessionId: string | null
+    toMiniStoreSessionId: string | null
+    fromMiniStoreSessionId: string | null
+    toMainStoreSessionId: string | null
+    items: JsonValue
+    status: string
+    verifiedBy: string | null
+    verifiedAt: Date | null
+    verification: JsonValue | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ClosingStockRequestCountAggregateOutputType | null
+    _min: ClosingStockRequestMinAggregateOutputType | null
+    _max: ClosingStockRequestMaxAggregateOutputType | null
+  }
+
+  type GetClosingStockRequestGroupByPayload<T extends ClosingStockRequestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ClosingStockRequestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ClosingStockRequestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ClosingStockRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], ClosingStockRequestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ClosingStockRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    session?: boolean
+    fromWorkspace?: boolean
+    toWorkspace?: boolean
+    fromUserEmail?: boolean
+    toUserEmail?: boolean
+    fromTableSaleSessionId?: boolean
+    toMiniStoreSessionId?: boolean
+    fromMiniStoreSessionId?: boolean
+    toMainStoreSessionId?: boolean
+    items?: boolean
+    status?: boolean
+    verifiedBy?: boolean
+    verifiedAt?: boolean
+    verification?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    fromTableSaleSession?: boolean | ClosingStockRequest$fromTableSaleSessionArgs<ExtArgs>
+    toMiniStoreSession?: boolean | ClosingStockRequest$toMiniStoreSessionArgs<ExtArgs>
+    fromMiniStoreSession?: boolean | ClosingStockRequest$fromMiniStoreSessionArgs<ExtArgs>
+    toMainStoreSession?: boolean | ClosingStockRequest$toMainStoreSessionArgs<ExtArgs>
+  }, ExtArgs["result"]["closingStockRequest"]>
+
+  export type ClosingStockRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    session?: boolean
+    fromWorkspace?: boolean
+    toWorkspace?: boolean
+    fromUserEmail?: boolean
+    toUserEmail?: boolean
+    fromTableSaleSessionId?: boolean
+    toMiniStoreSessionId?: boolean
+    fromMiniStoreSessionId?: boolean
+    toMainStoreSessionId?: boolean
+    items?: boolean
+    status?: boolean
+    verifiedBy?: boolean
+    verifiedAt?: boolean
+    verification?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    fromTableSaleSession?: boolean | ClosingStockRequest$fromTableSaleSessionArgs<ExtArgs>
+    toMiniStoreSession?: boolean | ClosingStockRequest$toMiniStoreSessionArgs<ExtArgs>
+    fromMiniStoreSession?: boolean | ClosingStockRequest$fromMiniStoreSessionArgs<ExtArgs>
+    toMainStoreSession?: boolean | ClosingStockRequest$toMainStoreSessionArgs<ExtArgs>
+  }, ExtArgs["result"]["closingStockRequest"]>
+
+  export type ClosingStockRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    session?: boolean
+    fromWorkspace?: boolean
+    toWorkspace?: boolean
+    fromUserEmail?: boolean
+    toUserEmail?: boolean
+    fromTableSaleSessionId?: boolean
+    toMiniStoreSessionId?: boolean
+    fromMiniStoreSessionId?: boolean
+    toMainStoreSessionId?: boolean
+    items?: boolean
+    status?: boolean
+    verifiedBy?: boolean
+    verifiedAt?: boolean
+    verification?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    fromTableSaleSession?: boolean | ClosingStockRequest$fromTableSaleSessionArgs<ExtArgs>
+    toMiniStoreSession?: boolean | ClosingStockRequest$toMiniStoreSessionArgs<ExtArgs>
+    fromMiniStoreSession?: boolean | ClosingStockRequest$fromMiniStoreSessionArgs<ExtArgs>
+    toMainStoreSession?: boolean | ClosingStockRequest$toMainStoreSessionArgs<ExtArgs>
+  }, ExtArgs["result"]["closingStockRequest"]>
+
+  export type ClosingStockRequestSelectScalar = {
+    id?: boolean
+    session?: boolean
+    fromWorkspace?: boolean
+    toWorkspace?: boolean
+    fromUserEmail?: boolean
+    toUserEmail?: boolean
+    fromTableSaleSessionId?: boolean
+    toMiniStoreSessionId?: boolean
+    fromMiniStoreSessionId?: boolean
+    toMainStoreSessionId?: boolean
+    items?: boolean
+    status?: boolean
+    verifiedBy?: boolean
+    verifiedAt?: boolean
+    verification?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ClosingStockRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "session" | "fromWorkspace" | "toWorkspace" | "fromUserEmail" | "toUserEmail" | "fromTableSaleSessionId" | "toMiniStoreSessionId" | "fromMiniStoreSessionId" | "toMainStoreSessionId" | "items" | "status" | "verifiedBy" | "verifiedAt" | "verification" | "createdAt" | "updatedAt", ExtArgs["result"]["closingStockRequest"]>
+  export type ClosingStockRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    fromTableSaleSession?: boolean | ClosingStockRequest$fromTableSaleSessionArgs<ExtArgs>
+    toMiniStoreSession?: boolean | ClosingStockRequest$toMiniStoreSessionArgs<ExtArgs>
+    fromMiniStoreSession?: boolean | ClosingStockRequest$fromMiniStoreSessionArgs<ExtArgs>
+    toMainStoreSession?: boolean | ClosingStockRequest$toMainStoreSessionArgs<ExtArgs>
+  }
+  export type ClosingStockRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    fromTableSaleSession?: boolean | ClosingStockRequest$fromTableSaleSessionArgs<ExtArgs>
+    toMiniStoreSession?: boolean | ClosingStockRequest$toMiniStoreSessionArgs<ExtArgs>
+    fromMiniStoreSession?: boolean | ClosingStockRequest$fromMiniStoreSessionArgs<ExtArgs>
+    toMainStoreSession?: boolean | ClosingStockRequest$toMainStoreSessionArgs<ExtArgs>
+  }
+  export type ClosingStockRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    fromTableSaleSession?: boolean | ClosingStockRequest$fromTableSaleSessionArgs<ExtArgs>
+    toMiniStoreSession?: boolean | ClosingStockRequest$toMiniStoreSessionArgs<ExtArgs>
+    fromMiniStoreSession?: boolean | ClosingStockRequest$fromMiniStoreSessionArgs<ExtArgs>
+    toMainStoreSession?: boolean | ClosingStockRequest$toMainStoreSessionArgs<ExtArgs>
+  }
+
+  export type $ClosingStockRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ClosingStockRequest"
+    objects: {
+      fromTableSaleSession: Prisma.$TableSaleSessionPayload<ExtArgs> | null
+      toMiniStoreSession: Prisma.$MiniStoreSessionPayload<ExtArgs> | null
+      fromMiniStoreSession: Prisma.$MiniStoreSessionPayload<ExtArgs> | null
+      toMainStoreSession: Prisma.$MainStoreSessionPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      session: string
+      fromWorkspace: string
+      toWorkspace: string
+      fromUserEmail: string | null
+      toUserEmail: string | null
+      fromTableSaleSessionId: string | null
+      toMiniStoreSessionId: string | null
+      fromMiniStoreSessionId: string | null
+      toMainStoreSessionId: string | null
+      items: Prisma.JsonValue
+      status: string
+      verifiedBy: string | null
+      verifiedAt: Date | null
+      verification: Prisma.JsonValue | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["closingStockRequest"]>
+    composites: {}
+  }
+
+  type ClosingStockRequestGetPayload<S extends boolean | null | undefined | ClosingStockRequestDefaultArgs> = $Result.GetResult<Prisma.$ClosingStockRequestPayload, S>
+
+  type ClosingStockRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ClosingStockRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ClosingStockRequestCountAggregateInputType | true
+    }
+
+  export interface ClosingStockRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ClosingStockRequest'], meta: { name: 'ClosingStockRequest' } }
+    /**
+     * Find zero or one ClosingStockRequest that matches the filter.
+     * @param {ClosingStockRequestFindUniqueArgs} args - Arguments to find a ClosingStockRequest
+     * @example
+     * // Get one ClosingStockRequest
+     * const closingStockRequest = await prisma.closingStockRequest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ClosingStockRequestFindUniqueArgs>(args: SelectSubset<T, ClosingStockRequestFindUniqueArgs<ExtArgs>>): Prisma__ClosingStockRequestClient<$Result.GetResult<Prisma.$ClosingStockRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ClosingStockRequest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ClosingStockRequestFindUniqueOrThrowArgs} args - Arguments to find a ClosingStockRequest
+     * @example
+     * // Get one ClosingStockRequest
+     * const closingStockRequest = await prisma.closingStockRequest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ClosingStockRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, ClosingStockRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ClosingStockRequestClient<$Result.GetResult<Prisma.$ClosingStockRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ClosingStockRequest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClosingStockRequestFindFirstArgs} args - Arguments to find a ClosingStockRequest
+     * @example
+     * // Get one ClosingStockRequest
+     * const closingStockRequest = await prisma.closingStockRequest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ClosingStockRequestFindFirstArgs>(args?: SelectSubset<T, ClosingStockRequestFindFirstArgs<ExtArgs>>): Prisma__ClosingStockRequestClient<$Result.GetResult<Prisma.$ClosingStockRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ClosingStockRequest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClosingStockRequestFindFirstOrThrowArgs} args - Arguments to find a ClosingStockRequest
+     * @example
+     * // Get one ClosingStockRequest
+     * const closingStockRequest = await prisma.closingStockRequest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ClosingStockRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, ClosingStockRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__ClosingStockRequestClient<$Result.GetResult<Prisma.$ClosingStockRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ClosingStockRequests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClosingStockRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ClosingStockRequests
+     * const closingStockRequests = await prisma.closingStockRequest.findMany()
+     * 
+     * // Get first 10 ClosingStockRequests
+     * const closingStockRequests = await prisma.closingStockRequest.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const closingStockRequestWithIdOnly = await prisma.closingStockRequest.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ClosingStockRequestFindManyArgs>(args?: SelectSubset<T, ClosingStockRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClosingStockRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ClosingStockRequest.
+     * @param {ClosingStockRequestCreateArgs} args - Arguments to create a ClosingStockRequest.
+     * @example
+     * // Create one ClosingStockRequest
+     * const ClosingStockRequest = await prisma.closingStockRequest.create({
+     *   data: {
+     *     // ... data to create a ClosingStockRequest
+     *   }
+     * })
+     * 
+     */
+    create<T extends ClosingStockRequestCreateArgs>(args: SelectSubset<T, ClosingStockRequestCreateArgs<ExtArgs>>): Prisma__ClosingStockRequestClient<$Result.GetResult<Prisma.$ClosingStockRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ClosingStockRequests.
+     * @param {ClosingStockRequestCreateManyArgs} args - Arguments to create many ClosingStockRequests.
+     * @example
+     * // Create many ClosingStockRequests
+     * const closingStockRequest = await prisma.closingStockRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ClosingStockRequestCreateManyArgs>(args?: SelectSubset<T, ClosingStockRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ClosingStockRequests and returns the data saved in the database.
+     * @param {ClosingStockRequestCreateManyAndReturnArgs} args - Arguments to create many ClosingStockRequests.
+     * @example
+     * // Create many ClosingStockRequests
+     * const closingStockRequest = await prisma.closingStockRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ClosingStockRequests and only return the `id`
+     * const closingStockRequestWithIdOnly = await prisma.closingStockRequest.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ClosingStockRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, ClosingStockRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClosingStockRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ClosingStockRequest.
+     * @param {ClosingStockRequestDeleteArgs} args - Arguments to delete one ClosingStockRequest.
+     * @example
+     * // Delete one ClosingStockRequest
+     * const ClosingStockRequest = await prisma.closingStockRequest.delete({
+     *   where: {
+     *     // ... filter to delete one ClosingStockRequest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ClosingStockRequestDeleteArgs>(args: SelectSubset<T, ClosingStockRequestDeleteArgs<ExtArgs>>): Prisma__ClosingStockRequestClient<$Result.GetResult<Prisma.$ClosingStockRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ClosingStockRequest.
+     * @param {ClosingStockRequestUpdateArgs} args - Arguments to update one ClosingStockRequest.
+     * @example
+     * // Update one ClosingStockRequest
+     * const closingStockRequest = await prisma.closingStockRequest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ClosingStockRequestUpdateArgs>(args: SelectSubset<T, ClosingStockRequestUpdateArgs<ExtArgs>>): Prisma__ClosingStockRequestClient<$Result.GetResult<Prisma.$ClosingStockRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ClosingStockRequests.
+     * @param {ClosingStockRequestDeleteManyArgs} args - Arguments to filter ClosingStockRequests to delete.
+     * @example
+     * // Delete a few ClosingStockRequests
+     * const { count } = await prisma.closingStockRequest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ClosingStockRequestDeleteManyArgs>(args?: SelectSubset<T, ClosingStockRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ClosingStockRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClosingStockRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ClosingStockRequests
+     * const closingStockRequest = await prisma.closingStockRequest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ClosingStockRequestUpdateManyArgs>(args: SelectSubset<T, ClosingStockRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ClosingStockRequests and returns the data updated in the database.
+     * @param {ClosingStockRequestUpdateManyAndReturnArgs} args - Arguments to update many ClosingStockRequests.
+     * @example
+     * // Update many ClosingStockRequests
+     * const closingStockRequest = await prisma.closingStockRequest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ClosingStockRequests and only return the `id`
+     * const closingStockRequestWithIdOnly = await prisma.closingStockRequest.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ClosingStockRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, ClosingStockRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ClosingStockRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ClosingStockRequest.
+     * @param {ClosingStockRequestUpsertArgs} args - Arguments to update or create a ClosingStockRequest.
+     * @example
+     * // Update or create a ClosingStockRequest
+     * const closingStockRequest = await prisma.closingStockRequest.upsert({
+     *   create: {
+     *     // ... data to create a ClosingStockRequest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ClosingStockRequest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ClosingStockRequestUpsertArgs>(args: SelectSubset<T, ClosingStockRequestUpsertArgs<ExtArgs>>): Prisma__ClosingStockRequestClient<$Result.GetResult<Prisma.$ClosingStockRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ClosingStockRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClosingStockRequestCountArgs} args - Arguments to filter ClosingStockRequests to count.
+     * @example
+     * // Count the number of ClosingStockRequests
+     * const count = await prisma.closingStockRequest.count({
+     *   where: {
+     *     // ... the filter for the ClosingStockRequests we want to count
+     *   }
+     * })
+    **/
+    count<T extends ClosingStockRequestCountArgs>(
+      args?: Subset<T, ClosingStockRequestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ClosingStockRequestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ClosingStockRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClosingStockRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ClosingStockRequestAggregateArgs>(args: Subset<T, ClosingStockRequestAggregateArgs>): Prisma.PrismaPromise<GetClosingStockRequestAggregateType<T>>
+
+    /**
+     * Group by ClosingStockRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ClosingStockRequestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ClosingStockRequestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ClosingStockRequestGroupByArgs['orderBy'] }
+        : { orderBy?: ClosingStockRequestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ClosingStockRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetClosingStockRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ClosingStockRequest model
+   */
+  readonly fields: ClosingStockRequestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ClosingStockRequest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ClosingStockRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    fromTableSaleSession<T extends ClosingStockRequest$fromTableSaleSessionArgs<ExtArgs> = {}>(args?: Subset<T, ClosingStockRequest$fromTableSaleSessionArgs<ExtArgs>>): Prisma__TableSaleSessionClient<$Result.GetResult<Prisma.$TableSaleSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    toMiniStoreSession<T extends ClosingStockRequest$toMiniStoreSessionArgs<ExtArgs> = {}>(args?: Subset<T, ClosingStockRequest$toMiniStoreSessionArgs<ExtArgs>>): Prisma__MiniStoreSessionClient<$Result.GetResult<Prisma.$MiniStoreSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    fromMiniStoreSession<T extends ClosingStockRequest$fromMiniStoreSessionArgs<ExtArgs> = {}>(args?: Subset<T, ClosingStockRequest$fromMiniStoreSessionArgs<ExtArgs>>): Prisma__MiniStoreSessionClient<$Result.GetResult<Prisma.$MiniStoreSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    toMainStoreSession<T extends ClosingStockRequest$toMainStoreSessionArgs<ExtArgs> = {}>(args?: Subset<T, ClosingStockRequest$toMainStoreSessionArgs<ExtArgs>>): Prisma__MainStoreSessionClient<$Result.GetResult<Prisma.$MainStoreSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ClosingStockRequest model
+   */ 
+  interface ClosingStockRequestFieldRefs {
+    readonly id: FieldRef<"ClosingStockRequest", 'String'>
+    readonly session: FieldRef<"ClosingStockRequest", 'String'>
+    readonly fromWorkspace: FieldRef<"ClosingStockRequest", 'String'>
+    readonly toWorkspace: FieldRef<"ClosingStockRequest", 'String'>
+    readonly fromUserEmail: FieldRef<"ClosingStockRequest", 'String'>
+    readonly toUserEmail: FieldRef<"ClosingStockRequest", 'String'>
+    readonly fromTableSaleSessionId: FieldRef<"ClosingStockRequest", 'String'>
+    readonly toMiniStoreSessionId: FieldRef<"ClosingStockRequest", 'String'>
+    readonly fromMiniStoreSessionId: FieldRef<"ClosingStockRequest", 'String'>
+    readonly toMainStoreSessionId: FieldRef<"ClosingStockRequest", 'String'>
+    readonly items: FieldRef<"ClosingStockRequest", 'Json'>
+    readonly status: FieldRef<"ClosingStockRequest", 'String'>
+    readonly verifiedBy: FieldRef<"ClosingStockRequest", 'String'>
+    readonly verifiedAt: FieldRef<"ClosingStockRequest", 'DateTime'>
+    readonly verification: FieldRef<"ClosingStockRequest", 'Json'>
+    readonly createdAt: FieldRef<"ClosingStockRequest", 'DateTime'>
+    readonly updatedAt: FieldRef<"ClosingStockRequest", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ClosingStockRequest findUnique
+   */
+  export type ClosingStockRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClosingStockRequest
+     */
+    select?: ClosingStockRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClosingStockRequest
+     */
+    omit?: ClosingStockRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClosingStockRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which ClosingStockRequest to fetch.
+     */
+    where: ClosingStockRequestWhereUniqueInput
+  }
+
+  /**
+   * ClosingStockRequest findUniqueOrThrow
+   */
+  export type ClosingStockRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClosingStockRequest
+     */
+    select?: ClosingStockRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClosingStockRequest
+     */
+    omit?: ClosingStockRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClosingStockRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which ClosingStockRequest to fetch.
+     */
+    where: ClosingStockRequestWhereUniqueInput
+  }
+
+  /**
+   * ClosingStockRequest findFirst
+   */
+  export type ClosingStockRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClosingStockRequest
+     */
+    select?: ClosingStockRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClosingStockRequest
+     */
+    omit?: ClosingStockRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClosingStockRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which ClosingStockRequest to fetch.
+     */
+    where?: ClosingStockRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClosingStockRequests to fetch.
+     */
+    orderBy?: ClosingStockRequestOrderByWithRelationInput | ClosingStockRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ClosingStockRequests.
+     */
+    cursor?: ClosingStockRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClosingStockRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClosingStockRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ClosingStockRequests.
+     */
+    distinct?: ClosingStockRequestScalarFieldEnum | ClosingStockRequestScalarFieldEnum[]
+  }
+
+  /**
+   * ClosingStockRequest findFirstOrThrow
+   */
+  export type ClosingStockRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClosingStockRequest
+     */
+    select?: ClosingStockRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClosingStockRequest
+     */
+    omit?: ClosingStockRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClosingStockRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which ClosingStockRequest to fetch.
+     */
+    where?: ClosingStockRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClosingStockRequests to fetch.
+     */
+    orderBy?: ClosingStockRequestOrderByWithRelationInput | ClosingStockRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ClosingStockRequests.
+     */
+    cursor?: ClosingStockRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClosingStockRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClosingStockRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ClosingStockRequests.
+     */
+    distinct?: ClosingStockRequestScalarFieldEnum | ClosingStockRequestScalarFieldEnum[]
+  }
+
+  /**
+   * ClosingStockRequest findMany
+   */
+  export type ClosingStockRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClosingStockRequest
+     */
+    select?: ClosingStockRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClosingStockRequest
+     */
+    omit?: ClosingStockRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClosingStockRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which ClosingStockRequests to fetch.
+     */
+    where?: ClosingStockRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ClosingStockRequests to fetch.
+     */
+    orderBy?: ClosingStockRequestOrderByWithRelationInput | ClosingStockRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ClosingStockRequests.
+     */
+    cursor?: ClosingStockRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ClosingStockRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ClosingStockRequests.
+     */
+    skip?: number
+    distinct?: ClosingStockRequestScalarFieldEnum | ClosingStockRequestScalarFieldEnum[]
+  }
+
+  /**
+   * ClosingStockRequest create
+   */
+  export type ClosingStockRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClosingStockRequest
+     */
+    select?: ClosingStockRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClosingStockRequest
+     */
+    omit?: ClosingStockRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClosingStockRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ClosingStockRequest.
+     */
+    data: XOR<ClosingStockRequestCreateInput, ClosingStockRequestUncheckedCreateInput>
+  }
+
+  /**
+   * ClosingStockRequest createMany
+   */
+  export type ClosingStockRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ClosingStockRequests.
+     */
+    data: ClosingStockRequestCreateManyInput | ClosingStockRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ClosingStockRequest createManyAndReturn
+   */
+  export type ClosingStockRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClosingStockRequest
+     */
+    select?: ClosingStockRequestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClosingStockRequest
+     */
+    omit?: ClosingStockRequestOmit<ExtArgs> | null
+    /**
+     * The data used to create many ClosingStockRequests.
+     */
+    data: ClosingStockRequestCreateManyInput | ClosingStockRequestCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClosingStockRequestIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ClosingStockRequest update
+   */
+  export type ClosingStockRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClosingStockRequest
+     */
+    select?: ClosingStockRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClosingStockRequest
+     */
+    omit?: ClosingStockRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClosingStockRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ClosingStockRequest.
+     */
+    data: XOR<ClosingStockRequestUpdateInput, ClosingStockRequestUncheckedUpdateInput>
+    /**
+     * Choose, which ClosingStockRequest to update.
+     */
+    where: ClosingStockRequestWhereUniqueInput
+  }
+
+  /**
+   * ClosingStockRequest updateMany
+   */
+  export type ClosingStockRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ClosingStockRequests.
+     */
+    data: XOR<ClosingStockRequestUpdateManyMutationInput, ClosingStockRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which ClosingStockRequests to update
+     */
+    where?: ClosingStockRequestWhereInput
+    /**
+     * Limit how many ClosingStockRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ClosingStockRequest updateManyAndReturn
+   */
+  export type ClosingStockRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClosingStockRequest
+     */
+    select?: ClosingStockRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClosingStockRequest
+     */
+    omit?: ClosingStockRequestOmit<ExtArgs> | null
+    /**
+     * The data used to update ClosingStockRequests.
+     */
+    data: XOR<ClosingStockRequestUpdateManyMutationInput, ClosingStockRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which ClosingStockRequests to update
+     */
+    where?: ClosingStockRequestWhereInput
+    /**
+     * Limit how many ClosingStockRequests to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClosingStockRequestIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ClosingStockRequest upsert
+   */
+  export type ClosingStockRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClosingStockRequest
+     */
+    select?: ClosingStockRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClosingStockRequest
+     */
+    omit?: ClosingStockRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClosingStockRequestInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ClosingStockRequest to update in case it exists.
+     */
+    where: ClosingStockRequestWhereUniqueInput
+    /**
+     * In case the ClosingStockRequest found by the `where` argument doesn't exist, create a new ClosingStockRequest with this data.
+     */
+    create: XOR<ClosingStockRequestCreateInput, ClosingStockRequestUncheckedCreateInput>
+    /**
+     * In case the ClosingStockRequest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ClosingStockRequestUpdateInput, ClosingStockRequestUncheckedUpdateInput>
+  }
+
+  /**
+   * ClosingStockRequest delete
+   */
+  export type ClosingStockRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClosingStockRequest
+     */
+    select?: ClosingStockRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClosingStockRequest
+     */
+    omit?: ClosingStockRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClosingStockRequestInclude<ExtArgs> | null
+    /**
+     * Filter which ClosingStockRequest to delete.
+     */
+    where: ClosingStockRequestWhereUniqueInput
+  }
+
+  /**
+   * ClosingStockRequest deleteMany
+   */
+  export type ClosingStockRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ClosingStockRequests to delete
+     */
+    where?: ClosingStockRequestWhereInput
+    /**
+     * Limit how many ClosingStockRequests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ClosingStockRequest.fromTableSaleSession
+   */
+  export type ClosingStockRequest$fromTableSaleSessionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TableSaleSession
+     */
+    select?: TableSaleSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the TableSaleSession
+     */
+    omit?: TableSaleSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TableSaleSessionInclude<ExtArgs> | null
+    where?: TableSaleSessionWhereInput
+  }
+
+  /**
+   * ClosingStockRequest.toMiniStoreSession
+   */
+  export type ClosingStockRequest$toMiniStoreSessionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MiniStoreSession
+     */
+    select?: MiniStoreSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MiniStoreSession
+     */
+    omit?: MiniStoreSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MiniStoreSessionInclude<ExtArgs> | null
+    where?: MiniStoreSessionWhereInput
+  }
+
+  /**
+   * ClosingStockRequest.fromMiniStoreSession
+   */
+  export type ClosingStockRequest$fromMiniStoreSessionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MiniStoreSession
+     */
+    select?: MiniStoreSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MiniStoreSession
+     */
+    omit?: MiniStoreSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MiniStoreSessionInclude<ExtArgs> | null
+    where?: MiniStoreSessionWhereInput
+  }
+
+  /**
+   * ClosingStockRequest.toMainStoreSession
+   */
+  export type ClosingStockRequest$toMainStoreSessionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MainStoreSession
+     */
+    select?: MainStoreSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the MainStoreSession
+     */
+    omit?: MainStoreSessionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MainStoreSessionInclude<ExtArgs> | null
+    where?: MainStoreSessionWhereInput
+  }
+
+  /**
+   * ClosingStockRequest without action
+   */
+  export type ClosingStockRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ClosingStockRequest
+     */
+    select?: ClosingStockRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ClosingStockRequest
+     */
+    omit?: ClosingStockRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClosingStockRequestInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -26533,6 +28078,29 @@ export namespace Prisma {
   };
 
   export type ComboBookItemScalarFieldEnum = (typeof ComboBookItemScalarFieldEnum)[keyof typeof ComboBookItemScalarFieldEnum]
+
+
+  export const ClosingStockRequestScalarFieldEnum: {
+    id: 'id',
+    session: 'session',
+    fromWorkspace: 'fromWorkspace',
+    toWorkspace: 'toWorkspace',
+    fromUserEmail: 'fromUserEmail',
+    toUserEmail: 'toUserEmail',
+    fromTableSaleSessionId: 'fromTableSaleSessionId',
+    toMiniStoreSessionId: 'toMiniStoreSessionId',
+    fromMiniStoreSessionId: 'fromMiniStoreSessionId',
+    toMainStoreSessionId: 'toMainStoreSessionId',
+    items: 'items',
+    status: 'status',
+    verifiedBy: 'verifiedBy',
+    verifiedAt: 'verifiedAt',
+    verification: 'verification',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ClosingStockRequestScalarFieldEnum = (typeof ClosingStockRequestScalarFieldEnum)[keyof typeof ClosingStockRequestScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -27345,6 +28913,7 @@ export namespace Prisma {
     bookSales?: BookSaleListRelationFilter
     miniStoreRequests?: MiniStoreRequestListRelationFilter
     preorderSessions?: PreorderSessionListRelationFilter
+    closingRequestsFrom?: ClosingStockRequestListRelationFilter
     mySessions?: MySessionListRelationFilter
   }
 
@@ -27363,6 +28932,7 @@ export namespace Prisma {
     bookSales?: BookSaleOrderByRelationAggregateInput
     miniStoreRequests?: MiniStoreRequestOrderByRelationAggregateInput
     preorderSessions?: PreorderSessionOrderByRelationAggregateInput
+    closingRequestsFrom?: ClosingStockRequestOrderByRelationAggregateInput
     mySessions?: MySessionOrderByRelationAggregateInput
   }
 
@@ -27384,6 +28954,7 @@ export namespace Prisma {
     bookSales?: BookSaleListRelationFilter
     miniStoreRequests?: MiniStoreRequestListRelationFilter
     preorderSessions?: PreorderSessionListRelationFilter
+    closingRequestsFrom?: ClosingStockRequestListRelationFilter
     mySessions?: MySessionListRelationFilter
   }, "id">
 
@@ -27542,6 +29113,8 @@ export namespace Prisma {
     mySessions?: MySessionListRelationFilter
     mainStoreRequests?: MainStoreRequestListRelationFilter
     miniStoreRequests?: MiniStoreRequestListRelationFilter
+    closingRequestsTo?: ClosingStockRequestListRelationFilter
+    closingRequestsFrom?: ClosingStockRequestListRelationFilter
   }
 
   export type MiniStoreSessionOrderByWithRelationInput = {
@@ -27560,6 +29133,8 @@ export namespace Prisma {
     mySessions?: MySessionOrderByRelationAggregateInput
     mainStoreRequests?: MainStoreRequestOrderByRelationAggregateInput
     miniStoreRequests?: MiniStoreRequestOrderByRelationAggregateInput
+    closingRequestsTo?: ClosingStockRequestOrderByRelationAggregateInput
+    closingRequestsFrom?: ClosingStockRequestOrderByRelationAggregateInput
   }
 
   export type MiniStoreSessionWhereUniqueInput = Prisma.AtLeast<{
@@ -27581,6 +29156,8 @@ export namespace Prisma {
     mySessions?: MySessionListRelationFilter
     mainStoreRequests?: MainStoreRequestListRelationFilter
     miniStoreRequests?: MiniStoreRequestListRelationFilter
+    closingRequestsTo?: ClosingStockRequestListRelationFilter
+    closingRequestsFrom?: ClosingStockRequestListRelationFilter
   }, "id">
 
   export type MiniStoreSessionOrderByWithAggregationInput = {
@@ -27637,6 +29214,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"MainStoreSession"> | Date | string
     mySessions?: MySessionListRelationFilter
     mainStoreRequests?: MainStoreRequestListRelationFilter
+    closingRequestsTo?: ClosingStockRequestListRelationFilter
   }
 
   export type MainStoreSessionOrderByWithRelationInput = {
@@ -27654,6 +29232,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     mySessions?: MySessionOrderByRelationAggregateInput
     mainStoreRequests?: MainStoreRequestOrderByRelationAggregateInput
+    closingRequestsTo?: ClosingStockRequestOrderByRelationAggregateInput
   }
 
   export type MainStoreSessionWhereUniqueInput = Prisma.AtLeast<{
@@ -27674,6 +29253,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"MainStoreSession"> | Date | string
     mySessions?: MySessionListRelationFilter
     mainStoreRequests?: MainStoreRequestListRelationFilter
+    closingRequestsTo?: ClosingStockRequestListRelationFilter
   }, "id">
 
   export type MainStoreSessionOrderByWithAggregationInput = {
@@ -28279,6 +29859,130 @@ export namespace Prisma {
     quantity?: IntWithAggregatesFilter<"ComboBookItem"> | number
     createdAt?: DateTimeWithAggregatesFilter<"ComboBookItem"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ComboBookItem"> | Date | string
+  }
+
+  export type ClosingStockRequestWhereInput = {
+    AND?: ClosingStockRequestWhereInput | ClosingStockRequestWhereInput[]
+    OR?: ClosingStockRequestWhereInput[]
+    NOT?: ClosingStockRequestWhereInput | ClosingStockRequestWhereInput[]
+    id?: StringFilter<"ClosingStockRequest"> | string
+    session?: StringFilter<"ClosingStockRequest"> | string
+    fromWorkspace?: StringFilter<"ClosingStockRequest"> | string
+    toWorkspace?: StringFilter<"ClosingStockRequest"> | string
+    fromUserEmail?: StringNullableFilter<"ClosingStockRequest"> | string | null
+    toUserEmail?: StringNullableFilter<"ClosingStockRequest"> | string | null
+    fromTableSaleSessionId?: StringNullableFilter<"ClosingStockRequest"> | string | null
+    toMiniStoreSessionId?: StringNullableFilter<"ClosingStockRequest"> | string | null
+    fromMiniStoreSessionId?: StringNullableFilter<"ClosingStockRequest"> | string | null
+    toMainStoreSessionId?: StringNullableFilter<"ClosingStockRequest"> | string | null
+    items?: JsonFilter<"ClosingStockRequest">
+    status?: StringFilter<"ClosingStockRequest"> | string
+    verifiedBy?: StringNullableFilter<"ClosingStockRequest"> | string | null
+    verifiedAt?: DateTimeNullableFilter<"ClosingStockRequest"> | Date | string | null
+    verification?: JsonNullableFilter<"ClosingStockRequest">
+    createdAt?: DateTimeFilter<"ClosingStockRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"ClosingStockRequest"> | Date | string
+    fromTableSaleSession?: XOR<TableSaleSessionNullableScalarRelationFilter, TableSaleSessionWhereInput> | null
+    toMiniStoreSession?: XOR<MiniStoreSessionNullableScalarRelationFilter, MiniStoreSessionWhereInput> | null
+    fromMiniStoreSession?: XOR<MiniStoreSessionNullableScalarRelationFilter, MiniStoreSessionWhereInput> | null
+    toMainStoreSession?: XOR<MainStoreSessionNullableScalarRelationFilter, MainStoreSessionWhereInput> | null
+  }
+
+  export type ClosingStockRequestOrderByWithRelationInput = {
+    id?: SortOrder
+    session?: SortOrder
+    fromWorkspace?: SortOrder
+    toWorkspace?: SortOrder
+    fromUserEmail?: SortOrderInput | SortOrder
+    toUserEmail?: SortOrderInput | SortOrder
+    fromTableSaleSessionId?: SortOrderInput | SortOrder
+    toMiniStoreSessionId?: SortOrderInput | SortOrder
+    fromMiniStoreSessionId?: SortOrderInput | SortOrder
+    toMainStoreSessionId?: SortOrderInput | SortOrder
+    items?: SortOrder
+    status?: SortOrder
+    verifiedBy?: SortOrderInput | SortOrder
+    verifiedAt?: SortOrderInput | SortOrder
+    verification?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    fromTableSaleSession?: TableSaleSessionOrderByWithRelationInput
+    toMiniStoreSession?: MiniStoreSessionOrderByWithRelationInput
+    fromMiniStoreSession?: MiniStoreSessionOrderByWithRelationInput
+    toMainStoreSession?: MainStoreSessionOrderByWithRelationInput
+  }
+
+  export type ClosingStockRequestWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ClosingStockRequestWhereInput | ClosingStockRequestWhereInput[]
+    OR?: ClosingStockRequestWhereInput[]
+    NOT?: ClosingStockRequestWhereInput | ClosingStockRequestWhereInput[]
+    session?: StringFilter<"ClosingStockRequest"> | string
+    fromWorkspace?: StringFilter<"ClosingStockRequest"> | string
+    toWorkspace?: StringFilter<"ClosingStockRequest"> | string
+    fromUserEmail?: StringNullableFilter<"ClosingStockRequest"> | string | null
+    toUserEmail?: StringNullableFilter<"ClosingStockRequest"> | string | null
+    fromTableSaleSessionId?: StringNullableFilter<"ClosingStockRequest"> | string | null
+    toMiniStoreSessionId?: StringNullableFilter<"ClosingStockRequest"> | string | null
+    fromMiniStoreSessionId?: StringNullableFilter<"ClosingStockRequest"> | string | null
+    toMainStoreSessionId?: StringNullableFilter<"ClosingStockRequest"> | string | null
+    items?: JsonFilter<"ClosingStockRequest">
+    status?: StringFilter<"ClosingStockRequest"> | string
+    verifiedBy?: StringNullableFilter<"ClosingStockRequest"> | string | null
+    verifiedAt?: DateTimeNullableFilter<"ClosingStockRequest"> | Date | string | null
+    verification?: JsonNullableFilter<"ClosingStockRequest">
+    createdAt?: DateTimeFilter<"ClosingStockRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"ClosingStockRequest"> | Date | string
+    fromTableSaleSession?: XOR<TableSaleSessionNullableScalarRelationFilter, TableSaleSessionWhereInput> | null
+    toMiniStoreSession?: XOR<MiniStoreSessionNullableScalarRelationFilter, MiniStoreSessionWhereInput> | null
+    fromMiniStoreSession?: XOR<MiniStoreSessionNullableScalarRelationFilter, MiniStoreSessionWhereInput> | null
+    toMainStoreSession?: XOR<MainStoreSessionNullableScalarRelationFilter, MainStoreSessionWhereInput> | null
+  }, "id">
+
+  export type ClosingStockRequestOrderByWithAggregationInput = {
+    id?: SortOrder
+    session?: SortOrder
+    fromWorkspace?: SortOrder
+    toWorkspace?: SortOrder
+    fromUserEmail?: SortOrderInput | SortOrder
+    toUserEmail?: SortOrderInput | SortOrder
+    fromTableSaleSessionId?: SortOrderInput | SortOrder
+    toMiniStoreSessionId?: SortOrderInput | SortOrder
+    fromMiniStoreSessionId?: SortOrderInput | SortOrder
+    toMainStoreSessionId?: SortOrderInput | SortOrder
+    items?: SortOrder
+    status?: SortOrder
+    verifiedBy?: SortOrderInput | SortOrder
+    verifiedAt?: SortOrderInput | SortOrder
+    verification?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ClosingStockRequestCountOrderByAggregateInput
+    _max?: ClosingStockRequestMaxOrderByAggregateInput
+    _min?: ClosingStockRequestMinOrderByAggregateInput
+  }
+
+  export type ClosingStockRequestScalarWhereWithAggregatesInput = {
+    AND?: ClosingStockRequestScalarWhereWithAggregatesInput | ClosingStockRequestScalarWhereWithAggregatesInput[]
+    OR?: ClosingStockRequestScalarWhereWithAggregatesInput[]
+    NOT?: ClosingStockRequestScalarWhereWithAggregatesInput | ClosingStockRequestScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ClosingStockRequest"> | string
+    session?: StringWithAggregatesFilter<"ClosingStockRequest"> | string
+    fromWorkspace?: StringWithAggregatesFilter<"ClosingStockRequest"> | string
+    toWorkspace?: StringWithAggregatesFilter<"ClosingStockRequest"> | string
+    fromUserEmail?: StringNullableWithAggregatesFilter<"ClosingStockRequest"> | string | null
+    toUserEmail?: StringNullableWithAggregatesFilter<"ClosingStockRequest"> | string | null
+    fromTableSaleSessionId?: StringNullableWithAggregatesFilter<"ClosingStockRequest"> | string | null
+    toMiniStoreSessionId?: StringNullableWithAggregatesFilter<"ClosingStockRequest"> | string | null
+    fromMiniStoreSessionId?: StringNullableWithAggregatesFilter<"ClosingStockRequest"> | string | null
+    toMainStoreSessionId?: StringNullableWithAggregatesFilter<"ClosingStockRequest"> | string | null
+    items?: JsonWithAggregatesFilter<"ClosingStockRequest">
+    status?: StringWithAggregatesFilter<"ClosingStockRequest"> | string
+    verifiedBy?: StringNullableWithAggregatesFilter<"ClosingStockRequest"> | string | null
+    verifiedAt?: DateTimeNullableWithAggregatesFilter<"ClosingStockRequest"> | Date | string | null
+    verification?: JsonNullableWithAggregatesFilter<"ClosingStockRequest">
+    createdAt?: DateTimeWithAggregatesFilter<"ClosingStockRequest"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ClosingStockRequest"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -29007,6 +30711,7 @@ export namespace Prisma {
     bookSales?: BookSaleCreateNestedManyWithoutSessionInput
     miniStoreRequests?: MiniStoreRequestCreateNestedManyWithoutTableSaleSessionInput
     preorderSessions?: PreorderSessionCreateNestedManyWithoutTableSaleSessionInput
+    closingRequestsFrom?: ClosingStockRequestCreateNestedManyWithoutFromTableSaleSessionInput
     mySessions?: MySessionCreateNestedManyWithoutTableSaleSessionInput
   }
 
@@ -29025,6 +30730,7 @@ export namespace Prisma {
     bookSales?: BookSaleUncheckedCreateNestedManyWithoutSessionInput
     miniStoreRequests?: MiniStoreRequestUncheckedCreateNestedManyWithoutTableSaleSessionInput
     preorderSessions?: PreorderSessionUncheckedCreateNestedManyWithoutTableSaleSessionInput
+    closingRequestsFrom?: ClosingStockRequestUncheckedCreateNestedManyWithoutFromTableSaleSessionInput
     mySessions?: MySessionUncheckedCreateNestedManyWithoutTableSaleSessionInput
   }
 
@@ -29043,6 +30749,7 @@ export namespace Prisma {
     bookSales?: BookSaleUpdateManyWithoutSessionNestedInput
     miniStoreRequests?: MiniStoreRequestUpdateManyWithoutTableSaleSessionNestedInput
     preorderSessions?: PreorderSessionUpdateManyWithoutTableSaleSessionNestedInput
+    closingRequestsFrom?: ClosingStockRequestUpdateManyWithoutFromTableSaleSessionNestedInput
     mySessions?: MySessionUpdateManyWithoutTableSaleSessionNestedInput
   }
 
@@ -29061,6 +30768,7 @@ export namespace Prisma {
     bookSales?: BookSaleUncheckedUpdateManyWithoutSessionNestedInput
     miniStoreRequests?: MiniStoreRequestUncheckedUpdateManyWithoutTableSaleSessionNestedInput
     preorderSessions?: PreorderSessionUncheckedUpdateManyWithoutTableSaleSessionNestedInput
+    closingRequestsFrom?: ClosingStockRequestUncheckedUpdateManyWithoutFromTableSaleSessionNestedInput
     mySessions?: MySessionUncheckedUpdateManyWithoutTableSaleSessionNestedInput
   }
 
@@ -29222,6 +30930,8 @@ export namespace Prisma {
     mySessions?: MySessionCreateNestedManyWithoutMiniStoreSessionInput
     mainStoreRequests?: MainStoreRequestCreateNestedManyWithoutMiniStoreSessionInput
     miniStoreRequests?: MiniStoreRequestCreateNestedManyWithoutMiniStoreSessionInput
+    closingRequestsTo?: ClosingStockRequestCreateNestedManyWithoutToMiniStoreSessionInput
+    closingRequestsFrom?: ClosingStockRequestCreateNestedManyWithoutFromMiniStoreSessionInput
   }
 
   export type MiniStoreSessionUncheckedCreateInput = {
@@ -29240,6 +30950,8 @@ export namespace Prisma {
     mySessions?: MySessionUncheckedCreateNestedManyWithoutMiniStoreSessionInput
     mainStoreRequests?: MainStoreRequestUncheckedCreateNestedManyWithoutMiniStoreSessionInput
     miniStoreRequests?: MiniStoreRequestUncheckedCreateNestedManyWithoutMiniStoreSessionInput
+    closingRequestsTo?: ClosingStockRequestUncheckedCreateNestedManyWithoutToMiniStoreSessionInput
+    closingRequestsFrom?: ClosingStockRequestUncheckedCreateNestedManyWithoutFromMiniStoreSessionInput
   }
 
   export type MiniStoreSessionUpdateInput = {
@@ -29258,6 +30970,8 @@ export namespace Prisma {
     mySessions?: MySessionUpdateManyWithoutMiniStoreSessionNestedInput
     mainStoreRequests?: MainStoreRequestUpdateManyWithoutMiniStoreSessionNestedInput
     miniStoreRequests?: MiniStoreRequestUpdateManyWithoutMiniStoreSessionNestedInput
+    closingRequestsTo?: ClosingStockRequestUpdateManyWithoutToMiniStoreSessionNestedInput
+    closingRequestsFrom?: ClosingStockRequestUpdateManyWithoutFromMiniStoreSessionNestedInput
   }
 
   export type MiniStoreSessionUncheckedUpdateInput = {
@@ -29276,6 +30990,8 @@ export namespace Prisma {
     mySessions?: MySessionUncheckedUpdateManyWithoutMiniStoreSessionNestedInput
     mainStoreRequests?: MainStoreRequestUncheckedUpdateManyWithoutMiniStoreSessionNestedInput
     miniStoreRequests?: MiniStoreRequestUncheckedUpdateManyWithoutMiniStoreSessionNestedInput
+    closingRequestsTo?: ClosingStockRequestUncheckedUpdateManyWithoutToMiniStoreSessionNestedInput
+    closingRequestsFrom?: ClosingStockRequestUncheckedUpdateManyWithoutFromMiniStoreSessionNestedInput
   }
 
   export type MiniStoreSessionCreateManyInput = {
@@ -29338,6 +31054,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     mySessions?: MySessionCreateNestedManyWithoutMainStoreSessionInput
     mainStoreRequests?: MainStoreRequestCreateNestedManyWithoutMainStoreSessionInput
+    closingRequestsTo?: ClosingStockRequestCreateNestedManyWithoutToMainStoreSessionInput
   }
 
   export type MainStoreSessionUncheckedCreateInput = {
@@ -29355,6 +31072,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     mySessions?: MySessionUncheckedCreateNestedManyWithoutMainStoreSessionInput
     mainStoreRequests?: MainStoreRequestUncheckedCreateNestedManyWithoutMainStoreSessionInput
+    closingRequestsTo?: ClosingStockRequestUncheckedCreateNestedManyWithoutToMainStoreSessionInput
   }
 
   export type MainStoreSessionUpdateInput = {
@@ -29372,6 +31090,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mySessions?: MySessionUpdateManyWithoutMainStoreSessionNestedInput
     mainStoreRequests?: MainStoreRequestUpdateManyWithoutMainStoreSessionNestedInput
+    closingRequestsTo?: ClosingStockRequestUpdateManyWithoutToMainStoreSessionNestedInput
   }
 
   export type MainStoreSessionUncheckedUpdateInput = {
@@ -29389,6 +31108,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mySessions?: MySessionUncheckedUpdateManyWithoutMainStoreSessionNestedInput
     mainStoreRequests?: MainStoreRequestUncheckedUpdateManyWithoutMainStoreSessionNestedInput
+    closingRequestsTo?: ClosingStockRequestUncheckedUpdateManyWithoutToMainStoreSessionNestedInput
   }
 
   export type MainStoreSessionCreateManyInput = {
@@ -30040,6 +31760,142 @@ export namespace Prisma {
     comboBookId?: StringFieldUpdateOperationsInput | string
     componentBookId?: StringFieldUpdateOperationsInput | string
     quantity?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClosingStockRequestCreateInput = {
+    id?: string
+    session: string
+    fromWorkspace: string
+    toWorkspace: string
+    fromUserEmail?: string | null
+    toUserEmail?: string | null
+    items: JsonNullValueInput | InputJsonValue
+    status?: string
+    verifiedBy?: string | null
+    verifiedAt?: Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    fromTableSaleSession?: TableSaleSessionCreateNestedOneWithoutClosingRequestsFromInput
+    toMiniStoreSession?: MiniStoreSessionCreateNestedOneWithoutClosingRequestsToInput
+    fromMiniStoreSession?: MiniStoreSessionCreateNestedOneWithoutClosingRequestsFromInput
+    toMainStoreSession?: MainStoreSessionCreateNestedOneWithoutClosingRequestsToInput
+  }
+
+  export type ClosingStockRequestUncheckedCreateInput = {
+    id?: string
+    session: string
+    fromWorkspace: string
+    toWorkspace: string
+    fromUserEmail?: string | null
+    toUserEmail?: string | null
+    fromTableSaleSessionId?: string | null
+    toMiniStoreSessionId?: string | null
+    fromMiniStoreSessionId?: string | null
+    toMainStoreSessionId?: string | null
+    items: JsonNullValueInput | InputJsonValue
+    status?: string
+    verifiedBy?: string | null
+    verifiedAt?: Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClosingStockRequestUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    fromWorkspace?: StringFieldUpdateOperationsInput | string
+    toWorkspace?: StringFieldUpdateOperationsInput | string
+    fromUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    toUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fromTableSaleSession?: TableSaleSessionUpdateOneWithoutClosingRequestsFromNestedInput
+    toMiniStoreSession?: MiniStoreSessionUpdateOneWithoutClosingRequestsToNestedInput
+    fromMiniStoreSession?: MiniStoreSessionUpdateOneWithoutClosingRequestsFromNestedInput
+    toMainStoreSession?: MainStoreSessionUpdateOneWithoutClosingRequestsToNestedInput
+  }
+
+  export type ClosingStockRequestUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    fromWorkspace?: StringFieldUpdateOperationsInput | string
+    toWorkspace?: StringFieldUpdateOperationsInput | string
+    fromUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    toUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    fromTableSaleSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    toMiniStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    fromMiniStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    toMainStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClosingStockRequestCreateManyInput = {
+    id?: string
+    session: string
+    fromWorkspace: string
+    toWorkspace: string
+    fromUserEmail?: string | null
+    toUserEmail?: string | null
+    fromTableSaleSessionId?: string | null
+    toMiniStoreSessionId?: string | null
+    fromMiniStoreSessionId?: string | null
+    toMainStoreSessionId?: string | null
+    items: JsonNullValueInput | InputJsonValue
+    status?: string
+    verifiedBy?: string | null
+    verifiedAt?: Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClosingStockRequestUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    fromWorkspace?: StringFieldUpdateOperationsInput | string
+    toWorkspace?: StringFieldUpdateOperationsInput | string
+    fromUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    toUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClosingStockRequestUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    fromWorkspace?: StringFieldUpdateOperationsInput | string
+    toWorkspace?: StringFieldUpdateOperationsInput | string
+    fromUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    toUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    fromTableSaleSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    toMiniStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    fromMiniStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    toMainStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -30795,11 +32651,21 @@ export namespace Prisma {
     none?: PreorderSessionWhereInput
   }
 
+  export type ClosingStockRequestListRelationFilter = {
+    every?: ClosingStockRequestWhereInput
+    some?: ClosingStockRequestWhereInput
+    none?: ClosingStockRequestWhereInput
+  }
+
   export type BookSaleOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type PreorderSessionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ClosingStockRequestOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -31334,6 +33200,62 @@ export namespace Prisma {
 
   export type ComboBookItemSumOrderByAggregateInput = {
     quantity?: SortOrder
+  }
+
+  export type ClosingStockRequestCountOrderByAggregateInput = {
+    id?: SortOrder
+    session?: SortOrder
+    fromWorkspace?: SortOrder
+    toWorkspace?: SortOrder
+    fromUserEmail?: SortOrder
+    toUserEmail?: SortOrder
+    fromTableSaleSessionId?: SortOrder
+    toMiniStoreSessionId?: SortOrder
+    fromMiniStoreSessionId?: SortOrder
+    toMainStoreSessionId?: SortOrder
+    items?: SortOrder
+    status?: SortOrder
+    verifiedBy?: SortOrder
+    verifiedAt?: SortOrder
+    verification?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ClosingStockRequestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    session?: SortOrder
+    fromWorkspace?: SortOrder
+    toWorkspace?: SortOrder
+    fromUserEmail?: SortOrder
+    toUserEmail?: SortOrder
+    fromTableSaleSessionId?: SortOrder
+    toMiniStoreSessionId?: SortOrder
+    fromMiniStoreSessionId?: SortOrder
+    toMainStoreSessionId?: SortOrder
+    status?: SortOrder
+    verifiedBy?: SortOrder
+    verifiedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ClosingStockRequestMinOrderByAggregateInput = {
+    id?: SortOrder
+    session?: SortOrder
+    fromWorkspace?: SortOrder
+    toWorkspace?: SortOrder
+    fromUserEmail?: SortOrder
+    toUserEmail?: SortOrder
+    fromTableSaleSessionId?: SortOrder
+    toMiniStoreSessionId?: SortOrder
+    fromMiniStoreSessionId?: SortOrder
+    toMainStoreSessionId?: SortOrder
+    status?: SortOrder
+    verifiedBy?: SortOrder
+    verifiedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type AccountCreateNestedManyWithoutUserInput = {
@@ -31899,6 +33821,13 @@ export namespace Prisma {
     connect?: PreorderSessionWhereUniqueInput | PreorderSessionWhereUniqueInput[]
   }
 
+  export type ClosingStockRequestCreateNestedManyWithoutFromTableSaleSessionInput = {
+    create?: XOR<ClosingStockRequestCreateWithoutFromTableSaleSessionInput, ClosingStockRequestUncheckedCreateWithoutFromTableSaleSessionInput> | ClosingStockRequestCreateWithoutFromTableSaleSessionInput[] | ClosingStockRequestUncheckedCreateWithoutFromTableSaleSessionInput[]
+    connectOrCreate?: ClosingStockRequestCreateOrConnectWithoutFromTableSaleSessionInput | ClosingStockRequestCreateOrConnectWithoutFromTableSaleSessionInput[]
+    createMany?: ClosingStockRequestCreateManyFromTableSaleSessionInputEnvelope
+    connect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+  }
+
   export type MySessionCreateNestedManyWithoutTableSaleSessionInput = {
     create?: XOR<MySessionCreateWithoutTableSaleSessionInput, MySessionUncheckedCreateWithoutTableSaleSessionInput> | MySessionCreateWithoutTableSaleSessionInput[] | MySessionUncheckedCreateWithoutTableSaleSessionInput[]
     connectOrCreate?: MySessionCreateOrConnectWithoutTableSaleSessionInput | MySessionCreateOrConnectWithoutTableSaleSessionInput[]
@@ -31925,6 +33854,13 @@ export namespace Prisma {
     connectOrCreate?: PreorderSessionCreateOrConnectWithoutTableSaleSessionInput | PreorderSessionCreateOrConnectWithoutTableSaleSessionInput[]
     createMany?: PreorderSessionCreateManyTableSaleSessionInputEnvelope
     connect?: PreorderSessionWhereUniqueInput | PreorderSessionWhereUniqueInput[]
+  }
+
+  export type ClosingStockRequestUncheckedCreateNestedManyWithoutFromTableSaleSessionInput = {
+    create?: XOR<ClosingStockRequestCreateWithoutFromTableSaleSessionInput, ClosingStockRequestUncheckedCreateWithoutFromTableSaleSessionInput> | ClosingStockRequestCreateWithoutFromTableSaleSessionInput[] | ClosingStockRequestUncheckedCreateWithoutFromTableSaleSessionInput[]
+    connectOrCreate?: ClosingStockRequestCreateOrConnectWithoutFromTableSaleSessionInput | ClosingStockRequestCreateOrConnectWithoutFromTableSaleSessionInput[]
+    createMany?: ClosingStockRequestCreateManyFromTableSaleSessionInputEnvelope
+    connect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
   }
 
   export type MySessionUncheckedCreateNestedManyWithoutTableSaleSessionInput = {
@@ -31974,6 +33910,20 @@ export namespace Prisma {
     update?: PreorderSessionUpdateWithWhereUniqueWithoutTableSaleSessionInput | PreorderSessionUpdateWithWhereUniqueWithoutTableSaleSessionInput[]
     updateMany?: PreorderSessionUpdateManyWithWhereWithoutTableSaleSessionInput | PreorderSessionUpdateManyWithWhereWithoutTableSaleSessionInput[]
     deleteMany?: PreorderSessionScalarWhereInput | PreorderSessionScalarWhereInput[]
+  }
+
+  export type ClosingStockRequestUpdateManyWithoutFromTableSaleSessionNestedInput = {
+    create?: XOR<ClosingStockRequestCreateWithoutFromTableSaleSessionInput, ClosingStockRequestUncheckedCreateWithoutFromTableSaleSessionInput> | ClosingStockRequestCreateWithoutFromTableSaleSessionInput[] | ClosingStockRequestUncheckedCreateWithoutFromTableSaleSessionInput[]
+    connectOrCreate?: ClosingStockRequestCreateOrConnectWithoutFromTableSaleSessionInput | ClosingStockRequestCreateOrConnectWithoutFromTableSaleSessionInput[]
+    upsert?: ClosingStockRequestUpsertWithWhereUniqueWithoutFromTableSaleSessionInput | ClosingStockRequestUpsertWithWhereUniqueWithoutFromTableSaleSessionInput[]
+    createMany?: ClosingStockRequestCreateManyFromTableSaleSessionInputEnvelope
+    set?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    disconnect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    delete?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    connect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    update?: ClosingStockRequestUpdateWithWhereUniqueWithoutFromTableSaleSessionInput | ClosingStockRequestUpdateWithWhereUniqueWithoutFromTableSaleSessionInput[]
+    updateMany?: ClosingStockRequestUpdateManyWithWhereWithoutFromTableSaleSessionInput | ClosingStockRequestUpdateManyWithWhereWithoutFromTableSaleSessionInput[]
+    deleteMany?: ClosingStockRequestScalarWhereInput | ClosingStockRequestScalarWhereInput[]
   }
 
   export type MySessionUpdateManyWithoutTableSaleSessionNestedInput = {
@@ -32030,6 +33980,20 @@ export namespace Prisma {
     update?: PreorderSessionUpdateWithWhereUniqueWithoutTableSaleSessionInput | PreorderSessionUpdateWithWhereUniqueWithoutTableSaleSessionInput[]
     updateMany?: PreorderSessionUpdateManyWithWhereWithoutTableSaleSessionInput | PreorderSessionUpdateManyWithWhereWithoutTableSaleSessionInput[]
     deleteMany?: PreorderSessionScalarWhereInput | PreorderSessionScalarWhereInput[]
+  }
+
+  export type ClosingStockRequestUncheckedUpdateManyWithoutFromTableSaleSessionNestedInput = {
+    create?: XOR<ClosingStockRequestCreateWithoutFromTableSaleSessionInput, ClosingStockRequestUncheckedCreateWithoutFromTableSaleSessionInput> | ClosingStockRequestCreateWithoutFromTableSaleSessionInput[] | ClosingStockRequestUncheckedCreateWithoutFromTableSaleSessionInput[]
+    connectOrCreate?: ClosingStockRequestCreateOrConnectWithoutFromTableSaleSessionInput | ClosingStockRequestCreateOrConnectWithoutFromTableSaleSessionInput[]
+    upsert?: ClosingStockRequestUpsertWithWhereUniqueWithoutFromTableSaleSessionInput | ClosingStockRequestUpsertWithWhereUniqueWithoutFromTableSaleSessionInput[]
+    createMany?: ClosingStockRequestCreateManyFromTableSaleSessionInputEnvelope
+    set?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    disconnect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    delete?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    connect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    update?: ClosingStockRequestUpdateWithWhereUniqueWithoutFromTableSaleSessionInput | ClosingStockRequestUpdateWithWhereUniqueWithoutFromTableSaleSessionInput[]
+    updateMany?: ClosingStockRequestUpdateManyWithWhereWithoutFromTableSaleSessionInput | ClosingStockRequestUpdateManyWithWhereWithoutFromTableSaleSessionInput[]
+    deleteMany?: ClosingStockRequestScalarWhereInput | ClosingStockRequestScalarWhereInput[]
   }
 
   export type MySessionUncheckedUpdateManyWithoutTableSaleSessionNestedInput = {
@@ -32145,6 +34109,20 @@ export namespace Prisma {
     connect?: MiniStoreRequestWhereUniqueInput | MiniStoreRequestWhereUniqueInput[]
   }
 
+  export type ClosingStockRequestCreateNestedManyWithoutToMiniStoreSessionInput = {
+    create?: XOR<ClosingStockRequestCreateWithoutToMiniStoreSessionInput, ClosingStockRequestUncheckedCreateWithoutToMiniStoreSessionInput> | ClosingStockRequestCreateWithoutToMiniStoreSessionInput[] | ClosingStockRequestUncheckedCreateWithoutToMiniStoreSessionInput[]
+    connectOrCreate?: ClosingStockRequestCreateOrConnectWithoutToMiniStoreSessionInput | ClosingStockRequestCreateOrConnectWithoutToMiniStoreSessionInput[]
+    createMany?: ClosingStockRequestCreateManyToMiniStoreSessionInputEnvelope
+    connect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+  }
+
+  export type ClosingStockRequestCreateNestedManyWithoutFromMiniStoreSessionInput = {
+    create?: XOR<ClosingStockRequestCreateWithoutFromMiniStoreSessionInput, ClosingStockRequestUncheckedCreateWithoutFromMiniStoreSessionInput> | ClosingStockRequestCreateWithoutFromMiniStoreSessionInput[] | ClosingStockRequestUncheckedCreateWithoutFromMiniStoreSessionInput[]
+    connectOrCreate?: ClosingStockRequestCreateOrConnectWithoutFromMiniStoreSessionInput | ClosingStockRequestCreateOrConnectWithoutFromMiniStoreSessionInput[]
+    createMany?: ClosingStockRequestCreateManyFromMiniStoreSessionInputEnvelope
+    connect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+  }
+
   export type MySessionUncheckedCreateNestedManyWithoutMiniStoreSessionInput = {
     create?: XOR<MySessionCreateWithoutMiniStoreSessionInput, MySessionUncheckedCreateWithoutMiniStoreSessionInput> | MySessionCreateWithoutMiniStoreSessionInput[] | MySessionUncheckedCreateWithoutMiniStoreSessionInput[]
     connectOrCreate?: MySessionCreateOrConnectWithoutMiniStoreSessionInput | MySessionCreateOrConnectWithoutMiniStoreSessionInput[]
@@ -32164,6 +34142,20 @@ export namespace Prisma {
     connectOrCreate?: MiniStoreRequestCreateOrConnectWithoutMiniStoreSessionInput | MiniStoreRequestCreateOrConnectWithoutMiniStoreSessionInput[]
     createMany?: MiniStoreRequestCreateManyMiniStoreSessionInputEnvelope
     connect?: MiniStoreRequestWhereUniqueInput | MiniStoreRequestWhereUniqueInput[]
+  }
+
+  export type ClosingStockRequestUncheckedCreateNestedManyWithoutToMiniStoreSessionInput = {
+    create?: XOR<ClosingStockRequestCreateWithoutToMiniStoreSessionInput, ClosingStockRequestUncheckedCreateWithoutToMiniStoreSessionInput> | ClosingStockRequestCreateWithoutToMiniStoreSessionInput[] | ClosingStockRequestUncheckedCreateWithoutToMiniStoreSessionInput[]
+    connectOrCreate?: ClosingStockRequestCreateOrConnectWithoutToMiniStoreSessionInput | ClosingStockRequestCreateOrConnectWithoutToMiniStoreSessionInput[]
+    createMany?: ClosingStockRequestCreateManyToMiniStoreSessionInputEnvelope
+    connect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+  }
+
+  export type ClosingStockRequestUncheckedCreateNestedManyWithoutFromMiniStoreSessionInput = {
+    create?: XOR<ClosingStockRequestCreateWithoutFromMiniStoreSessionInput, ClosingStockRequestUncheckedCreateWithoutFromMiniStoreSessionInput> | ClosingStockRequestCreateWithoutFromMiniStoreSessionInput[] | ClosingStockRequestUncheckedCreateWithoutFromMiniStoreSessionInput[]
+    connectOrCreate?: ClosingStockRequestCreateOrConnectWithoutFromMiniStoreSessionInput | ClosingStockRequestCreateOrConnectWithoutFromMiniStoreSessionInput[]
+    createMany?: ClosingStockRequestCreateManyFromMiniStoreSessionInputEnvelope
+    connect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
   }
 
   export type MySessionUpdateManyWithoutMiniStoreSessionNestedInput = {
@@ -32208,6 +34200,34 @@ export namespace Prisma {
     deleteMany?: MiniStoreRequestScalarWhereInput | MiniStoreRequestScalarWhereInput[]
   }
 
+  export type ClosingStockRequestUpdateManyWithoutToMiniStoreSessionNestedInput = {
+    create?: XOR<ClosingStockRequestCreateWithoutToMiniStoreSessionInput, ClosingStockRequestUncheckedCreateWithoutToMiniStoreSessionInput> | ClosingStockRequestCreateWithoutToMiniStoreSessionInput[] | ClosingStockRequestUncheckedCreateWithoutToMiniStoreSessionInput[]
+    connectOrCreate?: ClosingStockRequestCreateOrConnectWithoutToMiniStoreSessionInput | ClosingStockRequestCreateOrConnectWithoutToMiniStoreSessionInput[]
+    upsert?: ClosingStockRequestUpsertWithWhereUniqueWithoutToMiniStoreSessionInput | ClosingStockRequestUpsertWithWhereUniqueWithoutToMiniStoreSessionInput[]
+    createMany?: ClosingStockRequestCreateManyToMiniStoreSessionInputEnvelope
+    set?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    disconnect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    delete?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    connect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    update?: ClosingStockRequestUpdateWithWhereUniqueWithoutToMiniStoreSessionInput | ClosingStockRequestUpdateWithWhereUniqueWithoutToMiniStoreSessionInput[]
+    updateMany?: ClosingStockRequestUpdateManyWithWhereWithoutToMiniStoreSessionInput | ClosingStockRequestUpdateManyWithWhereWithoutToMiniStoreSessionInput[]
+    deleteMany?: ClosingStockRequestScalarWhereInput | ClosingStockRequestScalarWhereInput[]
+  }
+
+  export type ClosingStockRequestUpdateManyWithoutFromMiniStoreSessionNestedInput = {
+    create?: XOR<ClosingStockRequestCreateWithoutFromMiniStoreSessionInput, ClosingStockRequestUncheckedCreateWithoutFromMiniStoreSessionInput> | ClosingStockRequestCreateWithoutFromMiniStoreSessionInput[] | ClosingStockRequestUncheckedCreateWithoutFromMiniStoreSessionInput[]
+    connectOrCreate?: ClosingStockRequestCreateOrConnectWithoutFromMiniStoreSessionInput | ClosingStockRequestCreateOrConnectWithoutFromMiniStoreSessionInput[]
+    upsert?: ClosingStockRequestUpsertWithWhereUniqueWithoutFromMiniStoreSessionInput | ClosingStockRequestUpsertWithWhereUniqueWithoutFromMiniStoreSessionInput[]
+    createMany?: ClosingStockRequestCreateManyFromMiniStoreSessionInputEnvelope
+    set?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    disconnect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    delete?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    connect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    update?: ClosingStockRequestUpdateWithWhereUniqueWithoutFromMiniStoreSessionInput | ClosingStockRequestUpdateWithWhereUniqueWithoutFromMiniStoreSessionInput[]
+    updateMany?: ClosingStockRequestUpdateManyWithWhereWithoutFromMiniStoreSessionInput | ClosingStockRequestUpdateManyWithWhereWithoutFromMiniStoreSessionInput[]
+    deleteMany?: ClosingStockRequestScalarWhereInput | ClosingStockRequestScalarWhereInput[]
+  }
+
   export type MySessionUncheckedUpdateManyWithoutMiniStoreSessionNestedInput = {
     create?: XOR<MySessionCreateWithoutMiniStoreSessionInput, MySessionUncheckedCreateWithoutMiniStoreSessionInput> | MySessionCreateWithoutMiniStoreSessionInput[] | MySessionUncheckedCreateWithoutMiniStoreSessionInput[]
     connectOrCreate?: MySessionCreateOrConnectWithoutMiniStoreSessionInput | MySessionCreateOrConnectWithoutMiniStoreSessionInput[]
@@ -32250,6 +34270,34 @@ export namespace Prisma {
     deleteMany?: MiniStoreRequestScalarWhereInput | MiniStoreRequestScalarWhereInput[]
   }
 
+  export type ClosingStockRequestUncheckedUpdateManyWithoutToMiniStoreSessionNestedInput = {
+    create?: XOR<ClosingStockRequestCreateWithoutToMiniStoreSessionInput, ClosingStockRequestUncheckedCreateWithoutToMiniStoreSessionInput> | ClosingStockRequestCreateWithoutToMiniStoreSessionInput[] | ClosingStockRequestUncheckedCreateWithoutToMiniStoreSessionInput[]
+    connectOrCreate?: ClosingStockRequestCreateOrConnectWithoutToMiniStoreSessionInput | ClosingStockRequestCreateOrConnectWithoutToMiniStoreSessionInput[]
+    upsert?: ClosingStockRequestUpsertWithWhereUniqueWithoutToMiniStoreSessionInput | ClosingStockRequestUpsertWithWhereUniqueWithoutToMiniStoreSessionInput[]
+    createMany?: ClosingStockRequestCreateManyToMiniStoreSessionInputEnvelope
+    set?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    disconnect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    delete?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    connect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    update?: ClosingStockRequestUpdateWithWhereUniqueWithoutToMiniStoreSessionInput | ClosingStockRequestUpdateWithWhereUniqueWithoutToMiniStoreSessionInput[]
+    updateMany?: ClosingStockRequestUpdateManyWithWhereWithoutToMiniStoreSessionInput | ClosingStockRequestUpdateManyWithWhereWithoutToMiniStoreSessionInput[]
+    deleteMany?: ClosingStockRequestScalarWhereInput | ClosingStockRequestScalarWhereInput[]
+  }
+
+  export type ClosingStockRequestUncheckedUpdateManyWithoutFromMiniStoreSessionNestedInput = {
+    create?: XOR<ClosingStockRequestCreateWithoutFromMiniStoreSessionInput, ClosingStockRequestUncheckedCreateWithoutFromMiniStoreSessionInput> | ClosingStockRequestCreateWithoutFromMiniStoreSessionInput[] | ClosingStockRequestUncheckedCreateWithoutFromMiniStoreSessionInput[]
+    connectOrCreate?: ClosingStockRequestCreateOrConnectWithoutFromMiniStoreSessionInput | ClosingStockRequestCreateOrConnectWithoutFromMiniStoreSessionInput[]
+    upsert?: ClosingStockRequestUpsertWithWhereUniqueWithoutFromMiniStoreSessionInput | ClosingStockRequestUpsertWithWhereUniqueWithoutFromMiniStoreSessionInput[]
+    createMany?: ClosingStockRequestCreateManyFromMiniStoreSessionInputEnvelope
+    set?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    disconnect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    delete?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    connect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    update?: ClosingStockRequestUpdateWithWhereUniqueWithoutFromMiniStoreSessionInput | ClosingStockRequestUpdateWithWhereUniqueWithoutFromMiniStoreSessionInput[]
+    updateMany?: ClosingStockRequestUpdateManyWithWhereWithoutFromMiniStoreSessionInput | ClosingStockRequestUpdateManyWithWhereWithoutFromMiniStoreSessionInput[]
+    deleteMany?: ClosingStockRequestScalarWhereInput | ClosingStockRequestScalarWhereInput[]
+  }
+
   export type MySessionCreateNestedManyWithoutMainStoreSessionInput = {
     create?: XOR<MySessionCreateWithoutMainStoreSessionInput, MySessionUncheckedCreateWithoutMainStoreSessionInput> | MySessionCreateWithoutMainStoreSessionInput[] | MySessionUncheckedCreateWithoutMainStoreSessionInput[]
     connectOrCreate?: MySessionCreateOrConnectWithoutMainStoreSessionInput | MySessionCreateOrConnectWithoutMainStoreSessionInput[]
@@ -32264,6 +34312,13 @@ export namespace Prisma {
     connect?: MainStoreRequestWhereUniqueInput | MainStoreRequestWhereUniqueInput[]
   }
 
+  export type ClosingStockRequestCreateNestedManyWithoutToMainStoreSessionInput = {
+    create?: XOR<ClosingStockRequestCreateWithoutToMainStoreSessionInput, ClosingStockRequestUncheckedCreateWithoutToMainStoreSessionInput> | ClosingStockRequestCreateWithoutToMainStoreSessionInput[] | ClosingStockRequestUncheckedCreateWithoutToMainStoreSessionInput[]
+    connectOrCreate?: ClosingStockRequestCreateOrConnectWithoutToMainStoreSessionInput | ClosingStockRequestCreateOrConnectWithoutToMainStoreSessionInput[]
+    createMany?: ClosingStockRequestCreateManyToMainStoreSessionInputEnvelope
+    connect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+  }
+
   export type MySessionUncheckedCreateNestedManyWithoutMainStoreSessionInput = {
     create?: XOR<MySessionCreateWithoutMainStoreSessionInput, MySessionUncheckedCreateWithoutMainStoreSessionInput> | MySessionCreateWithoutMainStoreSessionInput[] | MySessionUncheckedCreateWithoutMainStoreSessionInput[]
     connectOrCreate?: MySessionCreateOrConnectWithoutMainStoreSessionInput | MySessionCreateOrConnectWithoutMainStoreSessionInput[]
@@ -32276,6 +34331,13 @@ export namespace Prisma {
     connectOrCreate?: MainStoreRequestCreateOrConnectWithoutMainStoreSessionInput | MainStoreRequestCreateOrConnectWithoutMainStoreSessionInput[]
     createMany?: MainStoreRequestCreateManyMainStoreSessionInputEnvelope
     connect?: MainStoreRequestWhereUniqueInput | MainStoreRequestWhereUniqueInput[]
+  }
+
+  export type ClosingStockRequestUncheckedCreateNestedManyWithoutToMainStoreSessionInput = {
+    create?: XOR<ClosingStockRequestCreateWithoutToMainStoreSessionInput, ClosingStockRequestUncheckedCreateWithoutToMainStoreSessionInput> | ClosingStockRequestCreateWithoutToMainStoreSessionInput[] | ClosingStockRequestUncheckedCreateWithoutToMainStoreSessionInput[]
+    connectOrCreate?: ClosingStockRequestCreateOrConnectWithoutToMainStoreSessionInput | ClosingStockRequestCreateOrConnectWithoutToMainStoreSessionInput[]
+    createMany?: ClosingStockRequestCreateManyToMainStoreSessionInputEnvelope
+    connect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
   }
 
   export type MySessionUpdateManyWithoutMainStoreSessionNestedInput = {
@@ -32306,6 +34368,20 @@ export namespace Prisma {
     deleteMany?: MainStoreRequestScalarWhereInput | MainStoreRequestScalarWhereInput[]
   }
 
+  export type ClosingStockRequestUpdateManyWithoutToMainStoreSessionNestedInput = {
+    create?: XOR<ClosingStockRequestCreateWithoutToMainStoreSessionInput, ClosingStockRequestUncheckedCreateWithoutToMainStoreSessionInput> | ClosingStockRequestCreateWithoutToMainStoreSessionInput[] | ClosingStockRequestUncheckedCreateWithoutToMainStoreSessionInput[]
+    connectOrCreate?: ClosingStockRequestCreateOrConnectWithoutToMainStoreSessionInput | ClosingStockRequestCreateOrConnectWithoutToMainStoreSessionInput[]
+    upsert?: ClosingStockRequestUpsertWithWhereUniqueWithoutToMainStoreSessionInput | ClosingStockRequestUpsertWithWhereUniqueWithoutToMainStoreSessionInput[]
+    createMany?: ClosingStockRequestCreateManyToMainStoreSessionInputEnvelope
+    set?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    disconnect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    delete?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    connect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    update?: ClosingStockRequestUpdateWithWhereUniqueWithoutToMainStoreSessionInput | ClosingStockRequestUpdateWithWhereUniqueWithoutToMainStoreSessionInput[]
+    updateMany?: ClosingStockRequestUpdateManyWithWhereWithoutToMainStoreSessionInput | ClosingStockRequestUpdateManyWithWhereWithoutToMainStoreSessionInput[]
+    deleteMany?: ClosingStockRequestScalarWhereInput | ClosingStockRequestScalarWhereInput[]
+  }
+
   export type MySessionUncheckedUpdateManyWithoutMainStoreSessionNestedInput = {
     create?: XOR<MySessionCreateWithoutMainStoreSessionInput, MySessionUncheckedCreateWithoutMainStoreSessionInput> | MySessionCreateWithoutMainStoreSessionInput[] | MySessionUncheckedCreateWithoutMainStoreSessionInput[]
     connectOrCreate?: MySessionCreateOrConnectWithoutMainStoreSessionInput | MySessionCreateOrConnectWithoutMainStoreSessionInput[]
@@ -32332,6 +34408,20 @@ export namespace Prisma {
     update?: MainStoreRequestUpdateWithWhereUniqueWithoutMainStoreSessionInput | MainStoreRequestUpdateWithWhereUniqueWithoutMainStoreSessionInput[]
     updateMany?: MainStoreRequestUpdateManyWithWhereWithoutMainStoreSessionInput | MainStoreRequestUpdateManyWithWhereWithoutMainStoreSessionInput[]
     deleteMany?: MainStoreRequestScalarWhereInput | MainStoreRequestScalarWhereInput[]
+  }
+
+  export type ClosingStockRequestUncheckedUpdateManyWithoutToMainStoreSessionNestedInput = {
+    create?: XOR<ClosingStockRequestCreateWithoutToMainStoreSessionInput, ClosingStockRequestUncheckedCreateWithoutToMainStoreSessionInput> | ClosingStockRequestCreateWithoutToMainStoreSessionInput[] | ClosingStockRequestUncheckedCreateWithoutToMainStoreSessionInput[]
+    connectOrCreate?: ClosingStockRequestCreateOrConnectWithoutToMainStoreSessionInput | ClosingStockRequestCreateOrConnectWithoutToMainStoreSessionInput[]
+    upsert?: ClosingStockRequestUpsertWithWhereUniqueWithoutToMainStoreSessionInput | ClosingStockRequestUpsertWithWhereUniqueWithoutToMainStoreSessionInput[]
+    createMany?: ClosingStockRequestCreateManyToMainStoreSessionInputEnvelope
+    set?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    disconnect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    delete?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    connect?: ClosingStockRequestWhereUniqueInput | ClosingStockRequestWhereUniqueInput[]
+    update?: ClosingStockRequestUpdateWithWhereUniqueWithoutToMainStoreSessionInput | ClosingStockRequestUpdateWithWhereUniqueWithoutToMainStoreSessionInput[]
+    updateMany?: ClosingStockRequestUpdateManyWithWhereWithoutToMainStoreSessionInput | ClosingStockRequestUpdateManyWithWhereWithoutToMainStoreSessionInput[]
+    deleteMany?: ClosingStockRequestScalarWhereInput | ClosingStockRequestScalarWhereInput[]
   }
 
   export type MainStoreSessionCreateNestedOneWithoutMainStoreRequestsInput = {
@@ -32742,6 +34832,70 @@ export namespace Prisma {
     upsert?: BookUpsertWithoutComponentOfInput
     connect?: BookWhereUniqueInput
     update?: XOR<XOR<BookUpdateToOneWithWhereWithoutComponentOfInput, BookUpdateWithoutComponentOfInput>, BookUncheckedUpdateWithoutComponentOfInput>
+  }
+
+  export type TableSaleSessionCreateNestedOneWithoutClosingRequestsFromInput = {
+    create?: XOR<TableSaleSessionCreateWithoutClosingRequestsFromInput, TableSaleSessionUncheckedCreateWithoutClosingRequestsFromInput>
+    connectOrCreate?: TableSaleSessionCreateOrConnectWithoutClosingRequestsFromInput
+    connect?: TableSaleSessionWhereUniqueInput
+  }
+
+  export type MiniStoreSessionCreateNestedOneWithoutClosingRequestsToInput = {
+    create?: XOR<MiniStoreSessionCreateWithoutClosingRequestsToInput, MiniStoreSessionUncheckedCreateWithoutClosingRequestsToInput>
+    connectOrCreate?: MiniStoreSessionCreateOrConnectWithoutClosingRequestsToInput
+    connect?: MiniStoreSessionWhereUniqueInput
+  }
+
+  export type MiniStoreSessionCreateNestedOneWithoutClosingRequestsFromInput = {
+    create?: XOR<MiniStoreSessionCreateWithoutClosingRequestsFromInput, MiniStoreSessionUncheckedCreateWithoutClosingRequestsFromInput>
+    connectOrCreate?: MiniStoreSessionCreateOrConnectWithoutClosingRequestsFromInput
+    connect?: MiniStoreSessionWhereUniqueInput
+  }
+
+  export type MainStoreSessionCreateNestedOneWithoutClosingRequestsToInput = {
+    create?: XOR<MainStoreSessionCreateWithoutClosingRequestsToInput, MainStoreSessionUncheckedCreateWithoutClosingRequestsToInput>
+    connectOrCreate?: MainStoreSessionCreateOrConnectWithoutClosingRequestsToInput
+    connect?: MainStoreSessionWhereUniqueInput
+  }
+
+  export type TableSaleSessionUpdateOneWithoutClosingRequestsFromNestedInput = {
+    create?: XOR<TableSaleSessionCreateWithoutClosingRequestsFromInput, TableSaleSessionUncheckedCreateWithoutClosingRequestsFromInput>
+    connectOrCreate?: TableSaleSessionCreateOrConnectWithoutClosingRequestsFromInput
+    upsert?: TableSaleSessionUpsertWithoutClosingRequestsFromInput
+    disconnect?: TableSaleSessionWhereInput | boolean
+    delete?: TableSaleSessionWhereInput | boolean
+    connect?: TableSaleSessionWhereUniqueInput
+    update?: XOR<XOR<TableSaleSessionUpdateToOneWithWhereWithoutClosingRequestsFromInput, TableSaleSessionUpdateWithoutClosingRequestsFromInput>, TableSaleSessionUncheckedUpdateWithoutClosingRequestsFromInput>
+  }
+
+  export type MiniStoreSessionUpdateOneWithoutClosingRequestsToNestedInput = {
+    create?: XOR<MiniStoreSessionCreateWithoutClosingRequestsToInput, MiniStoreSessionUncheckedCreateWithoutClosingRequestsToInput>
+    connectOrCreate?: MiniStoreSessionCreateOrConnectWithoutClosingRequestsToInput
+    upsert?: MiniStoreSessionUpsertWithoutClosingRequestsToInput
+    disconnect?: MiniStoreSessionWhereInput | boolean
+    delete?: MiniStoreSessionWhereInput | boolean
+    connect?: MiniStoreSessionWhereUniqueInput
+    update?: XOR<XOR<MiniStoreSessionUpdateToOneWithWhereWithoutClosingRequestsToInput, MiniStoreSessionUpdateWithoutClosingRequestsToInput>, MiniStoreSessionUncheckedUpdateWithoutClosingRequestsToInput>
+  }
+
+  export type MiniStoreSessionUpdateOneWithoutClosingRequestsFromNestedInput = {
+    create?: XOR<MiniStoreSessionCreateWithoutClosingRequestsFromInput, MiniStoreSessionUncheckedCreateWithoutClosingRequestsFromInput>
+    connectOrCreate?: MiniStoreSessionCreateOrConnectWithoutClosingRequestsFromInput
+    upsert?: MiniStoreSessionUpsertWithoutClosingRequestsFromInput
+    disconnect?: MiniStoreSessionWhereInput | boolean
+    delete?: MiniStoreSessionWhereInput | boolean
+    connect?: MiniStoreSessionWhereUniqueInput
+    update?: XOR<XOR<MiniStoreSessionUpdateToOneWithWhereWithoutClosingRequestsFromInput, MiniStoreSessionUpdateWithoutClosingRequestsFromInput>, MiniStoreSessionUncheckedUpdateWithoutClosingRequestsFromInput>
+  }
+
+  export type MainStoreSessionUpdateOneWithoutClosingRequestsToNestedInput = {
+    create?: XOR<MainStoreSessionCreateWithoutClosingRequestsToInput, MainStoreSessionUncheckedCreateWithoutClosingRequestsToInput>
+    connectOrCreate?: MainStoreSessionCreateOrConnectWithoutClosingRequestsToInput
+    upsert?: MainStoreSessionUpsertWithoutClosingRequestsToInput
+    disconnect?: MainStoreSessionWhereInput | boolean
+    delete?: MainStoreSessionWhereInput | boolean
+    connect?: MainStoreSessionWhereUniqueInput
+    update?: XOR<XOR<MainStoreSessionUpdateToOneWithWhereWithoutClosingRequestsToInput, MainStoreSessionUpdateWithoutClosingRequestsToInput>, MainStoreSessionUncheckedUpdateWithoutClosingRequestsToInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -33954,6 +36108,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bookSales?: BookSaleCreateNestedManyWithoutSessionInput
     miniStoreRequests?: MiniStoreRequestCreateNestedManyWithoutTableSaleSessionInput
+    closingRequestsFrom?: ClosingStockRequestCreateNestedManyWithoutFromTableSaleSessionInput
     mySessions?: MySessionCreateNestedManyWithoutTableSaleSessionInput
   }
 
@@ -33971,6 +36126,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bookSales?: BookSaleUncheckedCreateNestedManyWithoutSessionInput
     miniStoreRequests?: MiniStoreRequestUncheckedCreateNestedManyWithoutTableSaleSessionInput
+    closingRequestsFrom?: ClosingStockRequestUncheckedCreateNestedManyWithoutFromTableSaleSessionInput
     mySessions?: MySessionUncheckedCreateNestedManyWithoutTableSaleSessionInput
   }
 
@@ -34076,6 +36232,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bookSales?: BookSaleUpdateManyWithoutSessionNestedInput
     miniStoreRequests?: MiniStoreRequestUpdateManyWithoutTableSaleSessionNestedInput
+    closingRequestsFrom?: ClosingStockRequestUpdateManyWithoutFromTableSaleSessionNestedInput
     mySessions?: MySessionUpdateManyWithoutTableSaleSessionNestedInput
   }
 
@@ -34093,6 +36250,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bookSales?: BookSaleUncheckedUpdateManyWithoutSessionNestedInput
     miniStoreRequests?: MiniStoreRequestUncheckedUpdateManyWithoutTableSaleSessionNestedInput
+    closingRequestsFrom?: ClosingStockRequestUncheckedUpdateManyWithoutFromTableSaleSessionNestedInput
     mySessions?: MySessionUncheckedUpdateManyWithoutTableSaleSessionNestedInput
   }
 
@@ -34256,6 +36414,54 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ClosingStockRequestCreateWithoutFromTableSaleSessionInput = {
+    id?: string
+    session: string
+    fromWorkspace: string
+    toWorkspace: string
+    fromUserEmail?: string | null
+    toUserEmail?: string | null
+    items: JsonNullValueInput | InputJsonValue
+    status?: string
+    verifiedBy?: string | null
+    verifiedAt?: Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    toMiniStoreSession?: MiniStoreSessionCreateNestedOneWithoutClosingRequestsToInput
+    fromMiniStoreSession?: MiniStoreSessionCreateNestedOneWithoutClosingRequestsFromInput
+    toMainStoreSession?: MainStoreSessionCreateNestedOneWithoutClosingRequestsToInput
+  }
+
+  export type ClosingStockRequestUncheckedCreateWithoutFromTableSaleSessionInput = {
+    id?: string
+    session: string
+    fromWorkspace: string
+    toWorkspace: string
+    fromUserEmail?: string | null
+    toUserEmail?: string | null
+    toMiniStoreSessionId?: string | null
+    fromMiniStoreSessionId?: string | null
+    toMainStoreSessionId?: string | null
+    items: JsonNullValueInput | InputJsonValue
+    status?: string
+    verifiedBy?: string | null
+    verifiedAt?: Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClosingStockRequestCreateOrConnectWithoutFromTableSaleSessionInput = {
+    where: ClosingStockRequestWhereUniqueInput
+    create: XOR<ClosingStockRequestCreateWithoutFromTableSaleSessionInput, ClosingStockRequestUncheckedCreateWithoutFromTableSaleSessionInput>
+  }
+
+  export type ClosingStockRequestCreateManyFromTableSaleSessionInputEnvelope = {
+    data: ClosingStockRequestCreateManyFromTableSaleSessionInput | ClosingStockRequestCreateManyFromTableSaleSessionInput[]
+    skipDuplicates?: boolean
+  }
+
   export type MySessionCreateWithoutTableSaleSessionInput = {
     id?: string
     session: string
@@ -34376,6 +36582,45 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"PreorderSession"> | Date | string
   }
 
+  export type ClosingStockRequestUpsertWithWhereUniqueWithoutFromTableSaleSessionInput = {
+    where: ClosingStockRequestWhereUniqueInput
+    update: XOR<ClosingStockRequestUpdateWithoutFromTableSaleSessionInput, ClosingStockRequestUncheckedUpdateWithoutFromTableSaleSessionInput>
+    create: XOR<ClosingStockRequestCreateWithoutFromTableSaleSessionInput, ClosingStockRequestUncheckedCreateWithoutFromTableSaleSessionInput>
+  }
+
+  export type ClosingStockRequestUpdateWithWhereUniqueWithoutFromTableSaleSessionInput = {
+    where: ClosingStockRequestWhereUniqueInput
+    data: XOR<ClosingStockRequestUpdateWithoutFromTableSaleSessionInput, ClosingStockRequestUncheckedUpdateWithoutFromTableSaleSessionInput>
+  }
+
+  export type ClosingStockRequestUpdateManyWithWhereWithoutFromTableSaleSessionInput = {
+    where: ClosingStockRequestScalarWhereInput
+    data: XOR<ClosingStockRequestUpdateManyMutationInput, ClosingStockRequestUncheckedUpdateManyWithoutFromTableSaleSessionInput>
+  }
+
+  export type ClosingStockRequestScalarWhereInput = {
+    AND?: ClosingStockRequestScalarWhereInput | ClosingStockRequestScalarWhereInput[]
+    OR?: ClosingStockRequestScalarWhereInput[]
+    NOT?: ClosingStockRequestScalarWhereInput | ClosingStockRequestScalarWhereInput[]
+    id?: StringFilter<"ClosingStockRequest"> | string
+    session?: StringFilter<"ClosingStockRequest"> | string
+    fromWorkspace?: StringFilter<"ClosingStockRequest"> | string
+    toWorkspace?: StringFilter<"ClosingStockRequest"> | string
+    fromUserEmail?: StringNullableFilter<"ClosingStockRequest"> | string | null
+    toUserEmail?: StringNullableFilter<"ClosingStockRequest"> | string | null
+    fromTableSaleSessionId?: StringNullableFilter<"ClosingStockRequest"> | string | null
+    toMiniStoreSessionId?: StringNullableFilter<"ClosingStockRequest"> | string | null
+    fromMiniStoreSessionId?: StringNullableFilter<"ClosingStockRequest"> | string | null
+    toMainStoreSessionId?: StringNullableFilter<"ClosingStockRequest"> | string | null
+    items?: JsonFilter<"ClosingStockRequest">
+    status?: StringFilter<"ClosingStockRequest"> | string
+    verifiedBy?: StringNullableFilter<"ClosingStockRequest"> | string | null
+    verifiedAt?: DateTimeNullableFilter<"ClosingStockRequest"> | Date | string | null
+    verification?: JsonNullableFilter<"ClosingStockRequest">
+    createdAt?: DateTimeFilter<"ClosingStockRequest"> | Date | string
+    updatedAt?: DateTimeFilter<"ClosingStockRequest"> | Date | string
+  }
+
   export type MySessionUpsertWithWhereUniqueWithoutTableSaleSessionInput = {
     where: MySessionWhereUniqueInput
     update: XOR<MySessionUpdateWithoutTableSaleSessionInput, MySessionUncheckedUpdateWithoutTableSaleSessionInput>
@@ -34436,6 +36681,7 @@ export namespace Prisma {
     bookSales?: BookSaleCreateNestedManyWithoutSessionInput
     miniStoreRequests?: MiniStoreRequestCreateNestedManyWithoutTableSaleSessionInput
     preorderSessions?: PreorderSessionCreateNestedManyWithoutTableSaleSessionInput
+    closingRequestsFrom?: ClosingStockRequestCreateNestedManyWithoutFromTableSaleSessionInput
   }
 
   export type TableSaleSessionUncheckedCreateWithoutMySessionsInput = {
@@ -34453,6 +36699,7 @@ export namespace Prisma {
     bookSales?: BookSaleUncheckedCreateNestedManyWithoutSessionInput
     miniStoreRequests?: MiniStoreRequestUncheckedCreateNestedManyWithoutTableSaleSessionInput
     preorderSessions?: PreorderSessionUncheckedCreateNestedManyWithoutTableSaleSessionInput
+    closingRequestsFrom?: ClosingStockRequestUncheckedCreateNestedManyWithoutFromTableSaleSessionInput
   }
 
   export type TableSaleSessionCreateOrConnectWithoutMySessionsInput = {
@@ -34475,6 +36722,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     mainStoreRequests?: MainStoreRequestCreateNestedManyWithoutMiniStoreSessionInput
     miniStoreRequests?: MiniStoreRequestCreateNestedManyWithoutMiniStoreSessionInput
+    closingRequestsTo?: ClosingStockRequestCreateNestedManyWithoutToMiniStoreSessionInput
+    closingRequestsFrom?: ClosingStockRequestCreateNestedManyWithoutFromMiniStoreSessionInput
   }
 
   export type MiniStoreSessionUncheckedCreateWithoutMySessionsInput = {
@@ -34492,6 +36741,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     mainStoreRequests?: MainStoreRequestUncheckedCreateNestedManyWithoutMiniStoreSessionInput
     miniStoreRequests?: MiniStoreRequestUncheckedCreateNestedManyWithoutMiniStoreSessionInput
+    closingRequestsTo?: ClosingStockRequestUncheckedCreateNestedManyWithoutToMiniStoreSessionInput
+    closingRequestsFrom?: ClosingStockRequestUncheckedCreateNestedManyWithoutFromMiniStoreSessionInput
   }
 
   export type MiniStoreSessionCreateOrConnectWithoutMySessionsInput = {
@@ -34513,6 +36764,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     mainStoreRequests?: MainStoreRequestCreateNestedManyWithoutMainStoreSessionInput
+    closingRequestsTo?: ClosingStockRequestCreateNestedManyWithoutToMainStoreSessionInput
   }
 
   export type MainStoreSessionUncheckedCreateWithoutMySessionsInput = {
@@ -34529,6 +36781,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     mainStoreRequests?: MainStoreRequestUncheckedCreateNestedManyWithoutMainStoreSessionInput
+    closingRequestsTo?: ClosingStockRequestUncheckedCreateNestedManyWithoutToMainStoreSessionInput
   }
 
   export type MainStoreSessionCreateOrConnectWithoutMySessionsInput = {
@@ -34626,6 +36879,7 @@ export namespace Prisma {
     bookSales?: BookSaleUpdateManyWithoutSessionNestedInput
     miniStoreRequests?: MiniStoreRequestUpdateManyWithoutTableSaleSessionNestedInput
     preorderSessions?: PreorderSessionUpdateManyWithoutTableSaleSessionNestedInput
+    closingRequestsFrom?: ClosingStockRequestUpdateManyWithoutFromTableSaleSessionNestedInput
   }
 
   export type TableSaleSessionUncheckedUpdateWithoutMySessionsInput = {
@@ -34643,6 +36897,7 @@ export namespace Prisma {
     bookSales?: BookSaleUncheckedUpdateManyWithoutSessionNestedInput
     miniStoreRequests?: MiniStoreRequestUncheckedUpdateManyWithoutTableSaleSessionNestedInput
     preorderSessions?: PreorderSessionUncheckedUpdateManyWithoutTableSaleSessionNestedInput
+    closingRequestsFrom?: ClosingStockRequestUncheckedUpdateManyWithoutFromTableSaleSessionNestedInput
   }
 
   export type MiniStoreSessionUpsertWithoutMySessionsInput = {
@@ -34671,6 +36926,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mainStoreRequests?: MainStoreRequestUpdateManyWithoutMiniStoreSessionNestedInput
     miniStoreRequests?: MiniStoreRequestUpdateManyWithoutMiniStoreSessionNestedInput
+    closingRequestsTo?: ClosingStockRequestUpdateManyWithoutToMiniStoreSessionNestedInput
+    closingRequestsFrom?: ClosingStockRequestUpdateManyWithoutFromMiniStoreSessionNestedInput
   }
 
   export type MiniStoreSessionUncheckedUpdateWithoutMySessionsInput = {
@@ -34688,6 +36945,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mainStoreRequests?: MainStoreRequestUncheckedUpdateManyWithoutMiniStoreSessionNestedInput
     miniStoreRequests?: MiniStoreRequestUncheckedUpdateManyWithoutMiniStoreSessionNestedInput
+    closingRequestsTo?: ClosingStockRequestUncheckedUpdateManyWithoutToMiniStoreSessionNestedInput
+    closingRequestsFrom?: ClosingStockRequestUncheckedUpdateManyWithoutFromMiniStoreSessionNestedInput
   }
 
   export type MainStoreSessionUpsertWithoutMySessionsInput = {
@@ -34715,6 +36974,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mainStoreRequests?: MainStoreRequestUpdateManyWithoutMainStoreSessionNestedInput
+    closingRequestsTo?: ClosingStockRequestUpdateManyWithoutToMainStoreSessionNestedInput
   }
 
   export type MainStoreSessionUncheckedUpdateWithoutMySessionsInput = {
@@ -34731,6 +36991,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mainStoreRequests?: MainStoreRequestUncheckedUpdateManyWithoutMainStoreSessionNestedInput
+    closingRequestsTo?: ClosingStockRequestUncheckedUpdateManyWithoutToMainStoreSessionNestedInput
   }
 
   export type PreorderSessionUpsertWithoutMySessionsInput = {
@@ -34872,6 +37133,102 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ClosingStockRequestCreateWithoutToMiniStoreSessionInput = {
+    id?: string
+    session: string
+    fromWorkspace: string
+    toWorkspace: string
+    fromUserEmail?: string | null
+    toUserEmail?: string | null
+    items: JsonNullValueInput | InputJsonValue
+    status?: string
+    verifiedBy?: string | null
+    verifiedAt?: Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    fromTableSaleSession?: TableSaleSessionCreateNestedOneWithoutClosingRequestsFromInput
+    fromMiniStoreSession?: MiniStoreSessionCreateNestedOneWithoutClosingRequestsFromInput
+    toMainStoreSession?: MainStoreSessionCreateNestedOneWithoutClosingRequestsToInput
+  }
+
+  export type ClosingStockRequestUncheckedCreateWithoutToMiniStoreSessionInput = {
+    id?: string
+    session: string
+    fromWorkspace: string
+    toWorkspace: string
+    fromUserEmail?: string | null
+    toUserEmail?: string | null
+    fromTableSaleSessionId?: string | null
+    fromMiniStoreSessionId?: string | null
+    toMainStoreSessionId?: string | null
+    items: JsonNullValueInput | InputJsonValue
+    status?: string
+    verifiedBy?: string | null
+    verifiedAt?: Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClosingStockRequestCreateOrConnectWithoutToMiniStoreSessionInput = {
+    where: ClosingStockRequestWhereUniqueInput
+    create: XOR<ClosingStockRequestCreateWithoutToMiniStoreSessionInput, ClosingStockRequestUncheckedCreateWithoutToMiniStoreSessionInput>
+  }
+
+  export type ClosingStockRequestCreateManyToMiniStoreSessionInputEnvelope = {
+    data: ClosingStockRequestCreateManyToMiniStoreSessionInput | ClosingStockRequestCreateManyToMiniStoreSessionInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ClosingStockRequestCreateWithoutFromMiniStoreSessionInput = {
+    id?: string
+    session: string
+    fromWorkspace: string
+    toWorkspace: string
+    fromUserEmail?: string | null
+    toUserEmail?: string | null
+    items: JsonNullValueInput | InputJsonValue
+    status?: string
+    verifiedBy?: string | null
+    verifiedAt?: Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    fromTableSaleSession?: TableSaleSessionCreateNestedOneWithoutClosingRequestsFromInput
+    toMiniStoreSession?: MiniStoreSessionCreateNestedOneWithoutClosingRequestsToInput
+    toMainStoreSession?: MainStoreSessionCreateNestedOneWithoutClosingRequestsToInput
+  }
+
+  export type ClosingStockRequestUncheckedCreateWithoutFromMiniStoreSessionInput = {
+    id?: string
+    session: string
+    fromWorkspace: string
+    toWorkspace: string
+    fromUserEmail?: string | null
+    toUserEmail?: string | null
+    fromTableSaleSessionId?: string | null
+    toMiniStoreSessionId?: string | null
+    toMainStoreSessionId?: string | null
+    items: JsonNullValueInput | InputJsonValue
+    status?: string
+    verifiedBy?: string | null
+    verifiedAt?: Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClosingStockRequestCreateOrConnectWithoutFromMiniStoreSessionInput = {
+    where: ClosingStockRequestWhereUniqueInput
+    create: XOR<ClosingStockRequestCreateWithoutFromMiniStoreSessionInput, ClosingStockRequestUncheckedCreateWithoutFromMiniStoreSessionInput>
+  }
+
+  export type ClosingStockRequestCreateManyFromMiniStoreSessionInputEnvelope = {
+    data: ClosingStockRequestCreateManyFromMiniStoreSessionInput | ClosingStockRequestCreateManyFromMiniStoreSessionInput[]
+    skipDuplicates?: boolean
+  }
+
   export type MySessionUpsertWithWhereUniqueWithoutMiniStoreSessionInput = {
     where: MySessionWhereUniqueInput
     update: XOR<MySessionUpdateWithoutMiniStoreSessionInput, MySessionUncheckedUpdateWithoutMiniStoreSessionInput>
@@ -34933,6 +37290,38 @@ export namespace Prisma {
   export type MiniStoreRequestUpdateManyWithWhereWithoutMiniStoreSessionInput = {
     where: MiniStoreRequestScalarWhereInput
     data: XOR<MiniStoreRequestUpdateManyMutationInput, MiniStoreRequestUncheckedUpdateManyWithoutMiniStoreSessionInput>
+  }
+
+  export type ClosingStockRequestUpsertWithWhereUniqueWithoutToMiniStoreSessionInput = {
+    where: ClosingStockRequestWhereUniqueInput
+    update: XOR<ClosingStockRequestUpdateWithoutToMiniStoreSessionInput, ClosingStockRequestUncheckedUpdateWithoutToMiniStoreSessionInput>
+    create: XOR<ClosingStockRequestCreateWithoutToMiniStoreSessionInput, ClosingStockRequestUncheckedCreateWithoutToMiniStoreSessionInput>
+  }
+
+  export type ClosingStockRequestUpdateWithWhereUniqueWithoutToMiniStoreSessionInput = {
+    where: ClosingStockRequestWhereUniqueInput
+    data: XOR<ClosingStockRequestUpdateWithoutToMiniStoreSessionInput, ClosingStockRequestUncheckedUpdateWithoutToMiniStoreSessionInput>
+  }
+
+  export type ClosingStockRequestUpdateManyWithWhereWithoutToMiniStoreSessionInput = {
+    where: ClosingStockRequestScalarWhereInput
+    data: XOR<ClosingStockRequestUpdateManyMutationInput, ClosingStockRequestUncheckedUpdateManyWithoutToMiniStoreSessionInput>
+  }
+
+  export type ClosingStockRequestUpsertWithWhereUniqueWithoutFromMiniStoreSessionInput = {
+    where: ClosingStockRequestWhereUniqueInput
+    update: XOR<ClosingStockRequestUpdateWithoutFromMiniStoreSessionInput, ClosingStockRequestUncheckedUpdateWithoutFromMiniStoreSessionInput>
+    create: XOR<ClosingStockRequestCreateWithoutFromMiniStoreSessionInput, ClosingStockRequestUncheckedCreateWithoutFromMiniStoreSessionInput>
+  }
+
+  export type ClosingStockRequestUpdateWithWhereUniqueWithoutFromMiniStoreSessionInput = {
+    where: ClosingStockRequestWhereUniqueInput
+    data: XOR<ClosingStockRequestUpdateWithoutFromMiniStoreSessionInput, ClosingStockRequestUncheckedUpdateWithoutFromMiniStoreSessionInput>
+  }
+
+  export type ClosingStockRequestUpdateManyWithWhereWithoutFromMiniStoreSessionInput = {
+    where: ClosingStockRequestScalarWhereInput
+    data: XOR<ClosingStockRequestUpdateManyMutationInput, ClosingStockRequestUncheckedUpdateManyWithoutFromMiniStoreSessionInput>
   }
 
   export type MySessionCreateWithoutMainStoreSessionInput = {
@@ -35005,6 +37394,54 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ClosingStockRequestCreateWithoutToMainStoreSessionInput = {
+    id?: string
+    session: string
+    fromWorkspace: string
+    toWorkspace: string
+    fromUserEmail?: string | null
+    toUserEmail?: string | null
+    items: JsonNullValueInput | InputJsonValue
+    status?: string
+    verifiedBy?: string | null
+    verifiedAt?: Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    fromTableSaleSession?: TableSaleSessionCreateNestedOneWithoutClosingRequestsFromInput
+    toMiniStoreSession?: MiniStoreSessionCreateNestedOneWithoutClosingRequestsToInput
+    fromMiniStoreSession?: MiniStoreSessionCreateNestedOneWithoutClosingRequestsFromInput
+  }
+
+  export type ClosingStockRequestUncheckedCreateWithoutToMainStoreSessionInput = {
+    id?: string
+    session: string
+    fromWorkspace: string
+    toWorkspace: string
+    fromUserEmail?: string | null
+    toUserEmail?: string | null
+    fromTableSaleSessionId?: string | null
+    toMiniStoreSessionId?: string | null
+    fromMiniStoreSessionId?: string | null
+    items: JsonNullValueInput | InputJsonValue
+    status?: string
+    verifiedBy?: string | null
+    verifiedAt?: Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClosingStockRequestCreateOrConnectWithoutToMainStoreSessionInput = {
+    where: ClosingStockRequestWhereUniqueInput
+    create: XOR<ClosingStockRequestCreateWithoutToMainStoreSessionInput, ClosingStockRequestUncheckedCreateWithoutToMainStoreSessionInput>
+  }
+
+  export type ClosingStockRequestCreateManyToMainStoreSessionInputEnvelope = {
+    data: ClosingStockRequestCreateManyToMainStoreSessionInput | ClosingStockRequestCreateManyToMainStoreSessionInput[]
+    skipDuplicates?: boolean
+  }
+
   export type MySessionUpsertWithWhereUniqueWithoutMainStoreSessionInput = {
     where: MySessionWhereUniqueInput
     update: XOR<MySessionUpdateWithoutMainStoreSessionInput, MySessionUncheckedUpdateWithoutMainStoreSessionInput>
@@ -35037,6 +37474,22 @@ export namespace Prisma {
     data: XOR<MainStoreRequestUpdateManyMutationInput, MainStoreRequestUncheckedUpdateManyWithoutMainStoreSessionInput>
   }
 
+  export type ClosingStockRequestUpsertWithWhereUniqueWithoutToMainStoreSessionInput = {
+    where: ClosingStockRequestWhereUniqueInput
+    update: XOR<ClosingStockRequestUpdateWithoutToMainStoreSessionInput, ClosingStockRequestUncheckedUpdateWithoutToMainStoreSessionInput>
+    create: XOR<ClosingStockRequestCreateWithoutToMainStoreSessionInput, ClosingStockRequestUncheckedCreateWithoutToMainStoreSessionInput>
+  }
+
+  export type ClosingStockRequestUpdateWithWhereUniqueWithoutToMainStoreSessionInput = {
+    where: ClosingStockRequestWhereUniqueInput
+    data: XOR<ClosingStockRequestUpdateWithoutToMainStoreSessionInput, ClosingStockRequestUncheckedUpdateWithoutToMainStoreSessionInput>
+  }
+
+  export type ClosingStockRequestUpdateManyWithWhereWithoutToMainStoreSessionInput = {
+    where: ClosingStockRequestScalarWhereInput
+    data: XOR<ClosingStockRequestUpdateManyMutationInput, ClosingStockRequestUncheckedUpdateManyWithoutToMainStoreSessionInput>
+  }
+
   export type MainStoreSessionCreateWithoutMainStoreRequestsInput = {
     id?: string
     name: string
@@ -35051,6 +37504,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     mySessions?: MySessionCreateNestedManyWithoutMainStoreSessionInput
+    closingRequestsTo?: ClosingStockRequestCreateNestedManyWithoutToMainStoreSessionInput
   }
 
   export type MainStoreSessionUncheckedCreateWithoutMainStoreRequestsInput = {
@@ -35067,6 +37521,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     mySessions?: MySessionUncheckedCreateNestedManyWithoutMainStoreSessionInput
+    closingRequestsTo?: ClosingStockRequestUncheckedCreateNestedManyWithoutToMainStoreSessionInput
   }
 
   export type MainStoreSessionCreateOrConnectWithoutMainStoreRequestsInput = {
@@ -35089,6 +37544,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     mySessions?: MySessionCreateNestedManyWithoutMiniStoreSessionInput
     miniStoreRequests?: MiniStoreRequestCreateNestedManyWithoutMiniStoreSessionInput
+    closingRequestsTo?: ClosingStockRequestCreateNestedManyWithoutToMiniStoreSessionInput
+    closingRequestsFrom?: ClosingStockRequestCreateNestedManyWithoutFromMiniStoreSessionInput
   }
 
   export type MiniStoreSessionUncheckedCreateWithoutMainStoreRequestsInput = {
@@ -35106,6 +37563,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     mySessions?: MySessionUncheckedCreateNestedManyWithoutMiniStoreSessionInput
     miniStoreRequests?: MiniStoreRequestUncheckedCreateNestedManyWithoutMiniStoreSessionInput
+    closingRequestsTo?: ClosingStockRequestUncheckedCreateNestedManyWithoutToMiniStoreSessionInput
+    closingRequestsFrom?: ClosingStockRequestUncheckedCreateNestedManyWithoutFromMiniStoreSessionInput
   }
 
   export type MiniStoreSessionCreateOrConnectWithoutMainStoreRequestsInput = {
@@ -35138,6 +37597,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mySessions?: MySessionUpdateManyWithoutMainStoreSessionNestedInput
+    closingRequestsTo?: ClosingStockRequestUpdateManyWithoutToMainStoreSessionNestedInput
   }
 
   export type MainStoreSessionUncheckedUpdateWithoutMainStoreRequestsInput = {
@@ -35154,6 +37614,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mySessions?: MySessionUncheckedUpdateManyWithoutMainStoreSessionNestedInput
+    closingRequestsTo?: ClosingStockRequestUncheckedUpdateManyWithoutToMainStoreSessionNestedInput
   }
 
   export type MiniStoreSessionUpsertWithoutMainStoreRequestsInput = {
@@ -35182,6 +37643,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mySessions?: MySessionUpdateManyWithoutMiniStoreSessionNestedInput
     miniStoreRequests?: MiniStoreRequestUpdateManyWithoutMiniStoreSessionNestedInput
+    closingRequestsTo?: ClosingStockRequestUpdateManyWithoutToMiniStoreSessionNestedInput
+    closingRequestsFrom?: ClosingStockRequestUpdateManyWithoutFromMiniStoreSessionNestedInput
   }
 
   export type MiniStoreSessionUncheckedUpdateWithoutMainStoreRequestsInput = {
@@ -35199,6 +37662,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mySessions?: MySessionUncheckedUpdateManyWithoutMiniStoreSessionNestedInput
     miniStoreRequests?: MiniStoreRequestUncheckedUpdateManyWithoutMiniStoreSessionNestedInput
+    closingRequestsTo?: ClosingStockRequestUncheckedUpdateManyWithoutToMiniStoreSessionNestedInput
+    closingRequestsFrom?: ClosingStockRequestUncheckedUpdateManyWithoutFromMiniStoreSessionNestedInput
   }
 
   export type MiniStoreSessionCreateWithoutMiniStoreRequestsInput = {
@@ -35216,6 +37681,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     mySessions?: MySessionCreateNestedManyWithoutMiniStoreSessionInput
     mainStoreRequests?: MainStoreRequestCreateNestedManyWithoutMiniStoreSessionInput
+    closingRequestsTo?: ClosingStockRequestCreateNestedManyWithoutToMiniStoreSessionInput
+    closingRequestsFrom?: ClosingStockRequestCreateNestedManyWithoutFromMiniStoreSessionInput
   }
 
   export type MiniStoreSessionUncheckedCreateWithoutMiniStoreRequestsInput = {
@@ -35233,6 +37700,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     mySessions?: MySessionUncheckedCreateNestedManyWithoutMiniStoreSessionInput
     mainStoreRequests?: MainStoreRequestUncheckedCreateNestedManyWithoutMiniStoreSessionInput
+    closingRequestsTo?: ClosingStockRequestUncheckedCreateNestedManyWithoutToMiniStoreSessionInput
+    closingRequestsFrom?: ClosingStockRequestUncheckedCreateNestedManyWithoutFromMiniStoreSessionInput
   }
 
   export type MiniStoreSessionCreateOrConnectWithoutMiniStoreRequestsInput = {
@@ -35254,6 +37723,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bookSales?: BookSaleCreateNestedManyWithoutSessionInput
     preorderSessions?: PreorderSessionCreateNestedManyWithoutTableSaleSessionInput
+    closingRequestsFrom?: ClosingStockRequestCreateNestedManyWithoutFromTableSaleSessionInput
     mySessions?: MySessionCreateNestedManyWithoutTableSaleSessionInput
   }
 
@@ -35271,6 +37741,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     bookSales?: BookSaleUncheckedCreateNestedManyWithoutSessionInput
     preorderSessions?: PreorderSessionUncheckedCreateNestedManyWithoutTableSaleSessionInput
+    closingRequestsFrom?: ClosingStockRequestUncheckedCreateNestedManyWithoutFromTableSaleSessionInput
     mySessions?: MySessionUncheckedCreateNestedManyWithoutTableSaleSessionInput
   }
 
@@ -35334,6 +37805,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mySessions?: MySessionUpdateManyWithoutMiniStoreSessionNestedInput
     mainStoreRequests?: MainStoreRequestUpdateManyWithoutMiniStoreSessionNestedInput
+    closingRequestsTo?: ClosingStockRequestUpdateManyWithoutToMiniStoreSessionNestedInput
+    closingRequestsFrom?: ClosingStockRequestUpdateManyWithoutFromMiniStoreSessionNestedInput
   }
 
   export type MiniStoreSessionUncheckedUpdateWithoutMiniStoreRequestsInput = {
@@ -35351,6 +37824,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mySessions?: MySessionUncheckedUpdateManyWithoutMiniStoreSessionNestedInput
     mainStoreRequests?: MainStoreRequestUncheckedUpdateManyWithoutMiniStoreSessionNestedInput
+    closingRequestsTo?: ClosingStockRequestUncheckedUpdateManyWithoutToMiniStoreSessionNestedInput
+    closingRequestsFrom?: ClosingStockRequestUncheckedUpdateManyWithoutFromMiniStoreSessionNestedInput
   }
 
   export type TableSaleSessionUpsertWithoutMiniStoreRequestsInput = {
@@ -35378,6 +37853,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bookSales?: BookSaleUpdateManyWithoutSessionNestedInput
     preorderSessions?: PreorderSessionUpdateManyWithoutTableSaleSessionNestedInput
+    closingRequestsFrom?: ClosingStockRequestUpdateManyWithoutFromTableSaleSessionNestedInput
     mySessions?: MySessionUpdateManyWithoutTableSaleSessionNestedInput
   }
 
@@ -35395,6 +37871,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     bookSales?: BookSaleUncheckedUpdateManyWithoutSessionNestedInput
     preorderSessions?: PreorderSessionUncheckedUpdateManyWithoutTableSaleSessionNestedInput
+    closingRequestsFrom?: ClosingStockRequestUncheckedUpdateManyWithoutFromTableSaleSessionNestedInput
     mySessions?: MySessionUncheckedUpdateManyWithoutTableSaleSessionNestedInput
   }
 
@@ -35729,6 +38206,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     miniStoreRequests?: MiniStoreRequestCreateNestedManyWithoutTableSaleSessionInput
     preorderSessions?: PreorderSessionCreateNestedManyWithoutTableSaleSessionInput
+    closingRequestsFrom?: ClosingStockRequestCreateNestedManyWithoutFromTableSaleSessionInput
     mySessions?: MySessionCreateNestedManyWithoutTableSaleSessionInput
   }
 
@@ -35746,6 +38224,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     miniStoreRequests?: MiniStoreRequestUncheckedCreateNestedManyWithoutTableSaleSessionInput
     preorderSessions?: PreorderSessionUncheckedCreateNestedManyWithoutTableSaleSessionInput
+    closingRequestsFrom?: ClosingStockRequestUncheckedCreateNestedManyWithoutFromTableSaleSessionInput
     mySessions?: MySessionUncheckedCreateNestedManyWithoutTableSaleSessionInput
   }
 
@@ -35795,6 +38274,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     miniStoreRequests?: MiniStoreRequestUpdateManyWithoutTableSaleSessionNestedInput
     preorderSessions?: PreorderSessionUpdateManyWithoutTableSaleSessionNestedInput
+    closingRequestsFrom?: ClosingStockRequestUpdateManyWithoutFromTableSaleSessionNestedInput
     mySessions?: MySessionUpdateManyWithoutTableSaleSessionNestedInput
   }
 
@@ -35812,6 +38292,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     miniStoreRequests?: MiniStoreRequestUncheckedUpdateManyWithoutTableSaleSessionNestedInput
     preorderSessions?: PreorderSessionUncheckedUpdateManyWithoutTableSaleSessionNestedInput
+    closingRequestsFrom?: ClosingStockRequestUncheckedUpdateManyWithoutFromTableSaleSessionNestedInput
     mySessions?: MySessionUncheckedUpdateManyWithoutTableSaleSessionNestedInput
   }
 
@@ -36283,6 +38764,362 @@ export namespace Prisma {
     comboItems?: ComboBookItemUncheckedUpdateManyWithoutComboBookNestedInput
   }
 
+  export type TableSaleSessionCreateWithoutClosingRequestsFromInput = {
+    id?: string
+    name: string
+    tableId: string
+    session: string
+    managerId?: string | null
+    salesPersonId?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    soldData?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bookSales?: BookSaleCreateNestedManyWithoutSessionInput
+    miniStoreRequests?: MiniStoreRequestCreateNestedManyWithoutTableSaleSessionInput
+    preorderSessions?: PreorderSessionCreateNestedManyWithoutTableSaleSessionInput
+    mySessions?: MySessionCreateNestedManyWithoutTableSaleSessionInput
+  }
+
+  export type TableSaleSessionUncheckedCreateWithoutClosingRequestsFromInput = {
+    id?: string
+    name: string
+    tableId: string
+    session: string
+    managerId?: string | null
+    salesPersonId?: string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    soldData?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    bookSales?: BookSaleUncheckedCreateNestedManyWithoutSessionInput
+    miniStoreRequests?: MiniStoreRequestUncheckedCreateNestedManyWithoutTableSaleSessionInput
+    preorderSessions?: PreorderSessionUncheckedCreateNestedManyWithoutTableSaleSessionInput
+    mySessions?: MySessionUncheckedCreateNestedManyWithoutTableSaleSessionInput
+  }
+
+  export type TableSaleSessionCreateOrConnectWithoutClosingRequestsFromInput = {
+    where: TableSaleSessionWhereUniqueInput
+    create: XOR<TableSaleSessionCreateWithoutClosingRequestsFromInput, TableSaleSessionUncheckedCreateWithoutClosingRequestsFromInput>
+  }
+
+  export type MiniStoreSessionCreateWithoutClosingRequestsToInput = {
+    id?: string
+    session: string
+    managerId?: string | null
+    type?: string
+    collectedData?: NullableJsonNullValueInput | InputJsonValue
+    distributedData?: NullableJsonNullValueInput | InputJsonValue
+    data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    mySessions?: MySessionCreateNestedManyWithoutMiniStoreSessionInput
+    mainStoreRequests?: MainStoreRequestCreateNestedManyWithoutMiniStoreSessionInput
+    miniStoreRequests?: MiniStoreRequestCreateNestedManyWithoutMiniStoreSessionInput
+    closingRequestsFrom?: ClosingStockRequestCreateNestedManyWithoutFromMiniStoreSessionInput
+  }
+
+  export type MiniStoreSessionUncheckedCreateWithoutClosingRequestsToInput = {
+    id?: string
+    session: string
+    managerId?: string | null
+    type?: string
+    collectedData?: NullableJsonNullValueInput | InputJsonValue
+    distributedData?: NullableJsonNullValueInput | InputJsonValue
+    data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    mySessions?: MySessionUncheckedCreateNestedManyWithoutMiniStoreSessionInput
+    mainStoreRequests?: MainStoreRequestUncheckedCreateNestedManyWithoutMiniStoreSessionInput
+    miniStoreRequests?: MiniStoreRequestUncheckedCreateNestedManyWithoutMiniStoreSessionInput
+    closingRequestsFrom?: ClosingStockRequestUncheckedCreateNestedManyWithoutFromMiniStoreSessionInput
+  }
+
+  export type MiniStoreSessionCreateOrConnectWithoutClosingRequestsToInput = {
+    where: MiniStoreSessionWhereUniqueInput
+    create: XOR<MiniStoreSessionCreateWithoutClosingRequestsToInput, MiniStoreSessionUncheckedCreateWithoutClosingRequestsToInput>
+  }
+
+  export type MiniStoreSessionCreateWithoutClosingRequestsFromInput = {
+    id?: string
+    session: string
+    managerId?: string | null
+    type?: string
+    collectedData?: NullableJsonNullValueInput | InputJsonValue
+    distributedData?: NullableJsonNullValueInput | InputJsonValue
+    data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    mySessions?: MySessionCreateNestedManyWithoutMiniStoreSessionInput
+    mainStoreRequests?: MainStoreRequestCreateNestedManyWithoutMiniStoreSessionInput
+    miniStoreRequests?: MiniStoreRequestCreateNestedManyWithoutMiniStoreSessionInput
+    closingRequestsTo?: ClosingStockRequestCreateNestedManyWithoutToMiniStoreSessionInput
+  }
+
+  export type MiniStoreSessionUncheckedCreateWithoutClosingRequestsFromInput = {
+    id?: string
+    session: string
+    managerId?: string | null
+    type?: string
+    collectedData?: NullableJsonNullValueInput | InputJsonValue
+    distributedData?: NullableJsonNullValueInput | InputJsonValue
+    data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    mySessions?: MySessionUncheckedCreateNestedManyWithoutMiniStoreSessionInput
+    mainStoreRequests?: MainStoreRequestUncheckedCreateNestedManyWithoutMiniStoreSessionInput
+    miniStoreRequests?: MiniStoreRequestUncheckedCreateNestedManyWithoutMiniStoreSessionInput
+    closingRequestsTo?: ClosingStockRequestUncheckedCreateNestedManyWithoutToMiniStoreSessionInput
+  }
+
+  export type MiniStoreSessionCreateOrConnectWithoutClosingRequestsFromInput = {
+    where: MiniStoreSessionWhereUniqueInput
+    create: XOR<MiniStoreSessionCreateWithoutClosingRequestsFromInput, MiniStoreSessionUncheckedCreateWithoutClosingRequestsFromInput>
+  }
+
+  export type MainStoreSessionCreateWithoutClosingRequestsToInput = {
+    id?: string
+    name: string
+    session: string
+    managerId?: string | null
+    collectedData?: NullableJsonNullValueInput | InputJsonValue
+    distributedData?: NullableJsonNullValueInput | InputJsonValue
+    data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    mySessions?: MySessionCreateNestedManyWithoutMainStoreSessionInput
+    mainStoreRequests?: MainStoreRequestCreateNestedManyWithoutMainStoreSessionInput
+  }
+
+  export type MainStoreSessionUncheckedCreateWithoutClosingRequestsToInput = {
+    id?: string
+    name: string
+    session: string
+    managerId?: string | null
+    collectedData?: NullableJsonNullValueInput | InputJsonValue
+    distributedData?: NullableJsonNullValueInput | InputJsonValue
+    data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: Date | string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    mySessions?: MySessionUncheckedCreateNestedManyWithoutMainStoreSessionInput
+    mainStoreRequests?: MainStoreRequestUncheckedCreateNestedManyWithoutMainStoreSessionInput
+  }
+
+  export type MainStoreSessionCreateOrConnectWithoutClosingRequestsToInput = {
+    where: MainStoreSessionWhereUniqueInput
+    create: XOR<MainStoreSessionCreateWithoutClosingRequestsToInput, MainStoreSessionUncheckedCreateWithoutClosingRequestsToInput>
+  }
+
+  export type TableSaleSessionUpsertWithoutClosingRequestsFromInput = {
+    update: XOR<TableSaleSessionUpdateWithoutClosingRequestsFromInput, TableSaleSessionUncheckedUpdateWithoutClosingRequestsFromInput>
+    create: XOR<TableSaleSessionCreateWithoutClosingRequestsFromInput, TableSaleSessionUncheckedCreateWithoutClosingRequestsFromInput>
+    where?: TableSaleSessionWhereInput
+  }
+
+  export type TableSaleSessionUpdateToOneWithWhereWithoutClosingRequestsFromInput = {
+    where?: TableSaleSessionWhereInput
+    data: XOR<TableSaleSessionUpdateWithoutClosingRequestsFromInput, TableSaleSessionUncheckedUpdateWithoutClosingRequestsFromInput>
+  }
+
+  export type TableSaleSessionUpdateWithoutClosingRequestsFromInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tableId?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    salesPersonId?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    soldData?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bookSales?: BookSaleUpdateManyWithoutSessionNestedInput
+    miniStoreRequests?: MiniStoreRequestUpdateManyWithoutTableSaleSessionNestedInput
+    preorderSessions?: PreorderSessionUpdateManyWithoutTableSaleSessionNestedInput
+    mySessions?: MySessionUpdateManyWithoutTableSaleSessionNestedInput
+  }
+
+  export type TableSaleSessionUncheckedUpdateWithoutClosingRequestsFromInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    tableId?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    salesPersonId?: NullableStringFieldUpdateOperationsInput | string | null
+    data?: NullableJsonNullValueInput | InputJsonValue
+    soldData?: NullableJsonNullValueInput | InputJsonValue
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    bookSales?: BookSaleUncheckedUpdateManyWithoutSessionNestedInput
+    miniStoreRequests?: MiniStoreRequestUncheckedUpdateManyWithoutTableSaleSessionNestedInput
+    preorderSessions?: PreorderSessionUncheckedUpdateManyWithoutTableSaleSessionNestedInput
+    mySessions?: MySessionUncheckedUpdateManyWithoutTableSaleSessionNestedInput
+  }
+
+  export type MiniStoreSessionUpsertWithoutClosingRequestsToInput = {
+    update: XOR<MiniStoreSessionUpdateWithoutClosingRequestsToInput, MiniStoreSessionUncheckedUpdateWithoutClosingRequestsToInput>
+    create: XOR<MiniStoreSessionCreateWithoutClosingRequestsToInput, MiniStoreSessionUncheckedCreateWithoutClosingRequestsToInput>
+    where?: MiniStoreSessionWhereInput
+  }
+
+  export type MiniStoreSessionUpdateToOneWithWhereWithoutClosingRequestsToInput = {
+    where?: MiniStoreSessionWhereInput
+    data: XOR<MiniStoreSessionUpdateWithoutClosingRequestsToInput, MiniStoreSessionUncheckedUpdateWithoutClosingRequestsToInput>
+  }
+
+  export type MiniStoreSessionUpdateWithoutClosingRequestsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    collectedData?: NullableJsonNullValueInput | InputJsonValue
+    distributedData?: NullableJsonNullValueInput | InputJsonValue
+    data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mySessions?: MySessionUpdateManyWithoutMiniStoreSessionNestedInput
+    mainStoreRequests?: MainStoreRequestUpdateManyWithoutMiniStoreSessionNestedInput
+    miniStoreRequests?: MiniStoreRequestUpdateManyWithoutMiniStoreSessionNestedInput
+    closingRequestsFrom?: ClosingStockRequestUpdateManyWithoutFromMiniStoreSessionNestedInput
+  }
+
+  export type MiniStoreSessionUncheckedUpdateWithoutClosingRequestsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    collectedData?: NullableJsonNullValueInput | InputJsonValue
+    distributedData?: NullableJsonNullValueInput | InputJsonValue
+    data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mySessions?: MySessionUncheckedUpdateManyWithoutMiniStoreSessionNestedInput
+    mainStoreRequests?: MainStoreRequestUncheckedUpdateManyWithoutMiniStoreSessionNestedInput
+    miniStoreRequests?: MiniStoreRequestUncheckedUpdateManyWithoutMiniStoreSessionNestedInput
+    closingRequestsFrom?: ClosingStockRequestUncheckedUpdateManyWithoutFromMiniStoreSessionNestedInput
+  }
+
+  export type MiniStoreSessionUpsertWithoutClosingRequestsFromInput = {
+    update: XOR<MiniStoreSessionUpdateWithoutClosingRequestsFromInput, MiniStoreSessionUncheckedUpdateWithoutClosingRequestsFromInput>
+    create: XOR<MiniStoreSessionCreateWithoutClosingRequestsFromInput, MiniStoreSessionUncheckedCreateWithoutClosingRequestsFromInput>
+    where?: MiniStoreSessionWhereInput
+  }
+
+  export type MiniStoreSessionUpdateToOneWithWhereWithoutClosingRequestsFromInput = {
+    where?: MiniStoreSessionWhereInput
+    data: XOR<MiniStoreSessionUpdateWithoutClosingRequestsFromInput, MiniStoreSessionUncheckedUpdateWithoutClosingRequestsFromInput>
+  }
+
+  export type MiniStoreSessionUpdateWithoutClosingRequestsFromInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    collectedData?: NullableJsonNullValueInput | InputJsonValue
+    distributedData?: NullableJsonNullValueInput | InputJsonValue
+    data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mySessions?: MySessionUpdateManyWithoutMiniStoreSessionNestedInput
+    mainStoreRequests?: MainStoreRequestUpdateManyWithoutMiniStoreSessionNestedInput
+    miniStoreRequests?: MiniStoreRequestUpdateManyWithoutMiniStoreSessionNestedInput
+    closingRequestsTo?: ClosingStockRequestUpdateManyWithoutToMiniStoreSessionNestedInput
+  }
+
+  export type MiniStoreSessionUncheckedUpdateWithoutClosingRequestsFromInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    type?: StringFieldUpdateOperationsInput | string
+    collectedData?: NullableJsonNullValueInput | InputJsonValue
+    distributedData?: NullableJsonNullValueInput | InputJsonValue
+    data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mySessions?: MySessionUncheckedUpdateManyWithoutMiniStoreSessionNestedInput
+    mainStoreRequests?: MainStoreRequestUncheckedUpdateManyWithoutMiniStoreSessionNestedInput
+    miniStoreRequests?: MiniStoreRequestUncheckedUpdateManyWithoutMiniStoreSessionNestedInput
+    closingRequestsTo?: ClosingStockRequestUncheckedUpdateManyWithoutToMiniStoreSessionNestedInput
+  }
+
+  export type MainStoreSessionUpsertWithoutClosingRequestsToInput = {
+    update: XOR<MainStoreSessionUpdateWithoutClosingRequestsToInput, MainStoreSessionUncheckedUpdateWithoutClosingRequestsToInput>
+    create: XOR<MainStoreSessionCreateWithoutClosingRequestsToInput, MainStoreSessionUncheckedCreateWithoutClosingRequestsToInput>
+    where?: MainStoreSessionWhereInput
+  }
+
+  export type MainStoreSessionUpdateToOneWithWhereWithoutClosingRequestsToInput = {
+    where?: MainStoreSessionWhereInput
+    data: XOR<MainStoreSessionUpdateWithoutClosingRequestsToInput, MainStoreSessionUncheckedUpdateWithoutClosingRequestsToInput>
+  }
+
+  export type MainStoreSessionUpdateWithoutClosingRequestsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    collectedData?: NullableJsonNullValueInput | InputJsonValue
+    distributedData?: NullableJsonNullValueInput | InputJsonValue
+    data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mySessions?: MySessionUpdateManyWithoutMainStoreSessionNestedInput
+    mainStoreRequests?: MainStoreRequestUpdateManyWithoutMainStoreSessionNestedInput
+  }
+
+  export type MainStoreSessionUncheckedUpdateWithoutClosingRequestsToInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+    collectedData?: NullableJsonNullValueInput | InputJsonValue
+    distributedData?: NullableJsonNullValueInput | InputJsonValue
+    data?: NullableJsonNullValueInput | InputJsonValue
+    closingStock?: NullableJsonNullValueInput | InputJsonValue
+    closedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    mySessions?: MySessionUncheckedUpdateManyWithoutMainStoreSessionNestedInput
+    mainStoreRequests?: MainStoreRequestUncheckedUpdateManyWithoutMainStoreSessionNestedInput
+  }
+
   export type AccountCreateManyUserInput = {
     id?: string
     type: string
@@ -36747,6 +39584,25 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type ClosingStockRequestCreateManyFromTableSaleSessionInput = {
+    id?: string
+    session: string
+    fromWorkspace: string
+    toWorkspace: string
+    fromUserEmail?: string | null
+    toUserEmail?: string | null
+    toMiniStoreSessionId?: string | null
+    fromMiniStoreSessionId?: string | null
+    toMainStoreSessionId?: string | null
+    items: JsonNullValueInput | InputJsonValue
+    status?: string
+    verifiedBy?: string | null
+    verifiedAt?: Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type MySessionCreateManyTableSaleSessionInput = {
     id?: string
     userId: string
@@ -36881,6 +39737,63 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ClosingStockRequestUpdateWithoutFromTableSaleSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    fromWorkspace?: StringFieldUpdateOperationsInput | string
+    toWorkspace?: StringFieldUpdateOperationsInput | string
+    fromUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    toUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    toMiniStoreSession?: MiniStoreSessionUpdateOneWithoutClosingRequestsToNestedInput
+    fromMiniStoreSession?: MiniStoreSessionUpdateOneWithoutClosingRequestsFromNestedInput
+    toMainStoreSession?: MainStoreSessionUpdateOneWithoutClosingRequestsToNestedInput
+  }
+
+  export type ClosingStockRequestUncheckedUpdateWithoutFromTableSaleSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    fromWorkspace?: StringFieldUpdateOperationsInput | string
+    toWorkspace?: StringFieldUpdateOperationsInput | string
+    fromUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    toUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    toMiniStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    fromMiniStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    toMainStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClosingStockRequestUncheckedUpdateManyWithoutFromTableSaleSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    fromWorkspace?: StringFieldUpdateOperationsInput | string
+    toWorkspace?: StringFieldUpdateOperationsInput | string
+    fromUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    toUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    toMiniStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    fromMiniStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    toMainStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type MySessionUpdateWithoutTableSaleSessionInput = {
     id?: StringFieldUpdateOperationsInput | string
     session?: StringFieldUpdateOperationsInput | string
@@ -36956,6 +39869,44 @@ export namespace Prisma {
     granted: JsonNullValueInput | InputJsonValue
     wasDenied?: boolean
     wasApproved?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClosingStockRequestCreateManyToMiniStoreSessionInput = {
+    id?: string
+    session: string
+    fromWorkspace: string
+    toWorkspace: string
+    fromUserEmail?: string | null
+    toUserEmail?: string | null
+    fromTableSaleSessionId?: string | null
+    fromMiniStoreSessionId?: string | null
+    toMainStoreSessionId?: string | null
+    items: JsonNullValueInput | InputJsonValue
+    status?: string
+    verifiedBy?: string | null
+    verifiedAt?: Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClosingStockRequestCreateManyFromMiniStoreSessionInput = {
+    id?: string
+    session: string
+    fromWorkspace: string
+    toWorkspace: string
+    fromUserEmail?: string | null
+    toUserEmail?: string | null
+    fromTableSaleSessionId?: string | null
+    toMiniStoreSessionId?: string | null
+    toMainStoreSessionId?: string | null
+    items: JsonNullValueInput | InputJsonValue
+    status?: string
+    verifiedBy?: string | null
+    verifiedAt?: Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -37071,6 +40022,120 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type ClosingStockRequestUpdateWithoutToMiniStoreSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    fromWorkspace?: StringFieldUpdateOperationsInput | string
+    toWorkspace?: StringFieldUpdateOperationsInput | string
+    fromUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    toUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fromTableSaleSession?: TableSaleSessionUpdateOneWithoutClosingRequestsFromNestedInput
+    fromMiniStoreSession?: MiniStoreSessionUpdateOneWithoutClosingRequestsFromNestedInput
+    toMainStoreSession?: MainStoreSessionUpdateOneWithoutClosingRequestsToNestedInput
+  }
+
+  export type ClosingStockRequestUncheckedUpdateWithoutToMiniStoreSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    fromWorkspace?: StringFieldUpdateOperationsInput | string
+    toWorkspace?: StringFieldUpdateOperationsInput | string
+    fromUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    toUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    fromTableSaleSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    fromMiniStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    toMainStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClosingStockRequestUncheckedUpdateManyWithoutToMiniStoreSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    fromWorkspace?: StringFieldUpdateOperationsInput | string
+    toWorkspace?: StringFieldUpdateOperationsInput | string
+    fromUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    toUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    fromTableSaleSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    fromMiniStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    toMainStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClosingStockRequestUpdateWithoutFromMiniStoreSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    fromWorkspace?: StringFieldUpdateOperationsInput | string
+    toWorkspace?: StringFieldUpdateOperationsInput | string
+    fromUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    toUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fromTableSaleSession?: TableSaleSessionUpdateOneWithoutClosingRequestsFromNestedInput
+    toMiniStoreSession?: MiniStoreSessionUpdateOneWithoutClosingRequestsToNestedInput
+    toMainStoreSession?: MainStoreSessionUpdateOneWithoutClosingRequestsToNestedInput
+  }
+
+  export type ClosingStockRequestUncheckedUpdateWithoutFromMiniStoreSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    fromWorkspace?: StringFieldUpdateOperationsInput | string
+    toWorkspace?: StringFieldUpdateOperationsInput | string
+    fromUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    toUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    fromTableSaleSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    toMiniStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    toMainStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClosingStockRequestUncheckedUpdateManyWithoutFromMiniStoreSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    fromWorkspace?: StringFieldUpdateOperationsInput | string
+    toWorkspace?: StringFieldUpdateOperationsInput | string
+    fromUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    toUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    fromTableSaleSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    toMiniStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    toMainStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type MySessionCreateManyMainStoreSessionInput = {
     id?: string
     userId: string
@@ -37092,6 +40157,25 @@ export namespace Prisma {
     granted: JsonNullValueInput | InputJsonValue
     wasDenied?: boolean
     wasApproved?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ClosingStockRequestCreateManyToMainStoreSessionInput = {
+    id?: string
+    session: string
+    fromWorkspace: string
+    toWorkspace: string
+    fromUserEmail?: string | null
+    toUserEmail?: string | null
+    fromTableSaleSessionId?: string | null
+    toMiniStoreSessionId?: string | null
+    fromMiniStoreSessionId?: string | null
+    items: JsonNullValueInput | InputJsonValue
+    status?: string
+    verifiedBy?: string | null
+    verifiedAt?: Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -37167,6 +40251,63 @@ export namespace Prisma {
     granted?: JsonNullValueInput | InputJsonValue
     wasDenied?: BoolFieldUpdateOperationsInput | boolean
     wasApproved?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClosingStockRequestUpdateWithoutToMainStoreSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    fromWorkspace?: StringFieldUpdateOperationsInput | string
+    toWorkspace?: StringFieldUpdateOperationsInput | string
+    fromUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    toUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    fromTableSaleSession?: TableSaleSessionUpdateOneWithoutClosingRequestsFromNestedInput
+    toMiniStoreSession?: MiniStoreSessionUpdateOneWithoutClosingRequestsToNestedInput
+    fromMiniStoreSession?: MiniStoreSessionUpdateOneWithoutClosingRequestsFromNestedInput
+  }
+
+  export type ClosingStockRequestUncheckedUpdateWithoutToMainStoreSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    fromWorkspace?: StringFieldUpdateOperationsInput | string
+    toWorkspace?: StringFieldUpdateOperationsInput | string
+    fromUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    toUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    fromTableSaleSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    toMiniStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    fromMiniStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ClosingStockRequestUncheckedUpdateManyWithoutToMainStoreSessionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    session?: StringFieldUpdateOperationsInput | string
+    fromWorkspace?: StringFieldUpdateOperationsInput | string
+    toWorkspace?: StringFieldUpdateOperationsInput | string
+    fromUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    toUserEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    fromTableSaleSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    toMiniStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    fromMiniStoreSessionId?: NullableStringFieldUpdateOperationsInput | string | null
+    items?: JsonNullValueInput | InputJsonValue
+    status?: StringFieldUpdateOperationsInput | string
+    verifiedBy?: NullableStringFieldUpdateOperationsInput | string | null
+    verifiedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    verification?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

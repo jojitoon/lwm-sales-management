@@ -64,7 +64,7 @@ export async function POST(request: NextRequest) {
       // Create a consolidation for all orders
       const consolidation = await prisma.consolidation.create({
         data: {
-          userId: req.auth.user.id,
+          userId: req.auth.user.id as string,
           session: settings?.currentSession || '',
           date: new Date(),
         },

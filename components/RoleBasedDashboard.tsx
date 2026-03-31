@@ -10,6 +10,7 @@ import {
   IconShoppingCart,
   IconCheck,
   IconClock,
+  IconLock,
 } from '@tabler/icons-react';
 import { useRealtimeUpdates } from '@/hooks/useRealtimeUpdates';
 import { WebSocketEvents } from '@/lib/websocket';
@@ -735,6 +736,29 @@ function MiniStoreDashboard({ data }: { data: any }) {
           </CardFooter>
         </Card>
 
+        <Card
+          className='@container/card cursor-pointer hover:bg-card transition-colors'
+          onClick={() => router.push('/closing-requests')}
+        >
+          <CardHeader>
+            <CardDescription>Closing Requests</CardDescription>
+            <CardTitle className='text-2xl font-semibold tabular-nums @[250px]/card:text-3xl'>
+              —
+            </CardTitle>
+            <CardAction>
+              <Badge variant='outline' className='text-blue-600'>
+                <IconLock className='h-3 w-3' />
+              </Badge>
+            </CardAction>
+          </CardHeader>
+          <CardFooter className='flex-col items-start gap-1.5 text-sm'>
+            <div className='line-clamp-1 flex gap-2 font-medium'>
+              Verify table closing stock
+            </div>
+            <div className='text-muted-foreground'>Click to review & verify</div>
+          </CardFooter>
+        </Card>
+
         <Card className='@container/card'>
           <CardHeader>
             <CardDescription>Approved Requests</CardDescription>
@@ -937,6 +961,29 @@ function MainStoreDashboard({ data }: { data: any }) {
             <div className='text-muted-foreground'>
               From mini stores - Click to view
             </div>
+          </CardFooter>
+        </Card>
+
+        <Card
+          className='@container/card cursor-pointer hover:bg-card transition-colors'
+          onClick={() => router.push('/closing-requests')}
+        >
+          <CardHeader>
+            <CardDescription>Closing Requests</CardDescription>
+            <CardTitle className='text-2xl font-semibold tabular-nums @[250px]/card:text-3xl'>
+              —
+            </CardTitle>
+            <CardAction>
+              <Badge variant='outline' className='text-blue-600'>
+                <IconLock className='h-3 w-3' />
+              </Badge>
+            </CardAction>
+          </CardHeader>
+          <CardFooter className='flex-col items-start gap-1.5 text-sm'>
+            <div className='line-clamp-1 flex gap-2 font-medium'>
+              Verify mini store closing stock
+            </div>
+            <div className='text-muted-foreground'>Click to review & verify</div>
           </CardFooter>
         </Card>
 

@@ -148,21 +148,22 @@ model PreorderSession {
 }
 
 model TableSaleSession {
-  id                String             @id @default(uuid())
-  name              String
-  tableId           String
-  session           String
-  managerId         String?
-  salesPersonId     String?
-  data              Json?
-  soldData          Json?
-  isActive          Boolean            @default(true)
-  bookSales         BookSale[]
-  miniStoreRequests MiniStoreRequest[]
-  preorderSessions  PreorderSession[]
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
-  mySessions        MySession[]
+  id                  String                @id @default(uuid())
+  name                String
+  tableId             String
+  session             String
+  managerId           String?
+  salesPersonId       String?
+  data                Json?
+  soldData            Json?
+  isActive            Boolean               @default(true)
+  bookSales           BookSale[]
+  miniStoreRequests   MiniStoreRequest[]
+  preorderSessions    PreorderSession[]
+  closingRequestsFrom ClosingStockRequest[] @relation("ClosingFromTable")
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  mySessions          MySession[]
 
   @@map("table_sale_sessions")
 }
@@ -194,27 +195,29 @@ model MySession {
 }
 
 model MiniStoreSession {
-  id                String             @id @default(uuid())
-  session           String
-  managerId         String?
-  type              String             @default("regular") // "regular" or "preorder"
-  collectedData     Json?
-  distributedData   Json?
-  data              Json?
-  closingStock      Json?
-  closedAt          DateTime?
-  isActive          Boolean            @default(true)
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
-  mySessions        MySession[]
-  mainStoreRequests MainStoreRequest[]
-  miniStoreRequests MiniStoreRequest[]
+  id                  String                @id @default(uuid())
+  session             String
+  managerId           String?
+  type                String                @default("regular") // "regular" or "preorder"
+  collectedData       Json?
+  distributedData     Json?
+  data                Json?
+  closingStock        Json?
+  closedAt            DateTime?
+  isActive            Boolean               @default(true)
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  mySessions          MySession[]
+  mainStoreRequests   MainStoreRequest[]
+  miniStoreRequests   MiniStoreRequest[]
+  closingRequestsTo   ClosingStockRequest[] @relation("ClosingToMiniStore")
+  closingRequestsFrom ClosingStockRequest[] @relation("ClosingFromMiniStore")
 
   @@map("mini_store_sessions")
 }
 
 model MainStoreSession {
-  id                String             @id @default(uuid())
+  id                String                @id @default(uuid())
   name              String
   session           String
   managerId         String?
@@ -223,11 +226,12 @@ model MainStoreSession {
   data              Json?
   closingStock      Json?
   closedAt          DateTime?
-  isActive          Boolean            @default(true)
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
+  isActive          Boolean               @default(true)
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
   mySessions        MySession[]
   mainStoreRequests MainStoreRequest[]
+  closingRequestsTo ClosingStockRequest[] @relation("ClosingToMainStore")
 
   @@map("main_store_sessions")
 }
@@ -349,4 +353,45 @@ model ComboBookItem {
 
   @@unique([comboBookId, componentBookId])
   @@map("combo_book_items")
+}
+
+model ClosingStockRequest {
+  id String @id @default(uuid())
+
+  session String
+
+  fromWorkspace String // "table-manager" | "mini-store" | "preorder-ministore"
+  toWorkspace   String // "mini-store" | "main-store"
+
+  fromUserEmail String?
+  toUserEmail   String?
+
+  // When closing table -> mini store
+  fromTableSaleSessionId String?
+  fromTableSaleSession   TableSaleSession? @relation("ClosingFromTable", fields: [fromTableSaleSessionId], references: [id], onDelete: Cascade)
+  toMiniStoreSessionId   String?
+  toMiniStoreSession     MiniStoreSession? @relation("ClosingToMiniStore", fields: [toMiniStoreSessionId], references: [id], onDelete: Cascade)
+
+  // When closing mini store -> main store
+  fromMiniStoreSessionId String?
+  fromMiniStoreSession   MiniStoreSession? @relation("ClosingFromMiniStore", fields: [fromMiniStoreSessionId], references: [id], onDelete: Cascade)
+  toMainStoreSessionId   String?
+  toMainStoreSession     MainStoreSession? @relation("ClosingToMainStore", fields: [toMainStoreSessionId], references: [id], onDelete: Cascade)
+
+  // What is being returned (computed at request time)
+  items Json
+
+  // Verification workflow
+  status       String    @default("PENDING") // PENDING | VERIFIED | DENIED
+  verifiedBy   String?
+  verifiedAt   DateTime?
+  verification Json?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([session, status])
+  @@index([toMiniStoreSessionId])
+  @@index([toMainStoreSessionId])
+  @@map("closing_stock_requests")
 }

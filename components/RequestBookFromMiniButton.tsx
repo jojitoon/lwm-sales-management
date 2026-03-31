@@ -8,6 +8,7 @@ interface RequestBookFromMiniButtonProps {
   open?: boolean;
   setOpen?: (open: boolean) => void;
   trigger?: React.ReactNode;
+  disabled?: boolean;
   variant?:
     | 'default'
     | 'outline'

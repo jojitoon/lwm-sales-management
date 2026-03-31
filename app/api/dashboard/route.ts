@@ -335,8 +335,8 @@ async function getTableManagerDashboard(tableSaleSessionId: string | null) {
         valueOfRemaining: remainingStock * unitPrice,
       };
     })
-    .filter((item) => item.sold > 0) // Only show books that have been sold
-    .sort((a, b) => b.sold - a.sold); // Sort by sold quantity descending
+    .filter((item: any) => item.sold > 0) // Only show books that have been sold
+    .sort((a: any, b: any) => b.sold - a.sold); // Sort by sold quantity descending
 
   return {
     totalBooks: stockList.length,
@@ -490,8 +490,8 @@ async function getMiniStoreDashboard(
         valueOfRemaining: available * unitPrice,
       };
     })
-    .filter((item) => item.distributed > 0)
-    .sort((a, b) => b.distributed - a.distributed);
+    .filter((item: any) => item.distributed > 0)
+    .sort((a: any, b: any) => b.distributed - a.distributed);
 
   return {
     totalBooks: stockList.length,
@@ -578,8 +578,8 @@ async function getMainStoreDashboard(
         valueOfRemaining: available * unitPrice,
       };
     })
-    .filter((item) => item.distributed > 0)
-    .sort((a, b) => b.distributed - a.distributed);
+    .filter((item: any) => item.distributed > 0)
+    .sort((a: any, b: any) => b.distributed - a.distributed);
 
   return {
     totalBooks: stockList.length,

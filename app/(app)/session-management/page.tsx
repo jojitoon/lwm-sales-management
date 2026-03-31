@@ -1,7 +1,8 @@
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { ClosingStockReport } from '@/components/ClosingStockReport';
 import { SessionManager } from '@/components/SessionManager';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 export default async function SessionManagement() {
   const session = await auth();
@@ -50,14 +51,14 @@ export default async function SessionManagement() {
         {/* Closing Stock Reports */}
         <div>
           <h2 className='text-xl font-semibold mb-4'>Closing Stock Reports</h2>
-          <div className='space-y-6'>
-            <div>
-              <h3 className='text-lg font-medium mb-3'>Main Store</h3>
-              <ClosingStockReport sessionType='main-store' />
-            </div>
-            <div>
-              <h3 className='text-lg font-medium mb-3'>Mini Store</h3>
-              <ClosingStockReport sessionType='mini-store' />
+          <div className='rounded-md border p-4'>
+            <p className='text-sm text-muted-foreground'>
+              View closing stock reports from the Reports dashboard.
+            </p>
+            <div className='mt-3'>
+              <Button asChild variant='outline'>
+                <Link href='/reports'>Open Reports</Link>
+              </Button>
             </div>
           </div>
         </div>

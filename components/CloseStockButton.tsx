@@ -42,23 +42,21 @@ export function CloseStockButton({
 
   const mutation = useMutation({
     mutationFn: async () => {
-      let endpoint = '/api/stock/close/table-manager';
-      let payload: any = {};
+      // Table managers and mini stores now submit a closing request
+      // which must be verified by the destination store before stock is returned/closed.
+      if (workspace === 'table-manager' || workspace === 'mini-store' || workspace === 'preorder-ministore') {
+        const response = await axios.post('/api/closing-requests', {
+          mode: workspace === 'table-manager' ? 'table-to-mini' : 'mini-to-main',
+        });
+        return response.data;
+      }
 
-      if (workspace === 'mini-store' || workspace === 'preorder-ministore') {
-        endpoint = '/api/stock/close/mini-store';
-        if (miniStoreSessionId) {
-          payload.miniStoreSessionId = miniStoreSessionId;
-        }
-      } else if (workspace === 'main-store') {
-        endpoint = '/api/stock/close/main-store';
-        if (mainStoreSessionId) {
-          payload.mainStoreSessionId = mainStoreSessionId;
-        }
-      } else if (workspace === 'table-manager') {
-        if (tableSaleSessionId) {
-          payload.tableSaleSessionId = tableSaleSessionId;
-        }
+      // Main store can still close directly (end-of-chain).
+      let endpoint = '/api/stock/close/main-store';
+      const payload: any = {};
+
+      if (mainStoreSessionId) {
+        payload.mainStoreSessionId = mainStoreSessionId;
       }
 
       const response = await axios.post(
@@ -68,10 +66,11 @@ export function CloseStockButton({
       return response.data;
     },
     onSuccess: (data) => {
-      toast.success(data.message || 'Stock closed successfully');
+      toast.success(data.message || 'Success');
       queryClient.invalidateQueries({ queryKey: ['table-stock'] });
       queryClient.invalidateQueries({ queryKey: ['mini-store-stock'] });
       queryClient.invalidateQueries({ queryKey: ['main-store-stock'] });
+      queryClient.invalidateQueries({ queryKey: ['closing-requests'] });
       router.refresh();
       // Call custom onSuccess callback if provided
       if (onSuccess) {
@@ -116,15 +115,10 @@ export function CloseStockButton({
         <AlertDialogHeader>
           <AlertDialogTitle>Close Stock</AlertDialogTitle>
           <AlertDialogDescription>
-            This will{' '}
             {workspace === 'main-store'
-              ? 'close the main store session and record all distributed stock for this session'
-              : `return all remaining stock back to ${
-                  workspace === 'table-manager'
-                    ? 'the mini store'
-                    : 'the main store'
-                }`}
-            . This action cannot be undone. Are you sure you want to continue?
+              ? 'This will close the main store session and record all distributed stock for this session.'
+              : 'This will submit a closing stock request for verification. The destination store must verify the returned quantities before the stock is actually closed and returned.'}{' '}
+            Are you sure you want to continue?
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

@@ -359,6 +359,26 @@ exports.Prisma.ComboBookItemScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ClosingStockRequestScalarFieldEnum = {
+  id: 'id',
+  session: 'session',
+  fromWorkspace: 'fromWorkspace',
+  toWorkspace: 'toWorkspace',
+  fromUserEmail: 'fromUserEmail',
+  toUserEmail: 'toUserEmail',
+  fromTableSaleSessionId: 'fromTableSaleSessionId',
+  toMiniStoreSessionId: 'toMiniStoreSessionId',
+  fromMiniStoreSessionId: 'fromMiniStoreSessionId',
+  toMainStoreSessionId: 'toMainStoreSessionId',
+  items: 'items',
+  status: 'status',
+  verifiedBy: 'verifiedBy',
+  verifiedAt: 'verifiedAt',
+  verification: 'verification',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -410,7 +430,8 @@ exports.Prisma.ModelName = {
   BookSale: 'BookSale',
   BookSaleItem: 'BookSaleItem',
   BookMapping: 'BookMapping',
-  ComboBookItem: 'ComboBookItem'
+  ComboBookItem: 'ComboBookItem',
+  ClosingStockRequest: 'ClosingStockRequest'
 };
 
 /**
