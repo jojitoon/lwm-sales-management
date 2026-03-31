@@ -7,6 +7,10 @@
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
     "lint": "next lint",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:auth": "playwright test --project=auth-setup",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev --name",
     "prisma:studio": "prisma studio",
@@ -61,6 +65,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

@@ -3,6 +3,8 @@ import { RequestBookFromMainButton } from '@/components/RequestBookFromMainButto
 import { PendingRequestsButton } from '@/components/PendingRequestsButton';
 import { CloseStockButton } from '@/components/CloseStockButton';
 import { Badge } from '@/components/ui/badge';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
@@ -49,6 +51,9 @@ export default async function MiniStoreBookStock() {
           </Badge>
         )}
         <div className='flex md:flex-row flex-col md:items-center gap-2'>
+          <Button asChild variant='secondary'>
+            <Link href='/closing-requests'>Closing Requests</Link>
+          </Button>
           <PendingRequestsButton
             type='main-store'
             workspace={mySession?.workspace as string}

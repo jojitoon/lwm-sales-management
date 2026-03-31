@@ -2,6 +2,8 @@ import { BookStockTable } from '@/components/BookStockTable';
 import { CloseStockButton } from '@/components/CloseStockButton';
 import { OpenStockButton } from '@/components/OpenStockButton';
 import { Badge } from '@/components/ui/badge';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
@@ -44,11 +46,16 @@ export default async function BookLeftReport() {
             </Badge>
           )}
         </div>
-        {isStockClosed ? (
-          <OpenStockButton workspace='main-store' />
-        ) : (
-          <CloseStockButton workspace='main-store' />
-        )}
+        <div className='flex items-center gap-2'>
+          <Button asChild variant='secondary'>
+            <Link href='/closing-requests'>Closing Requests</Link>
+          </Button>
+          {isStockClosed ? (
+            <OpenStockButton workspace='main-store' />
+          ) : (
+            <CloseStockButton workspace='main-store' />
+          )}
+        </div>
       </div>
 
       <BookStockTable data={stock} stockType='main-store-stock' />
