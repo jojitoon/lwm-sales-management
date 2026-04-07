@@ -1,8 +1,8 @@
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   return auth(async (req) => {
     try {
       if (!req.auth || !req.auth.user || !(req.auth.user as any)?.isAdmin) {
@@ -217,6 +217,7 @@ export async function GET(request: Request) {
         {
           tableId: string;
           tableName: string;
+          session: string;
           totalSales: number;
           totalItems: number;
           transactionCount: number;

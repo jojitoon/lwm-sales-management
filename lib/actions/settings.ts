@@ -170,7 +170,7 @@ export async function resetDatabase(): Promise<{
             preorderAvailable: 0,
             salesTotal: 0,
             salesAvailable: 0,
-            price: b.price,
+            price: b.price ?? 0,
             isActive: true,
             isCombo: false,
           })),

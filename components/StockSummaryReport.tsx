@@ -364,7 +364,10 @@ export function StockSummaryReport({
                           currency: 'NGN',
                         }).format(
                           booksReturnedToMainStore.reduce(
-                            (sum, book) => sum + book.quantity * book.price,
+                            (
+                              sum: number,
+                              book: { quantity: number; price: number }
+                            ) => sum + book.quantity * book.price,
                             0
                           )
                         )}

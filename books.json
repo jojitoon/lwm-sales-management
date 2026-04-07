@@ -1,60 +1,45 @@
 [
   {
-    "title": "All 6-Books 2025",
+    "title": "Thanksgiving Everyday",
     "brand": "LWM",
-    "model": "BC001",
-    "price": "₦35,000",
-    "url": "https://lwmbooks.com/all-books/all-discounted-books-(6)",
-    "books_included": [
-      "Holiness Everyday",
-      "Praying Always",
-      "Charismatic Ministry - Ministry Gifts and More (Volume 4)",
-      "Baptism",
-      "One Flesh",
-      "Women Pastors; Why the controversy?"
-    ]
-  },
-  {
-    "title": "Holiness Everyday",
-    "brand": "LWM",
-    "model": "BC002",
+    "model": "CCM-007",
     "price": "₦2,000",
     "url": "https://lwmbooks.com/all-books/holiness-everyday"
   },
   {
-    "title": "Charismatic Ministry - Ministry Gifts and More (Volume 4)",
+    "title": "The Communion Table (Bible Study)",
     "brand": "LWM",
-    "model": "BC003",
-    "price": "₦15,000",
-    "url": "https://lwmbooks.com/all-books/charismatic-ministry-ministry-gifts-and-more-(volume-4)"
+    "model": "CCM-002",
+    "price": "₦12,500",
+    "url": "https://lwmbooks.com/all-books/the-communion-table-(bible-study)"
   },
   {
-    "title": "Baptism",
+    "title": "This is Our God (Mini Book series) - His Salvation",
     "brand": "LWM",
-    "model": "BC004",
-    "price": "₦12,000",
-    "url": "https://lwmbooks.com/all-books/baptism"
+    "model": "CCM-003",
+    "price": "3,000",
+    "url": "https://lwmbooks.com/all-books/this-is-our-god-(mini-book-series)-“-his-salvation"
   },
   {
-    "title": "Praying Always: Every Day",
+    "title": "This is Our God (Mini Book Series) - The Law of God",
     "brand": "LWM",
-    "model": "BC005",
-    "price": "₦2,000",
-    "url": "https://lwmbooks.com/all-books/praying-always:-every-day"
-  },
-  {
-    "title": "One Flesh",
-    "brand": "LWM",
-    "model": "BC005",
+    "model": "CCM-004",
     "price": "₦3,000",
-    "url": "https://lwmbooks.com/all-books/one-flesh"
+    "url": "https://lwmbooks.com/all-books/this-is-our-god-(mini-book-series)-“-the-law-of-god"
   },
   {
-    "title": "Women Pastors; Why the controversy?",
+    "title": "This is Our God (Mini Book Series) - Who is the Anti Christ",
     "brand": "LWM",
-    "model": "BC007",
+    "model": "CCM-005",
     "price": "₦3,000",
-    "url": "https://lwmbooks.com/all-books/women-pastors;-why-the-controversy"
+    "url": "https://lwmbooks.com/all-books/this-is-our-god-(mini-book-series)-“-who-is-the-anti-christ"
+  },
+  {
+    "title": "Thy Kingdom Come - How Jesus is King Today",
+    "brand": "LWM",
+    "model": "CCM-006",
+    "price": "₦4,000",
+    "url": "https://lwmbooks.com/all-books/thy-kingdom-come-how-jesus-is-king-today"
   },
   {
     "title": "Tree of the Knowledge of good and Evil",
@@ -62,13 +47,6 @@
     "model": "CCM-001",
     "price": "₦15,000",
     "url": "https://lwmbooks.com/all-books/tree-of-the-knowledge-of-good-and-evil"
-  },
-  {
-    "title": "God who became Jesus",
-    "brand": "LWM",
-    "model": "2024-01",
-    "price": "₦15,000",
-    "url": "https://lwmbooks.com/all-books/god-who-became-jesus"
   },
   {
     "title": "Healing everyday",
@@ -90,5 +68,12 @@
     "model": "016",
     "price": "₦2,000",
     "url": "https://lwmbooks.com/all-books/walking-in-love-everyday"
+  },
+  {
+    "title": "Walking in the spirit everyday",
+    "brand": "LWM",
+    "model": "018",
+    "price": "₦2,000",
+    "url": "https://lwmbooks.com/all-books/walking-in-the-spirit-everyday"
   }
 ]

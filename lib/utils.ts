@@ -43,14 +43,15 @@ export const parseSheet = (data: ArrayBuffer) => {
 export const toSheet = async (
   data: any[],
   name: string,
-  isMultiple?: boolean
+  isMultiple?: boolean,
 ) => {
   try {
     const workBook = XLSX.utils.book_new();
     if (isMultiple) {
       // Filter out items with empty or undefined data
       const validData = data.filter(
-        (item) => item?.data && Array.isArray(item.data) && item.data.length > 0
+        (item) =>
+          item?.data && Array.isArray(item.data) && item.data.length > 0,
       );
 
       if (validData.length === 0) {
@@ -72,7 +73,7 @@ export const toSheet = async (
         XLSX.utils.book_append_sheet(
           workBook,
           XLSX.utils.json_to_sheet(item.data),
-          sheetName
+          sheetName,
         );
       });
     } else {
@@ -83,7 +84,7 @@ export const toSheet = async (
       XLSX.utils.book_append_sheet(
         workBook,
         XLSX.utils.json_to_sheet(data),
-        'Sheet1'
+        'Sheet1',
       );
     }
 
@@ -121,14 +122,14 @@ const validateJson = (data: SheetData[]) => {
     if (orders[datum.order_id]) {
       orders[datum.order_id].items.push({
         name: datum.product_name,
-        price: Number(datum.product_price),
-        quantity: Number(datum.product_quantity),
+        price: Number(datum.product_price ?? 0),
+        quantity: Number(datum.product_quantity ?? 1),
       });
     } else {
       orders[datum.order_id] = {
         orderNumber: datum.order_id,
         name: `${datum.firstname} ${datum.lastname}`,
-        total: Number(datum.total),
+        total: Number(datum.total ?? 0),
         email: datum.email,
         phone: datum.telephone,
         shippingZone: datum.shipping_zone,
@@ -136,8 +137,8 @@ const validateJson = (data: SheetData[]) => {
         items: [
           {
             name: datum.product_name,
-            price: Number(datum.product_price),
-            quantity: Number(datum.product_quantity),
+            price: Number(datum.product_price ?? 0),
+            quantity: Number(datum.product_quantity ?? 1),
           },
         ],
       };
@@ -163,7 +164,7 @@ export const generateId = (length: number) => {
  */
 export async function getBookIdFromMapping(
   productName: string,
-  prisma: any
+  prisma: any,
 ): Promise<string | null> {
   try {
     const mapping = await prisma.bookMapping.findUnique({

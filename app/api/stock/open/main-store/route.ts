@@ -1,5 +1,6 @@
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { Prisma } from '@/prisma/generated/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { wsEmitter, WebSocketEvents } from '@/lib/websocket';
 
@@ -101,7 +102,7 @@ export async function POST(request: NextRequest) {
       await prisma.mainStoreSession.update({
         where: { id: mainStoreSession.id },
         data: {
-          closingStock: null,
+          closingStock: Prisma.JsonNull,
           closedAt: null,
         },
       });
